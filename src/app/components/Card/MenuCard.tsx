@@ -19,6 +19,12 @@ export const MenuCard = ({svgName, children} : MenuCardProps) => {
                 height={35}
             />
             <div>{children}</div>
+            <Image
+                src={`/Arrow_right.svg`}
+                alt="Arrow_right"
+                width={28}
+                height={28}
+            />
         </ListItemButton>
     );
 };
