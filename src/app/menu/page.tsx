@@ -18,7 +18,11 @@ export default function Menu() {
                 <S.myName>손주형</S.myName>
             </S.myInfo>
             <S.totalMenuList>
-                <MenuCard svgName='Home_light'>Text</MenuCard>
+                <MenuCard svgName='3d_box'>Text</MenuCard>
+                <MenuCard svgName='Book_open'>Text</MenuCard>
+                <MenuCard svgName='Chart'>Text</MenuCard>
+                <MenuCard svgName='Date_range'>Text</MenuCard>
+                <MenuCard svgName='Folder'>Text</MenuCard>
             </S.totalMenuList>
         </S.container>
     )

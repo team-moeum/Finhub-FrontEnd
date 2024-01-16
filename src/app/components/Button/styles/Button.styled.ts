@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 
 export const ButtonContiner = styled.div`
+    width: 100%;
     .text {
         background: transparent;
         color: #000;
