@@ -3,6 +3,9 @@ import { css } from "@emotion/react";
 export const GlobalStyles = css`
   * {
       box-sizing: border-box;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color:rgba(255,255,255,0);
   }
 
   a {
@@ -13,10 +16,16 @@ export const GlobalStyles = css`
   html, body {
     padding: 0;
     margin: 0;
+    overflow-x: hidden;
   }
 
   body {
     background-color: #FFF;
+  }
+
+  p {
+    margin: 0;
+    padding: 0;
   }
 
   button {

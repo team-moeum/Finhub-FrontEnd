@@ -16,23 +16,13 @@ export const container = styled.main`
   }
 
   ul li {
-    margin-right: 10px;
-  }
-
-  ul li a {
-    font-size: 15px;
-    display: block;
-    padding: 10px 20px;
+    display: inline-block;
+    padding: 5px 10px;
     transition: all 0.3s;
     border-radius: 8px;
   }
 
-  ul li a:active {
-    background: #000;
-  }
 
-  ul li a:hover {
-    background: #eee;
-  }
+
 
 `;
