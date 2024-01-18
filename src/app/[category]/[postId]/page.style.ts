@@ -19,15 +19,12 @@ export const title = styled.div`
 
 export const definition = styled.div`
     width: 100%;
-    border: 1px solid #eee;
 `
 
 export const summary = styled.div`
     width: 100%;
-    border: 1px solid #eee;
 `
 
 export const content = styled.div`
     width: 100%;
-    border: 1px solid #eee;
 `

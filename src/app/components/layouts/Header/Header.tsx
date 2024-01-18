@@ -12,6 +12,7 @@ export const Header = () => {
             <Image
               src={HomeIcon}
               alt="HomeIcon"
+              priority
               width={35}
               height={35}
             />

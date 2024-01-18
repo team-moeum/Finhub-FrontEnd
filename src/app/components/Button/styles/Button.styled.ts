@@ -17,6 +17,10 @@ export const ButtonContiner = styled.div`
     };
 `
 
+export const LinkButtonContiner = styled.div`
+    width: 100%
+`
+
 export const ButtonWrap = styled.button<{
     disabled?: boolean; 
     animate?: boolean
