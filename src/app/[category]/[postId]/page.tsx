@@ -19,7 +19,7 @@ export default function CategoryPost({ params }: { params: {category: string, po
 
     useEffect(() => {
         async function fetchData() {
-            const respons = await fetch(`http://localhost:3000/api/${params.category}/${params.postId}`);
+            const respons = await fetch(`/api/${params.category}/${params.postId}`);
             const result = await respons.json();
 
             setData(result);

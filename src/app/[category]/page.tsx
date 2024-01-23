@@ -36,7 +36,7 @@ export default function Category({ params }: { params: {category: string}}) {
       
     useEffect(() => {
         async function fetchData() {
-            const respons = await fetch(`http://localhost:3000/api/${params.category}`);
+            const respons = await fetch(`/api/${params.category}`);
             const result = await respons.json();
             
             setLoading(false);
