@@ -24,25 +24,23 @@ export const list = styled.div`
     align-items: center;
     justify-content: center;
     gap: 10px;
-
-    a {
-        display: block;
-        width: 100%;
-    }
 `
 
-
-
-export const summary = styled.div`
+export const itemCard = styled.div`
+    padding: 10px;
+    color: #000;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    width: 100%;
+    height: 50px;
+    font-size: 1em;
 `
 
-export const gptcontent = styled.div`
+export const skeletonContainer = styled.div`
+    width: 100%;
+    height: 50px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 10px
 `
