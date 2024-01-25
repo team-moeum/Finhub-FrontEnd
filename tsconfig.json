@@ -27,7 +27,7 @@
       "@/constants/*": ["./src/app/constants/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/hooks/*": ["./src/hooks/*"],
-      "@/components/*": ["./src/app/components/*"],
+      "@/components/*": ["./src/components/*"],
       "@/assets/*": ["./src/assets/*"]
     }
   },
