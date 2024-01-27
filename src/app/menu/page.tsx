@@ -2,9 +2,9 @@ import Menu from "@/screens/menu";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Next.js",
+  title: "Next",
 };
 
-export default async function MenuPage() {
+export default function MenuPage() {
   return <Menu />;
 }
