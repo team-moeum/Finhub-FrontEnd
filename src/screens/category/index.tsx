@@ -1,14 +1,13 @@
 "use client";
 
 import * as S from "./Categiry.style";
-import LinkButtonBox from "@/components/Button/LinkButtonBox";
+import LinkButton from "@/components/Button/LinkButton";
 import React, { useEffect, useState } from "react";
 import Skeleton from "@/components/Skeleton/Skeleton";
 
 type paramsType = {
     category: string;
 }
-
 
 type itemTypes = {
   id: number;
@@ -64,7 +63,7 @@ export default function Category({params} : {params: paramsType}) {
           ? new Array(6).fill(0).map((_, i) => <SkeletonCard key={i} />)
           : data &&
             data.map((item) => (
-              <LinkButtonBox
+              <LinkButton
                 key={item.id}
                 href={`/${params.category}/${item.id}`}
                 background="#eee"
@@ -72,7 +71,7 @@ export default function Category({params} : {params: paramsType}) {
                 animate
               >
                 <S.itemCard>{item.title}</S.itemCard>
-              </LinkButtonBox>
+              </LinkButton>
             ))}
       </S.list>
     </S.container>

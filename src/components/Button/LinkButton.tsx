@@ -7,9 +7,11 @@ import { LinkButtonContiner } from "./styles/Button.styled";
 
 type LinkButtonProps = {
   href: string;
+  width?: string | number;
+  height?: string | number;
 } & ButtonBoxProps;
 
-const LinkButtonBox = ({ href, children, ...props }: LinkButtonProps) => {
+const LinkButton = ({ href, children, width, height, ...props }: LinkButtonProps) => {
   const router = useFHRouter();
 
   const handleRouter = (e: React.MouseEvent) => {
@@ -18,10 +20,10 @@ const LinkButtonBox = ({ href, children, ...props }: LinkButtonProps) => {
   };
 
   return (
-    <LinkButtonContiner onClick={handleRouter}>
-      <ButtonBox {...props}>{children}</ButtonBox>
+    <LinkButtonContiner onClick={handleRouter} style={{width, height}}>
+      <ButtonBox width={width} height={height} {...props}>{children}</ButtonBox>
     </LinkButtonContiner>
   );
 };
 
-export default LinkButtonBox;
+export default LinkButton;

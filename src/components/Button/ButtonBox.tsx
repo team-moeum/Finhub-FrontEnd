@@ -1,9 +1,11 @@
-import styled from '@emotion/styled/types/base';
+'use client';
+
 import React from 'react';
 import Ripple from './Ripple';
-import { ButtonContiner, ButtonDivWrap } from './styles/Button.styled';
+import { ButtonContiner, ButtonDivWrap, ButtonWrap } from './styles/Button.styled';
 
 export type ButtonBoxProps = {
+    tag?: "div" | "button"
     type?: "text" | "contained" | "outlined"
     width?: string | number
     height?: string | number
@@ -18,6 +20,7 @@ export type ButtonBoxProps = {
 }
 
 const ButtonBox = ({
+    tag = "div",
     type = "text",
     width,
     height,
@@ -39,10 +42,17 @@ const ButtonBox = ({
 
     return (
     <ButtonContiner>
-        <ButtonDivWrap className={type} onClick={handleOnClick} style={{width, height, background, ...style}} {...props}>
-            {ripple ? <Ripple color={rippleColor} duration={600} /> : undefined}
-            {children}
-        </ButtonDivWrap>
+        {tag === "button" ? 
+            <ButtonWrap className={type} onClick={handleOnClick} style={{width, height, ...style}} {...props}>
+                {ripple ? <Ripple color={"#666"} duration={600} /> : undefined}
+                {children}
+            </ButtonWrap>
+            :
+            <ButtonDivWrap className={type} onClick={handleOnClick} style={{width, height, background, ...style}} {...props}>
+                {ripple ? <Ripple color={rippleColor} duration={600} /> : undefined}
+                {children}
+            </ButtonDivWrap>
+        }
     </ButtonContiner>
     );
 };
