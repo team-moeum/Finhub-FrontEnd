@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Nav } from "../../../app/_component/Nav/Nav";
 import style from "./Header.module.css"
-import FinhubLogo from "../../../../public/Finhub.svg";
+import FinhubLogo from "../../../../public/FinHub.svg";
 
 
 export const Header = () => {
