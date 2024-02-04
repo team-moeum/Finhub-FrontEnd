@@ -1,10 +1,9 @@
-"use client";
-
 import React from "react";
 import { Header } from "@/components/layouts/Header/Header";
 import { Main } from "@/components/layouts/Main/Main";
-import { Global } from "@emotion/react";
-import { GlobalStyles } from "../styles/global";
+import "@/styles/global.css";
+import { MSWComponent } from "./_component/MSWComponent";
+import MenuBar from "./_component/MenuBar/MenuBar";
 
 export default function RootLayout({
   children,
@@ -20,9 +19,10 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Global styles={GlobalStyles} />
+        <MSWComponent />
         <Header />
-        <Main>{children}</Main>
+        {children}
+        <MenuBar />
       </body>
     </html>
   );

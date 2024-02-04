@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 export const container = styled.div`
     display: flex;
     width: 100vw;
-    height: 100%;
     padding: 80px 20px;
     gap: 10px;
 `
