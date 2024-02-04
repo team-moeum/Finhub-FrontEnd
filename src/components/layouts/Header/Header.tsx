@@ -11,7 +11,6 @@ export const Header = () => {
           <Image
             src={`/Finhub.svg`}
             alt="FinhubLogo"
-            priority
             width={80}
             height={30}
           />
