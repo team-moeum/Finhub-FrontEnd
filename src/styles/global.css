@@ -1,0 +1,79 @@
+* {
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color:rgba(255,255,255,0);
+}
+
+a {
+text-decoration: none;
+color: inherit;
+}
+
+html, body {
+padding: 0;
+margin: 0;
+overflow-x: hidden;
+}
+
+body {
+background-color: #FFF;
+}
+
+p {
+margin: 0;
+padding: 0;
+}
+
+button {
+    white-space: nowrap;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    overflow: hidden;
+
+    margin: 0;
+    padding: 0;
+
+    outline: 0;
+    border: 0 solid transparent;
+    background: transparent;
+    cursor: pointer;
+
+    font-family: inherit;
+    font-weight: 600;
+    -webkit-font-smoothing: antialiased;
+}
+
+button:hover,
+button:focus {
+    text-decoration: none;
+}
+
+button:focus {
+    outline: none;
+}
+
+
+ol,
+ul {
+margin: 0;
+margin-block-start: 0;
+margin-block-end: 0;
+padding-inline-start: 0;
+padding-left: 0;
+list-style: none;
+}
+
+input[type='search']::-ms-clear,
+input[type='search']::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-results-button,
+input[type='search']::-webkit-search-results-decoration {
+    display: none;
+}

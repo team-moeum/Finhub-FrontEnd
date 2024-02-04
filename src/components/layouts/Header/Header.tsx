@@ -1,24 +1,23 @@
 import Link from "next/link";
 import Image from "next/image";
-import * as S from "./Header.style";
-import { Nav } from "../../Nav/Nav";
-import HomeIcon from "@/assets/Home_light.svg";
+import { Nav } from "../../../app/_component/Nav/Nav";
+import style from "./Header.module.css"
 
 export const Header = () => {
   return (
-    <S.header>
-      <S.link>
+    <div className={style.container}>
+      <div className={style.logo}>
         <Link href="/">
           <Image
-            src={HomeIcon}
-            alt="HomeIcon"
+            src={`/Finhub.svg`}
+            alt="FinhubLogo"
             priority
-            width={35}
-            height={35}
+            width={80}
+            height={30}
           />
         </Link>
-      </S.link>
+      </div>
       <Nav />
-    </S.header>
+    </div>
   );
 };
