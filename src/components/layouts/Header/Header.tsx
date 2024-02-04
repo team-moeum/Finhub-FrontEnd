@@ -1,7 +1,11 @@
+'use client';
+
 import Link from "next/link";
 import Image from "next/image";
 import { Nav } from "../../../app/_component/Nav/Nav";
 import style from "./Header.module.css"
+import FinhubLogo from "../../../../public/Finhub.svg";
+
 
 export const Header = () => {
   return (
@@ -9,7 +13,7 @@ export const Header = () => {
       <div className={style.logo}>
         <Link href="/">
           <Image
-            src={`/Finhub.svg`}
+            src={FinhubLogo}
             alt="FinhubLogo"
             width={80}
             height={30}

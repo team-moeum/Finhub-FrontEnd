@@ -4,7 +4,6 @@ import Image from "next/image";
 import * as S from "./Menu.style";
 import UserIcon from "@/assets/User_cicrle_light.svg";
 import { MenuCard } from "@/components/Card/MenuCard";
-import { useEffect } from "react";
 
 export default function Menu() {
   return (
