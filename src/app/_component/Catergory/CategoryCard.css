@@ -1,0 +1,89 @@
+.cg_card_swiper {
+    width: 100%;
+    height: 162px;
+    overflow: unset;
+}
+
+.cg_card_swiper .swiper-pagination {
+    bottom: 16px;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.cg_card_swiper .swiper-pagination .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    transition: 0.3s ease-in;
+}
+
+.cg_card_swiper .swiper-pagination .swiper-pagination-bullet-active {
+    flex: 1;
+    height: 8px;
+    border-radius: 100px;
+    background-color: #67CB83;
+    transition: 0.3s ease-in;
+}
+
+.card {
+    position: relative;
+    width: 100%;
+    height: 112px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 2px 3px 10px 0px rgba(0, 0, 0, 0.10);
+}
+
+.card::before{
+    content: '';
+    position: absolute;
+    background-color: #D0F3D5;
+    display: block;
+    border-radius: 50%;
+    width: 182px;
+    height: 182px;
+    left: -50px;
+    top: -40px;
+}
+
+.card .img-box {
+    width: 80px;
+    height: 64px;
+    position: relative;
+    left: 24px;
+    top: 18px;
+}
+
+.card .text-container {
+    width: calc(100% - 134px);
+    height: 112px;
+    position: relative;
+    left: 130px;
+    top: -64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card .text-box {
+    height: 100%;
+}
+
+.card .text-box .title {
+    margin-top: 24px;
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+}
+
+.card .text-box .content {
+    margin-top: 8px;
+    color: #B6B6B6;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+}
+

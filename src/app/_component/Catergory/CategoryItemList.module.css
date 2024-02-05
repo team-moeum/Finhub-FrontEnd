@@ -5,6 +5,10 @@
     overflow-x: scroll;
     gap: 28px;
     height: 86px;
+    position: relative;
+    width: 100dvw;
+    left: -20px;
+    padding-left: 20px;
 }
 
 .container::-webkit-scrollbar {
