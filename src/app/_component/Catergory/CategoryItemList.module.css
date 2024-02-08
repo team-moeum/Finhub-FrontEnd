@@ -3,12 +3,12 @@
     flex-direction: row;
     align-items: center;
     overflow-x: scroll;
-    gap: 28px;
+    gap: 26px;
     height: 86px;
     position: relative;
     width: 100dvw;
     left: -20px;
-    padding-left: 20px;
+    padding: 0 20px;
 }
 
 .container::-webkit-scrollbar {
@@ -24,7 +24,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 7px;
+}
+
+.item p {
+    font-size: 14px;
+    line-height: 21px;
+    color: #000;
 }
 
 .icon_box {
@@ -37,25 +43,33 @@
     background-color: #f8f4f4;
 }
 
-.icon_box svg {
+.item:not(.all):not(.active) .icon_box svg {
     stroke: #B5B5B5;
 }
 
-.item.active .icon_box{
-    background-color: #D0F4D6;
+.item.all .icon_box {
+    background-color: #FFF;
+    border: 2px solid #50BF50;
 }
 
-.item.active .icon_box svg {
-    stroke: #32B768;
-}
-
-.item p {
-    font-size: 12px;
-    color: #000;
-}
 
 .item.active p {
-    font-size: 12px;
     color: #32B768;
 }
 
+
+.category_radio_input {
+    display: none;
+}
+
+.category_radio_input:checked + .item .icon_box {
+    background-color: #C6ECBC;
+}
+
+.category_radio_input:checked + .item p {
+    color: #50BF50;
+}
+
+.category_radio_input:checked + .item .icon_box svg {
+    stroke: #32B768;
+}

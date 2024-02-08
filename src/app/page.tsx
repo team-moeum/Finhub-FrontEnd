@@ -2,6 +2,7 @@ import Link from "next/link";
 import style from "./page.module.css";
 import CategoryCard from "./_component/Catergory/CategoryCard";
 import CategoryItemList from "./_component/Catergory/CatergoryItemList";
+import TopicList from "./_component/Catergory/TopicList";
 
 
 export default function Home() {
@@ -15,9 +16,14 @@ export default function Home() {
         <span>찾고 싶은 단어를 입력해주세요.</span>
       </Link>
       <div className={style.category_container}>
-        <div className={style.title}>카테고리</div>
-        <CategoryItemList />
         <CategoryCard />
+        <div className={style.category_box}>
+          <p className={style.title}>카테고리</p>
+          <CategoryItemList />
+        </div>
+      </div>
+      <div className={style.topic_container}>
+        <TopicList />
       </div>
     </div>
   );

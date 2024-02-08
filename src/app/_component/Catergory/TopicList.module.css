@@ -1,0 +1,81 @@
+.topic_list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.item_container {
+    width: 100%;
+    height: 88px;
+    display: grid;
+    grid-template-columns: 64px calc(100% - 124px) 20px;
+    align-items: center;
+    gap: 20px;
+    padding: 0 16px;
+    overflow: hidden;
+    box-shadow: 0px 1px 4px 0px rgba(34, 34, 34, 0.06);
+    border-radius: 10px;
+}
+
+.img_box {
+    width: 64px;
+    height: 64px;
+    background-color: #E0F1DC;
+    border-radius: 8px;
+}
+
+.content_box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+}
+
+.content_box p:nth-child(1){
+    color: #1f2937;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.content_box p:nth-child(2) {
+    display: block;
+    color: #b6b6b6;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.heart_icon_box {
+    position: relative;
+    height: 100%;
+    top: 52px;
+}
+
+.heart_icon_box svg {
+    fill: #FFF;
+}
+
+.heart_icon_box.active svg {
+    fill: #50BF50;
+}
+
+.add_topic {
+    width: 100%;
+    height: 36px;
+    background-color: #F6F6F6;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add_topic p {
+    font-size: 15px;
+    font-weight: 600;
+    color: #D9D7CF;
+    margin-right: 12px;
+}
