@@ -16,7 +16,7 @@
 .cg_card_swiper .swiper-pagination .swiper-pagination-bullet {
     width: 10px;
     height: 10px;
-    transition: 0.3s ease-in;
+    transition: 0.2s ease-in;
 }
 
 .cg_card_swiper .swiper-pagination .swiper-pagination-bullet-active {
@@ -24,7 +24,12 @@
     height: 8px;
     border-radius: 100px;
     background-color: #67CB83;
-    transition: 0.3s ease-in;
+    animation: bullet-on 0.2s ease-in-out;
+}
+
+@keyframes bullet-on {
+    0% {background-color: #67CB83; flex: 0;}
+    100% {flex: 1;}
 }
 
 .card {
