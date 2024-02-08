@@ -16,38 +16,38 @@
 .container svg {
     width: 24px;
     height: 24px;
-    fill: #484C52;
+    fill: #A9A7A2;
+    transform: translate3d(0, 9px, 0);
+    transition: 0.2s ease-in;
 }
 
 .container a {
     display: inline-flex;
+    flex-direction: column;
     align-items: center;
-    gap: 6px;
-    transition: all 0.3s ease-in;
+    gap: 2px;
 }
 
 .container a span {
-    display: none;
+    opacity: 0;
     color: #32B768;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    text-align: center;
 }
 
 .tab {
     display: flex;
 }
 
-.tab.active {
-    border-radius: 100px;
-    background: #D0F3D5;
-    padding: 8px 12px;
-}
-
 .tab.active svg {
+    transform: translate3d(0, 0, 0);
     fill: #32B768;
 }
 
 .tab.active span {
+    opacity: 1;
     display: inline-block;
-    transition: 0.5s ease-in;
+    transition: 0.2s ease-in;
 }
-
-

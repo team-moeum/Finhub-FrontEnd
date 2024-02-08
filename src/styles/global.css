@@ -20,6 +20,10 @@ body {
 background-color: #FFF;
 }
 
+body::-webkit-scrollbar {
+    display: none;
+}
+
 p {
 margin: 0;
 padding: 0;
