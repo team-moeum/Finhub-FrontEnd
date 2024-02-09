@@ -47,6 +47,8 @@ const CategoryItem = forwardRef<HTMLLabelElement, Props>(({ id, name, activeItem
     )
 })
 
+CategoryItem.displayName = "CategoryItem";
+
 export default function CategoryItemList() {
     const [isOpen, setIsOpen] = useState(false);
     const [activeItem, setActiveItem] = useState("주식");
