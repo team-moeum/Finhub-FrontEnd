@@ -58,4 +58,30 @@
     height: 88px;
     border-radius: 10px;
     background-color: #F6F6F6;
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    align-items: center;
+    padding-right: 34px;
+}
+
+.next_page_box .next_img_box {
+    width: 80%;
+}
+
+.next_page_box .text_box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.next_page_box .text_box p:nth-child(1) {
+    color: #322;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.next_page_box .text_box p:nth-child(2) {
+    color: #B6B6B6;
+    font-size: 14px;
+    font-weight: 500;
 }

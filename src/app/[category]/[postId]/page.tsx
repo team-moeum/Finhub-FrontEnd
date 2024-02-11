@@ -28,7 +28,22 @@ export default function PostPage({params}: {params: { category: string; postId: 
                 <div className={style.divider}></div>
                 <PostContent />
                 <div className={style.next_page_box}>
-                    
+                    <div className={style.next_img_box}>
+                        <Image 
+                            src={PostImg} 
+                            alt="next image" 
+                            width={100} 
+                            height={88}
+                            style={{objectFit: "cover"}}	
+                        />
+                    </div>
+                    <div className={style.text_box}>
+                        <p>다음글 보기</p>
+                        <p>주식이란?</p>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="6" height="12" viewBox="0 0 8 14" fill="none">
+                        <path d="M1.12494 13L6.81396 7L1.12494 1" stroke="#332222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </div>
             </div>
         </>
