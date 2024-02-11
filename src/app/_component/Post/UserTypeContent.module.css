@@ -1,0 +1,38 @@
+.container {
+    margin-top: 18px;
+    margin-bottom: 48px;
+}
+
+.notify_box {
+    width: 100%;
+    height: 40px;
+    background-color: #F6F6F6;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 12px;
+    color: #535353;
+}
+
+.notify_box::before {
+    content: "💡";
+    position: relative;
+    top: -1px;
+    margin-right: 2px;
+}
+
+.notify_box .active_name {
+    color: #50BF50;
+}
+
+.content_text {
+    padding: 11px 16px 0 16px;
+    color: #3D3D3D;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: -0.28px;
+}

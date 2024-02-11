@@ -1,32 +1,24 @@
 "use client"
 
-import style from "./CategoryItemList.module.css";
+import style from "./UserTypeItemList.module.css";
 import cx from 'classnames';
 import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
 import { forwardRef, useEffect, useRef, useState } from "react";
+import { useRecoilState } from "recoil";
+import { topicUserType } from "../../../recoil/atoms/topicUsertype"
 import { AnimatePresence } from "framer-motion";
+import TeacherAvatar from "../../../../public/icon_teacher.svg";
+import Image from "next/image";
 
-const mockList = [
-    {name: "주식"},
-    {name: "펀드"},
-    {name: "ETF"},
-    {name: "IRP"},
-    {name: "연금"},
-    {name: "파생상품"},
-    {name: "test1"},
-    {name: "test2"},
-    {name: "test3"},
-    {name: "test4"},
-]
 
-type Props = {
+type UserTypeItemProps = {
     id: string;
     name: string;
     activeItem: string;
     itemChange: (item:string) => void;
 }
 
-const CategoryItem = forwardRef<HTMLLabelElement, Props>(({ id, name, activeItem, itemChange }, ref) => {
+const UserTypeItem = forwardRef<HTMLLabelElement, UserTypeItemProps>(({ id, name, activeItem, itemChange }, ref) => {
     return (
         <label ref={ref} className={style.item_label}>
             <input 
@@ -38,25 +30,31 @@ const CategoryItem = forwardRef<HTMLLabelElement, Props>(({ id, name, activeItem
                 className={style.category_radio_input}
             />
             <div className={style.item}>
-                    <div className={style.icon_box}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="26" fill="none"><g stroke="current" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M11.298 14.419a1.945 1.945 0 0 1-1.945-1.946 1.945 1.945 0 0 1 1.945-1.967h2.198M11.299 14.418h.989a1.945 1.945 0 0 1 0 3.891h-2.253M11.771 9.264v1.264M11.771 18.298v1.264"/><path d="M21.815 10.507c.483 1.24.73 2.56.726 3.89a10.77 10.77 0 1 1-10.77-10.77h6.01"/><path d="m15.167 6.286 2.638-2.637L15.167 1"/></g></svg>
-                    </div>
-                    <p>{name}</p>
+                <div className={style.icon_box}>
+                    {name === "선생님" ? <Image src={TeacherAvatar} alt="teacher avatar" width={48} height={48} />
+                    :
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="26" fill="none"><g stroke="current" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M11.298 14.419a1.945 1.945 0 0 1-1.945-1.946 1.945 1.945 0 0 1 1.945-1.967h2.198M11.299 14.418h.989a1.945 1.945 0 0 1 0 3.891h-2.253M11.771 9.264v1.264M11.771 18.298v1.264"/><path d="M21.815 10.507c.483 1.24.73 2.56.726 3.89a10.77 10.77 0 1 1-10.77-10.77h6.01"/><path d="m15.167 6.286 2.638-2.637L15.167 1"/></g></svg>
+                    }
+                </div>
+                <p>{name}</p>
             </div>
         </label>
     )
 })
 
-CategoryItem.displayName = "CategoryItem";
+UserTypeItem.displayName = "UserTypeItem";
 
-export default function CategoryItemList() {
+type UserTypeItemListProps = {
+    data: {name: string}[]
+}
+
+export default function UserTypeItemList({data} : UserTypeItemListProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const [activeItem, setActiveItem] = useState("주식");
+    const [activeItem, setActiveItem] = useRecoilState(topicUserType);
     
     const itemRefs = useRef<(HTMLLabelElement | null)[]>([]);
 
     const handleToggle = () => {
-        console.log("TOGGLE")
         setIsOpen(isOpen ? false : true)
     }
 
@@ -64,17 +62,17 @@ export default function CategoryItemList() {
         setIsOpen(false);
     }
 
-    const CategoryItemChange = (item: string) => {
+    const UserTypeItemChange = (item: string) => {
         setActiveItem(item);
     }
 
-    const BottomSheetCategoryItemChange = (item: string) => {
+    const BottomSheetUserTypeItemChange = (item: string) => {
         setActiveItem(item);
         setIsOpen(false);
     }
  
     useEffect(() => {
-        const activeIndex = mockList.findIndex(item => item.name === activeItem);
+        const activeIndex = data.findIndex(item => item.name === activeItem);
         if (itemRefs.current[activeIndex]) {
             itemRefs.current[activeIndex]?.scrollIntoView({
               behavior: 'smooth',
@@ -95,29 +93,28 @@ export default function CategoryItemList() {
                     <p>전체</p>
                 </div>
 
-                {mockList.map((item, i) => (
-                    <CategoryItem 
+                {data.map((item, i) => (
+                    <UserTypeItem 
                         id="main_input" 
                         key={i} 
                         name={item.name} 
                         activeItem={activeItem} 
-                        itemChange={CategoryItemChange}
+                        itemChange={UserTypeItemChange}
                         ref={el => itemRefs.current[i] = el}
                      />    
                 ))}
             </div>
             <AnimatePresence>
                 {isOpen && 
-                    <BottomSheet title="카테고리 전체 보기" isOpen={true} onClose={handleClose}>
+                    <BottomSheet title="직업을 골라주세요!" isOpen={true} onClose={handleClose}>
                         <div className={style.bottom_sheet_content}>
-                            {mockList.map((item, i) => (
-                                <CategoryItem id="bottom_sheet_input" key={i} name={item.name} activeItem={activeItem} itemChange={BottomSheetCategoryItemChange} />    
+                            {data.map((item, i) => (
+                                <UserTypeItem id="bottom_sheet_input" key={i} name={item.name} activeItem={activeItem} itemChange={BottomSheetUserTypeItemChange} />    
                             ))}
                         </div>
                     </BottomSheet>
                 }
             </AnimatePresence>
         </>
-
     )
 }

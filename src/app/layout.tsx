@@ -3,6 +3,7 @@ import { Header } from "@/components/layouts/Header/Header";
 import "@/styles/global.css";
 import { MSWComponent } from "./_component/MSWComponent";
 import MenuBar from "./_component/MenuBar/MenuBar";
+import RecoilRootProvider from "./_component/RecoilRootProvider";
 
 export default function RootLayout({
   children,
@@ -18,10 +19,12 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <MSWComponent />
-        <Header />
-        {children}
-        <MenuBar />
+        <RecoilRootProvider>
+          <MSWComponent />
+          <Header />
+          {children}
+          <MenuBar />
+        </RecoilRootProvider>
       </body>
     </html>
   );
