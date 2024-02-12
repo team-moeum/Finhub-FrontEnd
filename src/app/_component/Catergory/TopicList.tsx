@@ -2,15 +2,15 @@
 
 import style from "./TopicList.module.css";
 import cx from 'classnames';
-import { useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 
 function TopicItem() {
     const [heart, setHeart] = useState(false);
 
-    const handleHeartClick = () => {
-        if (!heart) setHeart(true);
-        else setHeart(false);
+    const handleHeartClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setHeart(!heart);
     }
 
     return (
