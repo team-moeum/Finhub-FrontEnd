@@ -21,7 +21,6 @@ export default function RootLayout({
       <body>
         <RecoilRootProvider>
           <MSWComponent />
-          <Header />
           {children}
           <MenuBar />
         </RecoilRootProvider>

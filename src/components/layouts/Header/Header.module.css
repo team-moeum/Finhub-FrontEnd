@@ -17,3 +17,31 @@
 .logo a {
     display: block;
 }
+
+.nav_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container ul {    
+    padding: 0px;
+    margin: 0px;
+}
+
+.container li {
+    list-style-type: none;
+    float: left;
+}
+
+.container li a {
+    display: inline-block;
+}
+
+.container ul li {
+    display: inline-block;
+    transition: all 0.3s;
+    border-radius: 8px;
+}
+
+

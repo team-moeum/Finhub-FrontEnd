@@ -1,8 +1,13 @@
 .container {
-    padding: 80px 16px 0 16px;
+    padding: 60px 16px 0 16px;
 }
 
-.input_container {
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.input_box {
     display: block;
     margin: 0 auto;
     width: calc(100% - 40px);
@@ -10,7 +15,7 @@
     position: relative;
 }
 
-.input_container input {
+.input_box input {
     width: 100%;
     height: 100%;
     outline: 0;
@@ -21,8 +26,7 @@
     font-size: 14px;
 }
 
-.input_container svg {
-    fill: #67CB83;
+.input_box svg {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);

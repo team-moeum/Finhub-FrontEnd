@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Nav } from "../../../app/_component/Nav/Nav";
 import style from "./Header.module.css"
 import FinhubLogo from "../../../../public/FinHub.svg";
 
@@ -18,7 +17,19 @@ export const Header = () => {
           />
         </Link>
       </div>
-      <Nav />
+      <ul>
+        <li>
+          <Link href={`/notify`}>
+              <Image
+                  priority
+                  alt="notifyIcon"
+                  src="/notify.svg"
+                  width={36}
+                  height={36}
+              />
+          </Link>
+        </li>
+      </ul>
     </div>
   );
 };
