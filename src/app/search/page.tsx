@@ -6,7 +6,7 @@ import style from "./search.module.css";
 import RecentSearch from "./_component/RecentSearch";
 import TopSearch from "./_component/TopSearch";
 
-export default async function SearchPage() {
+export default function SearchPage() {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleSetInputValue = (value: string) => {
