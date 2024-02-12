@@ -33,11 +33,14 @@
     left: 12px;
 }
 
-.history_container {
+.before_input {
     margin-top: 36px;
 }
 
-.history_title {
-    font-size: 18px;
-    font-weight: 600;
+.divider {
+    width: 100vw;
+    height: 10px;
+    background-color: #F3F3F3;
+    position: relative;
+    left: -16px;
 }
