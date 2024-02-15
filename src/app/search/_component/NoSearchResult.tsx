@@ -9,7 +9,7 @@ export default function NoSearchResult({userInput}: {userInput : string}) {
                 </svg>
             </div>
             <div className={style.text_box}>
-                <span><span className={style.user_input_text}>'{userInput}'</span>에 대한 검색 결과가 없습니다.</span>
+                <span><span className={style.user_input_text}>&apos;{userInput}&apos;</span>에 대한 검색 결과가 없습니다.</span>
                 <span className={style.dot}>· 단어의 철자가 정확한지 확인해 주세요.</span>
                 <span className={style.dot}>· 다른 검색어로 다시 검색해 보세요.</span>
             </div>
