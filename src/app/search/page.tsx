@@ -88,6 +88,16 @@ export default function SearchPage() {
         }
     }
 
+    const updatedRecentDataList = (value : string) => {
+        const updatedRecentDataList = [{ name: value }, ...recentDataList];
+            
+        if (updatedRecentDataList.length > 15) {
+            updatedRecentDataList.pop();
+        }
+
+        setRecentDataList(updatedRecentDataList);
+    }
+
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.value.length === 0) {
             setUserInput('');
@@ -107,25 +117,10 @@ export default function SearchPage() {
             console.log(inputValue);
             setUserInput(inputValue);
             fetchData(inputValue);
-    
-            const updatedRecentDataList = [{ name: inputValue }, ...recentDataList];
-            
-            if (updatedRecentDataList.length > 15) {
-                updatedRecentDataList.pop();
-            }
-    
-            setRecentDataList(updatedRecentDataList);
+            updatedRecentDataList(inputValue);
         }
     }
-
-    const handleSetInputValue = (value: string) => {
-        if (inputRef.current) {
-          inputRef.current.value = value;
-          setUserInput(value);
-          fetchData(value);
-        }
-    };
-
+    
     const hanldeClearBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (inputRef.current) {
@@ -134,6 +129,17 @@ export default function SearchPage() {
             setUserInput('');
         }
     }
+
+    /* RecentSearch Prop */
+    const handleSetInputValue = (value: string) => {
+        if (inputRef.current) {
+          inputRef.current.value = value;
+          setUserInput(value);
+          fetchData(value);
+          updatedRecentDataList(value);
+        }
+    };
+
 
     return (
         <div className={style.container}>
