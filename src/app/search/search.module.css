@@ -42,13 +42,22 @@
 }
 
 .input_box .clear_btn {
+    visibility: hidden;
+    opacity: 0;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     position: absolute;
     right: 0;
     padding: 12px;
+    transition: 0.1s ease-in;
 }
+
+.input_box .clear_btn.focus {
+    visibility: visible;
+    opacity: 1;
+}
+
 
 .before_input {
     margin-top: 36px;

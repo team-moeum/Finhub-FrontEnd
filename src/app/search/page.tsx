@@ -1,7 +1,7 @@
 "use client";
 
 import { debounce } from "@/utils/debounce";
-import React, { useRef, useState } from "react";
+import React, { use, useRef, useState } from "react";
 import BackButton from "../_component/Nav/BackButton";
 import style from "./search.module.css";
 import InputResultArticleList from "./_component/InputResultArticleList";
@@ -64,6 +64,7 @@ const recentData:recentDataType = [
 
 export default function SearchPage() {
     const [userInput, setUserInput] = useState<string>('');
+    const [isFocus, setIsFocus] = useState<boolean>(false);
     const [wordResult, setWordResult] = useState<Array<{ title: string; content: string; }> | null>(null);
     const [articleResult, setArticleResult] = useState<Array<{ title: string; content: string; }> | null>(null);
     const [isNoneResult, setIsNoneResult] = useState(true);
@@ -130,6 +131,15 @@ export default function SearchPage() {
         }
     }
 
+    const handleOnFocus = () => {
+        setIsFocus(true);
+    };
+    
+    const handleOnBlur = () => {
+        setIsFocus(false);
+    };
+    
+
     /* RecentSearch Prop */
     const handleSetInputValue = (value: string) => {
         if (inputRef.current) {
@@ -155,11 +165,13 @@ export default function SearchPage() {
                             className={style.inputBox} 
                             placeholder="찾고 싶은 단어를 입력해주세요." 
                             onChange={debouncedOnChangeHandler}
+                            onFocus={handleOnFocus}
+                            onBlur={handleOnBlur}
                         />
                         <svg className={style.search_icon} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M15.7549 14.255H14.9649L14.6849 13.985C15.6649 12.845 16.2549 11.365 16.2549 9.755C16.2549 6.165 13.3449 3.255 9.75488 3.255C6.16488 3.255 3.25488 6.165 3.25488 9.755C3.25488 13.345 6.16488 16.255 9.75488 16.255C11.3649 16.255 12.8449 15.665 13.9849 14.685L14.2549 14.965V15.755L19.2549 20.745L20.7449 19.255L15.7549 14.255ZM9.75488 14.255C7.26488 14.255 5.25488 12.245 5.25488 9.755C5.25488 7.26501 7.26488 5.255 9.75488 5.255C12.2449 5.255 14.2549 7.26501 14.2549 9.755C14.2549 12.245 12.2449 14.255 9.75488 14.255Z" fill="#50BF50"/>
                         </svg>
-                        <button type="button" className={style.clear_btn} onClick={hanldeClearBtn}>
+                        <button type="button" className={cx([style.clear_btn, isFocus && style.focus])} onClick={hanldeClearBtn}>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="10" cy="10" r="10" fill="#D9D9D9"/>
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M6.0876 6.08736C6.31541 5.85955 6.68475 5.85955 6.91256 6.08736L10.0001 9.17488L13.0876 6.08736C13.3154 5.85955 13.6848 5.85955 13.9126 6.08736C14.1404 6.31516 14.1404 6.68451 13.9126 6.91232L10.825 9.99984L13.9126 13.0874C14.1404 13.3152 14.1404 13.6845 13.9126 13.9123C13.6848 14.1401 13.3154 14.1401 13.0876 13.9123L10.0001 10.8248L6.91256 13.9123C6.68475 14.1401 6.31541 14.1401 6.0876 13.9123C5.8598 13.6845 5.8598 13.3152 6.0876 13.0874L9.17512 9.99984L6.0876 6.91232C5.8598 6.68451 5.8598 6.31516 6.0876 6.08736Z" fill="white" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
