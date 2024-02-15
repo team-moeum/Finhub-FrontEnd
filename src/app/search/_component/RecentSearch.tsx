@@ -3,15 +3,6 @@
 import { useState } from "react";
 import style from "./RecentSearch.module.css";
 
-const mockList = [
-    {name: "주식"},
-    {name: "주식이란"},
-    {name: "최대 단어 길이 몇으로?"},
-    {name: "펀드란?"},
-    {name: "연말정산"},
-    {name: "검색어 검색어"},
-]
-
 type RecentItemProps = {
     name: string;
     onClose: () => void;
@@ -30,8 +21,8 @@ const RecentItem = ({name, onClose} : RecentItemProps) => {
     )
 }
 
-export default function RecentSearch() {
-    const [list, setList] = useState(mockList);
+export default function RecentSearch({data} : {data: Array<{name: string}>}) {
+    const [list, setList] = useState(data);
     const [isEmpty, setIsEmpty] = useState(false);
 
     const handleDeleteAll = () => {

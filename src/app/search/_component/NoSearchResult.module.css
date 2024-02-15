@@ -1,0 +1,42 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon_box {
+    width: 143px;
+    height: 143px;
+    margin-top: 62px;
+}
+
+.text_box {
+    width: 100%;
+    margin-top: 38px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.text_box span:nth-child(1) {
+    margin-bottom: 28px;
+}
+
+.text_box span:nth-child(2) {
+    margin-bottom: 10px;
+}
+
+.user_input_text {
+    color: #FE835C;
+}
+
+.dot {
+    color: #C4C4C4;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+}
+
