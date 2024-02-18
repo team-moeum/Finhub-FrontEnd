@@ -1,0 +1,12 @@
+.container {
+    width: 100%;
+}
+
+.content {
+    margin-top: 30px;
+    width: 100%;
+    padding: 0 16px 54px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
