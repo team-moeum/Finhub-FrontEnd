@@ -2,7 +2,7 @@ import Menu from "@/screens/menu";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Next",
+  title: "Menu",
 };
 
 export default function MenuPage() {
