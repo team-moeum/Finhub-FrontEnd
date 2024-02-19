@@ -1,0 +1,15 @@
+.category_box {
+    margin-top: 9px;
+}
+
+.category_box .title {
+    color: #000;
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.topic_container {
+    margin-top: 15px;
+    margin-bottom: 24px;
+}

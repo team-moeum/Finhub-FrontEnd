@@ -1,0 +1,8 @@
+.close_button {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: -20px;
+}

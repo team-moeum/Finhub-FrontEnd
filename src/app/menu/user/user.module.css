@@ -1,0 +1,21 @@
+.container {
+    width: 100%;
+    padding: 0 16px 54px 16px;
+}
+
+.content {
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user_name {
+    color: #DADBDE;
+    font-size: 14px;
+    font-weight: 500;
+    position: absolute;
+    right: 37px;
+    top: 12px;
+}

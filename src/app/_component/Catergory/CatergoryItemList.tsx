@@ -5,19 +5,8 @@ import cx from 'classnames';
 import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
-
-const mockList = [
-    {name: "주식"},
-    {name: "펀드"},
-    {name: "ETF"},
-    {name: "IRP"},
-    {name: "연금"},
-    {name: "파생상품"},
-    {name: "test1"},
-    {name: "test2"},
-    {name: "test3"},
-    {name: "test4"},
-]
+import { useRecoilState } from "recoil";
+import { activeCategory } from "@/recoil/atoms/activeCategory";
 
 type Props = {
     id: string;
@@ -49,9 +38,13 @@ const CategoryItem = forwardRef<HTMLLabelElement, Props>(({ id, name, activeItem
 
 CategoryItem.displayName = "CategoryItem";
 
-export default function CategoryItemList() {
+type CategoryItemListProps = {
+    categoryList: {name: string}[];
+}
+
+export default function CategoryItemList({categoryList}:CategoryItemListProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const [activeItem, setActiveItem] = useState("주식");
+    const [activeItem, setActiveItem] = useRecoilState(activeCategory);
     
     const itemRefs = useRef<(HTMLLabelElement | null)[]>([]);
 
@@ -74,7 +67,7 @@ export default function CategoryItemList() {
     }
  
     useEffect(() => {
-        const activeIndex = mockList.findIndex(item => item.name === activeItem);
+        const activeIndex = categoryList.findIndex(item => item.name === activeItem);
         if (itemRefs.current[activeIndex]) {
             itemRefs.current[activeIndex]?.scrollIntoView({
               behavior: 'smooth',
@@ -95,7 +88,7 @@ export default function CategoryItemList() {
                     <p>전체</p>
                 </div>
 
-                {mockList.map((item, i) => (
+                {categoryList.map((item, i) => (
                     <CategoryItem 
                         id="main_input" 
                         key={i} 
@@ -110,7 +103,7 @@ export default function CategoryItemList() {
                 {isOpen && 
                     <BottomSheet title="카테고리 전체 보기" isOpen={true} onClose={handleClose}>
                         <div className={style.bottom_sheet_content}>
-                            {mockList.map((item, i) => (
+                            {categoryList.map((item, i) => (
                                 <CategoryItem id="bottom_sheet_input" key={i} name={item.name} activeItem={activeItem} itemChange={BottomSheetCategoryItemChange} />    
                             ))}
                         </div>

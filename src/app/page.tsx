@@ -1,9 +1,9 @@
 import Link from "next/link";
 import style from "./page.module.css";
 import CategoryCard from "./_component/Catergory/CategoryCard";
-import CategoryItemList from "./_component/Catergory/CatergoryItemList";
-import TopicList from "./_component/Catergory/TopicList";
 import MainNav from "./_component/Nav/MainNav";
+import HomeContent from "./_component/Catergory/HomeContent";
+import { AddTopicItem } from "./_component/Catergory/TopicList";
 
 
 export default function Home() {
@@ -19,13 +19,8 @@ export default function Home() {
         </Link>
         <div className={style.category_container}>
           <CategoryCard />
-          <div className={style.category_box}>
-            <p className={style.title}>카테고리</p>
-            <CategoryItemList />
-          </div>
-        </div>
-        <div className={style.topic_container}>
-          <TopicList />
+          <HomeContent />
+          <AddTopicItem />
         </div>
       </div>
     </>
