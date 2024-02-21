@@ -72,6 +72,7 @@ export default function CategoryItemList({categoryList}:CategoryItemListProps) {
             itemRefs.current[activeIndex]?.scrollIntoView({
               behavior: 'smooth',
               block: 'nearest',
+              inline: 'center',
             });
         }
     }, [activeItem])

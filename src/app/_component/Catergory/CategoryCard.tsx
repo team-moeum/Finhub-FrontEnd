@@ -12,14 +12,15 @@ import "./CategoryCard.css";
 
 export default function CategoryCard() {
     return (
-        <div>
+        <div className='overflow-wrap'>
              <Swiper
                 className="cg_card_swiper"
                 modules={[Pagination, Autoplay]}
                 spaceBetween={50}
                 slidesPerView={1}
-                //autoplay = {{ delay: 3000, disableOnIntercation: false}}
-                //loop={true}
+                autoplay = {{ delay: 3000 }}
+                speed={1000}
+                loop={true}
                 pagination={{ clickable: true}}
                 onSwiper={(swiper : any) => console.log(swiper)}
                 onSlideChange={() => console.log('slide change')}
