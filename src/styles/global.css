@@ -70,6 +70,10 @@ padding-left: 0;
 list-style: none;
 }
 
+input {
+    caret-color: #50BF50;
+}
+
 input[type='search']::-ms-clear,
 input[type='search']::-ms-reveal {
     display: none;
