@@ -1,0 +1,1 @@
+export const FinhubLogo = "../../../../public/FinHub.svg";

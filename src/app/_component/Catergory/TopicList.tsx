@@ -4,14 +4,12 @@ import style from "@/app/_component/Catergory/TopicList.module.css";
 import cx from 'classnames';
 import React, { useState } from "react";
 import Link from "next/link";
-import { TopicDataTypes, TopicItemType } from "./HomeContent";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Topic } from "@/model/Topic";
+import { getTopicList } from "@/app/_lib/getTopicList";
 
-type TopicItemProps = {
-    data: TopicItemType;
-}
-
+type TopicItemProps = { data: Topic; }
 function TopicItem({data}: TopicItemProps) {
-    console.log(data);
     const [heart, setHeart] = useState(data.scrap);
 
     const handleHeartClick = (e: React.MouseEvent) => {
@@ -37,19 +35,15 @@ function TopicItem({data}: TopicItemProps) {
     )
 }
 
-export function AddTopicItem() {
-    return (
-        <div className={style.add_topic}>
-            <p>더보기</p>
-            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="7" fill="none">
-                <path stroke="#D9D7CF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 1 5.5 6 1 1"/>
-            </svg>
-        </div>
-    )
-}
+type Props = {activeItem : string}
+export default function TopicList({activeItem}:Props) {
+    const { data:topicList } = useSuspenseQuery<Topic[]>({
+        queryKey: ['category', activeItem],
+        queryFn: () => getTopicList(activeItem),
+        staleTime: 60 * 1000,
+        gcTime: 300 * 1000,
+    })
 
-export default function TopicList({topicList}: TopicDataTypes) {
-    console.log("@@" + topicList)
     return (
         <div className={style.topic_list}>
             {topicList.map(item => (

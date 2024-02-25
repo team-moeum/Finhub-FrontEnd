@@ -7,6 +7,9 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useRecoilState } from "recoil";
 import { activeCategory } from "@/recoil/atoms/activeCategory";
+import { Category } from "@/model/Category";
+import { useQuery } from "@tanstack/react-query";
+import { getCategory } from "@/app/_lib/getCategory";
 
 type Props = {
     id: string;
@@ -42,7 +45,18 @@ type CategoryItemListProps = {
     categoryList: {name: string}[];
 }
 
-export default function CategoryItemList({categoryList}:CategoryItemListProps) {
+export default function CategoryItemList() {
+    const { data:categoryList, isLoading, error } = useQuery<Category[]>({
+        queryKey: ['category'],
+        queryFn: getCategory,
+        staleTime: 60 * 1000,
+        gcTime: 300 * 1000,
+    })
+
+    if (isLoading) return "Loading...";
+    if (error) return "An error has occurred: " + error.message;
+
+
     const [isOpen, setIsOpen] = useState(false);
     const [activeItem, setActiveItem] = useRecoilState(activeCategory);
     
@@ -67,7 +81,7 @@ export default function CategoryItemList({categoryList}:CategoryItemListProps) {
     }
  
     useEffect(() => {
-        const activeIndex = categoryList.findIndex(item => item.name === activeItem);
+        const activeIndex = categoryList?.findIndex(item => item.name === activeItem) || 0;
         if (itemRefs.current[activeIndex]) {
             itemRefs.current[activeIndex]?.scrollIntoView({
               behavior: 'smooth',
@@ -89,7 +103,7 @@ export default function CategoryItemList({categoryList}:CategoryItemListProps) {
                     <p>전체</p>
                 </div>
 
-                {categoryList.map((item, i) => (
+                {categoryList?.map((item, i) => (
                     <CategoryItem 
                         id="main_input" 
                         key={i} 
@@ -104,7 +118,7 @@ export default function CategoryItemList({categoryList}:CategoryItemListProps) {
                 {isOpen && 
                     <BottomSheet title="카테고리 전체 보기" isOpen={true} onClose={handleClose}>
                         <div className={style.bottom_sheet_content}>
-                            {categoryList.map((item, i) => (
+                            {categoryList?.map((item, i) => (
                                 <CategoryItem id="bottom_sheet_input" key={i} name={item.name} activeItem={activeItem} itemChange={BottomSheetCategoryItemChange} />    
                             ))}
                         </div>

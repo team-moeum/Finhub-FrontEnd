@@ -8,7 +8,7 @@ type Props = {
 
 export default function MenuCard({href, children}: Props) {
     return (
-        <Link href={href}>
+        <Link href={href} className='link_btn'>
             <div className={style.container}>
                 <span>{children}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
