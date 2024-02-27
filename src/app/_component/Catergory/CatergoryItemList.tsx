@@ -46,21 +46,17 @@ type CategoryItemListProps = {
 }
 
 export default function CategoryItemList() {
+    const [isOpen, setIsOpen] = useState(false);
+    const [activeItem, setActiveItem] = useRecoilState(activeCategory);
+    
+    const itemRefs = useRef<(HTMLLabelElement | null)[]>([]);
+    
     const { data:categoryList, isLoading, error } = useQuery<Category[]>({
         queryKey: ['category'],
         queryFn: getCategory,
         staleTime: 60 * 1000,
         gcTime: 300 * 1000,
     })
-
-    if (isLoading) return "Loading...";
-    if (error) return "An error has occurred: " + error.message;
-
-
-    const [isOpen, setIsOpen] = useState(false);
-    const [activeItem, setActiveItem] = useRecoilState(activeCategory);
-    
-    const itemRefs = useRef<(HTMLLabelElement | null)[]>([]);
 
     const handleToggle = () => {
         console.log("TOGGLE")
