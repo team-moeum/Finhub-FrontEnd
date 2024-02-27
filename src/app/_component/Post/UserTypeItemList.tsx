@@ -5,7 +5,7 @@ import cx from 'classnames';
 import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-import { topicUserType } from "../../../recoil/atoms/topicUsertype"
+import { topicUserType } from "@/states/client/atoms/topicUsertype"
 import { AnimatePresence } from "framer-motion";
 import TeacherAvatar from "../../../../public/icon_teacher.svg";
 import Image from "next/image";

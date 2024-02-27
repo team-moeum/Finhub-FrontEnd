@@ -6,7 +6,7 @@ import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useRecoilState } from "recoil";
-import { activeCategory } from "@/recoil/atoms/activeCategory";
+import { activeCategory } from "@/states/client/atoms/activeCategory"
 import { Category } from "@/model/Category";
 import { useQuery } from "@tanstack/react-query";
 import { getCategory } from "@/app/_lib/getCategory";

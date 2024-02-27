@@ -3,7 +3,7 @@
 import style from './HomeContent.module.css';
 import React, { Suspense } from "react";
 import { useRecoilState } from "recoil";
-import { activeCategory } from "@/recoil/atoms/activeCategory";
+import { activeCategory } from "@/states/client/atoms/activeCategory"
 import CategoryItemList from "./CatergoryItemList";
 import TopicList from "./TopicList";
 import Loading from '@/app/loading';
