@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import style from './ScrapContent.module.css';
 import cx from 'classnames';
-import TopicList from '@/app/_component/Catergory/TopicList';
-import { TopicItemType } from '@/app/_component/Catergory/HomeContent';
+import { Topic } from '@/model/Topic';
+import { TopicItem } from '@/app/_component/Catergory/TopicList';
 
 const data = {
     "word" : [
@@ -27,7 +27,7 @@ type toggleTypes = "word" | "article";
 
 export default function ScrapContent() {
     const [toggle, setToggle] = useState<toggleTypes>("word");
-    const [filteredTopicData, setFilteredTopicData] = useState<TopicItemType[]>(data[toggle]);
+    const [filteredTopicData, setFilteredTopicData] = useState<Topic[]>(data[toggle]);
 
     const handleToggleClick = (item:toggleTypes) => {
         setToggle(item);
@@ -44,7 +44,14 @@ export default function ScrapContent() {
                <li onClick={() => handleToggleClick("article")}>아티클</li>  
             </ul>
             <div className={style.item_list}>
-                <TopicList topicList={filteredTopicData}/>
+                <div className={style.topic_list}>
+                    {filteredTopicData.map(item => (
+                        <TopicItem 
+                            key={`${item.category}_${item.id}`}
+                            data={item}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
     )

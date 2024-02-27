@@ -9,7 +9,7 @@ import { Topic } from "@/model/Topic";
 import { getTopicList } from "@/app/_lib/getTopicList";
 
 type TopicItemProps = { data: Topic; }
-function TopicItem({data}: TopicItemProps) {
+export function TopicItem({data}: TopicItemProps) {
     const [heart, setHeart] = useState(data.scrap);
 
     const handleHeartClick = (e: React.MouseEvent) => {
