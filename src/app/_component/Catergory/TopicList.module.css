@@ -49,19 +49,19 @@
     overflow: hidden;
 }
 
-.heart_icon_box {
+.icon_box {
     position: relative;
     height: 100%;
     top: 52px;
 }
 
-.heart_icon_box svg {
+/* .heart_icon_box svg {
     fill: #e9e9e9;
 }
 
 .heart_icon_box.active svg {
     fill: #13BD61;
-}
+} */
 
 .add_topic {
     width: 100%;

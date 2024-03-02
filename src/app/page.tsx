@@ -4,7 +4,6 @@ import style from "./page.module.css";
 import CategoryCard from "./_component/Catergory/CategoryCard";
 import MainNav from "./_component/Nav/MainNav";
 import HomeContent from "./_component/Catergory/HomeContent";
-import { SearchIcon } from "@/assets";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import { getCategory } from "./_lib/getCategory";
 import { getTopicList } from "./_lib/getTopicList";
@@ -21,8 +20,10 @@ export default  async function Home() {
       <div className={style.container}>
         <Link href="/search" className={style.inputLinkBox}>
           <Image
-            src={SearchIcon}
+            src='/icons/search.svg'
             alt='input search icon'
+            width={24}
+            height={24}
           />
           <span>찾고 싶은 단어를 입력해주세요.</span>
         </Link>

@@ -77,6 +77,7 @@ export default function UserTypeItemList({data} : UserTypeItemListProps) {
             itemRefs.current[activeIndex]?.scrollIntoView({
               behavior: 'smooth',
               block: 'nearest',
+              inline: 'center',
             });
         }
     }, [activeItem])

@@ -4,7 +4,6 @@ import style from "./CategoryItemList.module.css";
 import cx from 'classnames';
 import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
 import { forwardRef, useEffect, useRef, useState } from "react";
-import { categoryAllIcon } from "@/assets";
 import Image from "next/image";
 import { AnimatePresence } from "framer-motion";
 import { useRecoilState } from "recoil";
@@ -90,7 +89,7 @@ export default function CategoryItemList() {
             <div className={style.container}>
                 <div className={cx([style.item, style.all])} onClick={handleToggle}>
                     <div className={style.icon_box}>
-                        <Image src={categoryAllIcon} alt="category all" />
+                        <Image src='/icons/categoryAll.svg' alt="category all" width={20} height={20}/>
                     </div>
                     <p>전체</p>
                 </div>

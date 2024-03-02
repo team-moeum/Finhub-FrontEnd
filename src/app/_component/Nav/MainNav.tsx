@@ -1,6 +1,4 @@
 import style from "./Nav.module.css";
-import { FinhubLogo } from "@/assets";
-import { notifyIcon } from "@/assets";
 import Link from "next/link";
 import Image from "next/image";
 import cx from "classnames";
@@ -8,9 +6,9 @@ import cx from "classnames";
 export default function MainNav() {
     return (
         <div className={cx([style.container, style.main])}>
-             <Link href="/">
+            <Link href="/">
                 <Image
-                    src={FinhubLogo}
+                    src="/finhub_logo.svg"
                     alt="FinhubLogo"
                     width={118}
                     height={29}
@@ -20,8 +18,8 @@ export default function MainNav() {
                 <Link href={`/notify`}>
                     <Image
                         priority
-                        alt="notifyIcon"
-                        src={notifyIcon}
+                        src="/icons/notify.svg"
+                        alt="notify icon"
                         width={36}
                         height={36}
                     />
