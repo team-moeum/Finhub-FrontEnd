@@ -9,14 +9,17 @@ export const metadata: Metadata = {
 };
 
 export default function MenuPage() {
+  const isLogin = true;
+
   return (
     <div className={style.container}>
       <LoginBox />
       <div className={style.content}>
         <MenuCard href="/menu">공지사항</MenuCard>
-        <MenuCard href="/menu">앱 설정</MenuCard>
-        <MenuCard href="/menu">고객센터</MenuCard>
+        <MenuCard href="/menu">공지사항</MenuCard>
+        <MenuCard href="/menu">공지사항</MenuCard>
       </div>
+      {isLogin && <button className={style.logout}>로그아웃</button>}
     </div>
   );
 }

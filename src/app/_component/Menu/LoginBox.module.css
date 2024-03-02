@@ -2,7 +2,7 @@
     width: 100%;
     padding: 60px 16px 20px 16px;
     border-radius: 0px 0px 20px 20px;
-    background: #F5F5F5;
+    background: #F6F7F9;
 }
 
 .header {
@@ -50,23 +50,22 @@
 .login_card div:nth-child(2) {
     margin-left: 8px;
     flex: 1;
-    color: #000;
+    color: #191B1C;
     font-size: 20px;
     font-weight: 600;
 }
 
-.login_card .not_login {
+.login_card .text_box {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.login_card .not_login span:nth-child(2) {
-    color: #D6D6D6;
+.login_card .text_box span:nth-child(2) {
+    color: #CDD1D5;
     font-size: 12px;
     font-weight: 400;
 }
-
 
 
 .login_card .avatar_box {
