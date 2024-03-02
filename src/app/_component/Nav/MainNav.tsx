@@ -1,5 +1,6 @@
 import style from "./Nav.module.css";
-import FinhubLogo from "../../../../public/Finhub_logo.svg";
+import { FinhubLogo } from "@/assets";
+import { notifyIcon } from "@/assets";
 import Link from "next/link";
 import Image from "next/image";
 import cx from "classnames";
@@ -20,7 +21,7 @@ export default function MainNav() {
                     <Image
                         priority
                         alt="notifyIcon"
-                        src="/notify.svg"
+                        src={notifyIcon}
                         width={36}
                         height={36}
                     />

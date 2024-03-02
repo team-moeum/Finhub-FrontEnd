@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "mock": "npx tsx watch ./src/mocks/http.ts",
-    "dev-build": "npm run build && npm run mock"
+    "mock": "npx tsx watch ./src/mocks/http.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",

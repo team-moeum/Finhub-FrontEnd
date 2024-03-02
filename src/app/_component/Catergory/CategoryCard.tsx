@@ -2,7 +2,7 @@
 
 import { Pagination, Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import PigIcon from '@/assets/Pig.svg';
+import { PigIcon } from '@/assets';
 import Image from 'next/image';
 
 import 'swiper/css';
