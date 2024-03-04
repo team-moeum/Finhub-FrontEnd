@@ -14,7 +14,7 @@ export default function Error({ error, reset }:{
  
   return (
     <div>
-      <h2> 잘못됐다.</h2>
+      <h2> 잘못됐다!.</h2>
       <button
         onClick={
           // Attempt to recover by trying to re-render the segment
