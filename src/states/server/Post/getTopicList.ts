@@ -1,11 +1,13 @@
+import { queryKeys } from "../queryOptions";
 
 
 type Props = {category: string}
 export const getTopicList = async(category:string) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/category/${category}`, {
       next: {
-        tags: ['category', category],
+        tags: queryKeys.topicList(category),
       },
+      credentials: 'include',
     });
   
     if (!res.ok) {

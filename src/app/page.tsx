@@ -5,13 +5,12 @@ import CategoryCard from "./_component/Catergory/CategoryCard";
 import MainNav from "./_component/Nav/MainNav";
 import HomeContent from "./_component/Catergory/HomeContent";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
-import { getCategory } from "./_lib/getCategory";
-import { getTopicList } from "./_lib/getTopicList";
+import { queryOptions } from "@/states/server/queryOptions";
 
 export default  async function Home() {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({ queryKey: ['category'], queryFn: getCategory });
-  await queryClient.prefetchQuery({ queryKey: ['topic', '주식'], queryFn: () => getTopicList('주식') });
+  await queryClient.prefetchQuery(queryOptions.category);
+  await queryClient.prefetchQuery(queryOptions.topicList('주식'));
   const dehydratedState = dehydrate(queryClient);
   
   return (

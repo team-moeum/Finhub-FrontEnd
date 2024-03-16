@@ -3,10 +3,9 @@
 import style from "@/app/_component/Catergory/TopicList.module.css";
 import React, { useState } from "react";
 import Link from "next/link";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { Topic } from "@/model/Topic";
-import { getTopicList } from "@/app/_lib/getTopicList";
 import ScrapIcon from "@/assets/Icons";
+import { useTopicList } from "@/states/server/queries";
 
 
 type TopicItemProps = { data: Topic; }
@@ -36,12 +35,7 @@ export function TopicItem({data}: TopicItemProps) {
 
 type Props = {activeItem : string}
 export default function TopicList({activeItem}:Props) {
-    const { data:topicList } = useSuspenseQuery<Topic[]>({
-        queryKey: ['category', activeItem],
-        queryFn: () => getTopicList(activeItem),
-        staleTime: 60 * 1000,
-        gcTime: 300 * 1000,
-    })
+    const { data:topicList } = useTopicList(activeItem);
 
     return (
         <div className={style.topic_list}>

@@ -8,9 +8,7 @@ import Image from "next/image";
 import { AnimatePresence } from "framer-motion";
 import { useRecoilState } from "recoil";
 import { activeCategory } from "@/states/client/atoms/activeCategory"
-import { Category } from "@/model/Category";
-import { useQuery } from "@tanstack/react-query";
-import { getCategory } from "@/app/_lib/getCategory";
+import { useCategory } from "@/states/server/queries";
 
 type Props = {
     id: string;
@@ -48,12 +46,7 @@ export default function CategoryItemList() {
     
     const itemRefs = useRef<(HTMLLabelElement | null)[]>([]);
     
-    const { data:categoryList } = useQuery<Category[]>({
-        queryKey: ['category'],
-        queryFn: getCategory,
-        staleTime: 60 * 1000,
-        gcTime: 300 * 1000,
-    })
+    const { data:categoryList } = useCategory();
 
     const handleToggle = () => {
         console.log("TOGGLE")
