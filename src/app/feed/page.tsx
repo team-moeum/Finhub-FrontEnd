@@ -1,3 +1,3 @@
 export default function FeedPage() {
-    return
+    return <div>Feed</div>
 }

@@ -22,8 +22,6 @@ export default function CategoryCard() {
                 speed={1000}
                 loop={true}
                 pagination={{ clickable: true}}
-                onSwiper={(swiper : any) => console.log(swiper)}
-                onSlideChange={() => console.log('slide change')}
             >
                 <SwiperSlide>
                     <div className="card">
