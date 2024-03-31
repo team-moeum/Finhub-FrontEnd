@@ -23,7 +23,7 @@ export default function RootLayout({
         <RecoilRootProvider>
           <RQProvider>
             <MSWComponent />
-            {children}
+              {children}
             <MenuBar />
           </RQProvider>
         </RecoilRootProvider>

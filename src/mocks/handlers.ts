@@ -2,6 +2,19 @@ import { http, HttpResponse } from 'msw'
 
 
 export const handlers = [
+  http.post('/api/login', async ({ request }) => {
+    const kakaoCode = await request.json();
+    console.log("KaKao_Code : ", kakaoCode);
+    return HttpResponse.json({
+      user: {
+        name: "UserName",
+        email: "UserEmail"
+      },
+      access_token: "TestAccessToken",
+      refresh_token: "TestRefreshToken",
+    });
+  }),
+
   http.get('/api/category', ({ request }) => {
     return HttpResponse.json(
       [

@@ -11,11 +11,3 @@
     flex-direction: column;
     gap: 5px;
 }
-
-.logout {
-    position: relative;
-    left: 16px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #CDD1D5;
-}

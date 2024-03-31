@@ -49,7 +49,7 @@ export const BottomSheet = ({title, isOpen, onClose, children} : Props) => {
                     <S.title>{title}</S.title>
                     <S.closeBtn onClick={onClose}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 14" fill="none">
-                            <path d="M1 13L13 1M1 1L13 13" stroke="#A7A6A2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1 13L13 1M1 1L13 13" stroke="#A7A6A2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                     </S.closeBtn>
                 </S.header>
