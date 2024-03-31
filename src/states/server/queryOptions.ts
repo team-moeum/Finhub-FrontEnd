@@ -3,7 +3,7 @@ import { getTopicList } from "./Post/getTopicList";
 
 export const queryKeys = {
     category: ['category'],
-    topicList: (category: string) => ["topicList", category]
+    topicList: (categoryId: number) => ["topicList", `${categoryId}`]
 }
 
 export const queryOptions = {
@@ -11,9 +11,9 @@ export const queryOptions = {
         queryKey: queryKeys.category,
         queryFn: () => getCategory()
     },
-    topicList: (category: string) => ({
-        queryKey: queryKeys.topicList(category),
-        queryFn: () => getTopicList(category)
+    topicList: (categoryId: number) => ({
+        queryKey: queryKeys.topicList(categoryId),
+        queryFn: () => getTopicList(categoryId)
     })
   };
   

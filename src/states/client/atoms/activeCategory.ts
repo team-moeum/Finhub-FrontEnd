@@ -1,6 +1,12 @@
+import { Category } from "@/model/Category";
 import { atom } from "recoil";
 
-export const activeCategory = atom<string>({
+const initialActiveCatogory = {
+  id: 1,
+  name: "주식"
+}
+
+export const activeCategory = atom<Category>({
   key: "activeCategory",
-  default: "주식"
+  default: initialActiveCatogory
 })

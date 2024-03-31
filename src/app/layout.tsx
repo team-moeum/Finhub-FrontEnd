@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import "@/styles/global.css";
 import "@/styles/public.css";
 import { MSWComponent } from "./_component/MSWComponent";
@@ -27,6 +27,7 @@ export default function RootLayout({
             <MenuBar />
           </RQProvider>
         </RecoilRootProvider>
+        <div id="toast-portal" />
       </body>
     </html>
   );

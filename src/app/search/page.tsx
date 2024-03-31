@@ -1,7 +1,7 @@
 "use client";
 
 import { debounce } from "@/utils/debounce";
-import React, { use, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import BackButton from "../_component/Nav/BackButton";
 import style from "./search.module.css";
 import InputResultArticleList from "./_component/InputResultArticleList";
@@ -10,6 +10,8 @@ import NoSearchResult from "./_component/NoSearchResult";
 import RecentSearch from "./_component/RecentSearch";
 import TopSearch from "./_component/TopSearch";
 import cx from "classnames";
+import Image from "next/image";
+import Link from "next/link";
 
 interface DataStructure {
     [key: string]: {
@@ -150,11 +152,23 @@ export default function SearchPage() {
         }
     };
 
-
     return (
         <div className={style.container}>
-            <div className={style.header}>
-                <BackButton />
+            <div className={cx([style.header, !isFocus && style.focus])}>
+                {!isFocus ? 
+                    <div className={style.init_header}>
+                        <Link href='/home'>
+                            <Image 
+                            src='/finhub_logo_gray.svg'
+                            alt="finhub logo gray"
+                            width={84}
+                            height={25} 
+                            />
+                        </Link>
+                    </div>
+                    :
+                    <BackButton icon="type2"/>
+                }
                 <div className={style.input_box}>
                     <form onSubmit={handleInputSubmit}>
                         <input
@@ -163,14 +177,19 @@ export default function SearchPage() {
                             name="searchInput"
                             ref={inputRef} 
                             className={style.inputBox} 
-                            placeholder="찾고 싶은 단어를 입력해주세요." 
+                            placeholder="검색어를 입력해주세요." 
                             onChange={debouncedOnChangeHandler}
                             onFocus={handleOnFocus}
                             onBlur={handleOnBlur}
+                            maxLength={20}
                         />
-                        <svg className={style.search_icon} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M15.7549 14.255H14.9649L14.6849 13.985C15.6649 12.845 16.2549 11.365 16.2549 9.755C16.2549 6.165 13.3449 3.255 9.75488 3.255C6.16488 3.255 3.25488 6.165 3.25488 9.755C3.25488 13.345 6.16488 16.255 9.75488 16.255C11.3649 16.255 12.8449 15.665 13.9849 14.685L14.2549 14.965V15.755L19.2549 20.745L20.7449 19.255L15.7549 14.255ZM9.75488 14.255C7.26488 14.255 5.25488 12.245 5.25488 9.755C5.25488 7.26501 7.26488 5.255 9.75488 5.255C12.2449 5.255 14.2549 7.26501 14.2549 9.755C14.2549 12.245 12.2449 14.255 9.75488 14.255Z" fill="#50BF50"/>
-                        </svg>
+                        <Image
+                            className={style.search_icon} 
+                            src='/icons/search_gray.svg'
+                            alt="search icons"
+                            width={24}
+                            height={24}
+                        />
                         <button type="button" className={cx([style.clear_btn, (isFocus || userInput) && style.focus])} onClick={hanldeClearBtn}>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="10" cy="10" r="10" fill="#D9D9D9"/>

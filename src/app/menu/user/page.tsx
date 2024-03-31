@@ -1,7 +1,11 @@
 import style from "./user.module.css";
-import MenuHeader from "../../_component/Menu/MenuHeader";
 import Link from "next/link";
-import PushItem from "./_component/PushItem";
+import MenuHeader from "../../_component/Menu/MenuHeader";
+import ProfileAvatar from "./_component/ProfileAvatar";
+
+
+const loginInfoEmail = "test@naver.com"
+
 
 type Props = {
   href: string;
@@ -24,25 +28,19 @@ const LinkItem = ({href, children} : Props) => {
 export default function UserPage() {
     return (
         <div className={style.container}>
-            <MenuHeader>설정</MenuHeader>
-            <div className={style.content}>
-              <ul>
-                <li className={style.title}>알림</li>
-                <li className={style.push_box}>
-                  <PushItem />
-                </li>
-              </ul>
-              <div className={style.divider}></div>
-              <ul>
-                <li className={style.title}>내정보</li>
-                <li>
-                  <LinkItem href="/menu/user/name">닉네임 변경</LinkItem>
-                </li>
-                <li>
-                  <LinkItem href="/menu/user/usertype">직업 설정</LinkItem>
-                </li>
-              </ul>
+            <MenuHeader>프로필</MenuHeader>
+            <div className={style.avatar_box}>
+              <ProfileAvatar />
             </div>
+            <div className={style.content}>
+              <LinkItem href="/menu/user/name">닉네임 변경</LinkItem>
+              <LinkItem href="/menu/user/usertype">직업 설정</LinkItem>
+            </div>
+            <div className={style.login_info_box}>
+              <p>로그인 정보</p>
+              <p>카카오톡 닉네임 {loginInfoEmail}</p>
+            </div>
+            <button className={style.leave_button}>탈퇴하기</button>
         </div>
     )
 }

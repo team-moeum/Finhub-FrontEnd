@@ -1,9 +1,8 @@
 "use client"
 
-import { getUserInfo } from "@/utils/auth";
 import LinkButton from "../UiComponent/LinkButton";
 import style from "./LoginBox.module.css";
-import { User } from "next-auth";
+import { User } from "@/model/User";
 
 type Props = {userInfo: User}
 export default function LoginBox ({userInfo}:Props) {

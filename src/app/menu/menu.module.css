@@ -11,3 +11,16 @@
     flex-direction: column;
     gap: 5px;
 }
+
+.version_area {
+    position: fixed;
+    bottom: 100px;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    padding-left: 33px;
+    color: #CDD1D5;
+    font-size: 14px;
+}

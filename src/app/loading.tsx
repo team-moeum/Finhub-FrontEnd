@@ -1,13 +1,18 @@
-
 type LoadingProps = {
-    margin?: string | number,
-    center?: boolean;
+    height?: string | number;
 } & React.HTMLAttributes<HTMLDivElement>
 
-export default function Loading({margin, center, style}:LoadingProps) {
-    const centerStyle = {display: "flex", alignItems: "center", justifyContent: "center"};
-    const combinedStyle = center ? { ...centerStyle, margin, ...style } : { margin, ...style };
+export default function Loading({height, style}:LoadingProps) {
+    let centerStyle = {
+        height: height ?? "100vh", 
+        display: "flex", 
+        alignItems: "center", 
+        justifyContent: "center"
+    };
+
     return (
-        <div className="loader" style={combinedStyle}></div>
+        <div style={{...centerStyle, ...style}}>
+            <div className="loader"></div>
+        </div>
     )
 }

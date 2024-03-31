@@ -1,7 +1,6 @@
-import MenuHeader from "@/app/_component/Menu/MenuHeader";
 import style from "./userType.module.css";
+import MenuHeader from "@/app/_component/Menu/MenuHeader";
 import SelectUserType from "./_component/SelectUserType";
-
 
 
 export default function UserTypePage() {

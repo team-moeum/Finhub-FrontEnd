@@ -11,10 +11,10 @@ export default async function MainNav() {
         <div className={cx([style.container, style.main])}>
             <Link href="/home">
                 <Image
-                    src="/finhub_logo.svg"
+                    src="/finhub_logo_white.svg"
                     alt="FinhubLogo"
-                    width={118}
-                    height={29}
+                    width={84}
+                    height={25}
                 />
             </Link>
             <div className={style.right_box}>
@@ -23,8 +23,8 @@ export default async function MainNav() {
                         priority
                         src="/icons/notify.svg"
                         alt="notify icon"
-                        width={36}
-                        height={36}
+                        width={21}
+                        height={22}
                     />
                 </Link>
             </div>

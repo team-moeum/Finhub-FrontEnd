@@ -10,22 +10,24 @@ import { queryOptions } from "@/states/server/queryOptions";
 export default async function Home() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(queryOptions.category);
-  await queryClient.prefetchQuery(queryOptions.topicList('주식'));
+  await queryClient.prefetchQuery(queryOptions.topicList(1));
   const dehydratedState = dehydrate(queryClient);
   
   return (
-    <>
+    <div className={style.container}>
       <MainNav />
-      <div className={style.container}>
-        <Link href="/search" className={style.inputLinkBox}>
-          <Image
-            src='/icons/search.svg'
-            alt='input search icon'
-            width={24}
-            height={24}
-          />
-          <span>찾고 싶은 단어를 입력해주세요.</span>
-        </Link>
+      <div className={style.top_area}>
+          <Link href="/search" className={style.inputLinkBox}>
+            <Image
+              src='/icons/search.svg'
+              alt='input search icon'
+              width={24}
+              height={24}
+            />
+            <span>찾고 싶은 단어를 입력해주세요.</span>
+          </Link>
+      </div>
+      <div className={style.content_area}>
         <div className={style.category_container}>
           <CategoryCard />
           <HydrationBoundary state={dehydratedState}>
@@ -33,6 +35,6 @@ export default async function Home() {
           </HydrationBoundary>
         </div>
       </div>
-    </>
+    </div>
   );
 }
