@@ -1,52 +1,80 @@
 import { http, HttpResponse } from 'msw'
 
-const mockQuizzes = [
-  { year: 2024, month: 4, day: 31, question: "금리가 오르면 대출을 받아야할까 ?", answer: "O", comment: "금리가 인상하면 저축을 해야 좋아요!!", topicList: [1, 2, 3, 4, 6] },
-  { year: 2024, month: 4, day: 31, question: "주식투자는 쉽고 빠르게 돈을 벌 수 있는 방법이다.", answer: "X", comment: "주식투자는 고위험 고수익의 투자 방법이므로 신중히 결정해야 합니다.", topicList: [1, 2, 3, 4] },
-  { year: 2024, month: 4, day: 31, question: "ETF는 주식과 비슷한 투자상품이다.", answer: "O", comment: "ETF는 주식을 추적하는 상품이므로 주식과 유사합니다.", topicList: [2, 3, 4, 5] },
-
-];
-
+const CategoryMap = [
+  {id: 1, name: "주식"},
+  {id: 2, name: "펀드"},
+  {id: 3, name: "etf"},
+  {id: 4, name: "irp"},
+  {id: 5, name: "연금"},
+  {id: 6, name: "파생상품"},
+  {id: 7, name: "test1"},
+  {id: 8, name: "test2"},
+  {id: 9, name: "test3"},
+  {id: 10, name: "test4"},
+  {id: 11, name: "test5"},
+  {id: 12, name: "test6"},
+  {id: 13, name: "test6"},
+  {id: 14, name: "test7"},
+  {id: 15, name: "test8"},
+  {id: 16, name: "test9"},
+  {id: 17, name: "test10"},
+  {id: 18, name: "test11"},
+  {id: 19, name: "test12"},
+  {id: 20, name: "test13"},
+]
 
 export const handlers = [
+  http.post('/api/login', async ({ request }) => {
+    const kakaoCode = await request.json();
+    console.log("KaKao_Code : ", kakaoCode);
+    return HttpResponse.json({
+      user: {
+        name: "UserName",
+        email: "UserEmail"
+      },
+      access_token: "TestAccessToken",
+      refresh_token: "TestRefreshToken",
+    });
+  }),
+
   http.get('/api/category', ({ request }) => {
+    return HttpResponse.json(CategoryMap)
+  }),
+
+  http.get('/api/category/:category', ({ request, params }) => {
+    const categoryId = Number(params.category);
+
+    const categoryName = CategoryMap.find(v => v.id === categoryId)?.name;
+
     return HttpResponse.json(
       [
-        {name: "주식"},
-        {name: "펀드"},
-        {name: "etf"},
-        {name: "irp"},
-        {name: "연금"},
-        {name: "파생상품"},
-        {name: "test1"},
-        {name: "test2"},
-        {name: "test3"},
-        {name: "test4"},
-        {name: "test5"},
-        {name: "test6"},
+        {id:1, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:true},
+        {id:2, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:3, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:true},
+        {id:4, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:5, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:6, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:7, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:8, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:9, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:10, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:11, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:12, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:13, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:14, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:15, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:16, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:17, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:18, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:19, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:20, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:21, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:22, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+        {id:23, title: `${categoryName}?`, category:`${categoryName}`, content: `${categoryName} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
+
       ]
     )
   }),
 
-  http.get('/api/category/:category', ({ request, params}) => {
-    const { category } = params;
 
-    return HttpResponse.json(
-      [
-        {id:1, title: `${category}?`, category:`${category}`, content: `${category} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:true},
-        {id:2, title: `${category}?`, category:`${category}`, content: `${category} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
-        {id:3, title: `${category}?`, category:`${category}`, content: `${category} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:true},
-        {id:4, title: `${category}?`, category:`${category}`, content: `${category} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
-        {id:5, title: `${category}?`, category:`${category}`, content: `${category} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
-        {id:6, title: `${category}?`, category:`${category}`, content: `${category} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
-        {id:7, title: `${category}?`, category:`${category}`, content: `${category} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
-        {id:8, title: `${category}?`, category:`${category}`, content: `${category} : 자본회사의 자본을 이루는 어쩌구 저쩌구`, scrap:false},
-      ]
-    )
-  }),
-  http.get('/api/quiz', ({ request }) => {
-    return HttpResponse.json(mockQuizzes);
-  }),
 ];
-
-

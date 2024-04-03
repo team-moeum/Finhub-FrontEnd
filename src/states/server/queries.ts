@@ -4,7 +4,6 @@ import { queryOptions } from "./queryOptions"
 import { Topic } from "@/model/Topic"
 import { getTopicList } from "./Post/getTopicList"
 
-
 export const useCategory = () => {
     return useQuery<Category[]>({
         ...queryOptions.category, 
@@ -13,10 +12,10 @@ export const useCategory = () => {
     })
 }
 
-export const useTopicList = (category: string) => {
+export const useTopicList = (categoryId: number) => {
     return useSuspenseQuery<Topic[]>({
-        queryKey: ['category', category],
-        queryFn: () => getTopicList(category),
+        queryKey: ['category', categoryId],
+        queryFn: () => getTopicList(categoryId),
         staleTime: 60 * 1000,
         gcTime: 300 * 1000,
     })

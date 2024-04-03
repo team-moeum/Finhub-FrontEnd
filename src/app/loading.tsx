@@ -1,8 +1,18 @@
+type LoadingProps = {
+    height?: string | number;
+} & React.HTMLAttributes<HTMLDivElement>
 
+export default function Loading({height, style}:LoadingProps) {
+    let centerStyle = {
+        height: height ?? "100vh", 
+        display: "flex", 
+        alignItems: "center", 
+        justifyContent: "center"
+    };
 
-
-export default function Loading() {
     return (
-        <div className="loader"></div>
+        <div style={{...centerStyle, ...style}}>
+            <div className="loader"></div>
+        </div>
     )
 }
