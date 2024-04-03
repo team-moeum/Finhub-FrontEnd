@@ -1,5 +1,12 @@
 import { http, HttpResponse } from 'msw'
 
+const mockQuizzes = [
+  { year: 2024, month: 4, day: 31, question: "금리가 오르면 대출을 받아야할까 ?", answer: "O", comment: "금리가 인상하면 저축을 해야 좋아요!!", topicList: [1, 2, 3, 4, 6] },
+  { year: 2024, month: 4, day: 31, question: "주식투자는 쉽고 빠르게 돈을 벌 수 있는 방법이다.", answer: "X", comment: "주식투자는 고위험 고수익의 투자 방법이므로 신중히 결정해야 합니다.", topicList: [1, 2, 3, 4] },
+  { year: 2024, month: 4, day: 31, question: "ETF는 주식과 비슷한 투자상품이다.", answer: "O", comment: "ETF는 주식을 추적하는 상품이므로 주식과 유사합니다.", topicList: [2, 3, 4, 5] },
+
+];
+
 
 export const handlers = [
   http.get('/api/category', ({ request }) => {
@@ -37,6 +44,9 @@ export const handlers = [
       ]
     )
   }),
-
-
+  http.get('/api/quiz', ({ request }) => {
+    return HttpResponse.json(mockQuizzes);
+  }),
 ];
+
+

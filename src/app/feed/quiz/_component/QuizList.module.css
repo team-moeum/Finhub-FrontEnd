@@ -1,0 +1,112 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .item_box {
+    height: 60px;
+    flex-shrink: 0;
+    width: calc(100% - 32px);
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-top: 10px;
+    border-radius: 10px;
+    background: var(--light-gray, #F9FAFA);
+    
+
+  }
+  
+.item_box_font{
+    color: var(--black-600, #494F54);
+font-size: 15px;
+font-style: normal;
+font-weight: 500px;
+line-height: normal;
+
+}
+.item_box_cal{
+    color: var(--black-300, var(--black-300, #CDD1D5));
+font-size: 10px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+margin-left: 0px;
+padding-right: 183px;
+}
+
+  .type {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 0px;
+    margin-bottom: 9px;
+  }
+  
+  .type_sel:focus {
+    flex-shrink: 0;
+    height: 44px;
+    border-radius: 10px;
+    margin-left: 4px;
+    margin-right: 4px;
+    background: var(--Surface-One, #FFF);
+  }
+  
+  .type_font {
+    color: #525252;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+  
+  .more {
+    margin-top: 15px;
+    height: 36px;
+    flex-shrink: 0;
+    color: var(--black-400, #A6ABAF);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 100px;
+  }
+  
+  .icon {
+    width: 11px;
+    height: 5px;
+    flex-shrink: 0;
+    stroke-width: 5px;
+    stroke: var(--black-400, #A6ABAF);
+  }
+  
+  .btnClick {
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    transition: transform 0s ease;
+    transform: translateY(100%);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    text-align: left;
+    overflow-y: auto
+  }
+  
+  .open {
+    transform: translateY(0%);
+  }
+  .btnClick::-webkit-scrollbar {
+    display: none;
+  }
+  .top{
+    display: flex;
+    width: calc(100% - 32px);
+    margin-left: 16px;
+    margin-right: 16px;
+   height: 65px;
+   align-items: center; 
+  }
