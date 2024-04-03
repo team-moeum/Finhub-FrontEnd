@@ -13,3 +13,15 @@
     margin-top: 15px;
     margin-bottom: 24px;
 }
+
+.category_header {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+}
+
+.link_text {
+    font-size: 15px;
+    font-weight: 500;
+    color: #50BF50;
+}
