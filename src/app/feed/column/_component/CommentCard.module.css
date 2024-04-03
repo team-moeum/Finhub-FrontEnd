@@ -1,0 +1,56 @@
+.comment_card {
+    display: flex;
+    flex-direction: column;
+    background-color: #F6F7F9;
+    border-radius: 20px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+}
+
+.comment_user {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 15px;
+}
+
+.comment_user_text {
+    padding-left: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.user_nickname {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.user_date {
+    font-size: 10px;
+    font-weight: 500;
+    color: #CDD1D5;
+}
+
+.comment_content {
+    font-size: 12px;
+    font-weight: 500;
+    color: #494F54;
+    padding-bottom: 13px;
+}
+
+.comment_thumb {
+    display: flex;
+    flex-direction: row;
+    color: #A6ABAF;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.thumb_num {
+    display: flex;
+    flex-direction: row;
+    color: #A6ABAF;
+    font-size: 12px;
+    font-weight: 500;
+    padding-left: 5px;
+}

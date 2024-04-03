@@ -2,27 +2,47 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import style from "./ColumnCard.module.css"
 import { Autoplay, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import './ColumnCard.css';
+import ColumnCardImg from "./ColumnCardImg";
 
-const ColumnData = {
-    title: "초보자도 주식 할 수 있다! 주식 기본 꿀팁",
-    date: "2024.03.11",
-    tag: ["#주식", "#ETF"],
-    content: "냥냥",
-    summary: "요약글입니다"
-}
+const ColumnData = [
+    {
+        id: 1,
+        title: "초보자도 주식 할 수 있다! 주식 기본 꿀팁",
+        date: "2024.03.11",
+        tag: ["#주식", "#ETF"],
+        content: "냥냥",
+        summary: "요약글입니다"
+    },
+    {
+        id: 2,
+        title: "초보자도 주식 할 수 있다! 주식 기본 꿀팁",
+        date: "2024.03.11",
+        tag: ["#주식", "#ETF"],
+        content: "냥냥",
+        summary: "요약글입니다"
+    },
+    {
+        id: 3,
+        title: "초보자도 주식 할 수 있다! 주식 기본 꿀팁",
+        date: "2024.03.11",
+        tag: ["#주식", "#ETF"],
+        content: "냥냥",
+        summary: "요약글입니다"
+    }
+]
 
 export default function ColumnCard() {
     return (
         <div>
              <Swiper
-                // className=""
+                className="column_swiper"
                 modules={[Pagination, Autoplay]}
                 spaceBetween={50}
                 slidesPerView={1}
@@ -35,9 +55,14 @@ export default function ColumnCard() {
             >
                 <SwiperSlide>
                     <Link href="/feed/column/column_post_test">
-                        <div className={style.slide_img}>
+                        <ColumnCardImg />
+                    </Link>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <Link href="/feed/column/column_post_test">
+                        <div className="slide_img">
                             <Image 
-                                src="/column/column_banner.png"
+                                src="/column/col_img.png"
                                 alt="Column Card"
                                 fill
                             />
@@ -46,9 +71,9 @@ export default function ColumnCard() {
                 </SwiperSlide>
                 <SwiperSlide>
                     <Link href="/feed/column/column_post_test">
-                        <div className={style.slide_img}>
+                        <div className="slide_img">
                             <Image 
-                                src="/column/column_banner.png"
+                                src="/column/col_img.png"
                                 alt="Column Card"
                                 fill
                             />
@@ -57,9 +82,20 @@ export default function ColumnCard() {
                 </SwiperSlide>
                 <SwiperSlide>
                     <Link href="/feed/column/column_post_test">
-                        <div className={style.slide_img}>
+                        <div className="slide_img">
                             <Image 
-                                src="/column/column_banner.png"
+                                src="/column/col_img.png"
+                                alt="Column Card"
+                                fill
+                            />
+                        </div>
+                    </Link>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <Link href="/feed/column/column_post_test">
+                        <div className="slide_img">
+                            <Image 
+                                src="/column/col_img.png"
                                 alt="Column Card"
                                 fill
                             />
