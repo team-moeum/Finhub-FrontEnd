@@ -7,7 +7,7 @@ export default async function ListPage({searchParams}: {searchParams: {categoryI
   const categoryId = searchParams.categoryId ? Number(searchParams.categoryId) : 1;
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(queryOptions.category);
-  await queryClient.prefetchQuery(queryOptions.topicList(1));
+  await queryClient.prefetchQuery(queryOptions.totalList(1));
   const dehydratedState = dehydrate(queryClient);
   
   return (

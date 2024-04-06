@@ -2,7 +2,6 @@ import { Category } from "@/model/Category"
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import { queryOptions } from "./queryOptions"
 import { Topic } from "@/model/Topic"
-import { getTopicList } from "./Post/getTopicList"
 
 export const useCategory = () => {
     return useQuery<Category[]>({
@@ -14,8 +13,15 @@ export const useCategory = () => {
 
 export const useTopicList = (categoryId: number) => {
     return useSuspenseQuery<Topic[]>({
-        queryKey: ['category', categoryId],
-        queryFn: () => getTopicList(categoryId),
+        ...queryOptions.topicList(categoryId),
+        staleTime: 60 * 1000,
+        gcTime: 300 * 1000,
+    })
+}
+
+export const useTotalList = (categoryId: number) => {
+    return useSuspenseQuery<Topic[]>({
+        ...queryOptions.totalList(categoryId),
         staleTime: 60 * 1000,
         gcTime: 300 * 1000,
     })

@@ -8,8 +8,8 @@ const loginWithKakao = async (kakaoCode: string | null) => {
     url: `/api/auth/kakao?code=${kakaoCode}`,
   });
 
-  storageAPI.set("access-token", response.data.accessToken);
-  storageAPI.set("refresh-token", response.data.refreshToken);
+  storageAPI.set("access-token", response.data.token.accessToken);
+  storageAPI.set("refresh-token", response.data.token.refreshToken);
 
   return response;
 };
@@ -21,8 +21,8 @@ const autoLogin = async () => {
     body: {},
   });
 
-  storageAPI.set("access-token", response.data.accessToken);
-  storageAPI.set("refresh-token", response.data.refreshToken);
+  storageAPI.set("access-token", response.data.token.accessToken);
+  storageAPI.set("refresh-token", response.data.token.refreshToken);
 
   return response;
 };

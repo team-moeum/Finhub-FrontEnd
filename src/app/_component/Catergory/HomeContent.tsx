@@ -23,7 +23,7 @@ export default function HomeContent() {
             <div className={style.category_box}>
                 <div className={style.category_header}>
                     <p className={style.title}>카테고리</p>
-                    <Link className={style.link_text} href={`/list?categoryId=${activeItem.id}`}>
+                    <Link className={style.link_text} href={`/list?categoryId=${activeItem.categoryId}`}>
                         <strong>'{activeItem.name}'</strong> 글 전체 보기
                         <Image 
                             src='/icons/arrow_right_green.svg'
