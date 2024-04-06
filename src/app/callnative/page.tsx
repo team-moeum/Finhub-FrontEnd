@@ -12,16 +12,31 @@ export default function CallNative() {
         <button
           className={style.test_btn}
           onClick={() => {
-            jsToNative(
-              { val1: "appVersion", val2: "b", val3: "c", val4: "d" },
-              (event: any) => {
-                console.log(event.detail);
-              }
-            );
+            // jsToNative(
+            //   {val1: "appVersion"},
+            //   (event: any) => {
+
+            //   }
+            // );
+
+            // jsToNative(
+            //   {val1: "getSafeAreaInset"},
+            //   (event: any) => {
+
+            //   }
+            // );
+
+            // jsToNative(
+            //   {val1: "share", val2: "share url"},
+            //   (event: any) => {
+
+            //   }
+            // );
           }}
         >
-          Callnative Test {test}
+          Callnative Test
         </button>
+        {test}
       </div>
     </div>
   );
