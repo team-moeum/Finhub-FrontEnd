@@ -1,8 +1,8 @@
 export interface Topic {
-    id: number;
+    topicId: number;
     title: string;
-    category: string;
+    categoryName: string;
     categoryId?: number;
-    content: string;
-    scrap: boolean;
+    summary: string;
+    scrapped: boolean;
 }

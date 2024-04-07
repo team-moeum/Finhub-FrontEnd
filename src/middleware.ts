@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
-import { getToken } from './utils/auth';
+import { getToken } from './utils/auth_server';
 
 export async function middleware(request: NextRequest) {
 

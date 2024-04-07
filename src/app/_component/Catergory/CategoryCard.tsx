@@ -9,8 +9,12 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import "./CategoryCard.css";
+import { useBannerList } from '@/states/server/queries';
 
 export default function CategoryCard() {
+    const { data: BannerList } = useBannerList();
+    console.log(BannerList);
+    
     return (
         <div className='overflow-wrap'>
              <Swiper

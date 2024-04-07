@@ -3,16 +3,21 @@ import Image from "next/image";
 import style from "./home.module.css";
 import CategoryCard from "../_component/Catergory/CategoryCard";
 import MainNav from "../_component/Nav/MainNav";
-import HomeContent from "../_component/Catergory/HomeContent";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import { queryOptions } from "@/states/server/queryOptions";
+import dynamic from "next/dynamic";
+const HomeContent = dynamic(
+  () => import("../_component/Catergory/HomeContent"),
+  { ssr: false }
+);
 
 export default async function Home() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(queryOptions.category);
+  await queryClient.prefetchQuery(queryOptions.banner);
   await queryClient.prefetchQuery(queryOptions.topicList(1));
   const dehydratedState = dehydrate(queryClient);
-  
+
   return (
     <div className={style.container}>
       <MainNav />
@@ -29,8 +34,8 @@ export default async function Home() {
       </div>
       <div className={style.content_area}>
         <div className={style.category_container}>
-          <CategoryCard />
           <HydrationBoundary state={dehydratedState}>
+            <CategoryCard />
             <HomeContent />
           </HydrationBoundary>
         </div>
