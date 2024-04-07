@@ -16,7 +16,7 @@ export default async function LoginPage() {
                     height={100}
                 />
                 <Image
-                    src='/finhub_logo.svg'
+                    src='/finhub_logo_green.svg'
                     alt='finhub logo'
                     width={100}
                     height={30}
