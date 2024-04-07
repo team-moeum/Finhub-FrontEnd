@@ -20,10 +20,7 @@ export async function fetchApi<T>({
     tags,
     body,
   }: ApiParams): Promise<T> {
-    // const url = getBaseUrl();
-    const url = "http://localhost:3000"
-    console.log(url);
-    const res = await fetch(`${url}/api/${method}`, {
+    const res = await fetch(`/api/${method}`, {
       method: "POST",
       next: {
         tags,
