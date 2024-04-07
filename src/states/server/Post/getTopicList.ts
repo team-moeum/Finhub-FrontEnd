@@ -9,7 +9,7 @@ export const getTopicList = async (categoryId: number) => {
     tags: queryKeys.topicList(categoryId)
   });
 
-  if (response.apiStatus === "FAIL") {
+  if (response.status === "FAIL") {
     return [];
   }
 

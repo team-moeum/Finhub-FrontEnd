@@ -9,7 +9,7 @@ export const getCategory = async() => {
     tags: queryKeys.category
   });
 
-  if (response.apiStatus === "FAIL") {
+  if (response.status === "FAIL") {
     return [];
   }
 

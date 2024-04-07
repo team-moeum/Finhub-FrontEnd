@@ -1,7 +1,11 @@
-import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
-import ListContent from '../home/_component/ListContent';
 import style from './List.module.css';
 import { queryOptions } from '@/states/server/queryOptions';
+import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
+import dynamic from 'next/dynamic';
+const ListContent = dynamic(
+  () => import('../home/_component/ListContent'),
+  { ssr: false }
+)
 
 export default async function ListPage({searchParams}: {searchParams: {categoryId: string}}) {
   const categoryId = searchParams.categoryId ? Number(searchParams.categoryId) : 1;

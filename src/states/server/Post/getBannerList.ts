@@ -10,7 +10,7 @@ export const getBannerList = async() => {
   });
 
   if (response.status === "FAIL") {
-    throw new Error(response.errorMsg)
+    return [];
   }
 
   return response.data?.bannerList;

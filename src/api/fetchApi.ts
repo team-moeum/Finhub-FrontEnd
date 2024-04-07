@@ -8,7 +8,6 @@ export interface ApiParams {
 }
 
 export interface ApiResponse {
-  apiStatus?: "SUCCESS" | "FAIL";
   status: "SUCCESS" | "FAIL";
   errorMsg?: string;
   data?: any;
@@ -32,7 +31,6 @@ export async function fetchApi<T>({
     });
 
     if (!res.ok) {
-      console.log(res);
       return {status: "FAIL"} as T;
     }
   
