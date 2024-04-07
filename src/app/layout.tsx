@@ -1,8 +1,10 @@
-import React from "react";
+import React, { Suspense } from "react";
 import "@/styles/global.css";
+import "@/styles/public.css";
 import { MSWComponent } from "./_component/MSWComponent";
 import MenuBar from "./_component/MenuBar/MenuBar";
 import RecoilRootProvider from "./_component/RecoilRootProvider";
+import RQProvider from "./_component/RQProvider";
 
 export default function RootLayout({
   children,
@@ -19,10 +21,13 @@ export default function RootLayout({
       </head>
       <body>
         <RecoilRootProvider>
-          <MSWComponent />
-          {children}
-          <MenuBar />
+          <RQProvider>
+            <MSWComponent />
+              {children}
+            <MenuBar />
+          </RQProvider>
         </RecoilRootProvider>
+        <div id="toast-portal" />
       </body>
     </html>
   );

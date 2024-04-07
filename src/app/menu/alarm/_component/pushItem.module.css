@@ -1,0 +1,40 @@
+.container {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.container span {
+    color: #191B1C;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.toggle_box {
+    width: 38px;
+    height: 20px;
+    border-radius: 30px;
+    position: relative;
+    background-color: #e0e0e0;
+}
+
+.toggle_box .toggle_circle {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #FFF;
+    transition: 0.3s;
+}
+
+.toggle_box.active {
+    background-color: #50BF50;
+}
+
+.toggle_circle.active {
+    left: 20px;
+}

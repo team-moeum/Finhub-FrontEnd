@@ -2,8 +2,10 @@
 
 import {useRouter} from "next/navigation";
 import style from "./Nav.module.css";
+import Image from "next/image";
 
-export default function BackButton() {
+type iconType = "type1" | "type2"
+export default function BackButton({icon="type1"} : {icon?: iconType}) {
   const router = useRouter();
   const onClickClose = () => {
     router.back();
@@ -11,9 +13,21 @@ export default function BackButton() {
 
   return (
     <button className={style.close_button} onClick={onClickClose}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="24" viewBox="0 0 14 24" fill="none">
-          <path d="M12 2L2 12L12 22" stroke="#AAA9A3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+      {icon === "type1" ? 
+        <Image 
+          src='/icons/back_icon_type1.svg'
+          alt="back arrow"
+          width={8}
+          height={12}
+        />
+        :
+        <Image
+          src='/icons/back_icon_type2.svg'
+          alt="back arrow"
+          width={15}
+          height={12}
+        />
+      }
     </button>
   )
 }

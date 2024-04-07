@@ -43,9 +43,9 @@
 }
 
 .item {
-    background-color: #F3F3F3;
+    background-color: #F6F7F9;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 20px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -56,7 +56,7 @@
     text-overflow: ellipsis;
     overflow-x: hidden;
     white-space: nowrap;
-    color: #9C9A99;
+    color: #A6ABAF;
     font-size: 12px;
     font-weight: 500;
 }

@@ -1,28 +1,30 @@
 import style from "./Nav.module.css";
-import FinhubLogo from "../../../../public/Finhub_logo.svg";
 import Link from "next/link";
 import Image from "next/image";
 import cx from "classnames";
 
-export default function MainNav() {
+
+export default async function MainNav() {
+    const session = false;
+
     return (
         <div className={cx([style.container, style.main])}>
-             <Link href="/">
+            <Link href="/home">
                 <Image
-                    src={FinhubLogo}
+                    src="/finhub_logo_white.svg"
                     alt="FinhubLogo"
-                    width={118}
-                    height={29}
+                    width={84}
+                    height={25}
                 />
             </Link>
             <div className={style.right_box}>
-                <Link href={`/notify`}>
+                <Link href={session ? `/notify` : `/login`}>
                     <Image
                         priority
-                        alt="notifyIcon"
-                        src="/notify.svg"
-                        width={36}
-                        height={36}
+                        src="/icons/notify.svg"
+                        alt="notify icon"
+                        width={21}
+                        height={22}
                     />
                 </Link>
             </div>

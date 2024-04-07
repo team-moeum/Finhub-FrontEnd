@@ -1,4 +1,3 @@
-import Category from "@/screens/category";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,5 +5,5 @@ export const metadata: Metadata = {
 };
 
 export default function CategoryPage({ params }: { params: { category: string } }) {
-    return <Category params={params} />;
+    return <div>Category Page - not use</div>;
 }

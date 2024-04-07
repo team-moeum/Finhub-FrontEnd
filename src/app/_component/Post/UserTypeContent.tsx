@@ -1,7 +1,7 @@
 "use client";
 
 import { useRecoilState } from "recoil";
-import { topicUserType } from "../../../recoil/atoms/topicUsertype"
+import { topicUserType } from "@/states/client/atoms/topicUsertype"
 import style from "./UserTypeContent.module.css";
 import UserTypeItemList from "./UserTypeItemList";
 

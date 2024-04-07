@@ -1,0 +1,12 @@
+.container {
+    width: 100%;
+    padding: 0 16px 54px 16px;
+}
+
+.avatar_box {
+    margin: 20px auto 30px;
+    width: 120px;
+    height: 140px;
+    border-radius: 20px;
+    background-color: #D9D9D9;
+}

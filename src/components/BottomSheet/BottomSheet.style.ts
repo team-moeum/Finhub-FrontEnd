@@ -11,14 +11,15 @@ export const BackgroundOverlay = styled(motion.div)`
     z-index: 9998;
 `
 
-export const container = styled(motion.div)`
+export const container = styled(motion.div)<{radius: number | undefined}>`
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     background-color: #FFF;
-    border-radius: 24px 24px 0 0;
     z-index: 9999;
+    border-top-left-radius: ${({radius}) => radius ? radius : 40}px;
+    border-top-right-radius: ${({radius}) => radius ? radius : 40}px;
 `
 
 export const header = styled.div`
