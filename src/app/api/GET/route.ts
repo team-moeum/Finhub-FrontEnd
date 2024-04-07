@@ -13,8 +13,8 @@ export async function POST(req: Request) {
     headers: {
       "Content-Type": "application/json",
       finhub: process.env.NEXT_PUBLIC_API_KEY || "",
-      Authorization: `Bearer ${Tokens.accessToken}`,
-      refreshToken: `${Tokens.refreshToken}`,
+      Authorization: `Bearer ${Tokens.accessToken ? Tokens.accessToken: ""}`,
+      refreshToken: `${Tokens.refreshToken ? Tokens.refreshToken : ""}`,
     },
     cache: "no-store"
   });
