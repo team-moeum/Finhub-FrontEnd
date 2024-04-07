@@ -1,6 +1,6 @@
 import { fetchApi } from "@/api/fetchApi";
 import { queryKeys } from "../queryOptions";
-import { ApiResponse } from "@/api/client";
+import { ApiResponse } from "@/api/fetchApi";
 
 export const getTopicList = async (categoryId: number) => {
   const response: ApiResponse = await fetchApi({

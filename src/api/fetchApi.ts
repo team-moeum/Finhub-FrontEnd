@@ -8,6 +8,7 @@ export interface ApiParams {
 }
 
 export interface ApiResponse {
+  apiStatus?: "SUCCESS" | "FAIL";
   status: "SUCCESS" | "FAIL";
   errorMsg?: string;
   data?: any;

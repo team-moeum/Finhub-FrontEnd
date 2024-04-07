@@ -10,6 +10,7 @@ import { queryOptions } from "@/states/server/queryOptions";
 export default async function Home() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(queryOptions.category);
+  await queryClient.prefetchQuery(queryOptions.banner);
   await queryClient.prefetchQuery(queryOptions.topicList(1));
   const dehydratedState = dehydrate(queryClient);
   
@@ -29,8 +30,8 @@ export default async function Home() {
       </div>
       <div className={style.content_area}>
         <div className={style.category_container}>
-          <CategoryCard />
           <HydrationBoundary state={dehydratedState}>
+            <CategoryCard />
             <HomeContent />
           </HydrationBoundary>
         </div>
