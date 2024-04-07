@@ -1,3 +1,5 @@
+"use client";
+
 import { storageAPI } from "@/utils/localStorage";
 import { ApiParams, ApiRequest, ApiUrlRequest, baseURL } from "./common";
 
@@ -7,17 +9,6 @@ async function fetchApi<T>({
   tags,
   init,
 }: ApiParams): Promise<T> {
-  const token = {accessToken: "", refreshToken: ""};
-  const isServer = typeof window === 'undefined';
-  if (isServer) {
-    const { getToken } = require("@/utils/auth_server");
-    token.accessToken = getToken().accessToken;
-    token.refreshToken = getToken().refreshToken;
-  } else {
-    token.accessToken = storageAPI.get("access-token") || "";
-    token.refreshToken = storageAPI.get("refresh-token") || "";
-  }
-
   const url = `${host}${path.startsWith("/") ? path : `/${path}`}`;
   const res = await fetch(url, {
     next: {
@@ -26,8 +17,8 @@ async function fetchApi<T>({
     headers: {
       "Content-Type": "application/json",
       finhub: process.env.NEXT_PUBLIC_API_KEY ?? "",
-      Authorization: `Bearer ${token.accessToken}`,
-      refreshToken: `${token.refreshToken}`
+      Authorization: `Bearer ${storageAPI.get("access-token")}`,
+      refreshToken: `${storageAPI.get("refresh-token")}`
     },
     ...init,
   });

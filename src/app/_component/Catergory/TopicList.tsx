@@ -27,6 +27,7 @@ export function TopicItem({data, showToast}: TopicItemProps) {
     const [active, setActive] = useState(data.scrapped);
     const [, setActiveLogin] = useRecoilState(activeLoginModal);
     const [activeCategoryItem] = useRecoilState(activeCategory);
+    // const scrapMutation = useScrap()
 
     const handleScrapClick = (e: React.MouseEvent) => {
         e.preventDefault();
