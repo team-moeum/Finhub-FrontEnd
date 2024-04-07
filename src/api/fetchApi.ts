@@ -1,8 +1,16 @@
+import { getBaseUrl } from "@/utils/url";
+
 export interface ApiParams {
   method: "GET" | "POST";
   path: string;
   tags: string[];
   body?: { [key: string]: any };
+}
+
+export interface ApiResponse {
+  status: "SUCCESS" | "FAIL";
+  errorMsg?: string;
+  data?: any;
 }
 
 export async function fetchApi<T>({
@@ -11,7 +19,10 @@ export async function fetchApi<T>({
     tags,
     body,
   }: ApiParams): Promise<T> {
-    const res = await fetch(`/api/${method}`, {
+    // const url = getBaseUrl();
+    const url = "http://localhost:3000"
+    console.log(url);
+    const res = await fetch(`${url}/api/${method}`, {
       method: "POST",
       next: {
         tags,
@@ -23,7 +34,8 @@ export async function fetchApi<T>({
     });
 
     if (!res.ok) {
-      throw new Error(`Failed to fetch ${path}`);
+      console.log(res);
+      return {status: "FAIL"} as T;
     }
   
     const contentType = res.headers.get("content-type");

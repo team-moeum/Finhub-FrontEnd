@@ -1,8 +1,6 @@
-import { API_BASE_URL } from "@/app/_component/MSWComponent";
-import { queryKeys } from "../queryOptions";
-import { ApiResponse, client } from "@/api/client";
-import { storageAPI } from "@/utils/localStorage";
 import { fetchApi } from "@/api/fetchApi";
+import { queryKeys } from "../queryOptions";
+import { ApiResponse } from "@/api/client";
 
 export const getTopicList = async (categoryId: number) => {
   const response: ApiResponse = await fetchApi({
@@ -11,11 +9,9 @@ export const getTopicList = async (categoryId: number) => {
     tags: queryKeys.topicList(categoryId)
   });
 
-  if (response.status === "FAIL") {
-    throw new Error(response.errorMsg)
+  if (response.apiStatus === "FAIL") {
+    return [];
   }
-
-  console.log(response);
 
   return response.data?.topicList;
 }
