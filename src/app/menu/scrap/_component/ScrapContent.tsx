@@ -9,18 +9,18 @@ import Link from 'next/link';
 
 const data = {
     "word" : [
-        {id:1, title: "주식이란?", category:"주식", categoryId:1, content: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrap:true},
-        {id:2, title: "주식이란?", category:"주식", categoryId:1, content: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrap:true},
-        {id:3, title: "주식이란?", category:"주식", categoryId:1, content: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrap:true}
+        {topicId:1, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
+        {topicId:2, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
+        {topicId:3, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true}
     ],
     "article" : [
-        {id:11, title: "주식이란?", category:"주식", categoryId:1, content: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrap:true},
-        {id:22, title: "주식이란?", category:"주식", categoryId:1, content: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrap:true},
-        {id:33, title: "주식이란?", category:"주식", categoryId:1, content: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrap:true},
-        {id:44, title: "주식이란?", category:"주식", categoryId:1, content: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrap:true},
-        {id:55, title: "주식이란?", category:"주식", categoryId:1, content: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrap:true},
-        {id:66, title: "주식이란?", category:"주식", categoryId:1, content: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrap:true},
-        {id:77, title: "주식이란?", category:"주식", categoryId:1, content: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrap:true},
+        {topicId:11, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
+        {topicId:22, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
+        {topicId:33, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
+        {topicId:44, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
+        {topicId:55, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
+        {topicId:66, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
+        {topicId:77, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
     ]
 }
 
@@ -32,12 +32,12 @@ export function ScrapItem({data}: {data: Topic}) {
     }
 
     return (
-      <Link href={`/${data.categoryId}/${data.id}`}>
+      <Link href={`/${data.categoryId}/${data.topicId}`}>
           <div className={style.item_container}>
               <div className={style.img_box}></div>
               <div className={style.content_box}>
                   <p>{data.title}</p>
-                  <p>{data.content}</p>
+                  <p>{data.summary}</p>
               </div>
               <div className={style.icon_box} onClick={handleScrapClick}>
                   <ScrapIcon active={true} />
@@ -71,7 +71,7 @@ export default function ScrapContent() {
                 <div className={style.topic_list}>
                     {filteredTopicData.map(item => (
                         <ScrapItem 
-                            key={`${item.category}_${item.id}`}
+                            key={`${item.categoryName}_${item.topicId}`}
                             data={item}
                         />
                     ))}

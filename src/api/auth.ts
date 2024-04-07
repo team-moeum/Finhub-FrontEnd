@@ -27,7 +27,7 @@ const autoLogin = async () => {
   return response;
 };
 
-const logout = async () => {
+const useLogout = async () => {
   await client.post({
     host: window.location.origin,
     url: "/api/auth/logout",
@@ -43,5 +43,5 @@ const logout = async () => {
 export const authAPI = {
   loginWithKakao,
   autoLogin,
-  logout,
+  useLogout,
 };
