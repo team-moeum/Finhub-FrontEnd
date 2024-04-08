@@ -1,3 +1,5 @@
+"use client";
+
 import { storageAPI } from "@/utils/localStorage";
 import { ApiParams, ApiRequest, ApiUrlRequest, baseURL } from "./common";
 
@@ -16,7 +18,7 @@ async function fetchApi<T>({
       "Content-Type": "application/json",
       finhub: process.env.NEXT_PUBLIC_API_KEY ?? "",
       Authorization: `Bearer ${storageAPI.get("access-token")}`,
-      refreshToken: `${storageAPI.get("refresh-token")}`,
+      refreshToken: `${storageAPI.get("refresh-token")}`
     },
     ...init,
   });

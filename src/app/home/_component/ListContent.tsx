@@ -3,7 +3,7 @@
 import { Fragment, Suspense, useEffect, useRef, useState } from 'react';
 import style from './ListContent.module.css';
 import cx from 'classnames';
-import { useCategory, useTopicList } from '@/states/server/queries';
+import { useCategory, useTotalList } from '@/states/server/queries';
 import { Category } from '@/model/Category';
 import { useRouter } from 'next/navigation';
 import Loading from '@/app/loading';
@@ -31,13 +31,13 @@ const CatetegoryListBar = ({data, activeId, onClick}: CatetegoryBarProps) => {
       {data?.map(item => {
         return (
           <div 
-            key={item.id}
+            key={item.categoryId}
             className={cx([
               style.list_item, 
-              item.id === activeId && style.active_item
+              item.categoryId === activeId && style.active_item
             ])}
-            onClick={() => onClick(item.id)}
-            ref={el => itemRefs.current[item.id] = el}
+            onClick={() => onClick(item.categoryId)}
+            ref={el => itemRefs.current[item.categoryId] = el}
           >
             {item.name}
           </div>
@@ -53,15 +53,15 @@ type TopicBarProps = {
 }
 
 const TopicListBar = ({categoryId, onClick}: TopicBarProps) => {
-  const { data:topicList } = useTopicList(categoryId);
+  const { data:topicList } = useTotalList(categoryId);
   return (
     <Fragment>
       {topicList?.map(item => {
         return (
           <div
-            key={`topic_${item.id}`}
+            key={`topic_${item.topicId}`}
             className={style.list_item}
-            onClick={() => onClick(item.id)}
+            onClick={() => onClick(item.topicId)}
           >
             {item.title}
           </div>

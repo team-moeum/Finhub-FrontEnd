@@ -24,8 +24,8 @@ const CategoryItem = forwardRef<HTMLLabelElement, Props>(({ id, item, activeItem
             <input 
                 type="radio" 
                 name={id}
-                id={`${item.id}`} 
-                checked={activeItem.id === item.id}
+                id={`${item.categoryId}`} 
+                checked={activeItem.categoryId === item.categoryId}
                 onChange={()=>itemChange(item)}
                 className={style.category_radio_input}
             />
@@ -67,8 +67,8 @@ export default function CategoryItemList() {
     }
  
     useEffect(() => {
-        if (itemRefs.current[activeItem.id]) {
-            itemRefs.current[activeItem.id]?.scrollIntoView({
+        if (itemRefs.current[activeItem.categoryId]) {
+            itemRefs.current[activeItem.categoryId]?.scrollIntoView({
               behavior: 'smooth',
               block: 'nearest',
               inline: 'center',
@@ -89,11 +89,11 @@ export default function CategoryItemList() {
                 {categoryList?.map(item => (
                     <CategoryItem 
                         id="main_input"
-                        key={item.id} 
+                        key={item.categoryId} 
                         item={item}
                         activeItem={activeItem} 
                         itemChange={CategoryItemChange}
-                        ref={el => itemRefs.current[item.id] = el}
+                        ref={el => itemRefs.current[item.categoryId] = el}
                      />    
                 ))}
             </div>

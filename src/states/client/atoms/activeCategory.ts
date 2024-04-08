@@ -2,7 +2,7 @@ import { Category } from "@/model/Category";
 import { atom } from "recoil";
 
 const initialActiveCatogory = {
-  id: 1,
+  categoryId: 1,
   name: "주식"
 }
 

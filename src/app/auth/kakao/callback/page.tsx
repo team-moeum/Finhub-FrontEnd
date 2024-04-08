@@ -20,7 +20,7 @@ export default function KakaoLogin() {
       try {
         const { status, data } = await authAPI.loginWithKakao(kakaoCode);
         if (status === "SUCCESS") {
-          const { name, email } = data;
+          const { name, email } = data.info;
           setUser({ name, email });
 
           router.push("/home");
@@ -35,5 +35,5 @@ export default function KakaoLogin() {
     fetchData();
   }, []);
 
-  return <Loading margin="50% auto" />;
+  return <Loading />;
 }

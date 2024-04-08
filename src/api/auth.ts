@@ -1,33 +1,33 @@
 import { useRouter } from "next/navigation";
-import { ApiResposne, client } from "./client";
+import { ApiResponse, client } from "./client";
 import { storageAPI } from "@/utils/localStorage";
 
 const loginWithKakao = async (kakaoCode: string | null) => {
-  const response: ApiResposne = await client.get({
+  const response: ApiResponse = await client.get({
     host: window.location.origin,
     url: `/api/auth/kakao?code=${kakaoCode}`,
   });
 
-  storageAPI.set("access-token", response.data.accessToken);
-  storageAPI.set("refresh-token", response.data.refreshToken);
+  storageAPI.set("access-token", response.data.token.accessToken);
+  storageAPI.set("refresh-token", response.data.token.refreshToken);
 
   return response;
 };
 
 const autoLogin = async () => {
-  const response: ApiResposne = await client.post({
+  const response: ApiResponse = await client.post({
     host: window.location.origin,
     url: "/api/auth/autoLogin",
     body: {},
   });
 
-  storageAPI.set("access-token", response.data.accessToken);
-  storageAPI.set("refresh-token", response.data.refreshToken);
+  storageAPI.set("access-token", response.data.token.accessToken);
+  storageAPI.set("refresh-token", response.data.token.refreshToken);
 
   return response;
 };
 
-const logout = async () => {
+const useLogout = async () => {
   await client.post({
     host: window.location.origin,
     url: "/api/auth/logout",
@@ -43,5 +43,5 @@ const logout = async () => {
 export const authAPI = {
   loginWithKakao,
   autoLogin,
-  logout,
+  useLogout,
 };

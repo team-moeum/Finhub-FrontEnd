@@ -4,5 +4,5 @@ export type {
   ApiParams,
   ApiRequest,
   ApiUrlRequest,
-  ApiResposne,
+  ApiResponse,
 } from "./common";

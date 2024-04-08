@@ -1,7 +1,8 @@
 const prefix = "/api";
 export const baseURL = (process.env.NEXT_PUBLIC_BASE_URL ?? "") + prefix;
 
-export interface ApiResposne {
+export interface ApiResponse {
+  apiStatus?: "SUCCESS" | "FAIL";
   status: "SUCCESS" | "FAIL";
   errorMsg?: string;
   data?: any;
