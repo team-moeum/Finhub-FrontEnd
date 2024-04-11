@@ -20,6 +20,7 @@
     ],
     "baseUrl": ".",
     "paths": {
+      "@/public/*": ["public/*"],
       "icons": ["/public/icons/*"],
       "@/*": ["./src/*"],
       "@/app/*": ["./src/app/*"],

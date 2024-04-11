@@ -1,18 +1,18 @@
-import { API_BASE_URL } from "@/app/_component/MSWComponent";
-import { queryKeys } from "../queryOptions";
-import { ApiResponse, client } from "@/api/client";
+import { fetchApi } from "@/api/fetchApi";
+import { ApiResponse } from "@/api/type";
+import { mutationKeys } from "../mutations";
 
-export const postScrap = async(data: any) => {
-  const response: ApiResponse = await client.post({
-    host: API_BASE_URL,
-    url: `/api/v1/main/scrap`,
-    tags: queryKeys.topicList(data.topicId),
-    body: data
+export const postScrap = async(param: any) => {
+  const response: ApiResponse = await fetchApi({
+    method: "POST",
+    path: `/api/v1/main/scrap`,
+    tags: mutationKeys.scrap,
+    body: param
   });
 
   if (response.status === "FAIL") {
-    return []
+    throw new Error(`Failed to scrap: ${response.errorMsg}`);
   }
 
-  return response.data?.topicList;
+  return response.status;
 }

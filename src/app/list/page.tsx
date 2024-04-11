@@ -1,17 +1,23 @@
 import style from './List.module.css';
-import { queryOptions } from '@/states/server/queryOptions';
+
+import ListContent from '../home/_component/ListContent';
+
+import { queryKeys } from '@/states/server/queries';
+import { getCategory } from '@/states/server/Post/getCategory';
+import { getTotalList } from '@/states/server/List/getTotalList';
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
-import dynamic from 'next/dynamic';
-const ListContent = dynamic(
-  () => import('../home/_component/ListContent'),
-  { ssr: false }
-)
 
 export default async function ListPage({searchParams}: {searchParams: {categoryId: string}}) {
   const categoryId = searchParams.categoryId ? Number(searchParams.categoryId) : 1;
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(queryOptions.category);
-  await queryClient.prefetchQuery(queryOptions.totalList(1));
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.category,
+    queryFn: () => getCategory(true)
+  });
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.totalList(1),
+    queryFn: () => getTotalList(1, true)
+  });
   const dehydratedState = dehydrate(queryClient);
   
   return (

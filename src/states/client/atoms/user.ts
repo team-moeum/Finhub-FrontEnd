@@ -5,6 +5,11 @@ export const userState = atom<User>({
     key: 'userState', 
     default: {
         name: "",
-        email: ""
+        email: "",
+        nickname: "",
+        avatarUrl: "",
+        userType: "",
+        userTypeUrl: "",
+        pushYN: true,
     }, 
   });

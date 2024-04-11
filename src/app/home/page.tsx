@@ -1,21 +1,31 @@
 import Link from "next/link";
 import Image from "next/image";
 import style from "./home.module.css";
-import CategoryCard from "../_component/Catergory/CategoryCard";
+
 import MainNav from "../_component/Nav/MainNav";
+import HomeContent from "../_component/Catergory/HomeContent";
+import CategoryCard from "../_component/Catergory/CategoryCard";
+
+import { queryKeys } from "@/states/server/queries";
+import { getCategory } from "@/states/server/Post/getCategory";
+import { getTopicList } from "@/states/server/Post/getTopicList";
+import { getBannerList } from "@/states/server/Post/getBannerList";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
-import { queryOptions } from "@/states/server/queryOptions";
-import dynamic from "next/dynamic";
-const HomeContent = dynamic(
-  () => import("../_component/Catergory/HomeContent"),
-  { ssr: false }
-);
 
 export default async function Home() {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(queryOptions.category);
-  await queryClient.prefetchQuery(queryOptions.banner);
-  await queryClient.prefetchQuery(queryOptions.topicList(1));
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.category,
+    queryFn: () => getCategory(true), // ssr true
+  });
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.banner,
+    queryFn: () => getBannerList(true),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.topicList(1),
+    queryFn: () => getTopicList(1, true),
+  });
   const dehydratedState = dehydrate(queryClient);
 
   return (

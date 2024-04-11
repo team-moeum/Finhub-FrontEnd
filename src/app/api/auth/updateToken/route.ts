@@ -4,9 +4,9 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const Tokens = getToken();
-  console.log("autoLogin: ", Tokens);
-  
-  const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/autoLogin`, {
+  console.log("updateToken: ", Tokens);
+
+  const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/updateAccessToken`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -20,18 +20,16 @@ export async function GET() {
   const res = await data.json();
 
   if (res.status === "SUCCESS") {
-    const { accessToken, refreshToken } = res.data.token;
+    const accessToken = res.data.token;
     cookies().set("access-token", accessToken, {
       maxAge: 60 * 60 * 3, // 3 hours
       secure: true,
       httpOnly: true,
     });
-    cookies().set("refresh-token", refreshToken, {
-      maxAge: 60 * 60 * 24 * 14, // 14 days
-      secure: true,
-      httpOnly: true,
-    });
   }
 
+  console.log("GET updateToken", res);
+  
+  res.status = "FAIL";
   return NextResponse.json(res);
 }
