@@ -3,7 +3,7 @@ import style from './List.module.css';
 import ListContent from '../home/_component/ListContent';
 
 import { queryKeys } from '@/states/server/queries';
-import { getCategory } from '@/states/server/Post/getCategory';
+import { getCategory } from '@/states/server/Home/getCategory';
 import { getTotalList } from '@/states/server/List/getTotalList';
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 

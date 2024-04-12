@@ -4,10 +4,15 @@ import { useSuspenseQuery, UseSuspenseQueryOptions } from "@tanstack/react-query
 import { Topic } from "@/model/Topic"
 import { Banner } from "@/model/Banner"
 import { Category } from "@/model/Category"
-import { getCategory } from "./Post/getCategory"
-import { getTopicList } from "./Post/getTopicList"
+import { TopicInfo } from "@/model/TopicInfo"
+import { UserTypeList } from "@/model/UserTypeList"
+
+import { getCategory } from "./Home/getCategory"
+import { getTopicInfo } from "./List/getTopicInfo"
+import { getTopicList } from "./Home/getTopicList"
 import { getTotalList } from "./List/getTotalList"
-import { getBannerList } from "./Post/getBannerList"
+import { getBannerList } from "./Home/getBannerList"
+import { getUserTypeList } from "./List/getUserTypeList"
 
 export const queryKeys = {
   category: ['category'],
@@ -15,6 +20,8 @@ export const queryKeys = {
   topicList: (categoryId: number) => ["topicList", categoryId.toString()],
   totalList: (categoryId: number) => ["totalList", categoryId.toString()],
   scrap: ["scrap"],
+  topicInfo: (topicId: number) => ["topicInfo", topicId.toString()],
+  userTypeList: ["userTypeList"]
 }
 
 export const queryOptions: QueryOptionsType = {
@@ -33,6 +40,14 @@ export const queryOptions: QueryOptionsType = {
   totalList: (categoryId: number) => ({
     queryKey: queryKeys.totalList(categoryId),
     queryFn: () => getTotalList(categoryId)
+  }),
+  topicInfo: (topicId: number) => ({
+    queryKey: queryKeys.topicInfo(topicId),
+    queryFn: () => getTopicInfo(topicId)
+  }),
+  userTypeList: () => ({
+    queryKey: queryKeys.userTypeList,
+    queryFn: () => getUserTypeList()
   }),
 };
 
@@ -54,3 +69,5 @@ export const useCategory = () => useBaseSuspenseQuery<Category[]>(queryOptions.c
 export const useBannerList = () => useBaseSuspenseQuery<Banner[]>(queryOptions.banner());
 export const useTopicList = (categoryId: number) => useBaseSuspenseQuery<Topic[]>(queryOptions.topicList(categoryId));
 export const useTotalList = (categoryId: number) => useBaseSuspenseQuery<Topic[]>(queryOptions.totalList(categoryId));
+export const useTopicInfo = (topicId: number) => useBaseSuspenseQuery<TopicInfo>(queryOptions.topicInfo(topicId));
+export const useUserTypeList = () => useBaseSuspenseQuery<UserTypeList[]>(queryOptions.userTypeList());

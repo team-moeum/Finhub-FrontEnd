@@ -1,6 +1,6 @@
 
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
-import { postScrap } from "./Post/postScrap";
+import { postScrap } from "./Home/postScrap";
 
 
 export const mutationKeys = {

@@ -7,9 +7,9 @@ import HomeContent from "../_component/Catergory/HomeContent";
 import CategoryCard from "../_component/Catergory/CategoryCard";
 
 import { queryKeys } from "@/states/server/queries";
-import { getCategory } from "@/states/server/Post/getCategory";
-import { getTopicList } from "@/states/server/Post/getTopicList";
-import { getBannerList } from "@/states/server/Post/getBannerList";
+import { getCategory } from "@/states/server/Home/getCategory";
+import { getTopicList } from "@/states/server/Home/getTopicList";
+import { getBannerList } from "@/states/server/Home/getBannerList";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 
 export default async function Home() {

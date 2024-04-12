@@ -21,7 +21,7 @@
 .right_box {
     display: flex;
     align-items: center;
-    gap: 35px;
+    gap: 14px;
 }
 
 .close_button {
