@@ -14,6 +14,7 @@ export default function PostScreen({topicId}: Props) {
     title,
     summary,
     definition,
+    img_path,
     scrapped
   }} = useTopicInfo(topicId);
 

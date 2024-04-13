@@ -6,6 +6,7 @@ import Loading from "@/app/loading";
 import PostScreen from "@/app/_component/Post/PostScreen";
 import { queryKeys } from "@/states/server/queries";
 import { getUserTypeList } from "@/states/server/List/getUserTypeList";
+import { getTopicInfo } from "@/states/server/List/getTopicInfo";
 
 export const metadata: Metadata = {
   title: "Post",
@@ -16,6 +17,10 @@ export default async function PostPage({ params }: { params: { topicId: string }
   await queryClient.prefetchQuery({
     queryKey: queryKeys.userTypeList,
     queryFn: () => getUserTypeList(true), // ssr true
+  });
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.topicInfo(Number(params.topicId)),
+    queryFn: () => getTopicInfo(Number(params.topicId), true), // ssr true
   });
   const dehydratedState = dehydrate(queryClient);
 

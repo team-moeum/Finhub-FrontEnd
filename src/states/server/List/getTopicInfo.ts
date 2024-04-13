@@ -3,15 +3,9 @@ import { queryKeys } from "../queries";
 import { ApiResponse } from "@/api/type";
 
 export const getTopicInfo = async(topicId: number, ssr?: boolean) => {
-  return {
-    title: "test",
-    summary: "test",
-    definition: "test",
-    scrapped: false
-  }
   const response: ApiResponse = await fetchApi({
     method: "GET",
-    path: `/api/v1/main/topicInfo/${topicId}`,
+    path: `/api/v1/main/topicInfo?topicId=${topicId}`,
     tags: queryKeys.topicInfo(topicId),
     ssr
   });
@@ -20,5 +14,5 @@ export const getTopicInfo = async(topicId: number, ssr?: boolean) => {
     return [];
   }
 
-  return response.data?.topicList;
+  return response.data?.topicInfo;
 }
