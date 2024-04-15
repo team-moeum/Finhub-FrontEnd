@@ -11,9 +11,6 @@ export async function POST(req: Request) {
   reqToken.accessToken = tokens.accessToken ? tokens.accessToken : "";
   reqToken.refreshToken = tokens.refreshToken ? tokens.refreshToken : "";
 
-  console.log(tokens);
-
-  console.log(body);
   const url = `${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
   const data = await fetch(url, {
     method: "POST",
@@ -32,14 +29,13 @@ export async function POST(req: Request) {
    if (res.data === "EXPIRED_TOKEN") {
     const resUpdateToken = await updateToken(reqToken);
     
-    console.log(resUpdateToken);
     if (resUpdateToken.status === "FAIL") {
       deleteToken();
       return NextResponse.json({ status: "EXPIRED_ALL_TOKEN" });
     }
 
     cookies().set("access-token", resUpdateToken.data.token, {
-      maxAge: 60 * 60 * 3, // 3 hours
+      maxAge: 60 * 60 * 24 * 14, // 14 days
       secure: true,
       httpOnly: true,
     });

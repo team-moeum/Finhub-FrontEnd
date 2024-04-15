@@ -82,7 +82,7 @@ export default function TopicList({activeItem}:Props) {
           <TopicItem 
             key={`${item.categoryName}_${item.topicId}`}
             data={item}
-            showToast={() => showToast(4000)}
+            showToast={() => showToast({duration: 4000})}
           />
         ))}
       </div>

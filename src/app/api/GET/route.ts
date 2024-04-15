@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     if (res.status === "SUCCESS") {
       const { accessToken, refreshToken } = res.data.token;
       cookies().set("access-token", accessToken, {
-        maxAge: 60 * 60 * 3, // 3 hours
+        maxAge: 60 * 60 * 24 * 14, // 14 days
         secure: true,
         httpOnly: true,
       });
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
 
     /* csr */
     cookies().set("access-token", updateAccessToken, {
-      maxAge: 60 * 60 * 3, // 3 hours
+      maxAge: 60 * 60 * 24 * 14, // 14 days
       secure: true,
       httpOnly: true,
     });
