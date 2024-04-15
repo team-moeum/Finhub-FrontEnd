@@ -36,7 +36,6 @@ export async function requestSsr({
     }
 
     if (data.status === "EXPIRED_TOKEN") {
-      
       const updateAccessToken = data.token;
       updateToken(updateAccessToken);
 

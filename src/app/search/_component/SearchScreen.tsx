@@ -118,7 +118,6 @@ export default function SearchScreen() {
 
     /* 동일 input 방지 */
     if (recentDataList[0].name !== inputValue) {
-      console.log(inputValue);
       setUserInput(inputValue);
       fetchData(inputValue);
       updatedRecentDataList(inputValue);

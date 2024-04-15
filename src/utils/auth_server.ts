@@ -2,6 +2,11 @@
 
 import { cookies } from "next/headers";
 
+export const isUserLoginSsr = () => {
+    const cookieStore = cookies();
+    if (cookieStore.get('access-token')) return true;
+    return false;
+}
 export const getToken = () => {
     const cookieStore = cookies();
     const accessToken = cookieStore.get('access-token')?.value;
@@ -11,7 +16,7 @@ export const getToken = () => {
 
 export const updateToken = (updateAccessToken: string) => {
     cookies().set("access-token", updateAccessToken, {
-        maxAge: 60 * 60 * 3, // 3 hours
+        maxAge: 60 * 60 * 24 * 14, // 14 days
         secure: true,
         httpOnly: true,
     });
