@@ -4,13 +4,11 @@ import style from "./LoginBox.module.css";
 
 import LinkButton from "../UiComponent/LinkButton";
 import { useRecoilState } from "recoil";
-import { useSsrComplectedState, userState } from "@/states/client/atoms/user";
-import { useEffect } from "react";
+import { userState } from "@/states/client/atoms/user";
 
 export default function LoginBox({isLogin} : {isLogin: boolean}) {
   const [userInfo, _] = useRecoilState(userState);
-  const setSsrCompleted = useSsrComplectedState();
-  useEffect(setSsrCompleted, [setSsrCompleted]);
+  console.log(userInfo);
 
   return (
     <div className={style.container}>

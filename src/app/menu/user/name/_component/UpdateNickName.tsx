@@ -19,23 +19,20 @@ export default function UpdateNickName() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [activeSave, setActiveSave] = useState<boolean>(false);
   const [nickName, setNickName] = useState<string>("");
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [_, setUserInfo] = useRecoilState(userState);
   const {isToastVisible, showToast} = useToast();
 
   const nickNameMutation = useUpdateNickname({
     onSuccess: (data) => {
       if (data.status === "SUCCESS") {
-        setIsSuccess(true);
-        showToast();
+        showToast({text: "✅ 닉네임 변경 완료!"});
         setUserInfo(prev => ({...prev, nickname: nickName}));
         setActiveSave(false);
         return;
       } 
       
       if (data.status === "DUPLICATION") {
-        setIsSuccess(false);
-        showToast();
+        showToast({text: "❌ 중복된 닉네임 입니다!"});
         return;
       }
     }
@@ -89,9 +86,7 @@ export default function UpdateNickName() {
       <AnimatePresence>
         {isToastVisible &&
           <ToastPortal>
-            <InfoToast
-              text={isSuccess ? "✅ 닉네임 변경 완료!" : "❌ 중복된 닉네임 입니다!"}
-            />
+            <InfoToast />
           </ToastPortal>
         }
       </AnimatePresence>

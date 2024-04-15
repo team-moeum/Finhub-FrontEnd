@@ -1,10 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import style from "./ProfileAvatar.module.css";
-import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
-import { AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { AnimatePresence } from "framer-motion";
+
+import { User } from "@/model/User";
+import { userState } from "@/states/client/atoms/user";
+import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
 
 const data = {
   "defaultAvatar": "/icons/default_user_avatar.svg",
@@ -53,16 +57,17 @@ type dataType = {
 }
 
 type ProfileContent = {
+  userInfo: User,
   data: dataType,
   onClose: (e?: React.MouseEvent) => void,
 }
 
-const ProfileContent = ({data, onClose}: ProfileContent) => {
+const ProfileContent = ({userInfo, data, onClose}: ProfileContent) => {
   return (
     <div className={style.profile_box}>
       <div className={style.selected_avatar_box}>
         <Image 
-            src={data.defaultAvatar}
+            src={userInfo.avatarUrl || "/icons/default_user_avatar.svg"}
             alt="user avatar icon"
             width={90}
             height={90}
@@ -91,9 +96,9 @@ const ProfileContent = ({data, onClose}: ProfileContent) => {
   )
 }
 
-
 export default function ProfileAvatar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [userInfo, _] = useRecoilState(userState);
 
   return (
     <>
@@ -122,7 +127,7 @@ export default function ProfileAvatar() {
                 isOpen={isOpen} 
                 onClose={() => setIsOpen(false)}
               >
-                <ProfileContent data={data} onClose={() => setIsOpen(false)}/>
+                <ProfileContent userInfo={userInfo} data={data} onClose={() => setIsOpen(false)}/>
               </BottomSheet>
             }
         </AnimatePresence>

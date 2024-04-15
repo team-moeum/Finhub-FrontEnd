@@ -5,7 +5,7 @@ import { Topic } from "@/model/Topic"
 import { Banner } from "@/model/Banner"
 import { Category } from "@/model/Category"
 import { TopicInfo } from "@/model/TopicInfo"
-import { UserTypeList } from "@/model/UserTypeList"
+import { UserType } from "@/model/UserTypeList"
 
 import { getCategory } from "./Home/getCategory"
 import { getTopicInfo } from "./List/getTopicInfo"
@@ -70,4 +70,4 @@ export const useBannerList = () => useBaseSuspenseQuery<Banner[]>(queryOptions.b
 export const useTopicList = (categoryId: number) => useBaseSuspenseQuery<Topic[]>(queryOptions.topicList(categoryId));
 export const useTotalList = (categoryId: number) => useBaseSuspenseQuery<Topic[]>(queryOptions.totalList(categoryId));
 export const useTopicInfo = (topicId: number) => useBaseSuspenseQuery<TopicInfo>(queryOptions.topicInfo(topicId));
-export const useUserTypeList = () => useBaseSuspenseQuery<UserTypeList[]>(queryOptions.userTypeList());
+export const useUserTypeList = () => useBaseSuspenseQuery<UserType[]>(queryOptions.userTypeList());
