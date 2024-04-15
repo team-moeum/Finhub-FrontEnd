@@ -2,11 +2,11 @@ import { fetchApi } from "@/api/fetchApi";
 import { queryKeys } from "../queries";
 import { ApiResponse } from "@/api/type";
 
-export const getTotalList = async(categoryId: number, ssr?: boolean) => {
+export const getTopicInfo = async(topicId: number, ssr?: boolean) => {
   const response: ApiResponse = await fetchApi({
     method: "GET",
-    path: `/api/v1/main/list?categoryId=${categoryId}`,
-    tags: queryKeys.totalList(categoryId),
+    path: `/api/v1/main/topicInfo?topicId=${topicId}`,
+    tags: queryKeys.topicInfo(topicId),
     ssr
   });
 
@@ -14,5 +14,5 @@ export const getTotalList = async(categoryId: number, ssr?: boolean) => {
     return [];
   }
 
-  return response.data?.topicList;
+  return response.data?.topicInfo;
 }

@@ -79,15 +79,7 @@
 
 
 .before_input {
-    margin-top: 36px;
-}
-
-.divider {
-    width: 100vw;
-    height: 10px;
-    background-color: #F3F3F3;
-    position: relative;
-    left: -16px;
+    margin-top: 18px;
 }
 
 .after_input {
