@@ -1,7 +1,23 @@
+"use client";
+
 import style from "./CommentCard.module.css";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function CommentCard() {
+    const [thumbImgSrc, setThumbImgSrc] = useState('/column/thumb_icon.png');
+    const [curImg, setCurImg] = useState(false);
+
+    const onClickThumb = () => {
+        if (curImg) {
+            setThumbImgSrc('/column/thumb_icon.png')
+            setCurImg(false);
+        } else {
+            setThumbImgSrc('/column/thumb_icon_green_full.png');
+            setCurImg(true);
+        }
+    }
+
     return (
         <>
             <div className={style.comment_card}>
@@ -22,14 +38,16 @@ export default function CommentCard() {
                         </div>
                         <div className={style.comment_thumb}>
                             <p>받은 추천:</p>
-                            <div className={style.thumb_num}>
+                            <div className={curImg ? style.thumb_active : ""}>
                                 <p>99개</p>
-                                <Image
-                                    src="/column/thumb_icon.png"
-                                    alt="Thumb Icon" 
-                                    width={12} 
-                                    height={12} 
-                                />
+                                <button onClick={onClickThumb}>
+                                    <Image
+                                        src={thumbImgSrc}
+                                        alt="Thumb Icon" 
+                                        width={12} 
+                                        height={12} 
+                                    />
+                                </button>
                             </div>
                         </div>
                     </div>

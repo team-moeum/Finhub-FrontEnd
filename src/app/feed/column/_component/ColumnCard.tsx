@@ -60,46 +60,22 @@ export default function ColumnCard() {
                 </SwiperSlide>
                 <SwiperSlide>
                     <Link href="/feed/column/column_post_test">
-                        <div className="slide_img">
-                            <Image 
-                                src="/column/col_img.png"
-                                alt="Column Card"
-                                fill
-                            />
-                        </div>
+                        <ColumnCardImg />
                     </Link>
                 </SwiperSlide>
                 <SwiperSlide>
                     <Link href="/feed/column/column_post_test">
-                        <div className="slide_img">
-                            <Image 
-                                src="/column/col_img.png"
-                                alt="Column Card"
-                                fill
-                            />
-                        </div>
+                        <ColumnCardImg />   
                     </Link>
                 </SwiperSlide>
                 <SwiperSlide>
                     <Link href="/feed/column/column_post_test">
-                        <div className="slide_img">
-                            <Image 
-                                src="/column/col_img.png"
-                                alt="Column Card"
-                                fill
-                            />
-                        </div>
+                        <ColumnCardImg />   
                     </Link>
                 </SwiperSlide>
                 <SwiperSlide>
                     <Link href="/feed/column/column_post_test">
-                        <div className="slide_img">
-                            <Image 
-                                src="/column/col_img.png"
-                                alt="Column Card"
-                                fill
-                            />
-                        </div>
+                        <ColumnCardImg />
                     </Link>
                 </SwiperSlide>
             </Swiper>

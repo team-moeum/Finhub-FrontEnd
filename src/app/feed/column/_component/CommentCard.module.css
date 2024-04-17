@@ -46,7 +46,7 @@
     font-weight: 500;
 }
 
-.thumb_num {
+.comment_thumb div {
     display: flex;
     flex-direction: row;
     color: #A6ABAF;
@@ -54,3 +54,13 @@
     font-weight: 500;
     padding-left: 5px;
 }
+
+.comment_thumb div.thumb_active p {
+    color: #50BF50;
+    padding-right: 5px;
+}
+
+.comment_thumb div p {
+    padding-right: 5px;
+}
+
