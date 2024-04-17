@@ -2,7 +2,7 @@
 
 import { Pagination, Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import PigIcon from '../../../../public/icons/pig.svg';
+import PigIcon from '@/public/icons/pig.svg';
 import Image from 'next/image';
 
 import 'swiper/css';
@@ -13,7 +13,6 @@ import { useBannerList } from '@/states/server/queries';
 
 export default function CategoryCard() {
     const { data: BannerList } = useBannerList();
-    console.log(BannerList);
     
     return (
         <div className='overflow-wrap'>

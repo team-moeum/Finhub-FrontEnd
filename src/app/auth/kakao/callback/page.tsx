@@ -1,15 +1,16 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+
 import Loading from "@/app/loading";
+import { authAPI } from "@/api/auth";
 import { useRecoilState } from "recoil";
 import { userState } from "@/states/client/atoms/user";
-import { useRouter } from "next/navigation";
-import { authAPI } from "@/api/auth";
 
 export default function KakaoLogin() {
-  const [_, setUser] = useRecoilState(userState);
   const router = useRouter();
+  const [_, setUserInfo] = useRecoilState(userState);
 
   useEffect(() => {
     const { searchParams } = new URL(window.location.href);
@@ -20,8 +21,7 @@ export default function KakaoLogin() {
       try {
         const { status, data } = await authAPI.loginWithKakao(kakaoCode);
         if (status === "SUCCESS") {
-          const { name, email } = data.info;
-          setUser({ name, email });
+          setUserInfo(data.info);
 
           router.push("/home");
         } else {
