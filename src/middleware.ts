@@ -1,13 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
-import { getToken } from './utils/auth';
+import { getToken } from './utils/auth_server';
+import { getClientInfo } from './utils/auth_client';
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_MOCKING === 'enabled' ? 'http://localhost:9090' : process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function middleware(request: NextRequest) {
 
   console.log("Middleware",getToken());
+  console.log("Middleware getClientInfo",getClientInfo());
 
+  const tokens = getToken();
   function autoLogin() {
-    fetch(`${request.url}/api/auth/autoLogin`, { method: 'GET' })
+    fetch(`${API_BASE_URL}/api/v1/auth/autoLogin`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        finhub: process.env.NEXT_PUBLIC_API_KEY || "",
+        Authorization: `Bearer ${tokens.accessToken}`,
+        refreshToken: `${tokens.refreshToken}`,
+      },
+      cache: "no-store",
+      credentials: "include"
+    })
     .then(response => {
       return response.json();
     })

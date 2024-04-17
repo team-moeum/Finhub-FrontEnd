@@ -1,17 +1,18 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import style from "./LogOutButton.module.css";
-import { deleteCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+
+import { authAPI } from "@/api/auth";
 
 export default function LogOutButton() {
   const router = useRouter();
 
   const handleClick = () => {
-    deleteCookie("userInfo");
-    deleteCookie("access-token");
+    authAPI.useLogout();
     router.refresh();
   }
+  
   return (
       <button 
         className={style.logout}
@@ -20,3 +21,4 @@ export default function LogOutButton() {
       </button>
   )
 }
+

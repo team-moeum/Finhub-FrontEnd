@@ -6,7 +6,7 @@ export async function GET(request: Request) {
   const kakaoCode = searchParams.get("code");
 
   const data = await fetch(
-    `https://api.fin-hub.co.kr/api/v1/auth/login/oauth2/callback/kakao?code=${kakaoCode}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/login/oauth2/callback/kakao?code=${kakaoCode}`,
     {
       method: "GET",
       headers: {
@@ -17,10 +17,10 @@ export async function GET(request: Request) {
   );
 
   const res = await data.json();
-  const { accessToken, refreshToken } = res.data;
+  const { accessToken, refreshToken } = res.data.token;
 
   cookies().set("access-token", accessToken, {
-    maxAge: 60 * 60 * 3, // 3 hours
+    maxAge: 60 * 60 * 24 * 14, // 14 days
     secure: true,
     httpOnly: true,
   });

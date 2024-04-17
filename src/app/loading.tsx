@@ -1,3 +1,5 @@
+"use client";
+
 type LoadingProps = {
     height?: string | number;
 } & React.HTMLAttributes<HTMLDivElement>

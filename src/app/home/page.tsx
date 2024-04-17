@@ -1,18 +1,33 @@
 import Link from "next/link";
 import Image from "next/image";
 import style from "./home.module.css";
-import CategoryCard from "../_component/Catergory/CategoryCard";
+
 import MainNav from "../_component/Nav/MainNav";
 import HomeContent from "../_component/Catergory/HomeContent";
+import CategoryCard from "../_component/Catergory/CategoryCard";
+
+import { queryKeys } from "@/states/server/queries";
+import { getCategory } from "@/states/server/Home/getCategory";
+import { getTopicList } from "@/states/server/Home/getTopicList";
+import { getBannerList } from "@/states/server/Home/getBannerList";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
-import { queryOptions } from "@/states/server/queryOptions";
 
 export default async function Home() {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(queryOptions.category);
-  await queryClient.prefetchQuery(queryOptions.topicList(1));
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.category,
+    queryFn: () => getCategory(true), // ssr true
+  });
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.banner,
+    queryFn: () => getBannerList(true),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.topicList(1),
+    queryFn: () => getTopicList(1, true),
+  });
   const dehydratedState = dehydrate(queryClient);
-  
+
   return (
     <div className={style.container}>
       <MainNav />
@@ -29,8 +44,8 @@ export default async function Home() {
       </div>
       <div className={style.content_area}>
         <div className={style.category_container}>
-          <CategoryCard />
           <HydrationBoundary state={dehydratedState}>
+            <CategoryCard />
             <HomeContent />
           </HydrationBoundary>
         </div>

@@ -5,8 +5,9 @@
 
 .avatar_box {
     margin: 20px auto 30px;
-    width: 120px;
-    height: 140px;
+    width: 130px;
+    height: 150px;
     border-radius: 20px;
-    background-color: #D9D9D9;
+    border: 2px solid #50BF50;
+    overflow: hidden;
 }

@@ -5,6 +5,8 @@ import { MSWComponent } from "./_component/MSWComponent";
 import MenuBar from "./_component/MenuBar/MenuBar";
 import RecoilRootProvider from "./_component/RecoilRootProvider";
 import RQProvider from "./_component/RQProvider";
+import ToastPortal from "@/components/Toast/ToastPortal";
+import Loading from "./loading";
 
 export default function RootLayout({
   children,
@@ -23,7 +25,9 @@ export default function RootLayout({
         <RecoilRootProvider>
           <RQProvider>
             <MSWComponent />
-              {children}
+              <Suspense fallback={<Loading />}>
+                {children}
+              </Suspense>
             <MenuBar />
           </RQProvider>
         </RecoilRootProvider>
