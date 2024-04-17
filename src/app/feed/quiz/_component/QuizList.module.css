@@ -4,7 +4,26 @@
     flex-direction: column;
   }
   
+.item_item_box{
+  margin-bottom: 80px;
+}
+
+.modal_container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto; 
+}
+
+
   .item_box {
+    
+
     height: 60px;
     flex-shrink: 0;
     width: calc(100% - 32px);
@@ -13,17 +32,76 @@
     margin-top: 10px;
     border-radius: 10px;
     background: var(--light-gray, #F9FAFA);
-    
+   padding-left: 16px;
+   padding-right:16px;
+    align-items: center;
+gap:12px;
+
+    display: flex;
+    flex-direction: row;
+    color: var(--black-600, #494F54);
+text-align: left;
+
+
 
   }
+  .select_one_box{
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+    flex-shrink: 0;
+    width: calc(100% - 32px);
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-top: 8px;
+    border-radius: 10px;
+    background: var(--light-gray, #F9FAFA);
+    justify-content: center;
+    align-items: center;
+    padding-left: 4px;
+    padding-right:8px;
+  }
+ 
+  .abc{
+    display: grid;
+}
+.type_sel{
+  width: calc(100%/2);
+height: 55px;
+flex-shrink: 0;
+border-radius: 10px;
+background: var(--light-gray, #F9FAFA);
+color: var(--black-600, #494F54);
+font-family: "Pretendard Variable";
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+margin-left: 4px;
+}
+
+.type_sel.active {
+  background: var(--Surface-One, #FFF);
   
+color: var(--black-600, #494F54);
+}
+
 .item_box_font{
     color: var(--black-600, #494F54);
 font-size: 15px;
 font-style: normal;
 font-weight: 500px;
 line-height: normal;
+flex-direction: row;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 
+}
+.item_box_text{
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 }
 .item_box_cal{
     color: var(--black-300, var(--black-300, #CDD1D5));
@@ -31,8 +109,7 @@ font-size: 10px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
-margin-left: 0px;
-padding-right: 183px;
+text-align: left;
 }
 
   .type {
@@ -44,8 +121,7 @@ padding-right: 183px;
     margin-top: 0px;
     margin-bottom: 9px;
   }
-  
-  .type_sel:focus {
+  .type_font:active{
     flex-shrink: 0;
     height: 44px;
     border-radius: 10px;
@@ -54,6 +130,8 @@ padding-right: 183px;
     background: var(--Surface-One, #FFF);
   }
   
+
+  
   .type_font {
     color: #525252;
     font-size: 16px;
@@ -61,24 +139,68 @@ padding-right: 183px;
     font-weight: 600;
     line-height: normal;
   }
+
+  .select{
+    margin-top:26px;
+    width: calc(100%-32px);
+    
+height: 36px;
+border-width: 0 0 1px;border-bottom: 1px solid var(--black-100, #EDF0F3);
+background: var(--Surface-One, #FFF);
+margin-left:16px ;
+margin-right:16px;
+  }
+  .select_quiz{
+    width: 120px;
+height: 36px;
+border-width: 0 0 1px;
+border-bottom: 1px solid var(--black-600, #EDF0F3);
+background: var(--Surface-One,#FFF);
+color: var(--black-600, #EDF0F3);
+font-size: 14px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+  }
+  .modal {
+    position: fixed;
+    top: 20%;
+    left: 0%;
+  }
+
+  .select_quiz.active {
+    border-bottom: 1px solid var(--black-100, #494F54);
+    background: var(--Surface-One, #FFF);
+    
+color: var(--black-600, #494F54);
+}
   
   .more {
-    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap:12px;
     height: 36px;
-    flex-shrink: 0;
     color: var(--black-400, #A6ABAF);
     font-size: 15px;
     font-weight: 600;
-    line-height: normal;
     margin-bottom: 100px;
+
+    width: calc(100% - 32px);
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-top: 10px;
+    border-radius: 10px;
+    background: var(--light-gray, #F9FAFA);
+  
+
+   
   }
   
-  .icon {
-    width: 11px;
-    height: 5px;
-    flex-shrink: 0;
-    stroke-width: 5px;
-    stroke: var(--black-400, #A6ABAF);
+  .icon_box {
+    display: flex;
+    flex-direction: column;
   }
   
   .btnClick {
@@ -107,6 +229,7 @@ padding-right: 183px;
     width: calc(100% - 32px);
     margin-left: 16px;
     margin-right: 16px;
-   height: 65px;
+   height: 50px;
    align-items: center; 
+   margin-top: 70px;
   }

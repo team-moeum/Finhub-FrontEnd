@@ -4,11 +4,12 @@ import "react-calendar/dist/Calendar.css";
 
 
 export const StyledCalendarWrapper = styled.div`
+
   width: calc(100%-32px);
   margin-left:16px;
   margin-right:16px;
   margin-top:22px;
-
+  position: relative;
   .react-calendar {
     width: 100%;
     border: none;
@@ -20,22 +21,28 @@ export const StyledCalendarWrapper = styled.div`
   /* 전체 폰트 컬러 */
   .react-calendar__month-view {
    color:#000;
+   font-size:2px;
   }
 
   /* 네비게이션 가운데 정렬 */
   .react-calendar__navigation {
  margin-bottom:2px;
+ margin-top:-8px;
   }
 
   /* 네비게이션 폰트 설정 */
   .react-calendar__navigation button {
-    color: #000;
+   
     font-family: "Pretendard Variable";
 font-size: 16px;
 font-style: normal;
 font-weight: 600;
 line-height: normal;
     margin-bottom:0px;
+    padding-top:0px;
+
+
+    color: var(--black-800, #191B1C);
   }
 
   /* 네비게이션 버튼 컬러 */
@@ -48,6 +55,12 @@ line-height: normal;
   .react-calendar__navigation button:disabled {
     background-color: #F9FAFA;;
     color: ${(props) => props.theme.darkBlack};
+  }
+  .tile-content {
+    display: flex;
+    align-items: center;
+
+  height: 100%;
   }
 
   /* 년/월 상단 네비게이션 칸 크기 줄이기 */
@@ -94,13 +107,23 @@ line-height: normal;
 
   /* 일 날짜 간격 */
   .react-calendar__tile {
-    padding: 5px 0px 15px;
+  
     position: relative;
     font-family: Inter;
     font-size: 12px;
 font-style: normal;
 font-weight: 550;
 color:black;
+
+height:45px;
+display: flex; /* 내부 요소를 가로로 배치하기 위해 flex 사용 */
+
+align-items:center;
+flex-direction:column;
+  }
+
+.tile-content > div {
+    margin-top: auto; 
   }
 
   /* 네비게이션 월 스타일 적용 */
@@ -124,45 +147,35 @@ color:black;
   }
 `;
 
-export const StyledCalendar = styled(Calendar)``;
+export const StyleButtonContainer = styled.div`
 
-/* 오늘 버튼 스타일 */
-export const StyledDate = styled.div`
+
   position: absolute;
-  right: 7%;
-  top: 6%;
-  background-color: ${(props) => props.theme.primary_3};
-  color: ${(props) => props.theme.yellow_2};
-  width: 18%;
-  min-width: fit-content;
-  height: 1.5rem;
-  text-align: center;
-  margin: 0 auto;
-  line-height: 1.6rem;
-  border-radius: 15px;
-  font-size: 0.8rem;
-  font-weight: 800;
+  display:flex;
+  flex-direction:row;
+  right:0px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 10px;
+border: 1px solid var(--primary-primary, #50BF50);
+margin-right:10px;
+margin-top:8px;
+padding:5px;
+padding-top:3px;
+gap:16px;
+
 `;
 
-/* 오늘 날짜에 텍스트 삽입 스타일 */
-export const StyledToday = styled.div`
-  font-size: x-small;
-  color: ${(props) => props.theme.br_2};
-  font-weight: 600;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%);
+export const StyleButton = styled.button`
+transition: all 0.2s; 
+color: var(--black-800, #191B1C);
+font-family: "Pretendard Variable";
+font-size: 22px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+cursor: pointer;
+
+ 
 `;
 
-/* 출석한 날짜에 점 표시 스타일 */
-export const StyledDot = styled.div`
-  background-color: ${(props) => props.theme.br_2};
-  border-radius: 50%;
-  width: 0.3rem;
-  height: 0.3rem;
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translateX(-50%);
-`;

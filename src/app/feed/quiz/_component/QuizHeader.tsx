@@ -11,7 +11,7 @@ export default function QuizHeader() {
             <p className={style.title}>오늘의 퀴즈!</p>
             <Link  href={'/feed/quiz'} >
                 <div className={`${style.btn} ${style.f}` }>
-                   지난퀴즈보기
+                   지난 퀴즈 보기
                 </div>
                            
                         

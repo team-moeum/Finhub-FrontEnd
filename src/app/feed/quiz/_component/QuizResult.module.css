@@ -52,8 +52,10 @@ font-style: normal;
 font-weight: 600;
 line-height: normal;
 margin-bottom: 5px;
+padding-top: 0;
 
 }
+
 .text2{
     color: var(--black-400, #A6ABAF);
 text-align: center;
@@ -62,6 +64,7 @@ font-size: 13px;
 font-style: normal;
 font-weight: 520;
 line-height: 20px; 
+padding-top: 10px;
 }
 
 .bb{
@@ -73,6 +76,7 @@ line-height: 20px;
    
 
 }
+
 
 .category_box{
     margin-top: 12px;
@@ -145,13 +149,16 @@ background: var(--primary-light-primary, #F3FCF2);
 
 }
 .modalBackground{
+
+        position: fixed;
+        top: 0%;
+        left: 0%;
+      
     width:100vw;
-    height:100%;
+    height:100vh;
     display:flex;
-    justify-content: center;
-    position: absolute;
-    top:0;
-    left:0;
+
+
     bottom:0;
     background: rgba(0,0,0,0.5);
 }

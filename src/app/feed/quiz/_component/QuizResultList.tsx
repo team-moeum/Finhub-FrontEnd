@@ -1,3 +1,4 @@
+
 'use client'
 // QuizResult.tsx
 
@@ -15,7 +16,7 @@ interface Props {
 
 
 
-const QuizResult: React.FC<Props> = ({ clickModal,answerResult,answerResulti, answerResult2 }) => {
+const QuizResult: React.FC<Props> = ({ clickModal, answerResult,answerResulti, answerResult2 }) => {
   const todayQuiz = quizlist.find(quiz => quiz.targetDate === new Date().toISOString().split('T')[0]); 
 
 
