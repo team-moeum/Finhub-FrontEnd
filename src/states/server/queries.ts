@@ -3,9 +3,10 @@ import { useSuspenseQuery, UseSuspenseQueryOptions } from "@tanstack/react-query
 
 import { Topic } from "@/model/Topic"
 import { Banner } from "@/model/Banner"
+import { UserType } from "@/model/UserTypeList"
 import { Category } from "@/model/Category"
 import { TopicInfo } from "@/model/TopicInfo"
-import { UserType } from "@/model/UserTypeList"
+import { UserAvatar } from "@/model/UserAvatar"
 
 import { getCategory } from "./Home/getCategory"
 import { getTopicInfo } from "./List/getTopicInfo"
@@ -13,6 +14,7 @@ import { getTopicList } from "./Home/getTopicList"
 import { getTotalList } from "./List/getTotalList"
 import { getBannerList } from "./Home/getBannerList"
 import { getUserTypeList } from "./List/getUserTypeList"
+import { getUserAvatarList } from "./Menu/getUserAvatarList"
 
 export const queryKeys = {
   category: ['category'],
@@ -21,7 +23,8 @@ export const queryKeys = {
   totalList: (categoryId: number) => ["totalList", categoryId.toString()],
   scrap: ["scrap"],
   topicInfo: (topicId: number) => ["topicInfo", topicId.toString()],
-  userTypeList: ["userTypeList"]
+  userTypeList: ["userTypeList"],
+  userAvatarList: ["userAvatarList"],
 }
 
 export const queryOptions: QueryOptionsType = {
@@ -49,6 +52,10 @@ export const queryOptions: QueryOptionsType = {
     queryKey: queryKeys.userTypeList,
     queryFn: () => getUserTypeList()
   }),
+  userAvatarList: () => ({
+    queryKey: queryKeys.userAvatarList,
+    queryFn: () => getUserAvatarList()
+  }),
 };
 
 const useBaseSuspenseQuery = <T = unknown>(
@@ -71,3 +78,4 @@ export const useTopicList = (categoryId: number) => useBaseSuspenseQuery<Topic[]
 export const useTotalList = (categoryId: number) => useBaseSuspenseQuery<Topic[]>(queryOptions.totalList(categoryId));
 export const useTopicInfo = (topicId: number) => useBaseSuspenseQuery<TopicInfo>(queryOptions.topicInfo(topicId));
 export const useUserTypeList = () => useBaseSuspenseQuery<UserType[]>(queryOptions.userTypeList());
+export const useUserAvatarList = () => useBaseSuspenseQuery<UserAvatar[]>(queryOptions.userAvatarList());

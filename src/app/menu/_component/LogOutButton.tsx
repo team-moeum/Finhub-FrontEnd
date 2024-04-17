@@ -7,16 +7,17 @@ import { authAPI } from "@/api/auth";
 
 export default function LogOutButton() {
   const router = useRouter();
+  const logout = authAPI.useLogout();
 
-  const handleClick = () => {
-    authAPI.useLogout();
+  const handleLogout = () => {
+    logout();
     router.refresh();
-  }
+  };
   
   return (
       <button 
         className={style.logout}
-        onClick={handleClick}
+        onClick={handleLogout}
       >로그아웃
       </button>
   )

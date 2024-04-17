@@ -9,60 +9,25 @@ import { AnimatePresence } from "framer-motion";
 import { User } from "@/model/User";
 import { userState } from "@/states/client/atoms/user";
 import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
-
-const data = {
-  "defaultAvatar": "/icons/default_user_avatar.svg",
-  "avatarList": [
-    {
-      "id": 1,
-      "imgUrl": "/icons/default_user_avatar.svg"
-    },
-    {
-      "id": 2,
-      "imgUrl": "/icons/default_user_avatar.svg"
-    },
-    {
-      "id": 3,
-      "imgUrl": "/icons/default_user_avatar.svg"
-    },
-    {
-      "id": 4,
-      "imgUrl": "/icons/default_user_avatar.svg"
-    },
-    {
-      "id": 5,
-      "imgUrl": "/icons/default_user_avatar.svg"
-    },
-    {
-      "id": 6,
-      "imgUrl": "/icons/default_user_avatar.svg"
-    },
-    {
-      "id": 7,
-      "imgUrl": "/icons/default_user_avatar.svg"
-    },
-    {
-      "id": 8,
-      "imgUrl": "/icons/default_user_avatar.svg"
-    }
-  ]
-}
-
-type dataType = {
-  defaultAvatar: string,
-  avatarList: {
-    id: number,
-    imgUrl: string
-  }[]
-}
+import { useUserAvatarList } from "@/states/server/queries";
+import { UserAvatar } from "@/model/UserAvatar";
+import { useUpdateUserAvatar } from "@/states/server/mutations";
 
 type ProfileContent = {
   userInfo: User,
-  data: dataType,
+  data: UserAvatar[],
   onClose: (e?: React.MouseEvent) => void,
+  onImgClick: (avatar: UserAvatar) => void,
+  onDeleteClick: () => void
 }
 
-const ProfileContent = ({userInfo, data, onClose}: ProfileContent) => {
+const ProfileContent = ({
+  userInfo, 
+  data, 
+  onClose, 
+  onImgClick, 
+  onDeleteClick
+  }: ProfileContent) => {
   return (
     <div className={style.profile_box}>
       <div className={style.selected_avatar_box}>
@@ -75,21 +40,22 @@ const ProfileContent = ({userInfo, data, onClose}: ProfileContent) => {
           />
       </div>
       <div className={style.user_avatar_box}>
-        {data.avatarList.map(item => {
+        {data.map(item => {
           return (
-            <Image
-              key={item.id}
-              className={style.user_avatar_item} 
-              src={item.imgUrl}
-              alt={`user avatar icon${item.id}`}
-              width={60}
-              height={60}
-            />
+            <div className={style.img_item_box} key={item.id}>
+              <Image
+                onClick={() => onImgClick(item)}
+                src={item.imgUrl}
+                alt={`user avatar icon${item.id}`}
+                width={60}
+                height={60}
+              />
+            </div>
           )
         })}
       </div>
       <div className={style.button_area}>
-        <button className={style.close}>지우기</button>
+        <button className={style.close} onClick={onDeleteClick}>지우기</button>
         <button className={style.confirm} onClick={onClose}>확인</button>
       </div>
     </div>
@@ -98,13 +64,30 @@ const ProfileContent = ({userInfo, data, onClose}: ProfileContent) => {
 
 export default function ProfileAvatar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [userInfo, _] = useRecoilState(userState);
+  const [userInfo, serUserInfo] = useRecoilState(userState);
+  const [selectedAvatar, setSelectedAvatar] = useState<UserAvatar>();
+  const { data: userAvatarList } = useUserAvatarList();
+  const userAvartarMutation = useUpdateUserAvatar({
+    onSuccess: () => {
+      serUserInfo(prev => ({...prev, avatarUrl: selectedAvatar?.imgUrl}));
+    }
+  })
+
+  const handleImgClick = (avatar: UserAvatar) => {
+    setSelectedAvatar(avatar);
+    userAvartarMutation.mutate({id: avatar.id})
+  }
+
+  /** Delete API 수정 필요 */
+  const handleDeleteClick = () => {
+    serUserInfo(prev => ({...prev, avatarUrl: ''}));
+  }
 
   return (
     <>
       <div className={style.avatar_box} onClick={() => setIsOpen(true)}>
         <Image 
-          src='/icons/default_user_avatar.svg'
+          src={userInfo.avatarUrl ? userInfo.avatarUrl : '/icons/default_user_avatar.svg'}
           alt="user avatar icon"
           width={90}
           height={90}
@@ -127,7 +110,13 @@ export default function ProfileAvatar() {
                 isOpen={isOpen} 
                 onClose={() => setIsOpen(false)}
               >
-                <ProfileContent userInfo={userInfo} data={data} onClose={() => setIsOpen(false)}/>
+                <ProfileContent 
+                  userInfo={userInfo} 
+                  data={userAvatarList} 
+                  onClose={() => setIsOpen(false)}
+                  onImgClick = {handleImgClick}
+                  onDeleteClick = {handleDeleteClick}
+                />
               </BottomSheet>
             }
         </AnimatePresence>

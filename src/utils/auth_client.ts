@@ -1,6 +1,9 @@
+/** NOT USE */
 'use client'
 
 import { User } from "@/model/User";
+import { userState } from "@/states/client/atoms/user";
+import { useResetRecoilState } from "recoil";
 
 const defaultClientInfo: User = {
   name: "",
@@ -25,8 +28,10 @@ const setClientInfo = (userInfo: any) => {
 }
 
 const removeClientInfo = () => {
+  const resetUserInfo = useResetRecoilState(userState);
   if (typeof window !== "undefined")
-    localStorage.removeItem("userInfo")
+    resetUserInfo();
+    localStorage.removeItem("userInfo");
 }
 
 export {
