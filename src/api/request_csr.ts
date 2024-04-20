@@ -23,8 +23,10 @@ export async function requestCsr({
     });
 
     if (!res.ok) return {status: "FAIL"};
-    
+
     const data =  await res.json();
+
+    if (data.status === "FAIL") console.log(path, body, data.errorMsg);
   
     return data;
  }

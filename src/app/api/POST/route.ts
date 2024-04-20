@@ -23,6 +23,8 @@ export async function POST(req: Request) {
     body: JSON.stringify(body)
   });
 
+  if (!data.ok) return NextResponse.json({status: "FAIL", errorMsg: "500 Server Error"});
+  
   let res = await data.json();
 
    /* EXPIRED_TOKEN */

@@ -30,7 +30,11 @@ export async function POST(req: Request) {
     credentials: "include"
   });
 
+
+  if (!data.ok) return NextResponse.json({status: "FAIL", errorMsg: "500 Server Error"});
+  
   let res = await data.json();
+  
 
   /* auth */
   if (param.use === "auth") {
