@@ -12,7 +12,7 @@ import { InfoToast } from '@/components/Toast/InfoToast';
 import { useToast } from '@/components/Toast/useToast';
 import { useRecoilState } from 'recoil';
 import { userState } from '@/states/client/atoms/user';
-import { UserType } from '@/model/UserTypeList';
+import { UserType } from '@/model/UserType';
 
 const data = [
   { name: '개발자' },
