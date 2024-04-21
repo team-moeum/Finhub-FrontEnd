@@ -11,7 +11,7 @@ import { userState } from "@/states/client/atoms/user";
 import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
 import { useUserAvatarList } from "@/states/server/queries";
 import { UserAvatar } from "@/model/UserAvatar";
-import { useUpdateUserAvatar } from "@/states/server/mutations";
+import { useDeleteUserAvatar, useUpdateUserAvatar } from "@/states/server/mutations";
 
 type ProfileContent = {
   userInfo: User,
@@ -72,15 +72,19 @@ export default function ProfileAvatar() {
       serUserInfo(prev => ({...prev, avatarUrl: selectedAvatar?.imgUrl}));
     }
   })
-
+  const deleteUserAvatarMutation = useDeleteUserAvatar({
+    onSuccess: () => {
+      serUserInfo(prev => ({...prev, avatarUrl: ""}));
+    }
+  })
+  
   const handleImgClick = (avatar: UserAvatar) => {
     setSelectedAvatar(avatar);
     userAvartarMutation.mutate({id: avatar.id})
   }
 
-  /** Delete API 수정 필요 */
   const handleDeleteClick = () => {
-    serUserInfo(prev => ({...prev, avatarUrl: ''}));
+    if (userInfo.avatarUrl) deleteUserAvatarMutation.mutate();
   }
 
   return (
