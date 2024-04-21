@@ -5,6 +5,7 @@ import { postScrap } from "./Home/postScrap";
 import { postNickname } from "./Menu/postNinckname";
 import { postUserType } from "./Menu/postUserType";
 import { postUserAvatar } from "./Menu/postUserAvatar";
+import { deleteUserAvatar } from "./Menu/deleteUserAvatar";
 
 
 export const mutationKeys = {
@@ -12,6 +13,7 @@ export const mutationKeys = {
   nickname: ["nickname"],
   userType: ["userType"],
   userAvatar: ["userAvatar"],
+  deleteUserAvatar: ["deleteUserAvatar"] 
 }
 
 export const useScrap = (options?: UseMutationOptions<any, Error, any>) => {
@@ -42,6 +44,14 @@ export const useUpdateUserAvatar = (options?: UseMutationOptions<any, Error, any
   return useMutation<any, Error, { id: number }>({
     mutationKey: mutationKeys.userAvatar,
     mutationFn: (param) => postUserAvatar(param),
+    ...options,
+  });
+}
+
+export const useDeleteUserAvatar = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error>({
+    mutationKey: mutationKeys.deleteUserAvatar,
+    mutationFn: () => deleteUserAvatar(),
     ...options,
   });
 }
