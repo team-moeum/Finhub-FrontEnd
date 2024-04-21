@@ -11,7 +11,7 @@ export const postUserAvatar = async(param: any) => {
   });
 
   if (response.status === "FAIL") {
-    throw new Error(`Failed update nickName: ${response.errorMsg}`);
+    throw new Error(`Failed : ${response.errorMsg}`);
   } 
 
   return response;
