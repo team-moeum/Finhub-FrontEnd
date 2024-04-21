@@ -54,7 +54,7 @@ export function TopicItem({data}: TopicItemProps) {
   const handleScrapClick = (e: React.MouseEvent) => {
     e.preventDefault();
     if (isLogin) {
-      scrapMutation.mutate({topicId: data.topicId});
+      scrapMutation.mutate({topicId: data.topicId, type: 1});
     } else {
       setActiveLogin(true);
     }
