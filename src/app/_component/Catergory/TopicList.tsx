@@ -38,7 +38,7 @@ export function TopicItem({data}: TopicItemProps) {
     onSuccess: () => {
       if (!active) {
         setActive(true);
-        showToast({content: <ScrapToast />, duration: 4000});
+        showToast({content: <ScrapToast />, duration: 3000});
       } else {
         setActive(false);
       }
@@ -54,7 +54,7 @@ export function TopicItem({data}: TopicItemProps) {
   const handleScrapClick = (e: React.MouseEvent) => {
     e.preventDefault();
     if (isLogin) {
-      scrapMutation.mutate({topicId: data.topicId, type: 1});
+      scrapMutation.mutate({id: data.topicId, type: 1});
     } else {
       setActiveLogin(true);
     }
