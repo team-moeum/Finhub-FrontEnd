@@ -20,7 +20,7 @@ import { activeLoginModal } from "@/states/client/atoms/activeLoginModal";
 import ToastPortal from "@/components/Toast/ToastPortal";
 import { useQueryClient } from '@tanstack/react-query';
 import { userState } from '@/states/client/atoms/user';
-import { isUserLoginCsr } from '@/utils/auth_client';
+import { useIsLoginCsr } from '@/utils/auth_client';
 
 type TopicItemProps = {
   data: Topic; 
@@ -31,7 +31,7 @@ export function TopicItem({data}: TopicItemProps) {
   const [, setActiveLogin] = useRecoilState(activeLoginModal);
   const [activeCategoryItem] = useRecoilState(activeCategory);
   const { showToast } = useToast();
-  const isLogin = isUserLoginCsr();
+  const isLogin = useIsLoginCsr();
 
   const queryClient = useQueryClient();
   const scrapMutation = useScrap({

@@ -4,7 +4,7 @@
 import { userState } from "@/states/client/atoms/user";
 import { useRecoilValue } from "recoil";
 
-export const isUserLoginCsr = () => {
+export const useIsLoginCsr = () => {
   const userInfo = useRecoilValue(userState);
 
   return userInfo.name !== "";
