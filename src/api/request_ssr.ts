@@ -9,10 +9,10 @@ export async function requestSsr({
     tags,
     body,
   }: ApiParams) {
-    const url = getBaseUrl();
     const Tokens = getToken();
+    const domain = process.env.NEXT_PUBLIC_FRONT_URL;
 
-    const res = await fetch(`${url}/api/${method}`, {
+    const res = await fetch(`${domain}/api/${method}`, {
       method: "POST",
       next: {
         tags,
@@ -39,7 +39,7 @@ export async function requestSsr({
       const updateAccessToken = data.token;
       updateToken(updateAccessToken);
 
-      const resRetry = await fetch(`${url}/api/${method}`, {
+      const resRetry = await fetch(`${domain}/api/${method}`, {
         method: "POST",
         next: {
           tags,
