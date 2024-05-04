@@ -14,6 +14,10 @@ export async function requestSsr({
 
     console.log(domain);
     const res = await fetch(`${domain}/api/${method}`, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        "Content-Type": "application/json",
+      },
       method: "POST",
       next: {
         tags,
