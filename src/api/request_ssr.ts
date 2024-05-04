@@ -10,7 +10,7 @@ export async function requestSsr({
     body,
   }: ApiParams) {
     const Tokens = getToken();
-    const domain = process.env.NEXT_PUBLIC_FRONT_URL;
+    const domain = process.env.NEXT_PUBLIC_VERCEL_URL;
 
     console.log(domain);
     const res = await fetch(`${domain}/api/${method}`, {
