@@ -22,6 +22,7 @@ export async function POST(req: Request) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
       finhub: process.env.NEXT_PUBLIC_API_KEY || "",
       Authorization: `Bearer ${reqToken.accessToken}`,
       refreshToken: `${reqToken.refreshToken}`,
