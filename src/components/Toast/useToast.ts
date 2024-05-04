@@ -1,19 +1,14 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
+import { useSetRecoilState } from 'recoil';
+
+import { ToastType, toastState } from '@/states/client/atoms/toast';
 
 export const useToast = () => {
-  const [isToastVisible, setIsToastVisible] = useState(false);
+  const setToastText = useSetRecoilState<ToastType>(toastState);
 
-  const showToast = useCallback((duration = 3000) => {
-    if (isToastVisible) return;
+  const showToast = useCallback(({content, duration=3000, ...props}: ToastType) => {
+    setToastText({content, duration, ...props});
+  }, []);
 
-    setIsToastVisible(true);
-
-    const timer = setTimeout(() => {
-      setIsToastVisible(false);
-    }, duration);
-
-    return () => clearTimeout(timer);
-  }, [isToastVisible]);
-
-  return { isToastVisible, showToast };
+  return { showToast };
 };

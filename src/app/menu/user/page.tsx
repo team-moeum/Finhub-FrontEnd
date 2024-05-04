@@ -3,7 +3,7 @@ import Link from "next/link";
 import MenuHeader from "../../_component/Menu/MenuHeader";
 import ProfileAvatar from "./_component/ProfileAvatar";
 
-
+/** 서버 사이드에서 유저 정보 가져오기 */
 const loginInfoEmail = "test@naver.com"
 
 

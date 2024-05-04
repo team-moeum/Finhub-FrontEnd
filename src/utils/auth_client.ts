@@ -1,9 +1,11 @@
-import { useRecoilState } from "recoil";
+/** NOT USE */
+'use client'
+
 import { userState } from "@/states/client/atoms/user";
+import { useRecoilValue } from "recoil";
 
-export const ClientSession = () => {
-    const [user, _] = useRecoilState(userState);
-    if (user) return {isLogin: true, User: user}
-    else return {isLogin: false, User: ""}
+export const useIsLoginCsr = () => {
+  const userInfo = useRecoilValue(userState);
+
+  return userInfo.name !== "";
 }
-
