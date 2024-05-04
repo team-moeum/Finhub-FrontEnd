@@ -11,7 +11,7 @@ const loginWithKakao = async (kakaoCode: string | null) => {
   const response: ApiResponse = await fetchApi({
     method: "GET",
     use: "auth",
-    path: `/api/v1/auth/login/oauth2/callback/kakao?code=${kakaoCode}`
+    path: `/api/v1/auth/login/oauth2/callback/kakao?code=${kakaoCode}&origin=${process.env.NEXT_PUBLIC_MODE}`
   });
 
   return response;
