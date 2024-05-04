@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getToken } from './utils/auth_server';
-import { getClientInfo } from './utils/auth_client';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_MOCKING === 'enabled' ? 'http://localhost:9090' : process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function middleware(request: NextRequest) {
 
   console.log("Middleware",getToken());
-  console.log("Middleware getClientInfo",getClientInfo());
 
   const tokens = getToken();
   function autoLogin() {
