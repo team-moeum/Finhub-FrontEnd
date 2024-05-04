@@ -10,7 +10,7 @@ export const getCategory = async(ssr?: boolean) => {
     ssr
   });
 
-  console.log(response);
+  console.log("category: ", response);
   if (response.status === "FAIL") {
     return [];
   }
