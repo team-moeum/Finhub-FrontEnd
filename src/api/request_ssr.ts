@@ -27,6 +27,7 @@ export async function requestSsr({
       })
     });
     
+    console.log(res);
     if (!res.ok) return {status: "FAIL"};
 
     let data =  await res.json();
