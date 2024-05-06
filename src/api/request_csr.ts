@@ -11,7 +11,6 @@ export async function requestCsr({
   }: ApiParams) {
     const domain = process.env.NEXT_PUBLIC_FRONT_URL;
 
-    console.log(domain);
     const res = await fetch(`${domain}/api/${method}`, {
       method: "POST",
       next: {

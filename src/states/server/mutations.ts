@@ -6,6 +6,8 @@ import { postNickname } from "./Menu/postNinckname";
 import { postUserType } from "./Menu/postUserType";
 import { postUserAvatar } from "./Menu/postUserAvatar";
 import { deleteUserAvatar } from "./Menu/deleteUserAvatar";
+import { postNoSearchWord } from "./Search/postNoSearchWord";
+import { deleteRecentKeyword } from "./Search/deleteRecentKeyword";
 
 
 export const mutationKeys = {
@@ -13,7 +15,9 @@ export const mutationKeys = {
   nickname: ["nickname"],
   userType: ["userType"],
   userAvatar: ["userAvatar"],
-  deleteUserAvatar: ["deleteUserAvatar"] 
+  deleteUserAvatar: ["deleteUserAvatar"],
+  updateNoSearchWord: ["updateNoSearchWord"],
+  deleteRecentKeyword: ["deleteRecentKeyword"],
 }
 
 export const useScrap = (options?: UseMutationOptions<any, Error, any>) => {
@@ -54,4 +58,20 @@ export const useDeleteUserAvatar = (options?: UseMutationOptions<any, Error, any
     mutationFn: () => deleteUserAvatar(),
     ...options,
   });
+}
+
+export const useDeleteRecentKeyword = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error>({
+    mutationKey: mutationKeys.deleteRecentKeyword,
+    mutationFn: () => deleteRecentKeyword(),
+    ...options,
+  })
+}
+
+export const useUpdateNoSearchWord = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { keyword: string }>({
+    mutationKey: mutationKeys.updateNoSearchWord,
+    mutationFn: (param) => postNoSearchWord(param),
+    ...options,
+  })
 }

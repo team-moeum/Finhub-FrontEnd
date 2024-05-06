@@ -39,9 +39,18 @@
     -webkit-line-clamp: 4;
 }
 
-.item_box .img_box {
-    width: 84px;
-    height: 84px;
-    background-color: #B6B6B6;
-    border-radius: 6px;
+.more_btn {
+    margin-top: 10px;
+    margin-bottom: 24px;
+    width: 100%;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background-color: #F6F7F9;
+    font-size: 15px;
+    font-weight: 600;
+    color: #A6ABAF;
+    border-radius: 10px;
 }
