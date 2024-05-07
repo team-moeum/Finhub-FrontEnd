@@ -2,7 +2,6 @@
 
 import { Pagination, Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import PigIcon from '@/public/icons/pig.svg';
 import Image from 'next/image';
 
 import 'swiper/css';
@@ -30,7 +29,7 @@ export default function CategoryCard() {
                     <div className="card">
                         <div className="img-box">
                             <Image
-                                src={PigIcon}
+                                src={'/icons/pig.svg'}
                                 alt={'pig-icon'}
                                 width={80}
                                 height={64}
@@ -48,7 +47,7 @@ export default function CategoryCard() {
                     <div className="card">
                         <div className="img-box">
                             <Image
-                                src={PigIcon}
+                                src={'/icons/pig.svg'}
                                 alt={'pig-icon'}
                                 width={80}
                                 height={64}
@@ -66,7 +65,7 @@ export default function CategoryCard() {
                      <div className="card">
                         <div className="img-box">
                             <Image
-                                src={PigIcon}
+                                src={'/icons/pig.svg'}
                                 alt={'pig-icon'}
                                 width={80}
                                 height={64}

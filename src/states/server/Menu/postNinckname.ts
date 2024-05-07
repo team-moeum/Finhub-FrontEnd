@@ -10,12 +10,15 @@ export const postNickname = async(param: any) => {
     body: param
   });
 
+  /** Sever Error 수정 */
   if (response.status === "FAIL") {
-    if (response.errorMsg === "이미 존재하는 닉네임입니다.") {
-      return {status: "DUPLICATION"}
-    } else {
-      throw new Error(`Failed update nickName: ${response.errorMsg}`);
-    }
+    return {status: "DUPLICATION"}
+
+    // if (response.errorMsg === "이미 존재하는 닉네임입니다.") {
+    //   return {status: "DUPLICATION"}
+    // } else {
+    //   throw new Error(`Failed update nickName: ${response.errorMsg}`);
+    // }
   } 
 
   return response;

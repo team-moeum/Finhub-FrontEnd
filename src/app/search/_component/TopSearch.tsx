@@ -1,22 +1,20 @@
 "use client"
 
+import { PopularKeyword, TrendType } from "@/model/PopularKeyword";
 import style from "./TopSearch.module.css";
 import Image from "next/image";
 import { useState } from "react";
+import { usePopularKeywordList } from "@/states/server/queries";
+import { dateFormatter } from "@/utils/formatter";
+import { isEmpty } from "@/utils/isEmpty";
 
-export type TrendType = "New" | "Increased" | "Decreased" | "Stable";
 export const TrendImageMap = {
   Increased: '/icons/trend_increased.svg',
   Decreased: '/icons/trend_decreased.svg',
   Stable: '/icons/trend_stable.svg',
 }
-export interface PopularSearchItem {
-  "rank": number,
-  "keyword": string,
-  "trend": TrendType
-}
 
-const mockList: PopularSearchItem[] = [
+const mockList: PopularKeyword[] = [
   {
     "rank": 1,
     "keyword": "주식 최근 동향",
@@ -78,16 +76,20 @@ type TopSearchProps = {
 
 export default function TopSearch({ onItemSelect }: TopSearchProps) {
   const [showInfo, setShowInfo] = useState(false);
-  const data = true;
+  const {data: resultData } = usePopularKeywordList();
+  const {
+    date,
+    popularSearchList
+  } = resultData;
 
   return (
     <div className={style.container}>
       <div className={style.header}>
         <div className={style.header_box}>
           <div className={style.title}>인기 검색어</div>
-          {data && 
+          {!isEmpty(popularSearchList) && 
             <div className={style.right}>
-              <div className={style.date}>2024년 3월 30일 기준</div>
+              <div className={style.date}>{`${dateFormatter(date, 0)} 기준`}</div>
               <Image
                 onClick={() => setShowInfo(true)}
                 src='/icons/question_icon.svg'
@@ -111,7 +113,7 @@ export default function TopSearch({ onItemSelect }: TopSearchProps) {
           </div>
         }
       </div>
-      {data ? 
+      {!isEmpty(popularSearchList) ? 
         <div className={style.top_search_box}>
           {mockList.map((v, i) => (
             <TopSearchItem

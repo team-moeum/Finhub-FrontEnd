@@ -83,7 +83,7 @@
 }
 
 .after_input {
-    margin-top: 36px;
+    margin-top: 12px;
     margin-bottom: 54px;
 }
 
@@ -105,4 +105,16 @@
     height: 60px;
     font-size: 18px;
     font-weight: 500;
+}
+
+.tab_area {
+    margin-bottom: 30px;
+}
+
+.divider {
+    width: 100vw;
+    position: relative;
+    left: -20px;
+    height: 10px;
+    background-color: #F9FAFA;
 }

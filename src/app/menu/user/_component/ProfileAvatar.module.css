@@ -26,16 +26,19 @@
 }
 
 .user_avatar_box {
+    position: relative;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     row-gap: 20px;
 }
 
-.user_avatar_item {
+.img_item_box {
     flex: 0 0 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
 
 .button_area {
     margin-top: 15px;

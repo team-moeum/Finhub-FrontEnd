@@ -6,13 +6,10 @@ import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import { useUserTypeList } from '@/states/server/queries';
 import { useUpdateUserType } from '@/states/server/mutations';
-import { AnimatePresence } from 'framer-motion';
-import ToastPortal from '@/components/Toast/ToastPortal';
-import { InfoToast } from '@/components/Toast/InfoToast';
 import { useToast } from '@/components/Toast/useToast';
 import { useRecoilState } from 'recoil';
 import { userState } from '@/states/client/atoms/user';
-import { UserType } from '@/model/UserTypeList';
+import { UserType } from '@/model/UserType';
 
 const data = [
   { name: '개발자' },
@@ -49,18 +46,18 @@ export default function SelectUserType({ userInfo }: Props) {
   const [dropList, setDropList] = useState(false);
   const [_, setUserInfo] = useRecoilState(userState);
 
-  const {isToastVisible, showToast} = useToast();
+  const { showToast } = useToast();
   const { data: userTypeList } = useUserTypeList();
   const userTypeMutation = useUpdateUserType({
     onSuccess: () => {
-      showToast({text: "✅ 직업이 변경 되었습니다!"});
+      showToast({content: "✅ 직업이 변경 되었습니다!"});
       setUserInfo(prev => ({...prev, 
         userType: userType?.name,
         userTypeUrl: userType?.img_path,
       }))
     },
     onError: () => {
-      showToast({text: "❌ 오류가 발생했습니다 잠시 후 다시 시도해주세요!"});
+      showToast({content: "❌ 오류가 발생했습니다 잠시 후 다시 시도해주세요!"});
     }
   });
 
@@ -110,13 +107,6 @@ export default function SelectUserType({ userInfo }: Props) {
           </p>
         </div>
       }
-      <AnimatePresence>
-        {isToastVisible &&
-          <ToastPortal>
-            <InfoToast />
-          </ToastPortal>
-        }
-      </AnimatePresence>
     </div>
   )
 }

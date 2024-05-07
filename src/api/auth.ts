@@ -1,17 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useResetRecoilState } from "recoil";
 
 import { fetchApi } from "./fetchApi";
 import { ApiResponse } from "@/api/type";
-import { removeClientInfo } from "@/utils/auth_client";
+import { userState } from "@/states/client/atoms/user";
+import { deleteToken } from "@/utils/auth_server";
 
 const loginWithKakao = async (kakaoCode: string | null) => {
   const response: ApiResponse = await fetchApi({
     method: "GET",
     use: "auth",
-    path: `/api/v1/auth/login/oauth2/callback/kakao?code=${kakaoCode}`
+    path: `/api/v1/auth/login/oauth2/callback/kakao?code=${kakaoCode}&origin=${process.env.NEXT_PUBLIC_MODE}`
   });
 
   return response;
@@ -28,10 +28,14 @@ const autoLogin = async () => {
   return response;
 };
 
-const useLogout = async () => {
-  await fetch("/api/auth/logout", { method: "GET" });
+//await fetch("/api/auth/logout", { method: "GET" });
+const useLogout = () => {
+  const resetUserInfo = useResetRecoilState(userState);
 
-  removeClientInfo();
+  return () => {
+    deleteToken();
+    resetUserInfo();
+  };
 };
 
 export const authAPI = {

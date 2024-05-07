@@ -7,36 +7,38 @@ import { useRecoilState } from "recoil";
 import { AnimatePresence } from "framer-motion";
 import { forwardRef, useEffect, useRef, useState } from "react";
 
+import { UserType } from "@/model/UserType";
 import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
-import { UserTypeList } from "@/model/UserTypeList";
 import { topicUserType } from "@/states/client/atoms/topicUsertype"
 
-import TeacherAvatar from "../../../../public/icon_teacher.svg";
 
 type UserTypeItemProps = {
   id: string;
   name: string;
-  activeItem: string;
-  itemChange: (item: string) => void;
+  imgPath: string;
+  activeItem: UserType;
+  itemChange: () => void;
 }
 
-const UserTypeItem = forwardRef<HTMLLabelElement, UserTypeItemProps>(({ id, name, activeItem, itemChange }, ref) => {
+const UserTypeItem = forwardRef<HTMLLabelElement, UserTypeItemProps>(({ id, name, imgPath, activeItem, itemChange }, ref) => {
   return (
     <label ref={ref} className={style.item_label}>
       <input
         type="radio"
         id={name}
         name={id}
-        checked={activeItem === name}
-        onChange={() => itemChange(name)}
+        checked={activeItem.name === name}
+        onChange={itemChange}
         className={style.category_radio_input}
       />
       <div className={style.item}>
         <div className={style.icon_box}>
-          {name === "선생님" ? <Image src={TeacherAvatar} alt="teacher avatar" width={48} height={48} />
-            :
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="26" fill="none"><g stroke="current" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"><path d="M11.298 14.419a1.945 1.945 0 0 1-1.945-1.946 1.945 1.945 0 0 1 1.945-1.967h2.198M11.299 14.418h.989a1.945 1.945 0 0 1 0 3.891h-2.253M11.771 9.264v1.264M11.771 18.298v1.264" /><path d="M21.815 10.507c.483 1.24.73 2.56.726 3.89a10.77 10.77 0 1 1-10.77-10.77h6.01" /><path d="m15.167 6.286 2.638-2.637L15.167 1" /></g></svg>
-          }
+          <Image 
+            src={imgPath}
+            alt="user type avatar image"
+            width={48}
+            height={48}
+          />
         </div>
         <p>{name}</p>
       </div>
@@ -47,13 +49,17 @@ const UserTypeItem = forwardRef<HTMLLabelElement, UserTypeItemProps>(({ id, name
 UserTypeItem.displayName = "UserTypeItem";
 
 type Props = {
-  data: UserTypeList[]
+  data: UserType[]
 }
 export default function UserTypeItemList({ data }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeItem, setActiveItem] = useRecoilState(topicUserType);
 
   const itemRefs = useRef<(HTMLLabelElement | null)[]>([]);
+
+  useEffect(() => {
+    console.log(activeItem);
+  }, [activeItem])
 
   const handleToggle = () => {
     setIsOpen(isOpen ? false : true)
@@ -63,17 +69,17 @@ export default function UserTypeItemList({ data }: Props) {
     setIsOpen(false);
   }
 
-  const UserTypeItemChange = (item: string) => {
-    setActiveItem(item);
+  const UserTypeItemChange = (userType: UserType) => {
+    setActiveItem(userType);
   }
 
-  const BottomSheetUserTypeItemChange = (item: string) => {
-    setActiveItem(item);
+  const BottomSheetUserTypeItemChange = (userType: UserType) => {
+    setActiveItem(userType);
     setIsOpen(false);
   }
 
   useEffect(() => {
-    const activeIndex = data.findIndex(item => item.name === activeItem);
+    const activeIndex = data.findIndex(item => item.name === activeItem.name);
     if (itemRefs.current[activeIndex]) {
       itemRefs.current[activeIndex]?.scrollIntoView({
         behavior: 'smooth',
@@ -100,8 +106,9 @@ export default function UserTypeItemList({ data }: Props) {
             id="main_input"
             key={item.id}
             name={item.name}
+            imgPath={item.img_path}
             activeItem={activeItem}
-            itemChange={UserTypeItemChange}
+            itemChange={() => UserTypeItemChange(item)}
             ref={el => itemRefs.current[i] = el}
           />
         ))}
@@ -111,7 +118,14 @@ export default function UserTypeItemList({ data }: Props) {
           <BottomSheet title="직업을 골라주세요!" isOpen={true} onClose={handleClose}>
             <div className={style.bottom_sheet_content}>
               {data.map((item, i) => (
-                <UserTypeItem id="bottom_sheet_input" key={i} name={item.name} activeItem={activeItem} itemChange={BottomSheetUserTypeItemChange} />
+                <UserTypeItem 
+                  id="bottom_sheet_input" 
+                  key={item.id} 
+                  name={item.name}
+                  imgPath={item.img_path}
+                  activeItem={activeItem} 
+                  itemChange={() => BottomSheetUserTypeItemChange(item)} 
+                />
               ))}
             </div>
           </BottomSheet>
