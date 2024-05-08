@@ -7,6 +7,7 @@ import RecoilRootProvider from "./_component/RecoilRootProvider";
 import RQProvider from "./_component/RQProvider";
 import ToastPortal from "@/components/Toast/ToastPortal";
 import Loading from "./loading";
+import { ToastProvider } from "@/components/Toast/ToastProvider";
 
 export default function RootLayout({
   children,
@@ -29,6 +30,7 @@ export default function RootLayout({
                 {children}
               </Suspense>
             <MenuBar />
+            <ToastProvider />
           </RQProvider>
         </RecoilRootProvider>
         <div id="toast-portal" />

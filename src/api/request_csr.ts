@@ -9,8 +9,9 @@ export async function requestCsr({
     use,
     body,
   }: ApiParams) {
-    const url = getBaseUrl();
-    const res = await fetch(`${url}/api/${method}`, {
+    const domain = process.env.NEXT_PUBLIC_FRONT_URL;
+
+    const res = await fetch(`${domain}/api/${method}`, {
       method: "POST",
       next: {
         tags,
@@ -23,8 +24,10 @@ export async function requestCsr({
     });
 
     if (!res.ok) return {status: "FAIL"};
-    
+
     const data =  await res.json();
+
+    if (data.status === "FAIL") console.log(path, body, data.errorMsg);
   
     return data;
  }

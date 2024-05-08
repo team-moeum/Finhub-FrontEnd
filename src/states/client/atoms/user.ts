@@ -3,7 +3,7 @@ import { recoilPersist } from "recoil-persist";
 import { AtomEffect, atom, useSetRecoilState } from "recoil";
 
 /** persist nextjs config */
-const ssrCompletedState = atom({
+export const ssrCompletedState = atom({
   key: "SsrCompleted",
   default: false,
 });

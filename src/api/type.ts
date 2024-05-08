@@ -1,5 +1,5 @@
 export interface ApiParams {
-    method: "GET" | "POST";
+    method: "GET" | "POST" | "PUT" | "DELETE";
     path: string;
     use?: string;
     tags?: string[];

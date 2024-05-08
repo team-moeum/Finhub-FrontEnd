@@ -1,34 +1,68 @@
-import stlye from './InputResultArticleList.module.css'
+import style from './InputResultArticleList.module.css'
+import reactStringReplace from 'react-string-replace';
 
-type ItemProps = {
-    title: string;
-    content: string;
+import Loading from '@/app/loading';
+import { SearchResult } from '@/model/SearchTopic';
+import { ColumnInfiniteQueryType } from './SearchScreen';
+
+import ArrowDownIcon from '@/public/icons/icon_arrow_down.svg';
+
+const highlightKeyword = (keyword: string, text: string) => {
+  return reactStringReplace(text, keyword, (match, i) => (
+    <span key={i} style={{ color: '#50BF50' }}>{match}</span>
+  ));
 }
 
-const Item = ({title, content} : ItemProps) => {
-    return (
-        <div className={stlye.item_box}>
-            <div className={stlye.text_box}>
-                <span className={stlye.title}>{title}</span>
-                <span className={stlye.content}>{content}</span>
-            </div>
-            <div className={stlye.img_box}></div>
-        </div>
-    )
+type ItemProps = {
+  keyword: string;
+  title: string;
+  content: string;
+}
+const Item = ({ keyword, title, content }: ItemProps) => {
+  return (
+    <div className={style.item_box}>
+      <div className={style.text_box}>
+        <span className={style.title}>
+          {highlightKeyword(keyword, title)}
+        </span>
+        <span className={style.content}>
+          {highlightKeyword(keyword, content)}
+        </span>
+      </div>
+    </div>
+  )
 }
 
 type dataType = {
-    data : Array<{title: string; content: string;}>
+  keyword: string,
+  topicInfiniteQuery: ColumnInfiniteQueryType,
 }
+export default function InputResultArticleList({ keyword, topicInfiniteQuery }: dataType) {
+  const resultSearchList = topicInfiniteQuery.resultColumnSearchList as SearchResult[];
 
-export default function InputResultArticleList({data}: dataType) {
+  const handleNextPageClick = () => {
+    topicInfiniteQuery.fetchColumnNextPage();
+  };
 
-    return (
-        <div className={stlye.container}>
-            {data.map((v, i) => (
-                <Item key={i} title={v.title} content={v.content}/>
-            ))}
+  if (topicInfiniteQuery.isColumnFetching) return <Loading height={100} />;
+  return (
+    <>
+      <div className={style.container}>
+        {resultSearchList ?
+          resultSearchList.map((v, i) => (
+            <Item key={i} keyword={keyword} title={v.title} content={v.summary} />
+          ))
+          :
+          <div>No data</div>
+        }
+      </div>
+      {topicInfiniteQuery.hasColumnNextPage &&
+        <div className={style.more_btn} onClick={handleNextPageClick}>
+          더보기
+          <ArrowDownIcon />
         </div>
-    )
+      }
+    </>
+  )
 }
 

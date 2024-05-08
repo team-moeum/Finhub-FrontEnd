@@ -5,7 +5,7 @@ import ScrapIcon from "@/assets/Icons";
 
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import React, { Fragment, useState } from "react";
 
 import { Topic } from "@/model/Topic";
@@ -19,36 +19,45 @@ import { AnimatePresence } from "framer-motion";
 import { activeLoginModal } from "@/states/client/atoms/activeLoginModal";
 import ToastPortal from "@/components/Toast/ToastPortal";
 import { useQueryClient } from '@tanstack/react-query';
+import { userState } from '@/states/client/atoms/user';
+import { useIsLoginCsr } from '@/utils/auth_client';
 
 type TopicItemProps = {
   data: Topic; 
-  showToast?: () => void;
 }
 
-export function TopicItem({data, showToast}: TopicItemProps) {
+export function TopicItem({data}: TopicItemProps) {
   const [active, setActive] = useState(data.scrapped);
   const [, setActiveLogin] = useRecoilState(activeLoginModal);
   const [activeCategoryItem] = useRecoilState(activeCategory);
+  const { showToast } = useToast();
+  const isLogin = useIsLoginCsr();
 
   const queryClient = useQueryClient();
   const scrapMutation = useScrap({
     onSuccess: () => {
       if (!active) {
         setActive(true);
-        if (showToast) showToast();
+        showToast({content: <ScrapToast />, duration: 3000});
       } else {
         setActive(false);
       }
       queryClient.invalidateQueries({
        queryKey: queryKeys.topicList(activeCategoryItem.categoryId) 
       });
+    },
+    onError: () => {
+      showToast({content: "❌ 잠시후 다시 시도해주세요!"});
     }
   });
 
   const handleScrapClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    // setActiveLogin(true);
-    scrapMutation.mutate({topicId: data.topicId});
+    if (isLogin) {
+      scrapMutation.mutate({id: data.topicId, type: 1});
+    } else {
+      setActiveLogin(true);
+    }
   }
 
   return (
@@ -72,8 +81,6 @@ type Props = {
 }
 export default function TopicList({activeItem}:Props) {
   const { data:topicList } = useTopicList(activeItem.categoryId);
-  const {isToastVisible, showToast} = useToast();
-  const router = useRouter();
 
   return (
     <Fragment>
@@ -82,19 +89,9 @@ export default function TopicList({activeItem}:Props) {
           <TopicItem 
             key={`${item.categoryName}_${item.topicId}`}
             data={item}
-            showToast={() => showToast({duration: 4000})}
           />
         ))}
       </div>
-      <AnimatePresence>
-        {isToastVisible && 
-          <ToastPortal>
-            <ScrapToast 
-              onClick={() => router.push('/menu/scrap')}
-            />
-          </ToastPortal>
-        }  
-      </AnimatePresence>
     </Fragment>
   )
 }

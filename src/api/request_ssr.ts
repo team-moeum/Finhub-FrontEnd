@@ -9,10 +9,16 @@ export async function requestSsr({
     tags,
     body,
   }: ApiParams) {
-    const url = getBaseUrl();
     const Tokens = getToken();
+    const env = process.env.NEXT_PUBLIC_MODE;
+    const domain = env === 'production' ? process.env.NEXT_PUBLIC_FRONT_URL : process.env.NEXT_PUBLIC_VERCEL_URL;
 
-    const res = await fetch(`${url}/api/${method}`, {
+    console.log(domain);
+    const res = await fetch(`${domain}/api/${method}`, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        "Content-Type": "application/json",
+      },
       method: "POST",
       next: {
         tags,
@@ -26,6 +32,7 @@ export async function requestSsr({
       })
     });
     
+    console.log(res);
     if (!res.ok) return {status: "FAIL"};
 
     let data =  await res.json();
@@ -39,7 +46,7 @@ export async function requestSsr({
       const updateAccessToken = data.token;
       updateToken(updateAccessToken);
 
-      const resRetry = await fetch(`${url}/api/${method}`, {
+      const resRetry = await fetch(`${domain}/api/${method}`, {
         method: "POST",
         next: {
           tags,

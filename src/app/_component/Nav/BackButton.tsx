@@ -5,9 +5,10 @@ import style from "./Nav.module.css";
 import Image from "next/image";
 
 type iconType = "type1" | "type2"
-export default function BackButton({icon="type1"} : {icon?: iconType}) {
+export default function BackButton({icon="type1", onClick} : {icon?: iconType, onClick?: () => void}) {
   const router = useRouter();
   const onClickClose = () => {
+    if (onClick) return onClick();
     router.back();
   }
 

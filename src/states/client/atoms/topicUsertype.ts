@@ -1,6 +1,7 @@
+import { UserType } from "@/model/UserType";
 import { atom } from "recoil";
 
-export const topicUserType = atom<string>({
+export const topicUserType = atom<UserType>({
   key: "topicUserType",
-  default: "선생님"
+  default: {id: 0, name:"", img_path: ""}
 })

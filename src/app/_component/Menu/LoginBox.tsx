@@ -1,13 +1,19 @@
 'use client'
 
 import style from "./LoginBox.module.css";
+import Image from "next/image";
+import { useState } from "react";
+import { useRecoilState } from "recoil";
 
 import LinkButton from "../UiComponent/LinkButton";
-import { useRecoilState } from "recoil";
 import { userState } from "@/states/client/atoms/user";
+import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
+import LoginModalContent from "../Catergory/LoginModalContent";
+import { AnimatePresence } from "framer-motion";
 
-export default function LoginBox({isLogin} : {isLogin: boolean}) {
+export default function LoginBox({ isLogin }: { isLogin: boolean }) {
   const [userInfo, _] = useRecoilState(userState);
+  const [activeLogin, setActiveLogin] = useState(false);
   console.log(userInfo);
 
   return (
@@ -23,31 +29,46 @@ export default function LoginBox({isLogin} : {isLogin: boolean}) {
         }
       </div>
       <div className={style.login_box}>
-        <LinkButton href={'/menu/user'}>
-          <div className={style.login_card}>
-            <div className={style.avatar_box}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="none"><mask id="a" width="60" height="60" x="0" y="0" maskUnits="userSpaceOnUse"><circle cx="30" cy="30" r="30" fill="#F4F4F4" /></mask><g fill="#DADBDE" mask="url(#a)"><circle cx="30" cy="22" r="10" /><circle cx="30.5" cy="58.5" r="22.5" /></g></svg>
+        {isLogin ?
+          <LinkButton href={'/menu/user'}>
+            <div className={style.login_card}>
+              <div className={style.avatar_box}>
+                <Image
+                  src={userInfo.avatarUrl || '/images/default_avatar_img.png'}
+                  alt='user avatar icon'
+                  width={60}
+                  height={60}
+                />
+              </div>
+              <div className={style.text_box}>
+                <span>{userInfo.nickname}</span>
+                <span>{userInfo.userType || "직업 없음"}</span>
+              </div>
+              <div className={style.icon_box}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M11.6754 2.31731C11.249 0.560897 8.75103 0.560897 8.32463 2.31731C8.04918 3.45193 6.74926 3.99037 5.75219 3.38285C4.2087 2.44239 2.44239 4.2087 3.38285 5.75218C3.99037 6.74925 3.45193 8.04918 2.31731 8.32463C0.560897 8.75103 0.560897 11.249 2.31731 11.6754C3.45193 11.9508 3.99038 13.2507 3.38285 14.2478C2.44239 15.7913 4.2087 17.5576 5.75219 16.6172C6.74926 16.0096 8.04918 16.5481 8.32463 17.6827C8.75103 19.4391 11.249 19.4391 11.6754 17.6827C11.9508 16.5481 13.2507 16.0096 14.2478 16.6172C15.7913 17.5576 17.5576 15.7913 16.6172 14.2478C16.0096 13.2507 16.5481 11.9508 17.6827 11.6754C19.4391 11.249 19.4391 8.75103 17.6827 8.32463C16.5481 8.04918 16.0096 6.74925 16.6172 5.75218C17.5576 4.2087 15.7913 2.44239 14.2478 3.38285C13.2507 3.99038 11.9508 3.45193 11.6754 2.31731ZM10 13.375C11.864 13.375 13.375 11.864 13.375 10C13.375 8.13604 11.864 6.625 10 6.625C8.13604 6.625 6.625 8.13604 6.625 10C6.625 11.864 8.13604 13.375 10 13.375Z" stroke="#CDD1D5" strokeWidth="2" />
+                </svg>
+              </div>
             </div>
-            {isLogin ?
-              <>
-                <div className={style.text_box}>
-                  <span>{userInfo.nickname}</span>
-                  <span>{userInfo.userType || "직업 없음"}</span>
-                </div>
-                <div className={style.icon_box}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M11.6754 2.31731C11.249 0.560897 8.75103 0.560897 8.32463 2.31731C8.04918 3.45193 6.74926 3.99037 5.75219 3.38285C4.2087 2.44239 2.44239 4.2087 3.38285 5.75218C3.99037 6.74925 3.45193 8.04918 2.31731 8.32463C0.560897 8.75103 0.560897 11.249 2.31731 11.6754C3.45193 11.9508 3.99038 13.2507 3.38285 14.2478C2.44239 15.7913 4.2087 17.5576 5.75219 16.6172C6.74926 16.0096 8.04918 16.5481 8.32463 17.6827C8.75103 19.4391 11.249 19.4391 11.6754 17.6827C11.9508 16.5481 13.2507 16.0096 14.2478 16.6172C15.7913 17.5576 17.5576 15.7913 16.6172 14.2478C16.0096 13.2507 16.5481 11.9508 17.6827 11.6754C19.4391 11.249 19.4391 8.75103 17.6827 8.32463C16.5481 8.04918 16.0096 6.74925 16.6172 5.75218C17.5576 4.2087 15.7913 2.44239 14.2478 3.38285C13.2507 3.99038 11.9508 3.45193 11.6754 2.31731ZM10 13.375C11.864 13.375 13.375 11.864 13.375 10C13.375 8.13604 11.864 6.625 10 6.625C8.13604 6.625 6.625 8.13604 6.625 10C6.625 11.864 8.13604 13.375 10 13.375Z" stroke="#CDD1D5" strokeWidth="2" />
-                  </svg>
-                </div>
-              </>
-              :
+          </LinkButton>
+          :
+          <div onClick={() => setActiveLogin(true)}>
+            <div className={style.login_card}>
+              <div className={style.avatar_box}>
+                <Image
+                  src={'/images/default_avatar_img.png'}
+                  alt='user avatar icon'
+                  width={60}
+                  height={60}
+                />
+              </div>
               <div className={style.text_box}>
                 <span>로그인이 필요해요</span>
                 <span>원활한 서비스 이용을 위해 로그인 해주세요.</span>
               </div>
-            }
+            </div>
           </div>
-        </LinkButton>
+        }
         {isLogin &&
           <LinkButton href={'/menu/scrap'}>
             <div className={style.scrap_card}>
@@ -58,6 +79,18 @@ export default function LoginBox({isLogin} : {isLogin: boolean}) {
           </LinkButton>
         }
       </div>
+
+      <AnimatePresence>
+        {activeLogin &&
+          <BottomSheet
+            isOpen={true}
+            onClose={() => setActiveLogin(false)}
+          >
+            <LoginModalContent onClose={() => setActiveLogin(false)} />
+          </BottomSheet>
+        }
+      </AnimatePresence>
+
     </div>
   )
 }

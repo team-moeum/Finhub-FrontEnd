@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "Post",
 };
 
-export default async function PostPage({ params }: { params: { topicId: string } }) {
+export default async function PostPage({ params }: { params: { category: string, topicId: string } }) {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: queryKeys.userTypeList,
@@ -27,7 +27,7 @@ export default async function PostPage({ params }: { params: { topicId: string }
   return (
     <HydrationBoundary state={dehydratedState}>
       <Suspense fallback={<Loading height='100%'/>}>
-        <PostScreen topicId={Number(params.topicId)}/>
+        <PostScreen categoryId={Number(params.category)} topicId={Number(params.topicId)}/>
      </Suspense>
     </HydrationBoundary>
   )

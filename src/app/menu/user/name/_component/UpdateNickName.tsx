@@ -5,12 +5,9 @@ import cx from "classnames";
 import Image from "next/image";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { AnimatePresence } from "framer-motion";
 
-import ToastPortal from "@/components/Toast/ToastPortal";
 import { useToast } from "@/components/Toast/useToast";
 import { userState } from "@/states/client/atoms/user";
-import { InfoToast } from "@/components/Toast/InfoToast";
 import { useUpdateNickname } from "@/states/server/mutations";
 
 const nicknameRegex = /^[가-힣a-zA-Z0-9]{2,12}$/;
@@ -20,19 +17,19 @@ export default function UpdateNickName() {
   const [activeSave, setActiveSave] = useState<boolean>(false);
   const [nickName, setNickName] = useState<string>("");
   const [_, setUserInfo] = useRecoilState(userState);
-  const {isToastVisible, showToast} = useToast();
+  const { showToast } = useToast();
 
   const nickNameMutation = useUpdateNickname({
     onSuccess: (data) => {
       if (data.status === "SUCCESS") {
-        showToast({text: "✅ 닉네임 변경 완료!"});
+        showToast({content: "✅ 닉네임 변경 완료!"});
         setUserInfo(prev => ({...prev, nickname: nickName}));
         setActiveSave(false);
         return;
       } 
       
       if (data.status === "DUPLICATION") {
-        showToast({text: "❌ 중복된 닉네임 입니다!"});
+        showToast({content: "❌ 중복된 닉네임 입니다!"});
         return;
       }
     }
@@ -83,13 +80,6 @@ export default function UpdateNickName() {
           />
         </div>
       }
-      <AnimatePresence>
-        {isToastVisible &&
-          <ToastPortal>
-            <InfoToast />
-          </ToastPortal>
-        }
-      </AnimatePresence>
     </div>
   )
 }

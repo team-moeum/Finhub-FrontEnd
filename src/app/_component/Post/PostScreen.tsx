@@ -8,8 +8,8 @@ import PostContent from './PostContent';
 import { useTopicInfo } from '@/states/server/queries';
 import PostNav from '../Nav/PostNav';
 
-type Props = {topicId: number}
-export default function PostScreen({topicId}: Props) {
+type Props = {categoryId: number, topicId: number}
+export default function PostScreen({categoryId, topicId}: Props) {
   const { data: {
     title,
     summary,
@@ -41,7 +41,11 @@ export default function PostScreen({topicId}: Props) {
           <div className={style.content}>{summary}</div>
         </div>
         <div className={style.divider}></div>
-        <PostContent definition={definition} />
+        <PostContent 
+          categoryId={categoryId}
+          topicId={topicId}
+          definition={definition} 
+        />
         <div className={style.next_page_box}>
           <div className={style.next_img_box}>
             <Image

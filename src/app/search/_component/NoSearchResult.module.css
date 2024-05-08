@@ -40,3 +40,20 @@
     font-weight: 500;
 }
 
+.call_btn {
+    margin-top: 80px;
+
+    width: 132px;
+    height: 36px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+
+    background-color: #F6F7F9;
+    color: #A6ABAF;
+    font-size: 12px;
+    font-weight: 600;
+}
+
