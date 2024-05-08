@@ -3,8 +3,9 @@
 import { useState } from 'react'
 import QuizResult from './QuizResult';
 import style from './TodayQize.module.css'
-import  {quizlist} from '../quiz'
 import Image from 'next/image';
+import { useTodayQuiz } from '@/states/server/queries';
+import { usePostQuizSolve } from '@/states/server/mutations';
 
 
 const TodayQize: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
@@ -12,41 +13,46 @@ const TodayQize: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
     const [answerResult, setAnswerResult] = useState('');
     const [answerResulti,setAnswerResulti]=useState('');
     const [answerResult2,setAnswerResult2]=useState('');
-
+    const [errorMsg, setErrorMsg] = useState<string>(''); 
     const clickModal = () => setShowModal(!showModal)
 
-    const handleAnswerClick = (isCorrect: boolean) => {
-        const today = new Date().toISOString().split('T')[0]; 
-        const currentQuiz = quizlist.find(quiz => quiz.targetDate === today); 
+    //ㅇ
+    const { data: todayQuiz,error } = useTodayQuiz();
+    const postQuizSolveMutation=usePostQuizSolve();
 
-        if (!currentQuiz) {
-            return;
-        }
 
-        if ((isCorrect && currentQuiz.answer === 'O') || (!isCorrect && currentQuiz.answer === 'X')) {
-            setAnswerResult('정답이에요!');
-            setAnswerResulti('👏')
-            setAnswerResult2('')
-        } else {
-            setAnswerResult('아쉽지만 정답이 아니에요!');
-            setAnswerResulti('😓');
-            setAnswerResult2('더 공부해볼까요?');
-        }
-        setShowModal(true);
-   
+    
+    const handleAnswerClick = async (quizId: number, answer: string) => {
+     
+            const response = await postQuizSolveMutation.mutateAsync({ quizId, answer });
+            console.log("Quiz solved:", response);
+            
+            if (response.status === "SUCCESS") {
+                const { correctYN } = response.data.quizInfo;
+                if (correctYN === "Y") {
+                    setAnswerResult('정답이에요!');
+                    setAnswerResulti('👏');
+                    setAnswerResult2('');
+                } else {
+                    setAnswerResult('아쉽지만 정답이 아니에요!');
+                    setAnswerResulti('😓');
+                    setAnswerResult2('더 공부해볼까요?');
+                }
+                setShowModal(true);
+            } 
+       
     };
 
-    const todayQuiz = quizlist.find(quiz => quiz.targetDate === new Date().toISOString().split('T')[0]); // 오늘의 퀴즈를 찾습니다.
+
+   /*ㅇ
+    const todayQuiz = quizlist.find(quiz => quiz.targetDate === new Date().toISOString().split('T')[0]); 
+    */
 
     if (!todayQuiz) {
+     
         return (
             <div className={style.container_i}>
-        
-           
-          
                    <div className={style.image_vacation}>
-                  
-                   
                  <Image
                         src='/quiz/quiz_icon_vacation.svg'
                         alt='quiz_icon'
@@ -62,7 +68,7 @@ const TodayQize: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
         );
     }
 
-    if (todayQuiz.correctYN!="") {
+    if (error) {
         return (
             <div className={style.container_i}>
         
@@ -99,13 +105,14 @@ const TodayQize: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
                        
                       
                                <div className={style.bb}>
-                                <p  className={style.text}>{todayQuiz.question}</p>
+                               {todayQuiz && <p className={style.text}>{todayQuiz.question}</p>}
+         
                                 </div>
                         <div className={style.b}>
                             
-                        <button  className={`${style.btn} ${style.o}`} onClick={() => handleAnswerClick(true)} >O</button>
-                        <button  className={style.btn}  onClick={() => handleAnswerClick(false)}>X</button>
-                    
+                        <button className={`${style.btn} ${style.o}`} onClick={() => handleAnswerClick(todayQuiz.id, 'O')}>O</button>
+                        <button className={style.btn} onClick={() => handleAnswerClick(todayQuiz.id, 'X')}>X</button>
+
 
                         </div>
                    

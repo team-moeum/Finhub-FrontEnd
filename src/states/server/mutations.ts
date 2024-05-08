@@ -9,6 +9,8 @@ import { deleteUserAvatar } from "./Menu/deleteUserAvatar";
 import { postNoSearchWord } from "./Search/postNoSearchWord";
 import { deleteRecentKeyword } from "./Search/deleteRecentKeyword";
 
+//
+import { postQuizSolve } from "./Feed/Quiz/postQuizSolve";
 
 export const mutationKeys = {
   scrap: ["scrap"],
@@ -18,6 +20,7 @@ export const mutationKeys = {
   deleteUserAvatar: ["deleteUserAvatar"],
   updateNoSearchWord: ["updateNoSearchWord"],
   deleteRecentKeyword: ["deleteRecentKeyword"],
+  quizSolve:["quizSolve"],
 }
 
 export const useScrap = (options?: UseMutationOptions<any, Error, any>) => {
@@ -74,4 +77,12 @@ export const useUpdateNoSearchWord = (options?: UseMutationOptions<any, Error, a
     mutationFn: (param) => postNoSearchWord(param),
     ...options,
   })
+}
+
+export const usePostQuizSolve = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { quizId: number, answer: string }>({ // quizId와 answer를 전달하는 mutation 추가
+    mutationKey: mutationKeys.quizSolve,
+    mutationFn: (param) => postQuizSolve(param.quizId, param.answer),
+    ...options,
+  });
 }

@@ -3,12 +3,14 @@ import { useInfiniteQuery, useSuspenseQuery, UseSuspenseQueryOptions } from "@ta
 
 import { Topic } from "@/model/Topic"
 import { Banner } from "@/model/Banner"
-import { UserType } from "@/model/UserType"
 import { Category } from "@/model/Category"
 import { TopicInfo } from "@/model/TopicInfo"
 import { UserAvatar } from "@/model/UserAvatar"
 import { TopicGptInfo } from "@/model/TopicGptInfo"
 import { PopularKeyword } from "@/model/PopularKeyword"
+import { UserType } from "@/model/UserType"
+//import { QuizInfo } from "@/model/QuizInfo"
+
 
 import { getCategory } from "./Home/getCategory"
 import { getTopicInfo } from "./List/getTopicInfo"
@@ -21,6 +23,11 @@ import { getUserTypeList } from "./List/getUserTypeList"
 import { getUserAvatarList } from "./Menu/getUserAvatarList"
 import { getPopularKeywordList } from "./Search/getPopularKeywordList"
 import { getSearchGptColumn } from "./Search/getSearchGptColumn"
+import { getQuizDate } from "./Feed/Quiz/getQuizDate"
+import { getTodayQuiz } from "./Feed/Quiz/getTodayQuiz"
+import { getMissedQuiz } from "./Feed/Quiz/getMissedQuiz"
+import { QuizInfo } from "@/model/QuizInfo"
+
 
 export const queryKeys = {
   category: ['category'],
@@ -35,6 +42,10 @@ export const queryKeys = {
   popularKeywordList: ["popularKeywordList"],
   searchTopic: (type: "title" | "summary" | "both", keyword: string) => ['search', 'topic', type, keyword],
   searchGptColumn: (type: "title" | "summary" | "both", keyword: string) => ['search', 'column', type, keyword],
+  //
+  quizDate: (date: string, userId?: number) => ["quizDate", date, userId ? userId?.toString() : ""],
+  todayQuiz: (userId?: number) => ["todayQuiz", userId ? userId?.toString() : ""],
+  missedQuiz: (date: string,limit:number) => ["missedQuiz", date,limit.toString()]
 }
 
 export const queryOptions: QueryOptionsType = {
@@ -81,6 +92,19 @@ export const queryOptions: QueryOptionsType = {
   searchGptColumn: (type: "title" | "summary" | "both", keyword: string, page: number) => ({
     queryKey: queryKeys.searchGptColumn(type, keyword),
     queryFn: () => getSearchGptColumn(type, keyword, page)
+  }),
+  //
+  quizDate: (date: string, userId?: number) => ({
+    queryKey: queryKeys.quizDate(date, userId),
+    queryFn: () => getQuizDate(date, userId)
+  }),
+  todayQuiz: (userId?: number) => ({
+    queryKey: queryKeys.todayQuiz(userId),
+    queryFn: () => getTodayQuiz(userId)
+  }),
+  missedQuiz: (date: string,limit:number) => ({
+    queryKey: queryKeys.missedQuiz(date,limit),
+    queryFn: () => getMissedQuiz(date,limit)
   })
 };
 
@@ -144,3 +168,8 @@ export const UseSearchGptColumn = ({type, keyword, page}: UseSearchProps) => {
     enabled: keyword !== ''
   })
 }
+
+//
+export const useQuizDate = (date: string, userId?: number) => useBaseSuspenseQuery<QuizInfo>(queryOptions.quizDate(date, userId));
+export const useTodayQuiz = (userId?: number) => useBaseSuspenseQuery<QuizInfo>(queryOptions.todayQuiz(userId))
+export const useMissedQuiz = (date: string) => useBaseSuspenseQuery<QuizInfo>(queryOptions.missedQuiz(date));
