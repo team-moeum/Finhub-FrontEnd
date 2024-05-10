@@ -1,7 +1,8 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { SearchRequestType, SearchResult } from "@/model/SearchTopic";
 import { UseSearchGptColumn, useSearchTopic } from "@/states/server/queries";
+import { isEmpty } from "@/utils/isEmpty";
 
 type UseSearchProps = {
   type: SearchRequestType,
@@ -18,6 +19,7 @@ export const useSearch = ({
     hasNextPage: hasTopicNextPage,
     isFetching: isTopicFetching,
   } = useSearchTopic({ type: type, keyword: keyword, page: 0 });
+  const [isResultEmpty, setIsResultEmpty] = useState(false);
 
   const {
     data: searchColumnData,
@@ -34,8 +36,18 @@ export const useSearch = ({
     return searchColumnData?.pages.map(page => page.result).flat() as SearchResult[];
   }, [searchColumnData])
 
-  
+  useEffect(() => {
+    if (!isTopicFetching && !isColumnFetching) {
+      if (
+        isEmpty(resultTopicSearchList) &&
+        isEmpty(resultColumnSearchList)
+      ) setIsResultEmpty(true);
+      else setIsResultEmpty(false);
+    }
+  }, [isTopicFetching, isColumnFetching, resultTopicSearchList, resultColumnSearchList]);
+
   return {
+    isResultEmpty,
     topicInfiniteQuery: {
       resultTopicSearchList,
       fetchTopicNextPage,

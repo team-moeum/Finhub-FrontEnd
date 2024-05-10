@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { useAddRecentSearchState } from "./useRecentSearch";
-import { recentSearchState } from "@/states/client/atoms/recentSearch";
+
 import { debounce } from "@/utils/debounce";
+import { recentSearchState } from "@/states/client/atoms/recentSearch";
+import { useAddRecentSearchState } from "./useRecentSearch";
 
 
 export const useInput = () => {

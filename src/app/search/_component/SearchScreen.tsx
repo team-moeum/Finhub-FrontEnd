@@ -39,7 +39,6 @@ export type ColumnInfiniteQueryType = {
 
 export default function SearchScreen() {
   const [resultTabActive, setResultTabActive] = useState<SearchRequestType>("title");
-  const [isResultEmpty, setIsResultEmpty] = useState<boolean>(false);
 
   const {
     inputRef,
@@ -57,17 +56,10 @@ export default function SearchScreen() {
   } = useInput();
 
   const {
+    isResultEmpty,
     topicInfiniteQuery,
     columnInfiniteQuery
   } = useSearch({ type: resultTabActive, keyword: fetchInput });
-
-  useEffect(() => {
-    if (
-      isEmpty(topicInfiniteQuery.resultTopicSearchList) && 
-      isEmpty(columnInfiniteQuery.resultColumnSearchList)
-    ) setIsResultEmpty(true);
-    else setIsResultEmpty(false);
-  }, [topicInfiniteQuery, columnInfiniteQuery]);
 
   return (
     <div className={style.container}>
