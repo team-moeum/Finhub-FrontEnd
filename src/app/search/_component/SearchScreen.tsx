@@ -3,7 +3,7 @@
 import style from "./SearchScreen.module.css";
 import cx from "classnames";
 import Link from "next/link";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 
 import Loading from "@/app/loading";
 import TopSearch from "./TopSearch";
@@ -14,6 +14,7 @@ import InputResultWordList from "./InputResultWordList";
 import InputResultArticleList from "./InputResultArticleList";
 
 import { Tabs } from "@/components/Tabs/Tabs";
+import { isEmpty } from "@/utils/isEmpty";
 import { useInput } from "../hooks/useInput";
 import { useSearch } from "../hooks/useSearch";
 import { SearchRequestType, SearchResult } from "@/model/SearchTopic";
@@ -38,6 +39,7 @@ export type ColumnInfiniteQueryType = {
 
 export default function SearchScreen() {
   const [resultTabActive, setResultTabActive] = useState<SearchRequestType>("title");
+  const [isResultEmpty, setIsResultEmpty] = useState<boolean>(false);
 
   const {
     inputRef,
@@ -55,10 +57,17 @@ export default function SearchScreen() {
   } = useInput();
 
   const {
-    isResultEmpty,
     topicInfiniteQuery,
     columnInfiniteQuery
   } = useSearch({ type: resultTabActive, keyword: fetchInput });
+
+  useEffect(() => {
+    if (
+      isEmpty(topicInfiniteQuery.resultTopicSearchList) && 
+      isEmpty(columnInfiniteQuery.resultColumnSearchList)
+    ) setIsResultEmpty(true);
+    else setIsResultEmpty(false);
+  }, [topicInfiniteQuery, columnInfiniteQuery]);
 
   return (
     <div className={style.container}>
