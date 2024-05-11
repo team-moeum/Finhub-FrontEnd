@@ -1,31 +1,62 @@
-import stlye from './InputResultWordList.module.css'
+import style from './InputResultWordList.module.css'
+import Link from 'next/link';
+
+import Loading from '@/app/loading';
+import { SearchResult } from '@/model/SearchTopic';
+import { highlightKeyword } from '../utils/highlightKeyword';
+import { TopicInfiniteQueryType } from './SearchScreen';
+
+import ArrowDownIcon from '@/public/icons/icon_arrow_down.svg';
 
 type ItemProps = {
-    title: string;
-    content: string;
+  keyword: string;
+  item: SearchResult;
 }
-
-const Item = ({title, content} : ItemProps) => {
-    return (
-        <div className={stlye.item_box}>
-            <span className={stlye.title}>{title}</span>
-            <span className={stlye.content}>{content}</span>
-        </div>
-    )
+const Item = ({ keyword, item }: ItemProps) => {
+  return (
+    <Link href={`/${item.categoryId}/${item.topicId}`}>
+      <div className={style.item_box}>
+        <span className={style.title}>
+          {highlightKeyword(keyword, item.title)}
+        </span>
+        <span className={style.content}>
+          {highlightKeyword(keyword, item.summary)}
+        </span>
+      </div>
+    </Link>
+  )
 }
 
 type dataType = {
-    data : Array<{title: string; content: string;}>
+  keyword: string,
+  topicInfiniteQuery: TopicInfiniteQueryType,
 }
+export default function InputResultWordList({ keyword, topicInfiniteQuery }: dataType) {
+  const resultSearchList = topicInfiniteQuery.resultTopicSearchList as SearchResult[];
 
-export default function InputResultWordList({data}: dataType) {
+  const handleNextPageClick = () => {
+    topicInfiniteQuery.fetchTopicNextPage();
+  }
 
-    return (
-        <div className={stlye.container}>
-            {data.map((v, i) => (
-                <Item key={i} title={v.title} content={v.content}/>
-            ))}
+  if (topicInfiniteQuery.isTopicFetching) return <Loading height={100} />;
+  return (
+    <>
+      <div className={style.container}>
+        {resultSearchList ?
+          resultSearchList.map((item, index) => (
+            <Item key={index} keyword={keyword} item={item} />
+          ))
+          :
+          <div>No data</div>
+        }
+      </div>
+      {topicInfiniteQuery.hasTopicNextPage &&
+        <div className={style.more_btn} onClick={handleNextPageClick}>
+          더보기
+          <ArrowDownIcon />
         </div>
-    )
+      }
+    </>
+  )
 }
 
