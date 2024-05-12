@@ -80,9 +80,9 @@ export const useUpdateNoSearchWord = (options?: UseMutationOptions<any, Error, a
 }
 
 export const usePostQuizSolve = (options?: UseMutationOptions<any, Error, any>) => {
-  return useMutation<any, Error, { quizId: number, answer: string }>({ // quizId와 answer를 전달하는 mutation 추가
+  return useMutation<any, Error, { id: number, answer: "O" | "X" }>({ 
     mutationKey: mutationKeys.quizSolve,
-    mutationFn: (param) => postQuizSolve(param.quizId, param.answer),
+    mutationFn: (param) => postQuizSolve(param),
     ...options,
   });
 }

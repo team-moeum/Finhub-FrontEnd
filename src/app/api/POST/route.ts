@@ -23,10 +23,9 @@ export async function POST(req: Request) {
     body: JSON.stringify(body)
   });
 
-  console.log(data);
-  if (!data.ok) return NextResponse.json({status: "FAIL", errorMsg: "error", data: data});
-  
   let res = await data.json();
+  if (!data.ok) return NextResponse.json({status: "FAIL", errorMsg: res.errorMsg, data: res});
+  
 
    /* EXPIRED_TOKEN */
    if (res.data === "EXPIRED_TOKEN") {

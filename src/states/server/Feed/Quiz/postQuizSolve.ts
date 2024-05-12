@@ -1,24 +1,23 @@
 import { fetchApi } from "@/api/fetchApi";
 import { ApiResponse } from "@/api/type";
-import { QuizSolveUser } from "@/model/QuizSolveUser";
+import { mutationKeys } from "../../mutations";
 
-export const postQuizSolve = async (quizId: number, answer: string)=> {
+export const postQuizSolve = async (param:any)=> {
  
       const response: ApiResponse = await fetchApi({
         method: "POST",
         path: `/api/v1/main/quiz`,
-        body: {
-          id: quizId,
-          answer: answer
-        }
+        tags: mutationKeys.quizSolve,
+        body: param
       });
-  
+
+      if (!response.data) {
+        throw new Error("Failed to parse server response");
+    }
+
       if (response.status === "FAIL") {
-        throw new Error(response.errorMsg);
-      } else if (response.status === "SUCCESS") {
-        return response.data?.quizResult || null;
+        throw new Error(`Failed postQuizSolve : ${response.errorMsg}`);
       }
-  
-      return null;
-    
+      
+      return response.data.quizInfo; 
   };

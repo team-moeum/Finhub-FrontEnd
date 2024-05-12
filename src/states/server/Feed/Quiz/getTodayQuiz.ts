@@ -1,7 +1,8 @@
 import { fetchApi } from "@/api/fetchApi";
 import { ApiResponse } from "@/api/type";
+import { QuizInfo } from "@/model/QuizInfo";
 
-export const getTodayQuiz = async (userId?: number) => {
+export const getTodayQuiz = async (userId?: number)=> { 
 
     const response: ApiResponse = await fetchApi({
       method: "GET",
@@ -15,14 +16,8 @@ export const getTodayQuiz = async (userId?: number) => {
         throw new Error(response.errorMsg); 
       }
     } else if (response.status === "SUCCESS") {
-      if (!userId) {
-        return response.data?.quizInfo.question; 
-      } else if (userId) {
-        return response.data?.quizInfo.question; 
-      } else {
-        throw new Error(`Failed to quiz: ${response.errorMsg}`); 
-      }
+      return response.data?.quizInfo; 
     } else {
       throw new Error(`Failed to quiz: ${response.errorMsg}`);
     }
-  };
+};

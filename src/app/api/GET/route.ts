@@ -31,12 +31,9 @@ export async function POST(req: Request) {
     credentials: "include"
   });
 
-
-  if (!data.ok) return NextResponse.json({status: "FAIL", errorMsg: "error", data: data});
-  
   let res = await data.json();
+  if (!data.ok) return NextResponse.json({status: "FAIL", errorMsg: res.errorMsg, data: res});
   
-
   /* auth */
   if (param.use === "auth") {
     if (res.status === "SUCCESS") {

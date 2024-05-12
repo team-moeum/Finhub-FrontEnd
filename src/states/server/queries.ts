@@ -23,10 +23,14 @@ import { getUserTypeList } from "./List/getUserTypeList"
 import { getUserAvatarList } from "./Menu/getUserAvatarList"
 import { getPopularKeywordList } from "./Search/getPopularKeywordList"
 import { getSearchGptColumn } from "./Search/getSearchGptColumn"
-import { getQuizDate } from "./Feed/Quiz/getQuizDate"
+import { getQuiz } from "./Feed/Quiz/getQuiz"
 import { getTodayQuiz } from "./Feed/Quiz/getTodayQuiz"
 import { getMissedQuiz } from "./Feed/Quiz/getMissedQuiz"
+import { getSolvedQuiz } from "./Feed/Quiz/getSolvedQuiz"
 import { QuizInfo } from "@/model/QuizInfo"
+import QuizCalendar from "@/app/feed/quiz/_component/QuizCalendar"
+import { getQuizCalender } from "./Feed/Quiz/getQuizCalender"
+import { QuizCalenderResponse } from "@/model/QuizCalender"
 
 
 export const queryKeys = {
@@ -43,9 +47,12 @@ export const queryKeys = {
   searchTopic: (type: "title" | "summary" | "both", keyword: string) => ['search', 'topic', type, keyword],
   searchGptColumn: (type: "title" | "summary" | "both", keyword: string) => ['search', 'column', type, keyword],
   //
-  quizDate: (date: string, userId?: number) => ["quizDate", date, userId ? userId?.toString() : ""],
-  todayQuiz: (userId?: number) => ["todayQuiz", userId ? userId?.toString() : ""],
-  missedQuiz: (date: string,limit:number) => ["missedQuiz", date,limit.toString()]
+  quiz: (date?: string) => ["quiz", date || ""],
+  quizCalendar: (year: string, month: string) => ["quizCalendar", year, month],
+
+  missedQuiz: (date: string, limit?: number) => ["missedQuiz", date, limit?.toString() || ""],
+  solvedQuiz: (isCorrect: string, date: string, limit?: number) => ["solvedQuiz", isCorrect, date, limit?.toString() || ""]
+
 }
 
 export const queryOptions: QueryOptionsType = {
@@ -94,25 +101,32 @@ export const queryOptions: QueryOptionsType = {
     queryFn: () => getSearchGptColumn(type, keyword, page)
   }),
   //
-  quizDate: (date: string, userId?: number) => ({
-    queryKey: queryKeys.quizDate(date, userId),
-    queryFn: () => getQuizDate(date, userId)
+  quiz: (date?: string) => ({
+    queryKey: queryKeys.quiz(date),
+    queryFn: () => getQuiz(date)
   }),
-  todayQuiz: (userId?: number) => ({
-    queryKey: queryKeys.todayQuiz(userId),
-    queryFn: () => getTodayQuiz(userId)
+  quizCalendar: (year: string, month: string) => ({
+    queryKey: queryKeys.quizCalendar(year, month),
+    queryFn: () => getQuizCalender(year, month)
   }),
-  missedQuiz: (date: string,limit:number) => ({
-    queryKey: queryKeys.missedQuiz(date,limit),
-    queryFn: () => getMissedQuiz(date,limit)
+
+
+
+  missedQuiz: (date: string, limit?: number) => ({
+    queryKey: queryKeys.missedQuiz(date, limit),
+    queryFn: () => getMissedQuiz(date, limit)
+  }),
+  solvedQuiz: (isCorrect: string, date: string, limit?: number) => ({
+    queryKey: queryKeys.solvedQuiz(isCorrect, date, limit),
+    queryFn: () => getSolvedQuiz(isCorrect, date, limit)
   })
 };
 
 const useBaseSuspenseQuery = <T = unknown>(
-  queryOption: QueryOptionType<T>, 
-  options?:  Omit<UseSuspenseQueryOptions<T, Error, any>, "queryKey">
-  ) => {
-  const timeOption = {staleTime: 60 * 1000, gcTime: 300 * 1000};
+  queryOption: QueryOptionType<T>,
+  options?: Omit<UseSuspenseQueryOptions<T, Error, any>, "queryKey">
+) => {
+  const timeOption = { staleTime: 60 * 1000, gcTime: 300 * 1000 };
 
   return useSuspenseQuery<any, Error, T, any>({
     queryKey: queryOption.queryKey,
@@ -130,16 +144,16 @@ export const useTopicInfo = (topicId: number) => useBaseSuspenseQuery<TopicInfo>
 export const useTopicGptInfo = (categoryId: number, topicId: number, userTypeId: number) => useBaseSuspenseQuery<TopicGptInfo>(queryOptions.topicGptInfo(categoryId, topicId, userTypeId));
 export const useUserTypeList = () => useBaseSuspenseQuery<UserType[]>(queryOptions.userTypeList());
 export const useUserAvatarList = () => useBaseSuspenseQuery<UserAvatar[]>(queryOptions.userAvatarList());
-export const usePopularKeywordList = () => useBaseSuspenseQuery<{date: string, popularSearchList: PopularKeyword[]}>(queryOptions.popularKeywordList());
+export const usePopularKeywordList = () => useBaseSuspenseQuery<{ date: string, popularSearchList: PopularKeyword[] }>(queryOptions.popularKeywordList());
+export const useQuizCalendar = (year: string, month: string) => useBaseSuspenseQuery<QuizCalenderResponse>(queryOptions.quizCalendar(year, month))
 
-/** useInfiniteQuery */
 type UseSearchProps = {
-  type: "title" | "summary" | "both", 
-  keyword: string, 
+  type: "title" | "summary" | "both",
+  keyword: string,
   page: number
 }
 
-export const useSearchTopic = ({type, keyword, page}: UseSearchProps) => {
+export const useSearchTopic = ({ type, keyword, page }: UseSearchProps) => {
   return useInfiniteQuery({
     queryKey: queryKeys.searchTopic(type, keyword),
     queryFn: ({ pageParam = 0 }) => getSearchTopic(type, keyword, pageParam),
@@ -154,7 +168,7 @@ export const useSearchTopic = ({type, keyword, page}: UseSearchProps) => {
   })
 }
 
-export const UseSearchGptColumn = ({type, keyword, page}: UseSearchProps) => {
+export const UseSearchGptColumn = ({ type, keyword, page }: UseSearchProps) => {
   return useInfiniteQuery({
     queryKey: queryKeys.searchGptColumn(type, keyword),
     queryFn: ({ pageParam = 0 }) => getSearchGptColumn(type, keyword, pageParam),
@@ -169,7 +183,48 @@ export const UseSearchGptColumn = ({type, keyword, page}: UseSearchProps) => {
   })
 }
 
+type useMissedQuizQueryProps = {
+  date: string,
+  limit?: number
+}
+
+export const useMissedQuizQuery = ({ date, limit }: useMissedQuizQueryProps) => {
+  return useInfiniteQuery({
+    queryKey: queryKeys.missedQuiz(date, limit),
+    queryFn: ({ pageParam = date }) => getMissedQuiz(pageParam, limit),
+    getNextPageParam: (lastPage) => {
+      const lastQuiz = lastPage[lastPage?.length - 1];
+      return lastQuiz ? lastPage.targetDate : undefined;
+    },
+    initialPageParam: date,
+    staleTime: 60 * 1000,
+    gcTime: 300 * 1000,
+  })
+}
+
+type useSolvedQuizQueryProps = {
+  isCorrect: string,
+  date: string,
+  limit?: number
+}
+
+export const useSolvedQuizQuery = ({ isCorrect, date, limit }: useSolvedQuizQueryProps) => {
+  return useInfiniteQuery({
+    queryKey: queryKeys.solvedQuiz(isCorrect, date, limit),
+    queryFn: ({ pageParam = date }) => getSolvedQuiz(isCorrect, pageParam, limit),
+    getNextPageParam: (lastPage) => {
+      const lastQuiz = lastPage[lastPage?.length - 1];
+      return lastQuiz ? lastPage.targetDate : undefined;
+    },
+    initialPageParam: date,
+    staleTime: 60 * 1000,
+    gcTime: 300 * 1000,
+  })
+}
+
+
 //
-export const useQuizDate = (date: string, userId?: number) => useBaseSuspenseQuery<QuizInfo>(queryOptions.quizDate(date, userId));
-export const useTodayQuiz = (userId?: number) => useBaseSuspenseQuery<QuizInfo>(queryOptions.todayQuiz(userId))
+export const useQuiz = (date?: string) => useBaseSuspenseQuery<QuizInfo>(queryOptions.quiz(date));
 export const useMissedQuiz = (date: string) => useBaseSuspenseQuery<QuizInfo>(queryOptions.missedQuiz(date));
+export const useSolvedQuiz = (date: string) => useBaseSuspenseQuery<QuizInfo>(queryOptions.solvedQuiz(date));
+
