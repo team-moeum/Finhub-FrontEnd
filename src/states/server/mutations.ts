@@ -8,6 +8,7 @@ import { postUserAvatar } from "./Menu/postUserAvatar";
 import { deleteUserAvatar } from "./Menu/deleteUserAvatar";
 import { postNoSearchWord } from "./Search/postNoSearchWord";
 import { deleteRecentKeyword } from "./Search/deleteRecentKeyword";
+import { postGptColumnLike } from "./Column/ColumnPost/postGptColumnLike";
 
 
 export const mutationKeys = {
@@ -18,6 +19,7 @@ export const mutationKeys = {
   deleteUserAvatar: ["deleteUserAvatar"],
   updateNoSearchWord: ["updateNoSearchWord"],
   deleteRecentKeyword: ["deleteRecentKeyword"],
+  gptColumnLike: ["gptColumnLike"]
 }
 
 export const useScrap = (options?: UseMutationOptions<any, Error, any>) => {
@@ -74,4 +76,12 @@ export const useUpdateNoSearchWord = (options?: UseMutationOptions<any, Error, a
     mutationFn: (param) => postNoSearchWord(param),
     ...options,
   })
+}
+
+export const useGptColumnLike = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number, type: number }>({
+    mutationKey: mutationKeys.gptColumnLike,
+    mutationFn: (param) => postGptColumnLike(param),
+    ...options,
+  });
 }

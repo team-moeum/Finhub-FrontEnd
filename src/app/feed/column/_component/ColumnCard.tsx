@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image"
 import Link from "next/link"
 import { Autoplay, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -9,76 +8,44 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './ColumnCard.css';
-import ColumnCardImg from "./ColumnCardImg";
 
-const ColumnData = [
-    {
-        id: 1,
-        title: "초보자도 주식 할 수 있다! 주식 기본 꿀팁",
-        date: "2024.03.11",
-        tag: ["#주식", "#ETF"],
-        content: "냥냥",
-        summary: "요약글입니다"
-    },
-    {
-        id: 2,
-        title: "초보자도 주식 할 수 있다! 주식 기본 꿀팁",
-        date: "2024.03.11",
-        tag: ["#주식", "#ETF"],
-        content: "냥냥",
-        summary: "요약글입니다"
-    },
-    {
-        id: 3,
-        title: "초보자도 주식 할 수 있다! 주식 기본 꿀팁",
-        date: "2024.03.11",
-        tag: ["#주식", "#ETF"],
-        content: "냥냥",
-        summary: "요약글입니다"
-    }
-]
+import ColumnCardImg from "./ColumnCardImg";
+import { useGptColumnList } from "@/states/server/queries";
+import { gptColumn } from "@/model/GptColumn";
+import Loading from "@/app/loading";
+
+// interface isSwipeProps {
+//     isSwipe : boolean;
+// }
 
 export default function ColumnCard() {
+    const { data, isFetching } = useGptColumnList({ page: 1, size: 5 });
+    const gptColumnList = data?.pages[0].columnInfo as gptColumn[];
+    
+    if (isFetching) return <Loading height={180}/>;
+
     return (
-        <div>
-             <Swiper
-                className="column_swiper"
-                modules={[Pagination, Autoplay]}
-                spaceBetween={50}
-                slidesPerView={1}
-                autoplay = {{ delay: 3000 }}
-                speed={2000}
-                loop={true}
-                pagination={{ clickable: true }}
-                onSwiper={(swiper : any) => console.log(swiper)}
-                onSlideChange={() => console.log('slide change')}
-            >
-                <SwiperSlide>
-                    <Link href="/feed/column/column_post_test">
-                        <ColumnCardImg />
-                    </Link>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Link href="/feed/column/column_post_test">
-                        <ColumnCardImg />
-                    </Link>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Link href="/feed/column/column_post_test">
-                        <ColumnCardImg />   
-                    </Link>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Link href="/feed/column/column_post_test">
-                        <ColumnCardImg />   
-                    </Link>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Link href="/feed/column/column_post_test">
-                        <ColumnCardImg />
-                    </Link>
-                </SwiperSlide>
-            </Swiper>
-        </div>
+        <Swiper
+            className="column_swiper"
+            modules={[Pagination, Autoplay]}
+            spaceBetween={50}
+            slidesPerView={1}
+            autoplay = {{ delay: 3000 }}
+            speed={2000}
+            loop={true}
+            pagination={{ clickable: true }}
+            onSwiper={(swiper : any) => console.log(swiper)}
+            onSlideChange={() => console.log('slide change')}
+        >
+            {gptColumnList.map((item, index) => {
+                return (
+                    <SwiperSlide key={index}>
+                        <Link href={`/feed/column/${item.id}`}>
+                            <ColumnCardImg item={item}/>
+                        </Link>
+                    </SwiperSlide>
+                )
+            })}   
+        </Swiper>
     )
 }

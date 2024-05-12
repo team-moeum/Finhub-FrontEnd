@@ -6,9 +6,11 @@ import { useRouter } from "next/navigation";
 import style from "./CommentDetail.module.css";
 import { useState } from "react";
 
+
 export default function CommentDetail() {
     const router = useRouter();
     const [whichTab, setWhichTab] = useState("popular");
+
 
     const onClickPopular = () => {
         setWhichTab("popular");

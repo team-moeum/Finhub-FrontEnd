@@ -11,36 +11,24 @@
         left: 21px;
         color: #fff;
         .overlay_title {
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 700;
         }
         .overlay_date {
             padding-top: 5px;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 400;
         }
     }
     .overlay_tag {
         z-index: 1;
         position: absolute;
-        top: 141px;
-        left: 220px;
+        top: 137px;
+        right: 20px;
         color: #fff;
         font-size: 14px;
         font-weight: 500;
     }
-}
-
-.img_main {
-    /* position: relative; */
-}
-
-.img_shadow {
-    /* position: inherit; */
-}
-
-.img_title {
-    
 }
 
 .list_img {

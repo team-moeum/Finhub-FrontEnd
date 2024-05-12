@@ -21,6 +21,10 @@ import { getUserTypeList } from "./List/getUserTypeList"
 import { getUserAvatarList } from "./Menu/getUserAvatarList"
 import { getPopularKeywordList } from "./Search/getPopularKeywordList"
 import { getSearchGptColumn } from "./Search/getSearchGptColumn"
+import { getGptColumnList } from "./Column/ColumnPost/getGptColumnList";
+import { gptColumn, gptColumnDetail } from "@/model/GptColumn";
+import ColumnPage from "@/app/feed/column/page"
+import { getGptColumnDetail } from "./Column/ColumnPost/getGptColumnDetail"
 
 export const queryKeys = {
   category: ['category'],
@@ -35,6 +39,8 @@ export const queryKeys = {
   popularKeywordList: ["popularKeywordList"],
   searchTopic: (type: "title" | "summary" | "both", keyword: string) => ['search', 'topic', type, keyword],
   searchGptColumn: (type: "title" | "summary" | "both", keyword: string) => ['search', 'column', type, keyword],
+  gptColumnList: (page: number, size?: number) => ["gptColumn", page.toString(), size?.toString() || ""],
+  gptColumnDetail: (id: number) => ["gptColumnDetail", id.toString()] 
 }
 
 export const queryOptions: QueryOptionsType = {
@@ -81,6 +87,14 @@ export const queryOptions: QueryOptionsType = {
   searchGptColumn: (type: "title" | "summary" | "both", keyword: string, page: number) => ({
     queryKey: queryKeys.searchGptColumn(type, keyword),
     queryFn: () => getSearchGptColumn(type, keyword, page)
+  }),
+  gptColumnList: (page: number, size?: number) => ({
+    queryKey: queryKeys.gptColumnList(page, size),
+    queryFn: () => getGptColumnList(page, size)
+  }),
+  gptColumnDetail: (id: number) => ({
+    queryKey: queryKeys.gptColumnDetail(id),
+    queryFn: () => getGptColumnDetail(id)
   })
 };
 
@@ -107,6 +121,8 @@ export const useTopicGptInfo = (categoryId: number, topicId: number, userTypeId:
 export const useUserTypeList = () => useBaseSuspenseQuery<UserType[]>(queryOptions.userTypeList());
 export const useUserAvatarList = () => useBaseSuspenseQuery<UserAvatar[]>(queryOptions.userAvatarList());
 export const usePopularKeywordList = () => useBaseSuspenseQuery<{date: string, popularSearchList: PopularKeyword[]}>(queryOptions.popularKeywordList());
+export const useGptColumnDetail = (columnId: number) => useBaseSuspenseQuery<gptColumnDetail>(queryOptions.gptColumnDetail(columnId));
+
 
 /** useInfiniteQuery */
 type UseSearchProps = {
@@ -142,5 +158,23 @@ export const UseSearchGptColumn = ({type, keyword, page}: UseSearchProps) => {
     staleTime: 60 * 1000,
     gcTime: 300 * 1000,
     enabled: keyword !== ''
+  })
+}
+
+type UseGptColumnListProps = {
+  page: number,
+  size?: number
+}
+export const useGptColumnList = ({page, size}: UseGptColumnListProps) => {
+  return useInfiniteQuery({
+    queryKey: queryKeys.gptColumnList(page, size),
+    queryFn: ({ pageParam = 1 }) => getGptColumnList(pageParam, size),
+    initialPageParam: page || 1,
+    getNextPageParam: (lastPage) => {
+      const nextPage = lastPage.pageInfo.currentPage + 1;
+      return nextPage < lastPage.pageInfo.totalPages ? nextPage : undefined;
+    },
+    staleTime: 60 * 1000,
+    gcTime: 300 * 1000,
   })
 }

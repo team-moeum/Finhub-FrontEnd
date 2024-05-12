@@ -1,18 +1,23 @@
 import Image from "next/image";
 import "./ColumnCardImg.css";
+import { gptColumn } from "@/model/GptColumn";
 
-export default function ColumnCardImg() {
+type ColumnCardImgProps = {
+    item: gptColumn,
+}
+
+export default function ColumnCardImg({item}: ColumnCardImgProps) {
     return (
         <>
             <div className="slide_img">
                 <div className="overlay_text">
-                    <p className="overlay_title">초보자도 주식할 수 있다!</p>
-                    <p className="overlay_title">주식 기본 꿀팁</p>
-                    <p className="overlay_date">2024. 03. 11.</p>
+                    <p className="overlay_title">{item.title}</p>
+                    <p className="overlay_date">{item.date}</p>
                 </div>
                 <div className="overlay_tag">
-                    <span>#주식 </span>
-                    <span>#ETF </span>
+                    {item.topicList.map((topic) => (
+                        <span key={topic.id}>#{topic.title} </span>    
+                    ))}
                 </div>
                 <Image 
                     src="/column/col_img.png"
