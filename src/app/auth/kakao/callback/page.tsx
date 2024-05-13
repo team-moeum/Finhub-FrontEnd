@@ -7,6 +7,8 @@ import Loading from "@/app/loading";
 import { authAPI } from "@/api/auth";
 import { useRecoilState } from "recoil";
 import { userState } from "@/states/client/atoms/user";
+import { jsToNative } from "@/utils/jsToNative";
+import { fcmAPI } from "@/api/fcm";
 
 export default function KakaoLogin() {
   const router = useRouter();
@@ -22,6 +24,10 @@ export default function KakaoLogin() {
         const { status, data } = await authAPI.loginWithKakao(kakaoCode);
         if (status === "SUCCESS") {
           setUserInfo(data.info);
+
+          jsToNative({ val1: "getPushToken" }, (data: any) => {
+            fcmAPI.updateFcmToken(data.detail);
+          });
 
           router.push("/home");
         } else {
