@@ -8,6 +8,7 @@
     width: 37.5%;
     height: calc(100% - 46px);
     overflow-y: auto;
+    background-color: #F9FAFA;
 }
 
 .right_scroll_area {

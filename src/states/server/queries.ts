@@ -21,6 +21,7 @@ import { getUserTypeList } from "./List/getUserTypeList"
 import { getUserAvatarList } from "./Menu/getUserAvatarList"
 import { getPopularKeywordList } from "./Search/getPopularKeywordList"
 import { getSearchGptColumn } from "./Search/getSearchGptColumn"
+import { getAnnounce } from "./Menu/getAnnounce"
 
 export const queryKeys = {
   category: ['category'],
@@ -35,6 +36,7 @@ export const queryKeys = {
   popularKeywordList: ["popularKeywordList"],
   searchTopic: (type: "title" | "summary" | "both", keyword: string) => ['search', 'topic', type, keyword],
   searchGptColumn: (type: "title" | "summary" | "both", keyword: string) => ['search', 'column', type, keyword],
+  announce: (cursorId?: number, size?: number) => ['announce', cursorId?.toString() || "", size?.toString() || ""] 
 }
 
 export const queryOptions: QueryOptionsType = {
@@ -81,6 +83,10 @@ export const queryOptions: QueryOptionsType = {
   searchGptColumn: (type: "title" | "summary" | "both", keyword: string, page: number) => ({
     queryKey: queryKeys.searchGptColumn(type, keyword),
     queryFn: () => getSearchGptColumn(type, keyword, page)
+  }),
+  announce: (cursorId?: number, size?: number) => ({
+    queryKey: queryKeys.announce(cursorId, size),
+    queryFn: () => getAnnounce(cursorId, size)
   })
 };
 
@@ -130,7 +136,7 @@ export const useSearchTopic = ({type, keyword, page}: UseSearchProps) => {
   })
 }
 
-export const UseSearchGptColumn = ({type, keyword, page}: UseSearchProps) => {
+export const useSearchGptColumn = ({type, keyword, page}: UseSearchProps) => {
   return useInfiniteQuery({
     queryKey: queryKeys.searchGptColumn(type, keyword),
     queryFn: ({ pageParam = 0 }) => getSearchGptColumn(type, keyword, pageParam),
@@ -144,3 +150,22 @@ export const UseSearchGptColumn = ({type, keyword, page}: UseSearchProps) => {
     enabled: keyword !== ''
   })
 }
+
+type UseAnnounceInfinitQueryProps = {
+  cursorId?: number, 
+  size?: number
+}
+
+export const useAnnounceInfiniteQuery = ({ cursorId, size }: UseAnnounceInfinitQueryProps) => {
+  return useInfiniteQuery({
+    queryKey: queryKeys.announce(cursorId, size),
+    queryFn: ({ pageParam = cursorId }) => getAnnounce(pageParam, size),
+    getNextPageParam: (lastPage) => {
+      const nextCursor = lastPage[lastPage.length - 1]?.id - 1;
+      return nextCursor && nextCursor > 0 ? nextCursor : undefined;
+    },
+    initialPageParam: cursorId,
+    staleTime: 60 * 1000, 
+    gcTime: 300 * 1000,
+  });
+};
