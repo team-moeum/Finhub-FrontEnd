@@ -1,19 +1,30 @@
+"use client";
+
 import style from "./menu.module.css";
 
 import LoginBox from "../_component/Menu/LoginBox";
 import MenuCard from "../_component/Menu/MenuCard";
 import LogOutButton from "./_component/LogOutButton";
 import { isUserLoginSsr } from "@/utils/auth_server";
+import { useEffect, useState } from "react";
+import { jsToNative } from "@/utils/jsToNative";
 
-const currentVersion = "1.0.0";
-const recentVersion = "1.0.0";
-
-export default async function MenuPage() {
+export default function MenuPage() {
   const isLogin = isUserLoginSsr();
+  const [currentVersion, setCurrentVersion] = useState("");
+  const [recentVersion, setRecentVersion] = useState("");
+
+  useEffect(() => {
+    jsToNative({ val1: "appVersion" }, (data: any) => {
+      setCurrentVersion(data.detail);
+    });
+    // TODO
+    setRecentVersion("1.0.0");
+  }, []);
 
   return (
     <div className={style.container}>
-      <LoginBox isLogin={isLogin}/>
+      <LoginBox isLogin={isLogin} />
       <div className={style.content}>
         <MenuCard href="/menu">공지사항</MenuCard>
         <MenuCard href="/menu/theme">테마</MenuCard>
