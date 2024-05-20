@@ -34,7 +34,7 @@ export const AnnouncementList = () => {
           {announceList.map(item => (
             <div className={style.item} key={item.id}>
               <p className={style.content}>{item.content}</p>
-              <p className={style.time}>{dateFormatter(item.time, 1)}</p>
+              <p className={style.time}>{dateFormatter(item.time, 'dotSeparated')}</p>
             </div>
           ))}
           <div ref={ref} style={{ width: '100%', height: '20px' }}></div>
