@@ -26,7 +26,7 @@ export default function MenuPage() {
     <div className={style.container}>
       <LoginBox isLogin={isLogin} />
       <div className={style.content}>
-        <MenuCard href="/menu">공지사항</MenuCard>
+        <MenuCard href="/menu/announcement">공지사항</MenuCard>
         <MenuCard href="/menu/theme">테마</MenuCard>
         {isLogin && <MenuCard href="/menu/alarm">알림</MenuCard>}
       </div>
