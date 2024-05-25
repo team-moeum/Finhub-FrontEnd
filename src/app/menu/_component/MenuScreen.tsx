@@ -1,7 +1,5 @@
 "use client";
 
-import style from './MenuScreen.module.css';
-
 import { useEffect, useState } from "react";
 import { jsToNative } from "@/utils/jsToNative";
 import { useIsLoginCsr } from "@/utils/auth_client";
@@ -9,6 +7,10 @@ import { useIsLoginCsr } from "@/utils/auth_client";
 import LoginBox from "@/app/_component/Menu/LoginBox";
 import MenuCard from "@/app/_component/Menu/MenuCard";
 import LogOutButton from "./LogOutButton";
+import { AppContainer, Container } from '@/components/Container';
+import { Box } from '@/components/Box';
+import { Text } from '@/components/Text';
+
 
 export default function MenuPage() {
   const isLogin = useIsLoginCsr();
@@ -24,17 +26,24 @@ export default function MenuPage() {
   }, []);
 
   return (
-    <div className={style.container}>
+    <AppContainer>
       <LoginBox isLogin={isLogin} />
-      <div className={style.content}>
+
+      <Container mt={30} mb={100}>
         <MenuCard href="/menu/announcement">공지사항</MenuCard>
         <MenuCard href="/menu/theme">테마</MenuCard>
         {isLogin && <MenuCard href="/menu/alarm">알림</MenuCard>}
-      </div>
-      <div className={style.version_area}>
-        버전 현재 {currentVersion} / 최신 {recentVersion}
-      </div>
-      {isLogin && <LogOutButton />}
-    </div>
+      </Container>
+
+      <Container variant='thick'>
+        <Box>
+          <Text size={16} weight={400} color='#A6ABAF'>버전 현재 {currentVersion} / 최신 {recentVersion}</Text>
+        </Box>
+
+        <Box mt={20}>
+          {isLogin && <LogOutButton />}
+        </Box>
+      </Container>
+    </AppContainer>
   );
 }

@@ -1,9 +1,10 @@
 "use client";
 
-import style from "./LogOutButton.module.css";
 import { useRouter } from "next/navigation";
 
 import { authAPI } from "@/api/auth";
+import { Text } from "@/components/Text";
+import { Box } from "@/components/Box";
 
 export default function LogOutButton() {
   const router = useRouter();
@@ -13,13 +14,11 @@ export default function LogOutButton() {
     logout();
     router.refresh();
   };
-  
+
   return (
-      <button 
-        className={style.logout}
-        onClick={handleLogout}
-      >로그아웃
-      </button>
+    <Box onClick={handleLogout} display='inline'>
+      <Text size={12} weight={600} color="#CDD1D5">로그아웃</Text>
+    </Box>
   )
 }
 
