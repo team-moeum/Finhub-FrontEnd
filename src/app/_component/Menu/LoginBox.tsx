@@ -5,16 +5,18 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 
-import LinkButton from "../UiComponent/LinkButton";
+import { LinkButton } from "../UiComponent/LinkButton";
 import { userState } from "@/states/client/atoms/user";
 import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
 import LoginModalContent from "../Catergory/LoginModalContent";
 import { AnimatePresence } from "framer-motion";
+import { PressButton } from "../UiComponent/PressAnimator";
+
+import BellIcon from '@/public/icons/bell_gray_ico.svg';
 
 export default function LoginBox({ isLogin }: { isLogin: boolean }) {
   const [userInfo, _] = useRecoilState(userState);
   const [activeLogin, setActiveLogin] = useState(false);
-  console.log(userInfo);
 
   return (
     <div className={style.container}>
@@ -22,9 +24,7 @@ export default function LoginBox({ isLogin }: { isLogin: boolean }) {
         <span>메뉴</span>
         {isLogin &&
           <div className={style.icon_box}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="22" viewBox="0 0 21 22" fill="none">
-              <path fillRule="evenodd" clipRule="evenodd" d="M13.2794 19.4285C13.2794 20.8486 12.0351 21.9999 10.5 21.9999C9.02641 21.9999 7.82064 20.9389 7.72653 19.5975L7.72062 19.4285H13.2794ZM10.4897 0C14.5791 0 17.1746 2.62865 17.8942 6.85115L18.8879 13.5203C19.5877 15.9881 21 15.1455 21 16.4988C21 17.36 20.0777 17.7636 18.2332 17.7096L17.9634 17.6988H3.03657L2.76679 17.7096C0.922265 17.7636 0 17.36 0 16.4988C0 15.1939 1.31321 15.9308 2.03447 13.7723L2.11207 13.5203C2.11207 13.5203 2.88315 8.49453 3.10581 6.85115C3.80692 2.73692 6.28904 0.13585 10.1987 0.00516726L10.4897 0Z" fill="#CDD1D5" />
-            </svg>
+            <BellIcon />
           </div>
         }
       </div>
@@ -52,22 +52,25 @@ export default function LoginBox({ isLogin }: { isLogin: boolean }) {
             </div>
           </LinkButton>
           :
-          <div onClick={() => setActiveLogin(true)}>
-            <div className={style.login_card}>
-              <div className={style.avatar_box}>
-                <Image
-                  src={'/images/default_avatar_img.png'}
-                  alt='user avatar icon'
-                  width={60}
-                  height={60}
-                />
-              </div>
-              <div className={style.text_box}>
-                <span>로그인이 필요해요</span>
-                <span>원활한 서비스 이용을 위해 로그인 해주세요.</span>
+          <PressButton>
+            <div onClick={() => setActiveLogin(true)}>
+              <div className={style.login_card}>
+                <div className={style.avatar_box}>
+                  <Image
+                    src={'/images/default_avatar_img.png'}
+                    alt='user avatar icon'
+                    width={60}
+                    height={60}
+                    priority
+                  />
+                </div>
+                <div className={style.text_box}>
+                  <span>로그인이 필요해요</span>
+                  <span>원활한 서비스 이용을 위해 로그인 해주세요.</span>
+                </div>
               </div>
             </div>
-          </div>
+          </PressButton>
         }
         {isLogin &&
           <LinkButton href={'/menu/scrap'}>

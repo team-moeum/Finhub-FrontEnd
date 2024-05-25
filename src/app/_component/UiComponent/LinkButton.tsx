@@ -1,13 +1,26 @@
 import Link from "next/link";
-import style from "./UiComponent.module.css";
-
-type Props = {
-    href: string
-    children: React.ReactNode
+import { PressBox, PressButton } from "./PressAnimator";
+interface LinkProps {
+  href: string
+  children: React.ReactNode
 }
 
-export default function LinkButton({href, children}:Props) {
-    return (
-        <Link className={style.link_btn} href={href}>{children}</Link>
-    )
+export const LinkBox = ({ href, children }: LinkProps) => {
+  return (
+    <PressBox>
+      <Link href={href}>
+        {children}
+      </Link>
+    </PressBox>
+  )
+}
+
+export const LinkButton = ({ href, children }: LinkProps) => {
+  return (
+    <PressButton>
+      <Link href={href}>
+        {children}
+      </Link>
+    </PressButton>
+  )
 }
