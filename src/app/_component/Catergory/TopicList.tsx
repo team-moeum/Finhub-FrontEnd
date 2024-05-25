@@ -21,6 +21,7 @@ import ToastPortal from "@/components/Toast/ToastPortal";
 import { useQueryClient } from '@tanstack/react-query';
 import { userState } from '@/states/client/atoms/user';
 import { useIsLoginCsr } from '@/utils/auth_client';
+import { LinkButton } from '../UiComponent/LinkButton';
 
 type TopicItemProps = {
   data: Topic; 
@@ -61,7 +62,7 @@ export function TopicItem({data}: TopicItemProps) {
   }
 
   return (
-    <Link href={`/${activeCategoryItem.categoryId}/${data.topicId}`}>
+    <LinkButton href={`/${activeCategoryItem.categoryId}/${data.topicId}`}>
       <div className={style.item_container}>
         <div className={style.img_box}></div>
         <div className={style.content_box}>
@@ -72,7 +73,7 @@ export function TopicItem({data}: TopicItemProps) {
           <ScrapIcon active={active} />
         </div>
       </div>
-    </Link>
+    </LinkButton>
   )
 }
 
