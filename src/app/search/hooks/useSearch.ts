@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { SearchRequestType, SearchResult } from "@/model/SearchTopic";
-import { UseSearchGptColumn, useSearchTopic } from "@/states/server/queries";
+import { useSearchGptColumn, useSearchTopic } from "@/states/server/queries";
 import { isEmpty } from "@/utils/isEmpty";
 
 type UseSearchProps = {
@@ -26,7 +26,7 @@ export const useSearch = ({
     fetchNextPage: fetchColumnNextPage,
     hasNextPage: hasColumnNextPage,
     isFetching: isColumnFetching,
-  } = UseSearchGptColumn({ type: type, keyword: keyword, page: 0 });
+  } = useSearchGptColumn({ type: type, keyword: keyword, page: 0 });
   
   const resultTopicSearchList = useMemo(() => {
     return searchTopicData?.pages.map(page => page.result).flat() as SearchResult[];
