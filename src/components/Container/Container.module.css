@@ -1,0 +1,21 @@
+.appContainerWrap {
+  display: flex;
+  flex-flow: column;
+}
+
+.footer {
+  padding-bottom: 54px;
+}
+
+.containerWrap {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.containerWrap::-webkit-scrollbar {
+  display: none;
+}

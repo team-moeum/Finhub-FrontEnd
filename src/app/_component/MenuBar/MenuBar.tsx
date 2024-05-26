@@ -6,6 +6,8 @@ import style from "./MenuBar.module.css";
 import cx from 'classnames';
 import { usePathname } from "next/navigation";
 
+export const MENUBAR_HEIGHT = 54;
+
 export default function MenuBar() {
     const pathName = usePathname();
 

@@ -1,12 +1,15 @@
-import style from "./theme.module.css";
+import { AppContainer, Container } from "@/components/Container";
+
 import MenuHeader from "@/app/_component/Menu/MenuHeader";
 import ThemeRadioList from "./_component/ThemeRadioList";
 
 export default function ThemePage() {
-    return (
-        <div className={style.container}>
-            <MenuHeader>테마</MenuHeader>
-            <ThemeRadioList />
-        </div>
-    )
+  return (
+    <AppContainer>
+      <Container>
+        <MenuHeader>테마</MenuHeader>
+        <ThemeRadioList />
+      </Container>
+    </AppContainer>
+  )
 }
