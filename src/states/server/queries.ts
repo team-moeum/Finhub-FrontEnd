@@ -8,8 +8,11 @@ import { Category } from "@/model/Category"
 import { TopicInfo } from "@/model/TopicInfo"
 import { UserAvatar } from "@/model/UserAvatar"
 import { TopicGptInfo } from "@/model/TopicGptInfo"
+import { MyColumnScarp, MyScrap, MyScrapRequest, MyTopicScarp } from "@/model/MyScrap"
 import { PopularKeyword } from "@/model/PopularKeyword"
 
+import { getMyScrap } from "./Menu/getMyScrap"
+import { getAnnounce } from "./Menu/getAnnounce"
 import { getCategory } from "./Home/getCategory"
 import { getTopicInfo } from "./List/getTopicInfo"
 import { getTopicList } from "./Home/getTopicList"
@@ -21,12 +24,11 @@ import { getUserTypeList } from "./List/getUserTypeList"
 import { getUserAvatarList } from "./Menu/getUserAvatarList"
 import { getPopularKeywordList } from "./Search/getPopularKeywordList"
 import { getSearchGptColumn } from "./Search/getSearchGptColumn"
-import { getAnnounce } from "./Menu/getAnnounce"
 
 export const queryKeys = {
   category: ['category'],
   banner: ['banner'],
-  topicList: (categoryId: number) => ["topicList", categoryId.toString()],
+  topicList: (categoryId: number) => ["topicList", categoryId?.toString()],
   totalList: (categoryId: number) => ["totalList", categoryId.toString()],
   scrap: ["scrap"],
   topicInfo: (topicId: number) => ["topicInfo", topicId.toString()],
@@ -36,7 +38,8 @@ export const queryKeys = {
   popularKeywordList: ["popularKeywordList"],
   searchTopic: (type: "title" | "summary" | "both", keyword: string) => ['search', 'topic', type, keyword],
   searchGptColumn: (type: "title" | "summary" | "both", keyword: string) => ['search', 'column', type, keyword],
-  announce: (cursorId?: number, size?: number) => ['announce', cursorId?.toString() || "", size?.toString() || ""] 
+  announce: (cursorId?: number, size?: number) => ['announce', cursorId?.toString() || "", size?.toString() || ""],
+  myScrap: (type: MyScrapRequest) => ["myScrap", type]
 }
 
 export const queryOptions: QueryOptionsType = {
@@ -87,7 +90,11 @@ export const queryOptions: QueryOptionsType = {
   announce: (cursorId?: number, size?: number) => ({
     queryKey: queryKeys.announce(cursorId, size),
     queryFn: () => getAnnounce(cursorId, size)
-  })
+  }),
+  myScrap: (type: MyScrapRequest) => ({
+    queryKey: queryKeys.myScrap(type),
+    queryFn: () => getMyScrap(type)
+  }),
 };
 
 const useBaseSuspenseQuery = <T = unknown>(
@@ -113,6 +120,7 @@ export const useTopicGptInfo = (categoryId: number, topicId: number, userTypeId:
 export const useUserTypeList = () => useBaseSuspenseQuery<UserType[]>(queryOptions.userTypeList());
 export const useUserAvatarList = () => useBaseSuspenseQuery<UserAvatar[]>(queryOptions.userAvatarList());
 export const usePopularKeywordList = () => useBaseSuspenseQuery<{date: string, popularSearchList: PopularKeyword[]}>(queryOptions.popularKeywordList());
+export const useMyScrap = (type: MyScrapRequest) => useBaseSuspenseQuery<MyTopicScarp[] | MyColumnScarp[]>(queryOptions.myScrap(type));
 
 /** useInfiniteQuery */
 type UseSearchProps = {

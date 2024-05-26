@@ -1,82 +1,138 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { Suspense, useState } from 'react';
 import style from './ScrapContent.module.css';
 import cx from 'classnames';
-import { Topic } from '@/model/Topic';
 import ScrapIcon from "@/assets/Icons";
-import Link from 'next/link';
+import { LinkButton } from '@/components/LinkButton';
+import { queryKeys, useMyScrap } from '@/states/server/queries';
+import { MyColumnScarp, MyScrapRequest, MyTopicScarp } from '@/model/MyScrap';
+import Loading from '@/app/loading';
+import { useScrap } from '@/states/server/mutations';
+import { useToast } from '@/components/Toast/useToast';
+import { useQueryClient } from '@tanstack/react-query';
 
-const data = {
-    "word" : [
-        {topicId:1, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
-        {topicId:2, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
-        {topicId:3, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true}
-    ],
-    "article" : [
-        {topicId:11, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
-        {topicId:22, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
-        {topicId:33, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
-        {topicId:44, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
-        {topicId:55, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
-        {topicId:66, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
-        {topicId:77, title: "주식이란?", categoryName:"주식", categoryId:1, summary: "주식이란 자본회사의 자본을 이루는 어쩌구 저쩌구", scrapped:true},
-    ]
+type ScrapTopicItemProps = {
+  data: MyTopicScarp,
+  onScrapClick: (e: React.MouseEvent) => void
+}
+const ScrapTopicItem = ({ data, onScrapClick }: ScrapTopicItemProps) => {
+  return (
+    <LinkButton href={`/${data.categoryId}/${data.topicId}`}>
+      <div className={style.item_container}>
+        <div className={style.img_box}></div>
+        <div className={style.content_box}>
+          <p>{data.title}</p>
+          <p>{data.definition}</p>
+        </div>
+        <div className={style.icon_box} onClick={onScrapClick}>
+          <ScrapIcon active={true} />
+        </div>
+      </div>
+    </LinkButton>
+  )
 }
 
-export function ScrapItem({data}: {data: Topic}) {
+type ScrapColumnItemProps = {
+  data: MyColumnScarp,
+  onScrapClick: (e: React.MouseEvent) => void
+}
+const ScrapColumnItem = ({ data, onScrapClick }: ScrapColumnItemProps) => {
+  /** To do GPT 컬럼 링크 연결 */
+  return (
+    <LinkButton href={`/menu/scrap`}>
+      <div className={style.item_container}>
+        <div className={style.img_box}></div>
+        <div className={style.content_box}>
+          <p>{data.title}</p>
+          <p>{data.summary}</p>
+        </div>
+        <div className={style.icon_box} onClick={onScrapClick}>
+          <ScrapIcon active={true} />
+        </div>
+      </div>
+    </LinkButton>
+  )
+}
 
-    const handleScrapClick = (e: React.MouseEvent) => {
-        e.preventDefault();
-        console.log("scrap 해제");
+type SrapListProps = {
+  type: MyScrapRequest
+}
+const SrapList = ({type}: SrapListProps) => {
+  const { showToast } = useToast();
+
+  const { data: myScrap, refetch } = useMyScrap(type);
+  const topicScrapList = myScrap as MyTopicScarp[] ?? [];
+  const columnScrapList = myScrap as MyColumnScarp[] ?? [];
+
+  const queryClient = useQueryClient();
+  const scrapMutation = useScrap({
+    onSuccess: (data, variable) => {
+      if (data.status === "FAIL") {
+        showToast({content: "잠시 후 다시 시도해주세요.", type: "warning"});
+        return;
+      }
+
+      queryClient.invalidateQueries({queryKey: queryKeys.myScrap(type)});
+      queryClient.invalidateQueries({queryKey: queryKeys.topicList(variable.categoryId)});
+
+      refetch();
+    },
+    onError: () => {
+      showToast({content: "잠시후 다시 시도해주세요!", type: "warning"});
     }
+  });
+  
+  const handleScrapTopicClick = (id: number, categoryId: number, e: React.MouseEvent) => {
+    e.preventDefault();
+    scrapMutation.mutate({id, type: 1, categoryId});
+  }
+    
+  const handleScrapColumnClick = (id: number, e: React.MouseEvent) => {
+    e.preventDefault();
+    scrapMutation.mutate({id, type: 2});
+  }
 
-    return (
-      <Link href={`/${data.categoryId}/${data.topicId}`}>
-          <div className={style.item_container}>
-              <div className={style.img_box}></div>
-              <div className={style.content_box}>
-                  <p>{data.title}</p>
-                  <p>{data.summary}</p>
-              </div>
-              <div className={style.icon_box} onClick={handleScrapClick}>
-                  <ScrapIcon active={true} />
-              </div>
-          </div>
-      </Link>
-    )
+  return (
+    <div className={style.item_list}>
+      <div className={style.topic_list}>
+        {type === "topic"
+          ? topicScrapList.map(item => (
+            <ScrapTopicItem
+              key={`${item.categoryId}_${item.topicId}`}
+              data={item}
+              onScrapClick={(e) => handleScrapTopicClick(item.topicId, item.categoryId ,e)}
+            />
+          ))
+          : columnScrapList.map(item => (
+            <ScrapColumnItem
+              key={`${item.columnId}`}
+              data={item}
+              onScrapClick={(e) => handleScrapColumnClick(item.columnId, e)}
+            />
+          ))
+        }
+      </div>
+    </div>
+  )
 }
-
-type toggleTypes = "word" | "article";
 
 export default function ScrapContent() {
-    const [toggle, setToggle] = useState<toggleTypes>("word");
-    const [filteredTopicData, setFilteredTopicData] = useState<Topic[]>(data[toggle]);
+  const [toggleType, setToggleType] = useState<MyScrapRequest>("topic");
 
-    const handleToggleClick = (item:toggleTypes) => {
-        setToggle(item);
-    }
+  const handleToggleClick = (type: MyScrapRequest) => {
+    setToggleType(type);
+  }
 
-    useEffect(() => {
-        setFilteredTopicData(data[toggle])
-    }, [toggle])
-
-    return (
-        <div className={style.container}>
-            <ul className={cx([style.toggle_box, toggle === "article" && style.slide])}>
-               <li onClick={() => handleToggleClick("word")}>단어</li>
-               <li onClick={() => handleToggleClick("article")}>컬럼</li>  
-            </ul>
-            <div className={style.item_list}>
-                <div className={style.topic_list}>
-                    {filteredTopicData.map(item => (
-                        <ScrapItem 
-                            key={`${item.categoryName}_${item.topicId}`}
-                            data={item}
-                        />
-                    ))}
-                </div>
-            </div>
-        </div>
-    )
+  return (
+    <div className={style.container}>
+      <ul className={cx([style.toggle_box, toggleType === "column" && style.slide])}>
+        <li onClick={() => handleToggleClick("topic")}>단어</li>
+        <li onClick={() => handleToggleClick("column")}>컬럼</li>
+      </ul>
+      <Suspense fallback={<Loading height={300}/>}>
+        <SrapList type={toggleType}/>
+      </Suspense>
+    </div>
+  )
 }

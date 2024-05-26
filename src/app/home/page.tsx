@@ -14,6 +14,7 @@ import { getCategory } from "@/states/server/Home/getCategory";
 import { getTopicList } from "@/states/server/Home/getTopicList";
 import { getBannerList } from "@/states/server/Home/getBannerList";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
+import { Category } from "@/model/Category";
 
 export default async function Home() {
   const queryClient = new QueryClient();
@@ -21,14 +22,18 @@ export default async function Home() {
     queryKey: queryKeys.category,
     queryFn: () => getCategory(true), // ssr true
   });
+
   await queryClient.prefetchQuery({
     queryKey: queryKeys.banner,
     queryFn: () => getBannerList(true),
   });
+
+  const firstCategory = queryClient.getQueryData(queryKeys.category) as Category[];
   await queryClient.prefetchQuery({
-    queryKey: queryKeys.topicList(1),
-    queryFn: () => getTopicList(1, true),
+    queryKey: queryKeys.topicList(firstCategory[0].categoryId),
+    queryFn: () => getTopicList(firstCategory[0].categoryId, true),
   });
+
   const dehydratedState = dehydrate(queryClient);
 
   return (
@@ -49,7 +54,7 @@ export default async function Home() {
         <Box mt={26} mb={32}>
           <HydrationBoundary state={dehydratedState}>
             <CategoryCard />
-            <HomeContent />
+            <HomeContent initCategory={firstCategory[0]}/>
           </HydrationBoundary>
         </Box>
       </Container>

@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRecoilState } from "recoil";
-import React, { Suspense } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import React, { Suspense, useEffect } from "react";
 import { AnimatePresence } from 'framer-motion';
 
 import { activeCategory } from "@/states/client/atoms/activeCategory"
@@ -19,10 +19,20 @@ import Loading from '@/app/loading';
 import TopicList from "./TopicList";
 import CategoryItemList from "./CatergoryItemList";
 import LoginModalContent from './LoginModalContent';
+import { Category } from '@/model/Category';
 
-export default function HomeContent() {
+type HomeContentProps = {
+  initCategory: Category;
+}
+export default function HomeContent({initCategory}: HomeContentProps) {
   const [activeItem] = useRecoilState(activeCategory);
+
+  const  setActiveItem = useSetRecoilState(activeCategory);
   const [activeLogin, setActiveLogin] = useRecoilState(activeLoginModal);
+
+  useEffect(() => {
+    setActiveItem(initCategory);
+  }, [initCategory])
 
   return (
     <Container variant='full'>

@@ -46,7 +46,6 @@ export default function CategoryItemList() {
   const [activeItem, setActiveItem] = useRecoilState(activeCategory);
 
   const { data: categoryList } = useCategory();
-  console.log(categoryList);
 
   const itemRefs = useRef<(HTMLLabelElement | null)[]>([]);
 
