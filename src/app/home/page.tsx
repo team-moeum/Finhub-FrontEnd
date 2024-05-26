@@ -29,9 +29,10 @@ export default async function Home() {
   });
 
   const firstCategory = queryClient.getQueryData(queryKeys.category) as Category[];
+  const firstCategoryId = firstCategory ? firstCategory[0].categoryId : -1;
   await queryClient.prefetchQuery({
-    queryKey: queryKeys.topicList(firstCategory[0].categoryId),
-    queryFn: () => getTopicList(firstCategory[0].categoryId, true),
+    queryKey: queryKeys.topicList(firstCategoryId),
+    queryFn: () => getTopicList(firstCategoryId, true),
   });
 
   const dehydratedState = dehydrate(queryClient);
@@ -54,7 +55,7 @@ export default async function Home() {
         <Box mt={26} mb={32}>
           <HydrationBoundary state={dehydratedState}>
             <CategoryCard />
-            <HomeContent initCategory={firstCategory[0]}/>
+            <HomeContent initCategory={firstCategory ? firstCategory[0] : {categoryId: -1, name: ""}}/>
           </HydrationBoundary>
         </Box>
       </Container>

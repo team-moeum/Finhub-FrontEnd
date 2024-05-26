@@ -22,16 +22,14 @@ import LoginModalContent from './LoginModalContent';
 import { Category } from '@/model/Category';
 
 type HomeContentProps = {
-  initCategory: Category;
+  initCategory?: Category;
 }
 export default function HomeContent({initCategory}: HomeContentProps) {
-  const [activeItem] = useRecoilState(activeCategory);
-
-  const  setActiveItem = useSetRecoilState(activeCategory);
+  const [activeItem, setActiveItem] = useRecoilState(activeCategory);
   const [activeLogin, setActiveLogin] = useRecoilState(activeLoginModal);
 
   useEffect(() => {
-    setActiveItem(initCategory);
+    if (initCategory) setActiveItem(initCategory);
   }, [initCategory])
 
   return (
