@@ -24,6 +24,8 @@ import { getUserTypeList } from "./List/getUserTypeList"
 import { getUserAvatarList } from "./Menu/getUserAvatarList"
 import { getPopularKeywordList } from "./Search/getPopularKeywordList"
 import { getSearchGptColumn } from "./Search/getSearchGptColumn"
+import { getNextTopic } from "./Home/getNextTopic"
+import { NextTopic } from "@/model/NextTopic"
 
 export const queryKeys = {
   category: ['category'],
@@ -33,6 +35,7 @@ export const queryKeys = {
   scrap: ["scrap"],
   topicInfo: (topicId: number) => ["topicInfo", topicId.toString()],
   topicGptInfo: (topicId: number, userTypeId: number) => ["topicGptInfo", topicId.toString(), userTypeId.toString()],
+  nextTopic: (categoryId: number, topicId: number) => ["nextTopic", categoryId.toString(), topicId.toString()],
   userTypeList: ["userTypeList"],
   userAvatarList: ["userAvatarList"],
   popularKeywordList: ["popularKeywordList"],
@@ -54,6 +57,10 @@ export const queryOptions: QueryOptionsType = {
   topicList: (categoryId: number) => ({
     queryKey: queryKeys.topicList(categoryId),
     queryFn: () => getTopicList(categoryId)
+  }),
+  nextTopic: (categoryId: number, topicId: number) => ({
+    queryKey: queryKeys.nextTopic(categoryId, topicId),
+    queryFn: () => getNextTopic(categoryId, topicId)
   }),
   totalList: (categoryId: number) => ({
     queryKey: queryKeys.totalList(categoryId),
@@ -115,12 +122,14 @@ export const useCategory = () => useBaseSuspenseQuery<Category[]>(queryOptions.c
 export const useBannerList = () => useBaseSuspenseQuery<Banner[]>(queryOptions.banner());
 export const useTopicList = (categoryId: number) => useBaseSuspenseQuery<Topic[]>(queryOptions.topicList(categoryId));
 export const useTotalList = (categoryId: number) => useBaseSuspenseQuery<Topic[]>(queryOptions.totalList(categoryId));
+export const useNextTopic = (categoryId: number, topicId: number) => useBaseSuspenseQuery<NextTopic>(queryOptions.nextTopic(categoryId, topicId));
 export const useTopicInfo = (topicId: number) => useBaseSuspenseQuery<TopicInfo>(queryOptions.topicInfo(topicId));
 export const useTopicGptInfo = (categoryId: number, topicId: number, userTypeId: number) => useBaseSuspenseQuery<TopicGptInfo>(queryOptions.topicGptInfo(categoryId, topicId, userTypeId));
 export const useUserTypeList = () => useBaseSuspenseQuery<UserType[]>(queryOptions.userTypeList());
 export const useUserAvatarList = () => useBaseSuspenseQuery<UserAvatar[]>(queryOptions.userAvatarList());
 export const usePopularKeywordList = () => useBaseSuspenseQuery<{date: string, popularSearchList: PopularKeyword[]}>(queryOptions.popularKeywordList());
 export const useMyScrap = (type: MyScrapRequest) => useBaseSuspenseQuery<MyTopicScarp[] | MyColumnScarp[]>(queryOptions.myScrap(type));
+
 
 /** useInfiniteQuery */
 type UseSearchProps = {

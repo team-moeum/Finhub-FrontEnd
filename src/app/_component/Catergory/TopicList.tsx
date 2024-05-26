@@ -44,6 +44,7 @@ export function TopicItem({data}: TopicItemProps) {
         setActive(false);
       }
       queryClient.invalidateQueries({queryKey: queryKeys.topicList(activeCategoryItem.categoryId)});
+      queryClient.invalidateQueries({ queryKey: queryKeys.topicInfo(data.topicId)});
       queryClient.invalidateQueries({queryKey: queryKeys.myScrap("topic")});
     },
     onError: () => {
