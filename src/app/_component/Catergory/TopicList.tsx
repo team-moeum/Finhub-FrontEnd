@@ -43,9 +43,8 @@ export function TopicItem({data}: TopicItemProps) {
       } else {
         setActive(false);
       }
-      queryClient.invalidateQueries({
-       queryKey: queryKeys.topicList(activeCategoryItem.categoryId) 
-      });
+      queryClient.invalidateQueries({queryKey: queryKeys.topicList(activeCategoryItem.categoryId)});
+      queryClient.invalidateQueries({queryKey: queryKeys.myScrap("topic")});
     },
     onError: () => {
       showToast({content: "잠시후 다시 시도해주세요!", type: "warning"});
@@ -88,7 +87,7 @@ export default function TopicList({activeItem}:Props) {
       <div className={style.topic_list}>
         {topicList.map(item => (
           <TopicItem 
-            key={`${item.categoryName}_${item.topicId}`}
+            key={`${item.categoryName}_${item.topicId}_${item.scrapped}`}
             data={item}
           />
         ))}
