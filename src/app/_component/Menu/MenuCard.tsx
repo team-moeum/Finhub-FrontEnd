@@ -1,4 +1,4 @@
-import { PressBox } from "../UiComponent/PressAnimator";
+import { PressBox } from "../../../components/PressAnimator/PressAnimator";
 import Link from "next/link";
 
 import ArrowRightIcon from '@/public/icons/icon_arrow_right.svg';

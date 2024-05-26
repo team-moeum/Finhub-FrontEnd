@@ -4,12 +4,12 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 
-import { LinkButton } from "../UiComponent/LinkButton";
+import { LinkButton } from "../../../components/LinkButton/LinkButton";
 import { userState } from "@/states/client/atoms/user";
 import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
 import LoginModalContent from "../Catergory/LoginModalContent";
 import { AnimatePresence } from "framer-motion";
-import { PressButton } from "../UiComponent/PressAnimator";
+import { PressButton } from "../../../components/PressAnimator/PressAnimator";
 
 import BellIcon from '@/public/icons/bell_gray_ico.svg';
 import { Container } from "@/components/Container";

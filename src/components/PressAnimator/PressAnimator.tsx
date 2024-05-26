@@ -1,4 +1,4 @@
-import style from './UiComponent.module.css';
+import style from './PressAnimator.module.css';
 
 interface PressProps {
   py?: number;

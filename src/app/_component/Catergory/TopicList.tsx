@@ -21,7 +21,7 @@ import ToastPortal from "@/components/Toast/ToastPortal";
 import { useQueryClient } from '@tanstack/react-query';
 import { userState } from '@/states/client/atoms/user';
 import { useIsLoginCsr } from '@/utils/auth_client';
-import { LinkButton } from '../UiComponent/LinkButton';
+import { LinkButton } from '../../../components/LinkButton/LinkButton';
 
 type TopicItemProps = {
   data: Topic; 
