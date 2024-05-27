@@ -5,15 +5,13 @@ import cx from "classnames";
 import Image from "next/image";
 
 import BackButton from "./BackButton";
-import { useEffect } from "react";
 
 type Props = {
   scrap: boolean;
-  topicId: number;
   onClick: () => void;
   onShare: () => void;
 };
-export default function PostNav({ scrap, topicId, onClick, onShare }: Props) {
+export default function PostNav({ scrap, onClick, onShare }: Props) {
   const scrapIconPath = scrap
     ? "/icons/scrap_icon_on.svg"
     : "/icons/scrap_icon_type2.svg";

@@ -74,6 +74,7 @@ const SrapList = ({type}: SrapListProps) => {
       }
 
       queryClient.invalidateQueries({queryKey: queryKeys.myScrap(type)});
+      queryClient.invalidateQueries({ queryKey: queryKeys.topicInfo(variable.id)});
       queryClient.invalidateQueries({queryKey: queryKeys.topicList(variable.categoryId)});
 
       refetch();
