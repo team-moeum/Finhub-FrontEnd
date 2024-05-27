@@ -22,7 +22,7 @@ export default function NoSearchResult({ userInput }: { userInput: string }) {
       showToast({ content: <NotWordSuccess /> });
     },
     onError: () => {
-      showToast({ content: "❌ 잠시 후 다시 시도해주세요!" })
+      showToast({content: "잠시후 다시 시도해주세요!", type: "warning"});
     }
   });
 

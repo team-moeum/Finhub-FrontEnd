@@ -1,21 +1,26 @@
-import style from "./MenuCard.module.css";
+import { PressBox } from "../../../components/PressAnimator/PressAnimator";
 import Link from "next/link";
+
+import ArrowRightIcon from '@/public/icons/icon_arrow_right.svg';
+import { Box } from "@/components/Box";
+import { FlexBox } from "@/components/FlexBox";
+import { FlexRow } from "@/components/FlexRow";
+import { Text } from "@/components/Text";
 
 type Props = {
   href: string;
   children: React.ReactNode;
-  height?: string | number;
 }
 
-export default function MenuCard({href, children, height}: Props) {
-    return (
-        <Link href={href} className='link_btn'>
-            <div className={style.container} style={{height:height}}>
-                <span>{children}</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
-                <path d="M1 13L7 7L1 1" stroke="#DADBDE" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            </div>
-        </Link>
-    )
+export default function MenuCard({ href, children }: Props) {
+  return (
+    <PressBox>
+      <Link href={href}>
+        <FlexRow width='100%' height={54}>
+          <Text size={16} weight={600} color="#191B1C">{children}</Text>
+          <ArrowRightIcon />
+        </FlexRow>
+      </Link>
+    </PressBox>
+  )
 }

@@ -43,7 +43,7 @@ const ButtonBox = ({
     return (
     <ButtonContiner>
         {tag === "button" ? 
-            <ButtonWrap className={type} onClick={handleOnClick} style={{width, height, ...style}} {...props}>
+            <ButtonWrap className={type} onClick={handleOnClick} style={{width, height, background, ...style}} {...props}>
                 {ripple ? <Ripple color={"#666"} duration={600} /> : undefined}
                 {children}
             </ButtonWrap>

@@ -21,7 +21,7 @@ export const mutationKeys = {
 }
 
 export const useScrap = (options?: UseMutationOptions<any, Error, any>) => {
-  return useMutation<any, Error, { id: number, type: number }>({
+  return useMutation<any, Error, { id: number, type: number, categoryId?: number }>({
     mutationKey: mutationKeys.scrap,
     mutationFn: (param) => postScrap(param),
     ...options,

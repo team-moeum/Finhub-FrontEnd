@@ -62,7 +62,7 @@ export default function TopSearch({ onItemSelect }: TopSearchProps) {
           <div className={style.title}>인기 검색어</div>
           {!isEmpty(popularSearchList) && 
             <div className={style.right}>
-              <div className={style.date}>{`${dateFormatter(date, 0)} 기준`}</div>
+              <div className={style.date}>{`${dateFormatter(date, "korean")} 기준`}</div>
               <Image
                 onClick={() => setShowInfo(true)}
                 src='/icons/question_icon.svg'

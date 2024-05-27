@@ -12,13 +12,6 @@
     flex-direction: column;
 }
 
-.init_header {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    margin-bottom: 25px;
-}
-
 .input_box {
     display: block;
     margin: 0 auto;
@@ -77,27 +70,6 @@
     opacity: 1;
 }
 
-
-.before_input {
-    margin-top: 18px;
-}
-
-.after_input {
-    margin-top: 12px;
-    margin-bottom: 54px;
-}
-
-.after_input .title {
-    display: inline-block;
-    color: #000;
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.mt35 {
-    margin-top: 35px;
-}
-
 .no_result {
     display: flex;
     align-items: center;
@@ -105,10 +77,6 @@
     height: 60px;
     font-size: 18px;
     font-weight: 500;
-}
-
-.tab_area {
-    margin-bottom: 30px;
 }
 
 .divider {

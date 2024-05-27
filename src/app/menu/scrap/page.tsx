@@ -1,13 +1,18 @@
-import style from "./scrap.module.css";
+import dynamic from "next/dynamic";
 import MenuHeader from "../../_component/Menu/MenuHeader";
-import ScrapContent from "./_component/ScrapContent";
+import { AppContainer, Container } from "@/components/Container";
 
+const ScrapContent = dynamic(() => import('./_component/ScrapContent'), {
+  ssr: false,
+});
 
 export default function ScrapPage() {
-    return (
-        <div className={style.container}>
-            <MenuHeader>스크랩</MenuHeader>
-            <ScrapContent />
-        </div>
-    )
+  return (
+    <AppContainer>
+      <Container pb={30}>
+        <MenuHeader>스크랩</MenuHeader>
+        <ScrapContent />
+      </Container>
+    </AppContainer>
+  )
 }

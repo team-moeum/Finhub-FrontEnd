@@ -4,10 +4,11 @@ import { atom } from "recoil";
 
 export type ToastType = {
   content: ReactNode,
+  type?: "success" | "error" | "warning",
   duration?: number,
 } & ToastProps;
 
 export const toastState = atom<ToastType>({
   key: "toastTextState",
-  default: {content: "", duration: 3000}
+  default: {content: "", type: undefined, duration: 3000}
 })
