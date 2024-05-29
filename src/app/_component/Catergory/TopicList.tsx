@@ -21,6 +21,7 @@ import ToastPortal from "@/components/Toast/ToastPortal";
 import { useQueryClient } from '@tanstack/react-query';
 import { userState } from '@/states/client/atoms/user';
 import { useIsLoginCsr } from '@/utils/auth_client';
+import { LinkButton } from '../../../components/LinkButton/LinkButton';
 
 type TopicItemProps = {
   data: Topic; 
@@ -42,12 +43,12 @@ export function TopicItem({data}: TopicItemProps) {
       } else {
         setActive(false);
       }
-      queryClient.invalidateQueries({
-       queryKey: queryKeys.topicList(activeCategoryItem.categoryId) 
-      });
+      queryClient.invalidateQueries({queryKey: queryKeys.topicList(activeCategoryItem.categoryId)});
+      queryClient.invalidateQueries({ queryKey: queryKeys.topicInfo(data.topicId)});
+      queryClient.invalidateQueries({queryKey: queryKeys.myScrap("topic")});
     },
     onError: () => {
-      showToast({content: "❌ 잠시후 다시 시도해주세요!"});
+      showToast({content: "잠시후 다시 시도해주세요!", type: "warning"});
     }
   });
 
@@ -61,7 +62,7 @@ export function TopicItem({data}: TopicItemProps) {
   }
 
   return (
-    <Link href={`/${activeCategoryItem.categoryId}/${data.topicId}`}>
+    <LinkButton href={`/${activeCategoryItem.categoryId}/${data.topicId}`}>
       <div className={style.item_container}>
         <div className={style.img_box}></div>
         <div className={style.content_box}>
@@ -72,7 +73,7 @@ export function TopicItem({data}: TopicItemProps) {
           <ScrapIcon active={active} />
         </div>
       </div>
-    </Link>
+    </LinkButton>
   )
 }
 
@@ -87,7 +88,7 @@ export default function TopicList({activeItem}:Props) {
       <div className={style.topic_list}>
         {topicList.map(item => (
           <TopicItem 
-            key={`${item.categoryName}_${item.topicId}`}
+            key={`${item.categoryName}_${item.topicId}_${item.scrapped}`}
             data={item}
           />
         ))}

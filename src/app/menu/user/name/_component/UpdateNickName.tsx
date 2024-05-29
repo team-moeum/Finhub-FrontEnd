@@ -22,16 +22,19 @@ export default function UpdateNickName() {
   const nickNameMutation = useUpdateNickname({
     onSuccess: (data) => {
       if (data.status === "SUCCESS") {
-        showToast({content: "✅ 닉네임 변경 완료!"});
+        showToast({content: "닉네임 변경 완료!", type: "success"});
         setUserInfo(prev => ({...prev, nickname: nickName}));
         setActiveSave(false);
         return;
       } 
       
       if (data.status === "DUPLICATION") {
-        showToast({content: "❌ 중복된 닉네임 입니다!"});
+        showToast({content: "중복된 닉네임 입니다!", type: "error"});
         return;
       }
+    },
+    onError: () => {
+      showToast({content: "잠시후 다시 시도해주세요!", type: "warning"});
     }
   });
 

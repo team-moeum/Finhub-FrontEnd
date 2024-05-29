@@ -1,10 +1,17 @@
 import styled from '@emotion/styled';
 
+import ToastCheckIcon from '@/public/icons/toast_check_icon.svg';
+import { FlexBox } from '../FlexBox';
+import { Text } from '@/components/Text';
+
 export const ScrapToast = () => {
   return (
     <ScrapToastWrap>
       <ScrapToastTextBox>
-        <p>✍️ 메뉴 - <strong>스크랩 목록</strong>에 <strong>추가</strong>되었어요!</p>
+        <FlexBox justifyContent='flex-start' gap={12}>
+          <ToastCheckIcon />
+          <Text size={16} weight={500} color='#FFF'>메뉴 - 스크랩 목록에 추가되었어요!</Text>
+        </FlexBox>
       </ScrapToastTextBox>
     </ScrapToastWrap>
   )

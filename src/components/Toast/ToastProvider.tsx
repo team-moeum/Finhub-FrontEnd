@@ -6,6 +6,7 @@ import ToastPortal from "./ToastPortal";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { toastState } from "@/states/client/atoms/toast";
+import { TypeToast } from "./ToastTemplates";
 
 export const ToastProvider = () => {
   const [show, setShow] = useState(false);
@@ -28,7 +29,10 @@ export const ToastProvider = () => {
       {show && 
         <ToastPortal>
           <Toast {...toast}>
-            {toast.content}
+            {toast.type 
+              ? <TypeToast type={toast.type} content={toast.content}/>
+              : toast.content
+            }
           </Toast>
         </ToastPortal>
       }

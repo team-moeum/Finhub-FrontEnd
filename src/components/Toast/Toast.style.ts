@@ -12,11 +12,12 @@ export const ToastWrap = styled(motion.div)`
 export const ToastContent = styled.div`
     margin: 0 auto;
     width: 328px;
-    background-color: #7B8287;
-    border-radius: 14px;
+    background-color: #25292C;
+    border-radius: 10px;
     padding: 15px 20px;
 
     font-size: 16px;
+    font-weight: 500;
     color: #FFF;
     line-height: 21px;
 `

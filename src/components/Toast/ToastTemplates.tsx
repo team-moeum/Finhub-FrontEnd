@@ -2,6 +2,12 @@
 
 import styled from '@emotion/styled';
 
+import SuccessIcon from '@/public/icons/toast_check_icon.svg';
+import ErrorIcon from '@/public/icons/toast_error_icon.svg';
+import WarningIcon from '@/public/icons/toast_warning_icon.svg';
+import { FlexBox } from '../FlexBox';
+import { ToastType } from '@/states/client/atoms/toast';
+
 const TextWrap = styled.div`
   display: flex;
   align-items: center;
@@ -52,8 +58,32 @@ const NotWordOneTime = () => {
   )
 }
 
+const TypeToast = ({type, content}: Partial<ToastType>) => {
+  if (type === "success") return (
+    <FlexBox justifyContent='flex-start' gap={12}>
+      <SuccessIcon />
+      {content}
+    </FlexBox>
+  )
+  
+  if (type === "error") return (
+    <FlexBox justifyContent='flex-start' gap={12}>
+      <ErrorIcon />
+      {content}
+    </FlexBox>
+  )
+
+  if (type === "warning") return (
+    <FlexBox justifyContent='flex-start' gap={12}>
+      <WarningIcon />
+      {content}
+    </FlexBox>
+  )
+}
+
 export {
   NotWordSuccess,
   NotWordDuplicate,
-  NotWordOneTime
+  NotWordOneTime,
+  TypeToast
 }

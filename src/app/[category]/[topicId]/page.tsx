@@ -7,6 +7,7 @@ import PostScreen from "@/app/_component/Post/PostScreen";
 import { queryKeys } from "@/states/server/queries";
 import { getUserTypeList } from "@/states/server/List/getUserTypeList";
 import { getTopicInfo } from "@/states/server/List/getTopicInfo";
+import { getNextTopic } from "@/states/server/Home/getNextTopic";
 
 export const metadata: Metadata = {
   title: "Post",
@@ -20,7 +21,11 @@ export default async function PostPage({ params }: { params: { category: string,
   });
   await queryClient.prefetchQuery({
     queryKey: queryKeys.topicInfo(Number(params.topicId)),
-    queryFn: () => getTopicInfo(Number(params.topicId), true), // ssr true
+    queryFn: () => getTopicInfo(Number(params.topicId), true),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.nextTopic(Number(params.category), Number(params.topicId)),
+    queryFn: () => getNextTopic(Number(params.category), Number(params.topicId), true), 
   });
   const dehydratedState = dehydrate(queryClient);
 

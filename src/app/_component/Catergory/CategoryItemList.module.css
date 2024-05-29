@@ -1,10 +1,10 @@
 .container {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     overflow-x: scroll;
     gap: 26px;
-    height: 86px;
+    height: 100px;
     position: relative;
     width: 100dvw;
     left: -20px;
@@ -28,8 +28,10 @@
 }
 
 .item p {
+    margin-top: 4px;
     font-size: 14px;
-    line-height: 21px;
+    word-break: keep-all;
+    text-align: center;
     color: #000;
 }
 
