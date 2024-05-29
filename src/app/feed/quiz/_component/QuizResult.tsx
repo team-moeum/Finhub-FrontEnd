@@ -14,6 +14,10 @@ interface Props {
 }
 
 const QuizResult = ({ clickModal, quizResult }: Props) => {
+    if (!quizResult) {
+        console.log('123')
+        return null;
+    }
     return (
         <div onClick={clickModal}>
             <div onClick={(e) => e.stopPropagation()}>
@@ -48,6 +52,7 @@ const QuizResult = ({ clickModal, quizResult }: Props) => {
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     );

@@ -10,8 +10,6 @@ import { TopicGptInfo } from "@/model/TopicGptInfo"
 import { MyColumnScarp, MyScrap, MyScrapRequest, MyTopicScarp } from "@/model/MyScrap"
 import { PopularKeyword } from "@/model/PopularKeyword"
 import { UserType } from "@/model/UserType"
-//import { QuizInfo } from "@/model/QuizInfo"
-
 
 import { getMyScrap } from "./Menu/getMyScrap"
 import { getAnnounce } from "./Menu/getAnnounce"
@@ -27,13 +25,13 @@ import { getUserAvatarList } from "./Menu/getUserAvatarList"
 import { getPopularKeywordList } from "./Search/getPopularKeywordList"
 import { getSearchGptColumn } from "./Search/getSearchGptColumn"
 import { getQuiz } from "./Feed/Quiz/getQuiz"
-import { getTodayQuiz } from "./Feed/Quiz/getTodayQuiz"
 import { getMissedQuiz } from "./Feed/Quiz/getMissedQuiz"
 import { getSolvedQuiz } from "./Feed/Quiz/getSolvedQuiz"
 import { QuizInfo } from "@/model/QuizInfo"
-import QuizCalendar from "@/app/feed/quiz/_component/QuizCalendar"
 import { getQuizCalender } from "./Feed/Quiz/getQuizCalender"
 import { QuizCalenderResponse } from "@/model/QuizCalender"
+import { MissedQuiz } from "@/model/missedQuiz"
+import { SolvedQuiz } from "@/model/solvedQuiz"
 
 import { getNextTopic } from "./Home/getNextTopic"
 import { NextTopic } from "@/model/NextTopic"
@@ -113,6 +111,7 @@ export const queryOptions: QueryOptionsType = {
     queryKey: queryKeys.searchGptColumn(type, keyword),
     queryFn: () => getSearchGptColumn(type, keyword, page)
   }),
+
   quiz: (date?: string) => ({
     queryKey: queryKeys.quiz(date),
     queryFn: () => getQuiz(date)
@@ -121,8 +120,7 @@ export const queryOptions: QueryOptionsType = {
     queryKey: queryKeys.quizCalendar(year, month),
     queryFn: () => getQuizCalender(year, month)
   }),
-
-
+  //이거아래지워도 오류안남
   missedQuiz: (date: string, limit?: number) => ({
     queryKey: queryKeys.missedQuiz(date, limit),
     queryFn: () => getMissedQuiz(date, limit)
@@ -131,6 +129,7 @@ export const queryOptions: QueryOptionsType = {
     queryKey: queryKeys.solvedQuiz(isCorrect, date, limit),
     queryFn: () => getSolvedQuiz(isCorrect, date, limit)
   }),
+
   announce: (cursorId?: number, size?: number) => ({
     queryKey: queryKeys.announce(cursorId, size),
     queryFn: () => getAnnounce(cursorId, size)
@@ -166,6 +165,12 @@ export const useUserTypeList = () => useBaseSuspenseQuery<UserType[]>(queryOptio
 export const useUserAvatarList = () => useBaseSuspenseQuery<UserAvatar[]>(queryOptions.userAvatarList());
 
 export const useQuizCalendar = (year: string, month: string) => useBaseSuspenseQuery<QuizCalenderResponse>(queryOptions.quizCalendar(year, month))
+//이거 아래 지워도 오류 안 남
+export const useQuiz = (date?: string) => useBaseSuspenseQuery<QuizInfo>(queryOptions.quiz(date));
+export const useMissedQuiz = (date?: string, limit?: number) => useBaseSuspenseQuery<MissedQuiz>(queryOptions.missedQuiz(date, limit));
+export const useSolvedQuiz = (isCorrect: string, date: string, limit?: number) => useBaseSuspenseQuery<SolvedQuiz>(queryOptions.solvedQuiz(isCorrect, date, limit));
+
+
 
 export const usePopularKeywordList = () => useBaseSuspenseQuery<{ date: string, popularSearchList: PopularKeyword[] }>(queryOptions.popularKey1wordList());
 export const useMyScrap = (type: MyScrapRequest) => useBaseSuspenseQuery<MyTopicScarp[] | MyColumnScarp[]>(queryOptions.myScrap(type));
@@ -209,7 +214,7 @@ export const useSearchGptColumn = ({ type, keyword, page }: UseSearchProps) => {
 
 type useMissedQuizQueryProps = {
   date: string,
-  limit?: number
+  limit?: number,
 }
 
 export const useMissedQuizQuery = ({ date, limit }: useMissedQuizQueryProps) => {
@@ -229,7 +234,7 @@ export const useMissedQuizQuery = ({ date, limit }: useMissedQuizQueryProps) => 
 type useSolvedQuizQueryProps = {
   isCorrect: string,
   date: string,
-  limit?: number
+  limit?: number,
 }
 
 export const useSolvedQuizQuery = ({ isCorrect, date, limit }: useSolvedQuizQueryProps) => {
@@ -245,12 +250,6 @@ export const useSolvedQuizQuery = ({ isCorrect, date, limit }: useSolvedQuizQuer
     gcTime: 300 * 1000,
   })
 }
-
-
-//
-export const useQuiz = (date?: string) => useBaseSuspenseQuery<QuizInfo>(queryOptions.quiz(date));
-export const useMissedQuiz = (date: string) => useBaseSuspenseQuery<QuizInfo>(queryOptions.missedQuiz(date));
-export const useSolvedQuiz = (date: string) => useBaseSuspenseQuery<QuizInfo>(queryOptions.solvedQuiz(date));
 
 type UseAnnounceInfinitQueryProps = {
   cursorId?: number,

@@ -138,13 +138,20 @@ flex-direction:column;
     color:  #F9FAFA;;
   }
 
-  /* 선택한 날짜 스타일 적용 */
-  .react-calendar__tile:enabled:hover,
-  .react-calendar__tile:enabled:focus,
-  .react-calendar__tile--active {
-    background-color:  #F3F3F3;};
+  /* 선택 가능한 오늘 날짜 스타일 적용 */
+  .react-calendar__tile--now:enabled:hover,
+  .react-calendar__tile--now:enabled:focus,
+  .react-calendar__tile--now {
+    background-color: #F3F3F3;
     border-radius: 0.3rem;
+    cursor: default;
   }
+  
+  /* 다른 날짜는 선택 불가능하도록 설정 */
+  .react-calendar__tile:not(.react-calendar__tile--now):not(.react-calendar__tile--active) {
+    pointer-events: none; /* 다른 날짜에 대한 이벤트 처리 비활성화 */
+  }
+  
 `;
 
 export const StyleButtonContainer = styled.div`
@@ -178,4 +185,3 @@ cursor: pointer;
 
  
 `;
-

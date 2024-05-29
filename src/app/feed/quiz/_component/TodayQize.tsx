@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -7,18 +8,33 @@ import Image from 'next/image';
 import { useQuiz } from '@/states/server/queries';
 import { usePostQuizSolve } from '@/states/server/mutations';
 import { QuizSolveUser } from '@/model/QuizSolveUser';
+import Link from 'next/link';
+import Loading from '@/app/loading';
 
-const TodayQize = () => {
+interface TodayQizeProps {
+    date: string;
+}
+
+const TodayQize = ({ date }: TodayQizeProps) => {
     const [showModal, setShowModal] = useState(false);
     const [quizResult, setQuizResult] = useState<QuizSolveUser>();
+    const [showTodayQuiz, setShowTodayQuiz] = useState(true);
 
-    const clickModal = () => setShowModal(!showModal);
+    const clickModal = () => {
+        setShowModal(!showModal);
+        if (showModal) {
+            <Loading height={300} />
+            window.location.reload();
+        }
+    };
 
-    const { data: todayQuiz } = useQuiz();
+    const { data: todayQuiz } = useQuiz(date);
+
     const quizSolveMutation = usePostQuizSolve({
         onSuccess: (data) => {
             setQuizResult(data);
             setShowModal(true);
+            setShowTodayQuiz(false);
         },
         onError: (data) => {
             console.log(data);
@@ -27,7 +43,7 @@ const TodayQize = () => {
 
     const handleAnswerClick = (quizId: number, answer: "O" | "X") => {
         quizSolveMutation.mutate({ id: quizId, answer });
-    }
+    };
 
     if (todayQuiz.status === "SOLVED") {
         return (
@@ -65,23 +81,31 @@ const TodayQize = () => {
 
     return (
         <div>
-            <div className={style.container}>
-                <div className={style.s}>
-                    <Image src='/quiz/quiz_icon.svg' alt='quiz_icon' width={52} height={62} />
-                </div>
-                <div className={style.bb}>
-                    <p className={style.text}>{todayQuiz.question}</p>
-                </div>
-                <div className={style.b}>
-                    <button className={`${style.btn} ${style.o}`} onClick={() => handleAnswerClick(todayQuiz.id, "O")}>O</button>
-                    <button className={style.btn} onClick={() => handleAnswerClick(todayQuiz.id, "X")}>X</button>
-                </div>
-            </div>
+            {showTodayQuiz && (
+                <div className={style.container}>
+                    <div className={style.s}>
+                        <Image src='/quiz/quiz_icon.svg' alt='quiz_icon' width={52} height={62} />
+                    </div>
+                    <div className={style.bb}>
+                        <p className={style.text}>{todayQuiz.question}</p>
+                    </div>
 
+                    <div className={style.b}>
+                        <button className={`${style.btn} ${style.o}`} onClick={() => handleAnswerClick(todayQuiz.id, "O")}>O</button>
+                        <button className={style.btn} onClick={() => handleAnswerClick(todayQuiz.id, "X")}>X</button>
+                    </div>
+                </div>
+            )}
 
-            {showModal && quizResult && <QuizResult clickModal={() => setShowModal(false)} quizResult={quizResult} />}
+            {showModal && quizResult && <QuizResult clickModal={clickModal} quizResult={quizResult} />}
         </div>
     );
 }
 
 export default TodayQize;
+
+
+
+
+
+

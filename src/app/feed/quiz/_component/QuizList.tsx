@@ -1,5 +1,4 @@
 'use client'
-import { Link } from 'react-router-dom';
 import style from './QuizList.module.css';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -12,27 +11,38 @@ import moment from 'moment';
 import { MissedQuiz } from '@/model/missedQuiz';
 import { SolvedQuiz } from '@/model/solvedQuiz';
 import Loading from '@/app/loading';
+import { QuizSolveUser } from '@/model/QuizSolveUser';
 
+const formatDate = (dateString: string): string => {
+  return dateString.replace(/-/g, '');
+};
 
-export default function QuizList({ hideMainNav }: any) {
+export default function QuizList() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedType, setSelectedType] = useState('missed');
   const [selectedQuiz, setSelectedQuiz] = useState('incorrect')
   const [selectedQuestion, setSelectedQuestion] = useState<any>(null);
   const [showTodayQuizModal, setShowTodayQuizModal] = useState(false); // TodayQize 모달 열기 여부 상태 추가
   const [showQuizResultModal, setShowQuizResultModal] = useState(false); // TodayQize 모달 열기 여부 상태 추가
-
+  const [selectedQuizDate, setSelectedQuizDate] = useState<any>(null);
   const requestDate = moment().format("YYYYMMDD");
+  const [showSimpleModal, setShowSimpleModal] = useState(false);
 
   const {
     data: missedQuizData,
     fetchNextPage: fetchNextMissedPage,
     hasNextPage: hasMissedNextPage,
-    isFetching: isMissedFetching
+    isFetching: isMissedFetching,
   } = useMissedQuizQuery({ date: requestDate });
   const missedQuizList = missedQuizData?.pages.flatMap(page => page) as MissedQuiz[];
 
-  console.log(missedQuizList);
+  const {
+    data: missedQuizData_,
+    fetchNextPage: fetchNextMissedPage_,
+    hasNextPage: hasMissedNextPage_,
+    isFetching: isMissedFetching_
+  } = useMissedQuizQuery({ date: requestDate, limit: 100 });
+  const missedQuizList_ = missedQuizData_?.pages.flatMap(page => page) as MissedQuiz[];
 
   const {
     data: solvedQuizData,
@@ -44,16 +54,32 @@ export default function QuizList({ hideMainNav }: any) {
 
   console.log(solvedQuizList);
 
+  const {
+    data: solvedQuizData_,
+    fetchNextPage: fetchNextSolvedPage_,
+    hasNextPage: hasSolvedNextPage_,
+    isFetching: isSolvedFetching_
+  } = useSolvedQuizQuery({ isCorrect: "N", date: requestDate });
+  const solvedQuizList_ = solvedQuizData_?.pages.flatMap(page => page) as SolvedQuiz[];
+
+  const handleModalClose = () => {
+    setShowQuizResultModal(false);
+    setSelectedQuizDate(null);  // Clear the selected quiz data when closing the modal
+  };
 
   // TodayQize 모달 열기 함수
-  const openTodayQuizModal = () => {
+  const openTodayQuizModal = (targetDate: string) => {
+    setSelectedQuizDate(targetDate);
     setShowTodayQuizModal(true);
   };
 
   //quizResult 모달 열기 함수
-  const openQuizResultModal = () => {
+  const [selectedQuizResult, setSelectedQuizResult] = useState<QuizSolveUser | null>(null);
+
+  const openQuizResultModal = (quizResult: any) => {
+    setSelectedQuizResult(quizResult);
     setShowQuizResultModal(true);
-  }
+  };
 
   const openModal = (Question: any) => {
     setSelectedQuestion(Question);
@@ -74,25 +100,39 @@ export default function QuizList({ hideMainNav }: any) {
     }
   }, []);
 
+  if (!missedQuizData) {
+    console.log('123')
+    return (
+      <>
+        <div className={`${style.select_one_box}`}>
+          <button
+            className={`${style.type_sel}`}
+          >
+            놓친 퀴즈
+          </button>
+          <button
+            className={`${style.type_sel}`}
+          >
+            풀었던 퀴즈
+          </button>
+        </div>
+
+        <div className={style.container_i}>
+          <div className={style.image_vacation}>
+            <Image
+              src='/quiz/quiz_icon_login.svg'
+              alt='quiz_icon'
+              width={235}
+              height={196}
+            />
+            <p className={style.image_title}>로그인이 필요한 서비스입니다</p>
+          </div>
+        </div>
+      </>
+    );
+  }
 
 
-  const today = new Date();
-
-  const previewQuestions: any = quizlist
-    .filter((quiz) => quiz.status === 'SUCCESS' && new Date(quiz.targetDate) <= today)
-    .sort((a, b) => new Date(b.targetDate).getTime() - new Date(a.targetDate).getTime());
-
-  const previewQuestions_f: any = quizlist
-    .filter((quiz) => quiz.status === 'FAIL' && new Date(quiz.targetDate) <= today)
-    .sort((a, b) => new Date(b.targetDate).getTime() - new Date(a.targetDate).getTime());
-
-  const previewQuestions_c: any = quizlist
-    .filter((quiz) => quiz.correctYN === 'Y' && new Date(quiz.targetDate) <= today)
-    .sort((a, b) => new Date(b.targetDate).getTime() - new Date(a.targetDate).getTime());
-
-  const previewQuestions_i: any = quizlist
-    .filter((quiz) => quiz.correctYN === 'N' && new Date(quiz.targetDate) <= today)
-    .sort((a, b) => new Date(b.targetDate).getTime() - new Date(a.targetDate).getTime());
 
   if (isMissedFetching || isSolvedFetching) return <Loading height={300} />;
   return (
@@ -111,44 +151,61 @@ export default function QuizList({ hideMainNav }: any) {
           풀었던 퀴즈
         </button>
       </div>
-
       {selectedType === 'missed' && (
-        missedQuizList?.map((question: any) => (
-          <button key={question.id} className={style.item_box} onClick={openTodayQuizModal} >
-            <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
-            <div className={style.item_box_text}>
-              <div className={style.item_box_font}> {question.question}</div>
-              <div className={style.item_box_cal}>{question.targetDate}</div>
-            </div>
-          </button>
-
-        ))
+        (missedQuizList && missedQuizList.length > 0) ? (
+          missedQuizList.map((question: any) => (
+            <button key={question.id} className={style.item_box} onClick={() => openTodayQuizModal(question.targetDate)} >
+              <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
+              <div className={style.item_box_text}>
+                <div className={style.item_box_font}> {question.question}</div>
+                <div className={style.item_box_cal}>{question.targetDate}</div>
+              </div>
+            </button>
+          ))
+        ) : (
+          <div className={style.noquiz_box}>
+            <p className={style.noquiz_font}>놓친 퀴즈가 없어요</p>
+          </div>
+        )
       )}
+
 
       {showTodayQuizModal && (
         <div className={style.modal}>
-          <TodayQize />
+          <TodayQize date={formatDate(selectedQuizDate)} />
         </div>
       )}
 
       {selectedType === 'solved' && (
-        solvedQuizList?.map((question: any) => (
-          <button key={question.id} className={style.item_box} onClick={openTodayQuizModal} >
-            <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
-            <div className={style.item_box_text}>
-              <div className={style.item_box_font}> {question.question}</div>
-              <div className={style.item_box_cal}>{question.targetDate}</div>
-            </div>
-          </button>
-
-        ))
+        (solvedQuizList_ && solvedQuizList_.length > 0) ? (
+          solvedQuizList_.map((quizResult: any) => (
+            <button key={quizResult.id} className={style.item_box} onClick={() => openQuizResultModal(quizResult)}>
+              <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
+              <div className={style.item_box_text}>
+                <div className={style.item_box_font}> {quizResult.question}</div>
+                <div className={style.item_box_cal}>{quizResult.targetDate}</div>
+              </div>
+            </button>
+          ))
+        ) : (
+          <div className={style.noquiz_box}>
+            <p className={style.noquiz_font}>풀었던 퀴즈가 없어요</p>
+          </div>
+        )
       )}
+
+      {showQuizResultModal && selectedQuizResult && (
+        <div className={style.modal}>
+          <QuizResult clickModal={() => setShowQuizResultModal(false)} quizResult={selectedQuizResult} />
+        </div>
+      )}
+
+
 
 
 
 
       <button onClick={openModal} className={`${style.more}`}>
-
         <p> 더보기</p>
         <svg className={style.icon} width="20" height="20" viewBox="0 0 15 7" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M10 1L5.5 6L1 1" stroke="#A6ABAF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -178,24 +235,30 @@ export default function QuizList({ hideMainNav }: any) {
 
         <div className={style.item_item_box}>
 
-          {selectedType === 'missed' &&
-
-            previewQuestions.map((question: any) => (
-              <button key={question.id} className={style.item_box} onClick={openTodayQuizModal}>
-                <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
-                <div className={style.item_box_text}>
-                  <div className={style.item_box_font}> {question.question}</div>
-                  <div className={style.item_box_cal}>{question.targetDate}</div>
-                </div>
-              </button>
-            ))}
+          {selectedType === 'missed' && (
+            (missedQuizList && missedQuizList.length > 0) ? (
+              missedQuizList.map((question: any) => (
+                <button key={question.id} className={style.item_box} onClick={() => openTodayQuizModal(question.targetDate)} >
+                  <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
+                  <div className={style.item_box_text}>
+                    <div className={style.item_box_font}> {question.question}</div>
+                    <div className={style.item_box_cal}>{question.targetDate}</div>
+                  </div>
+                </button>
+              ))
+            ) : (
+              <div className={style.noquiz_box}>
+                <p className={style.noquiz_font}>놓친 퀴즈가 없어요</p>
+              </div>
+            )
+          )}
 
           {showTodayQuizModal && (
-            <div className={style.modal_container}> <div className={style.modal}>
-              <TodayQize />
-            </div>
+            <div className={style.modal}>
+              <TodayQize date={formatDate(selectedQuizDate)} />
             </div>
           )}
+
 
 
           {selectedType === 'solved' &&
@@ -216,31 +279,55 @@ export default function QuizList({ hideMainNav }: any) {
                   </button>
                 </div>
 
-
                 <div className={style.item_item_box}>
 
-                  {selectedQuiz === 'correct' &&
+                  {selectedQuiz === 'correct' && (
+                    (solvedQuizList && solvedQuizList.length > 0) ? (
+                      solvedQuizList.map((quizResult: any) => (
+                        <button key={quizResult.id} className={style.item_box} onClick={() => openQuizResultModal(quizResult)}>
+                          <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
+                          <div className={style.item_box_text}>
+                            <div className={style.item_box_font}> {quizResult.question}</div>
+                            <div className={style.item_box_cal}>{quizResult.targetDate}</div>
+                          </div>
+                        </button>
+                      ))
+                    ) : (
+                      <div className={style.noquiz_box}>
+                        <p className={style.noquiz_font}>맞춘 퀴즈가 없어요</p>
+                      </div>
+                    )
+                  )}
 
-                    previewQuestions_c.map((question: any) => (
-                      <button key={question.id} className={style.item_box}>
-                        <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
-                        <div className={style.item_box_text}>
-                          <div className={style.item_box_font}> {question.question}</div>
-                          <div className={style.item_box_cal}>{question.targetDate}</div>
-                        </div>
-                      </button>
-                    ))}
-                  {selectedQuiz === 'incorrect' &&
+                  {showQuizResultModal && selectedQuizResult && (
+                    <div className={style.modal}>
+                      <QuizResult clickModal={() => setShowQuizResultModal(false)} quizResult={selectedQuizResult} />
+                    </div>
+                  )}
 
-                    previewQuestions_i.map((question: any) => (
-                      <button key={question.id} className={style.item_box}>
-                        <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
-                        <div className={style.item_box_text}>
-                          <div className={style.item_box_font}> {question.question}</div>
-                          <div className={style.item_box_cal}>{question.targetDate}</div>
-                        </div>
-                      </button>
-                    ))}
+
+                  {selectedQuiz === 'incorrect' && (
+                    (solvedQuizList_ && solvedQuizList_.length > 0) ? (
+                      solvedQuizList_.map((quizResult: any) => (
+                        <button key={quizResult.id} className={style.item_box} onClick={() => openQuizResultModal(quizResult)}>
+                          <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
+                          <div className={style.item_box_text}>
+                            <div className={style.item_box_font}> {quizResult.question}</div>
+                            <div className={style.item_box_cal}>{quizResult.targetDate}</div>
+                          </div>
+                        </button>
+                      ))
+                    ) : (
+                      <div className={style.noquiz_box}>
+                        <p className={style.noquiz_font}>틀렸던 퀴즈가 없어요</p>
+                      </div>
+                    )
+                  )}
+                  {showQuizResultModal && selectedQuizResult && (
+                    <div className={style.modal}>
+                      <QuizResult clickModal={() => setShowQuizResultModal(false)} quizResult={selectedQuizResult} />
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -251,3 +338,4 @@ export default function QuizList({ hideMainNav }: any) {
 
   );
 }
+

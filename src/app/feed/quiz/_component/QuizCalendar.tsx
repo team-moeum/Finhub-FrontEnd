@@ -7,27 +7,26 @@ import styled from "styled-components";
 import { StyledCalendarWrapper, StyleButton, StyleButtonContainer } from "./styles";
 import { quizlist } from "../quiz";
 import { useQuizCalendar } from "@/states/server/queries";
-
+import { usePostQuizCalendarEmoji } from "@/states/server/mutations";
 const QuizCalendar = () => {
   const today = new Date();
   const [date, setDate] = useState<Date | [Date, Date] | null>(today);
   const [activeDate, setActiveDate] = useState<Date | null>();
-  const [selectedButton, setSelectedButton] = useState('😎');
+  const [selectedButton, setSelectedButton] = useState('😎'); // 기본 이모지 설정
   const [isExpanded, setIsExpanded] = useState(false);
   const [quizzesWithCorrectYN, setQuizzesWithCorrectYN] = useState<string[]>([]);
+  const postEmojiMutation = usePostQuizCalendarEmoji();
 
   const activeYear = activeDate ? activeDate.getFullYear() : today.getFullYear();
   const activeMonth = activeDate ? activeDate.getMonth() + 1 : today.getMonth() + 1;
 
   const { data: quizCalendarData } = useQuizCalendar(activeYear.toString(), activeMonth.toString());
-  console.log(quizCalendarData);
 
   useEffect(() => {
     console.log(activeYear, activeMonth)
   }, [activeDate])
 
   useEffect(() => {
-    // 퀴즈 목록에서 correctYN 값이 있는 퀴즈만 가져와서 emojis 배열에 저장합니다.
     const emojis: string[] = quizlist.reduce((accumulator: string[], quiz) => {
       if (quiz.correctYN !== "") {
         accumulator.push(quiz.correctYN);
@@ -37,17 +36,39 @@ const QuizCalendar = () => {
     setQuizzesWithCorrectYN(emojis);
   }, []);
 
+  // 페이지 로드 시 로컬 스토리지에서 저장된 이모지 가져오기
+  useEffect(() => {
+    const storedEmoji = localStorage.getItem('selectedEmoji');
+    if (storedEmoji) {
+      setSelectedButton(storedEmoji);
+    }
+  }, []);
+
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
   };
 
   const handleButtonClick = (emoji: string) => {
-    if (selectedButton === emoji) {
-      setIsExpanded(false); // 선택된 버튼이 다시 클릭되면 확장 상태를 닫습니다.
-    } else {
-      setSelectedButton(emoji);
-      setIsExpanded(true);
+    let emojiId: number;
+    switch (emoji) {
+      case '☘️':
+        emojiId = 1;
+        break;
+      case '👍':
+        emojiId = 2;
+        break;
+      case '😎':
+        emojiId = 3;
+        break;
+      default:
+        emojiId = 0; // 기본값 설정
+        break;
     }
+
+    setSelectedButton(emoji);
+    setIsExpanded(false);
+    postEmojiMutation.mutate({ id: emojiId });
+    localStorage.setItem('selectedEmoji', emoji);
   };
 
   const getQuizListWithEmoji = (date: Date) => {

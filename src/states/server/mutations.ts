@@ -10,7 +10,8 @@ import { postNoSearchWord } from "./Search/postNoSearchWord";
 import { deleteRecentKeyword } from "./Search/deleteRecentKeyword";
 
 //
-import { postQuizSolve } from "./Feed/Quiz/postQuizSolve";
+import { postQuizSolve } from "./Feed/Quiz/postQuizSolve"; 4
+import { postQuizCalendarEmoji } from "./Feed/Quiz/postQuizCalenderEmoji";
 
 export const mutationKeys = {
   scrap: ["scrap"],
@@ -20,7 +21,8 @@ export const mutationKeys = {
   deleteUserAvatar: ["deleteUserAvatar"],
   updateNoSearchWord: ["updateNoSearchWord"],
   deleteRecentKeyword: ["deleteRecentKeyword"],
-  quizSolve:["quizSolve"],
+  quizSolve: ["quizSolve"],
+  quizCaledarEmoji: ["quizCalendarEmoji"]
 }
 
 export const useScrap = (options?: UseMutationOptions<any, Error, any>) => {
@@ -80,9 +82,17 @@ export const useUpdateNoSearchWord = (options?: UseMutationOptions<any, Error, a
 }
 
 export const usePostQuizSolve = (options?: UseMutationOptions<any, Error, any>) => {
-  return useMutation<any, Error, { id: number, answer: "O" | "X" }>({ 
+  return useMutation<any, Error, { id: number, answer: "O" | "X" }>({
     mutationKey: mutationKeys.quizSolve,
     mutationFn: (param) => postQuizSolve(param),
+    ...options,
+  });
+}
+
+export const usePostQuizCalendarEmoji = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number }>({
+    mutationKey: mutationKeys.quizCaledarEmoji,
+    mutationFn: (param) => postQuizCalendarEmoji(param),
     ...options,
   });
 }
