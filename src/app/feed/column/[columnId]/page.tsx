@@ -34,7 +34,7 @@ export default function ColumnPost() {
     const { data: gptColumnDetail } = useGptColumnDetail(columnId);
     console.log(gptColumnDetail);
 
-    const useGptColumnLikeMutation = useGptColumnLike({
+    const gptColumnLikeMutation = useGptColumnLike({
         onSuccess: (data) => {
             console.log(data);
         },
@@ -72,7 +72,7 @@ export default function ColumnPost() {
         }
     }
 
-    const onClickThumb = () => {
+    const onClickLike = () => {
         if (curImg) {
             setThumbImgSrc('/column/thumb_icon_green.png')
             setCurImg(false);
@@ -80,6 +80,8 @@ export default function ColumnPost() {
             setThumbImgSrc('/column/thumb_icon_green_full.png');
             setCurImg(true);
         }
+        gptColumnLikeMutation.mutate({ id: columnId, type: 1 });
+        // liked : false -> true
     }
 
     const onClickPopular = () => {
@@ -142,7 +144,7 @@ export default function ColumnPost() {
                 <div className={style.thumb_box}>
                     <p style={{ fontWeight: 600 }}>칼럼이 도움이 되었나요?</p>
                     <div className={style.thumb_buttons}>
-                        <button className={style.thumb_helpfulBtn} onClick={onClickThumb}>
+                        <button className={style.thumb_helpfulBtn} onClick={onClickLike}>
                             <Image
                                 src={thumbImgSrc}
                                 alt="Thumb Icon"

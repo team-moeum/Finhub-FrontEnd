@@ -2,12 +2,11 @@ import { fetchApi } from "@/api/fetchApi";
 import { queryKeys } from "../../queries";
 import { ApiResponse } from "@/api/type";
 
-export const getColumnDetail = async(ssr?: boolean) => {
+export const getGptColumnComment = async(id: number, type: number, page?: number, size?: number, ssr?: boolean) => {
   const response: ApiResponse = await fetchApi({
     method: "GET",
-    path: `/api/v1/main/column/comment/2/1?page=1&size=5`,
-    // tags 수정 필요 .. 어떻게 ?
-    // tags: ,
+    path: `/api/v1/main/column/comment/${id}/${type}?page=${page}&size=${size}`,
+    tags: queryKeys.gptColumnComment(id, type),
     ssr
   });
 

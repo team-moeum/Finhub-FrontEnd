@@ -13,3 +13,14 @@ export interface gptColumnDetail extends gptColumn {
     scrapped: boolean,
     liked: boolean
 }
+
+
+export interface gptColumnComment {
+    id: number,
+    nickname: string,
+    date: string,
+    avatarImgPath: string,
+    comment: string,
+    like: number,
+    useComment: boolean
+}
