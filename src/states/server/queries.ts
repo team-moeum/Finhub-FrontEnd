@@ -8,8 +8,11 @@ import { Category } from "@/model/Category"
 import { TopicInfo } from "@/model/TopicInfo"
 import { UserAvatar } from "@/model/UserAvatar"
 import { TopicGptInfo } from "@/model/TopicGptInfo"
+import { MyColumnScarp, MyScrap, MyScrapRequest, MyTopicScarp } from "@/model/MyScrap"
 import { PopularKeyword } from "@/model/PopularKeyword"
 
+import { getMyScrap } from "./Menu/getMyScrap"
+import { getAnnounce } from "./Menu/getAnnounce"
 import { getCategory } from "./Home/getCategory"
 import { getTopicInfo } from "./List/getTopicInfo"
 import { getTopicList } from "./Home/getTopicList"
@@ -20,20 +23,25 @@ import { getTopicGptInfo } from "./List/getTopicGptInfo"
 import { getUserTypeList } from "./List/getUserTypeList"
 import { getUserAvatarList } from "./Menu/getUserAvatarList"
 import { getPopularKeywordList } from "./Search/getPopularKeywordList"
-import { getSearchGptColumn } from "./Search/getSearchGptColumn"
+
 import { getGptColumnList } from "./Column/ColumnPost/getGptColumnList";
 import { gptColumn, gptColumnDetail, gptColumnComment } from "@/model/GptColumn";
 import { getGptColumnDetail } from "./Column/ColumnPost/getGptColumnDetail"
 import { getGptColumnComment } from "./Column/ColumnComment/getGptColumnComment"
 
+import { getNextTopic } from "./Home/getNextTopic"
+import { NextTopic } from "@/model/NextTopic"
+
+
 export const queryKeys = {
   category: ['category'],
   banner: ['banner'],
-  topicList: (categoryId: number) => ["topicList", categoryId.toString()],
+  topicList: (categoryId: number) => ["topicList", categoryId?.toString()],
   totalList: (categoryId: number) => ["totalList", categoryId.toString()],
   scrap: ["scrap"],
   topicInfo: (topicId: number) => ["topicInfo", topicId.toString()],
   topicGptInfo: (topicId: number, userTypeId: number) => ["topicGptInfo", topicId.toString(), userTypeId.toString()],
+  nextTopic: (categoryId: number, topicId: number) => ["nextTopic", categoryId.toString(), topicId.toString()],
   userTypeList: ["userTypeList"],
   userAvatarList: ["userAvatarList"],
   popularKeywordList: ["popularKeywordList"],
@@ -41,7 +49,9 @@ export const queryKeys = {
   searchGptColumn: (type: "title" | "summary" | "both", keyword: string) => ['search', 'column', type, keyword],
   gptColumnList: (page: number, size?: number) => ["gptColumn", page.toString(), size?.toString() || ""],
   gptColumnDetail: (id: number) => ["gptColumnDetail", id.toString()], 
-  gptColumnComment: (id: number, type: number) => ["gptColumnComment", id.toString(), type.toString()|| ""] 
+  gptColumnComment: (id: number, type: number) => ["gptColumnComment", id.toString(), type.toString()|| ""],
+  announce: (cursorId?: number, size?: number) => ['announce', cursorId?.toString() || "", size?.toString() || ""],
+  myScrap: (type: MyScrapRequest) => ["myScrap", type]
 }
 
 export const queryOptions: QueryOptionsType = {
@@ -56,6 +66,10 @@ export const queryOptions: QueryOptionsType = {
   topicList: (categoryId: number) => ({
     queryKey: queryKeys.topicList(categoryId),
     queryFn: () => getTopicList(categoryId)
+  }),
+  nextTopic: (categoryId: number, topicId: number) => ({
+    queryKey: queryKeys.nextTopic(categoryId, topicId),
+    queryFn: () => getNextTopic(categoryId, topicId)
   }),
   totalList: (categoryId: number) => ({
     queryKey: queryKeys.totalList(categoryId),
@@ -100,7 +114,15 @@ export const queryOptions: QueryOptionsType = {
   gptColumnComment: (id: number, type: number, page?: number, size?: number) => ({
     queryKey: queryKeys.gptColumnComment(id, type),
     queryFn: () => getGptColumnComment(id, type, page, size)
-  })
+  }),
+  announce: (cursorId?: number, size?: number) => ({
+    queryKey: queryKeys.announce(cursorId, size),
+    queryFn: () => getAnnounce(cursorId, size)
+  }),
+  myScrap: (type: MyScrapRequest) => ({
+    queryKey: queryKeys.myScrap(type),
+    queryFn: () => getMyScrap(type)
+  }),
 };
 
 const useBaseSuspenseQuery = <T = unknown>(
@@ -121,6 +143,7 @@ export const useCategory = () => useBaseSuspenseQuery<Category[]>(queryOptions.c
 export const useBannerList = () => useBaseSuspenseQuery<Banner[]>(queryOptions.banner());
 export const useTopicList = (categoryId: number) => useBaseSuspenseQuery<Topic[]>(queryOptions.topicList(categoryId));
 export const useTotalList = (categoryId: number) => useBaseSuspenseQuery<Topic[]>(queryOptions.totalList(categoryId));
+export const useNextTopic = (categoryId: number, topicId: number) => useBaseSuspenseQuery<NextTopic>(queryOptions.nextTopic(categoryId, topicId));
 export const useTopicInfo = (topicId: number) => useBaseSuspenseQuery<TopicInfo>(queryOptions.topicInfo(topicId));
 export const useTopicGptInfo = (categoryId: number, topicId: number, userTypeId: number) => useBaseSuspenseQuery<TopicGptInfo>(queryOptions.topicGptInfo(categoryId, topicId, userTypeId));
 export const useUserTypeList = () => useBaseSuspenseQuery<UserType[]>(queryOptions.userTypeList());
@@ -128,6 +151,7 @@ export const useUserAvatarList = () => useBaseSuspenseQuery<UserAvatar[]>(queryO
 export const usePopularKeywordList = () => useBaseSuspenseQuery<{date: string, popularSearchList: PopularKeyword[]}>(queryOptions.popularKeywordList());
 export const useGptColumnDetail = (columnId: number) => useBaseSuspenseQuery<gptColumnDetail>(queryOptions.gptColumnDetail(columnId));
 export const useGptColumnComment = (columnId: number, commentType: number) => useBaseSuspenseQuery<gptColumnComment>(queryOptions.gptColumnDetail(columnId, commentType));
+export const useMyScrap = (type: MyScrapRequest) => useBaseSuspenseQuery<MyTopicScarp[] | MyColumnScarp[]>(queryOptions.myScrap(type));
 
 /** useInfiniteQuery */
 type UseSearchProps = {
@@ -151,7 +175,7 @@ export const useSearchTopic = ({type, keyword, page}: UseSearchProps) => {
   })
 }
 
-export const UseSearchGptColumn = ({type, keyword, page}: UseSearchProps) => {
+export const useSearchGptColumn = ({type, keyword, page}: UseSearchProps) => {
   return useInfiniteQuery({
     queryKey: queryKeys.searchGptColumn(type, keyword),
     queryFn: ({ pageParam = 0 }) => getSearchGptColumn(type, keyword, pageParam),
@@ -203,3 +227,22 @@ export const useGptColumnList = ({page, size}: UseGptColumnListProps) => {
 //     gcTime: 300 * 1000,
 //   })
 // }
+
+type UseAnnounceInfinitQueryProps = {
+  cursorId?: number, 
+  size?: number
+}
+
+export const useAnnounceInfiniteQuery = ({ cursorId, size }: UseAnnounceInfinitQueryProps) => {
+  return useInfiniteQuery({
+    queryKey: queryKeys.announce(cursorId, size),
+    queryFn: ({ pageParam = cursorId }) => getAnnounce(pageParam, size),
+    getNextPageParam: (lastPage) => {
+      const nextCursor = lastPage[lastPage.length - 1]?.id - 1;
+      return nextCursor && nextCursor > 0 ? nextCursor : undefined;
+    },
+    initialPageParam: cursorId,
+    staleTime: 60 * 1000, 
+    gcTime: 300 * 1000,
+  });
+};

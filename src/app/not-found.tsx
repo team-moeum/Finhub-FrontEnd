@@ -1,24 +1,53 @@
 'use client';
 
-import LinkButton from '@/components/Button/LinkButton';
 import styled from '@emotion/styled';
- 
+import Image from 'next/image';
+
+import LinkButton from '@/components/Button/LinkButton';
+
+const Text = styled.p`
+  color: #7B8287;
+  font-size: 24px;
+  font-weight: 600;
+`
+
 const Container = styled.div`
+  padding: 20px 10px;
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  gap: 1em;
 `
 
 export default function NotFound() {
   return (
     <Container>
-      <p style={{fontSize:'1.5em', fontWeight:'700'}}>Not Found</p>
-      <p>Could not find requested resource</p>
-      <LinkButton tag="button" type="contained" href="/home" width={150} height={40} ripple animate>Return Home</LinkButton>
+      <Text>페이지를 찾을 수 없습니다.</Text>
+      <Image
+        src='/images/not_found_img.png'
+        alt='Not Found'
+        width={340}
+        height={224}
+        priority
+      />
+      <LinkButton
+        tag="button"
+        type="contained"
+        href="/home"
+        width='100%'
+        height={55}
+        ripple
+        animate
+        background='#50BF50'
+        style={{
+          fontSize: 16,
+          fontWeight: 700
+        }}
+      >
+        홈으로
+      </LinkButton>
     </Container>
   )
 }

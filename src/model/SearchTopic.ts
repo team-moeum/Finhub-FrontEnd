@@ -1,7 +1,8 @@
 export type SearchRequestType = "title" | "summary" | "both";
 
 interface SearchResult {
-    id: number,
+    topicId: number,
+    categoryId: number,
     title: string,
     summary: string
 }

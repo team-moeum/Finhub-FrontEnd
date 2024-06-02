@@ -1,46 +1,19 @@
 "use client"
 
-import { PopularKeyword, TrendType } from "@/model/PopularKeyword";
 import style from "./TopSearch.module.css";
 import Image from "next/image";
 import { useState } from "react";
-import { usePopularKeywordList } from "@/states/server/queries";
-import { dateFormatter } from "@/utils/formatter";
+
 import { isEmpty } from "@/utils/isEmpty";
+import { TrendType } from "@/model/PopularKeyword";
+import { dateFormatter } from "@/utils/formatter";
+import { usePopularKeywordList } from "@/states/server/queries";
 
 export const TrendImageMap = {
   Increased: '/icons/trend_increased.svg',
   Decreased: '/icons/trend_decreased.svg',
   Stable: '/icons/trend_stable.svg',
 }
-
-const mockList: PopularKeyword[] = [
-  {
-    "rank": 1,
-    "keyword": "주식 최근 동향",
-    "trend": "New"
-  },
-  {
-    "rank": 2,
-    "keyword": "채권",
-    "trend": "Increased"
-  },
-  {
-    "rank": 3,
-    "keyword": "인기 검색어",
-    "trend": "Decreased"
-  },
-  {
-    "rank": 4,
-    "keyword": "최대 단어 길이는 이렇습니다",
-    "trend": "Decreased"
-  },
-  {
-    "rank": 5,
-    "keyword": "최대 단어 길이는 이 정도가 됩니다",
-    "trend": "Stable"
-  }
-]
 
 type RecentItemProps = {
   rank: number;
@@ -89,7 +62,7 @@ export default function TopSearch({ onItemSelect }: TopSearchProps) {
           <div className={style.title}>인기 검색어</div>
           {!isEmpty(popularSearchList) && 
             <div className={style.right}>
-              <div className={style.date}>{`${dateFormatter(date, 0)} 기준`}</div>
+              <div className={style.date}>{`${dateFormatter(date, "korean")} 기준`}</div>
               <Image
                 onClick={() => setShowInfo(true)}
                 src='/icons/question_icon.svg'
@@ -115,7 +88,7 @@ export default function TopSearch({ onItemSelect }: TopSearchProps) {
       </div>
       {!isEmpty(popularSearchList) ? 
         <div className={style.top_search_box}>
-          {mockList.map((v, i) => (
+          {popularSearchList.map((v, i) => (
             <TopSearchItem
               key={i}
               rank={v.rank}

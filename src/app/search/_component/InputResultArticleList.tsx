@@ -1,32 +1,26 @@
 import style from './InputResultArticleList.module.css'
-import reactStringReplace from 'react-string-replace';
+import Link from 'next/link';
 
 import Loading from '@/app/loading';
 import { SearchResult } from '@/model/SearchTopic';
+import { highlightKeyword } from '../utils/highlightKeyword';
 import { ColumnInfiniteQueryType } from './SearchScreen';
 
 import ArrowDownIcon from '@/public/icons/icon_arrow_down.svg';
 
-const highlightKeyword = (keyword: string, text: string) => {
-  return reactStringReplace(text, keyword, (match, i) => (
-    <span key={i} style={{ color: '#50BF50' }}>{match}</span>
-  ));
-}
-
 type ItemProps = {
   keyword: string;
-  title: string;
-  content: string;
+  item: SearchResult;
 }
-const Item = ({ keyword, title, content }: ItemProps) => {
+const Item = ({ keyword, item }: ItemProps) => {
   return (
     <div className={style.item_box}>
       <div className={style.text_box}>
         <span className={style.title}>
-          {highlightKeyword(keyword, title)}
+          {highlightKeyword(keyword, item.title)}
         </span>
         <span className={style.content}>
-          {highlightKeyword(keyword, content)}
+          {highlightKeyword(keyword, item.summary)}
         </span>
       </div>
     </div>
@@ -49,8 +43,8 @@ export default function InputResultArticleList({ keyword, topicInfiniteQuery }: 
     <>
       <div className={style.container}>
         {resultSearchList ?
-          resultSearchList.map((v, i) => (
-            <Item key={i} keyword={keyword} title={v.title} content={v.summary} />
+          resultSearchList.map((item, index) => (
+            <Item key={index} keyword={keyword} item={item} />
           ))
           :
           <div>No data</div>
@@ -65,4 +59,3 @@ export default function InputResultArticleList({ keyword, topicInfiniteQuery }: 
     </>
   )
 }
-
