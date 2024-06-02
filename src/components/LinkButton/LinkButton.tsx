@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { PressBox, PressButton } from "../PressAnimator/PressAnimator";
+import { Button } from "../Button";
+import { ButtonProps } from "../Button/Button";
 interface LinkProps {
   href: string
   children: React.ReactNode
