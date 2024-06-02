@@ -1,60 +1,59 @@
 "use client";
 
-import { useGptColumnComment } from "@/states/server/queries";
-import style from "./CommentCard.module.css";
 import Image from "next/image";
 import { useState } from "react";
 import { gptColumnComment } from "@/model/GptColumn";
+import { Box } from "@/components/Box";
+import { FlexBox } from "@/components/FlexBox";
+import { Stack } from "@/components/Stack";
+import { Text } from "@/components/Text";
 
-export default function CommentCard() {
-    const { data: gptColumnComment } = useGptColumnComment(columnId, commentType);
+import LikeIconGray from '@/public/column/thumb_icon_gray.svg';
+import LikeIconGreenOn from '@/public/column/thumb_icon_green_on.svg';
 
-    const [thumbImgSrc, setThumbImgSrc] = useState('/column/thumb_icon.png');
-    const [curImg, setCurImg] = useState(false);
+type CommentCardProps = {
+  comment: gptColumnComment
+}
 
-    const onClickThumb = () => {
-        if (curImg) {
-            setThumbImgSrc('/column/thumb_icon.png')
-            setCurImg(false);
-        } else {
-            setThumbImgSrc('/column/thumb_icon_green_full.png');
-            setCurImg(true);
-        }
-    }
+export const CommentCard = ({
+  comment
+}: CommentCardProps) => {
+  const [like, setLike] = useState(false);
 
-    return (
-        <>
-            <div className={style.comment_card}>
-                <div className={style.comment_user}>
-                    <Image
-                        src={gptColumnComment.avatarImgPath}
-                        alt="user Img"
-                        width={48}
-                        height={48}
-                    />
-                    <div className={style.comment_user_text}>
-                        <p className={style.user_nickname}>{gptColumnComment.nickname}</p>
-                        <p className={style.user_date}>{gptColumnComment.date}</p>
-                    </div>
-                </div>
-                <div className={style.comment_content}>
-                    {gptColumnComment.comment}
-                </div>
-                <div className={style.comment_thumb}>
-                    <p>받은 추천:</p>
-                    <div className={curImg ? style.thumb_active : ""}>
-                        <p>{gptColumnComment.like}개</p>
-                        <button onClick={onClickThumb}>
-                            <Image
-                                src={thumbImgSrc}
-                                alt="Thumb Icon"
-                                width={12}
-                                height={12}
-                            />
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </>
-    )
+  const handleLikeClick = () => setLike(prev => !prev);
+
+  return (
+    <Box px={16} py={12} radius={20} backgroundColor="#F6F7F9">
+      <Stack gap={14}>
+        <FlexBox gap={14} justifyContent='flex-start'>
+          <Image
+            src={comment?.avatarImgPath || '/images/default_avatar_img.png'}
+            alt="user Img"
+            width={48}
+            height={48}
+          />
+          <Stack gap={4}>
+            <Text size={14} weight={600} color="#494F54">{comment.nickname}</Text>
+            <Text size={10} weight={500} color="#CDD1D5">{comment.date}</Text>
+          </Stack>
+        </FlexBox>
+
+        <Box>
+          <Text size={12} weight={500} color="#494F54">{comment.comment}</Text>
+        </Box>
+
+        <FlexBox justifyContent='flex-start' gap={4}>
+          <Box>
+            <Text size={12} weight={500} color="#A6ABAF">
+              받은 추천:
+              <Text color={like ? "#50BF50" : "#A6ABAF"}> {comment.like}개</Text>
+            </Text>
+          </Box>
+          <Box onClick={handleLikeClick}>
+            {like ? <LikeIconGreenOn /> : <LikeIconGray />}
+          </Box>
+        </FlexBox>
+      </Stack>
+    </Box>
+  )
 }

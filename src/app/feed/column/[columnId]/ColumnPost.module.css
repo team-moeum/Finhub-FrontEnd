@@ -1,42 +1,4 @@
-.container {
-    padding-bottom: 55px;
-}
-
-/* .image_container {
-    position: relative;
-    width: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    background-color: #F6F6F6;
-    .overlay_back_button {
-        z-index: 1;
-        position: absolute;
-        top: 72px;
-        left: 17px;
-        color: white;
-    }
-    .overlay_share_button {
-        z-index: 1;
-        position: absolute;
-        top: 68px;
-        left: 270px;
-        color: white;
-    }
-    .overlay_star_button {
-        z-index: 1;
-        position: absolute;
-        top: 67px;
-        left: 300px;
-        color: white;
-    }
-} */
-.image_container {
-    position: relative;
-    width: 100%;
-    height: 215px;
-}
-
+/** why? */
 .overlay_image {
     position: absolute;
     top: 0;
@@ -44,31 +6,6 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-}
-
-.overlay_back_button {
-    position: absolute;
-    top: 30%;
-    left: 6%;
-    color: white;
-}
-
-.overlay_share_button {
-    position: absolute;
-    top: 30%;
-    left: 73%;
-    color: white;
-}
-
-.overlay_scrap_button {
-    position: absolute;
-    top: 30%;
-    left: 85%;
-    color: white;
-}
-
-.content_container {
-    padding: 16px 16px 36px 16px;
 }
 
 .content_tag {

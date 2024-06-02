@@ -1,5 +1,6 @@
 "use client"
-import LinkButton from "@/app/_component/UiComponent/LinkButton";
+
+import { LinkButton } from "@/components/LinkButton"
 import style from "./DetailButton.module.css"
 
 export default function DetailButton() {

@@ -14,13 +14,19 @@ export interface gptColumnDetail extends gptColumn {
     liked: boolean
 }
 
-
 export interface gptColumnComment {
     id: number,
     nickname: string,
     date: string,
-    avatarImgPath: string,
+    avatarImgPath: string | null,
     comment: string,
     like: number,
     useComment: boolean
+}
+
+export interface CommentPageInfo {
+    currentPage: number,
+    totalPages: number,
+    pageSize: number,
+    totalElements: number
 }
