@@ -31,6 +31,7 @@ import { getGptColumnComment } from "./Column/ColumnComment/getGptColumnComment"
 
 import { getNextTopic } from "./Home/getNextTopic"
 import { NextTopic } from "@/model/NextTopic"
+import { getSearchGptColumn } from "./Search/getSearchGptColumn"
 
 
 export const queryKeys = {
