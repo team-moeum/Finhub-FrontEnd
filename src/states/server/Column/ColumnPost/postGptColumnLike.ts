@@ -11,9 +11,5 @@ export const postGptColumnLike = async(param: any) => {
     body: param
   });
 
-  if (response.status === "FAIL") {
-    return {status: response.status, errorMsg: response.errorMsg}
-  }
-
   return response.status;
 }

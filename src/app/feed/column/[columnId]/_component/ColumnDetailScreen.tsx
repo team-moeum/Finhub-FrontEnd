@@ -2,79 +2,94 @@
 
 import Image from "next/image"
 import style from "../ColumnPost.module.css";
-
-import { AppBar } from "@/components/AppBar";
-import { Button } from "@/components/Button";
-import { AppContainer, Container } from "@/components/Container";
-import { FlexBox } from "@/components/FlexBox";
-import { Stack } from "@/components/Stack";
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { useGptColumnLike } from "@/states/server/mutations";
-import { useGptColumnDetail, useUserInfo } from "@/states/server/queries";
-
 import { useParams } from "next/navigation";
-import { useState } from "react";
-import { ColumnComment } from "../../_component/ColumnComment";
+import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+
+import { Box } from "@/components/Box";
+import { Text } from "@/components/Text";
+import { Button } from "@/components/Button";
+import { AppBar } from "@/components/AppBar";
+import { Stack } from "@/components/Stack";
+import { FlexBox } from "@/components/FlexBox";
+import { AppContainer, Container } from "@/components/Container";
+
 import { OpinionBox } from "./OpinionBox";
+import { ColumnComment } from "../../_component/ColumnComment";
+
+import { useToast } from "@/components/Toast/useToast";
+import { ScrapToast } from "@/components/Toast/ScrapToast";
+import { queryKeys, useGptColumnDetail, useUserInfo } from "@/states/server/queries";
+import { COLUMN_LIKE_TYPE, SCRAP_TYPE, useGptColumnLike, useScrap } from "@/states/server/mutations";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 import LikeIcon from '@/public/column/thumb_icon_green.svg';
-import LikeIconOn from '@/public/column/thumb_icon_green_on.svg';
+import LikeOnIcon from '@/public/column/thumb_icon_green_on.svg';
 import LikeIconGray from '@/public/column/thumb_icon_gray.svg';
 
 import ShareIcon from '@/public/icons/icon_share_white.svg';
 import ScrapIcon from '@/public/icons/Icon_scrap_white.svg';
-import { Box } from "@/components/Box";
-import { Text } from "@/components/Text";
-
+import ScrapOnIcon from '@/public/icons/scrap_icon_on.svg';
 
 export const ColumnDetailScreen = () => {
   const columnId = Number(useParams().columnId);
 
-  const [starImgSrc, setStarImgSrc] = useState('/column/star_icon.png');
-  const [thumbImgSrc, setThumbImgSrc] = useState('/column/thumb_icon_green.png');
-  const [curImg, setCurImg] = useState(false);
-  const [whichTab, setWhichTab] = useState("popular");
-  const [showInput, setShowInput] = useState(false);
-
   const [isLiked, setIsLiked] = useState(false);
   const [isScrapped, setIsScrapped] = useState(false);
+  const [totalLikeCnt, setTotalLikeCnt] = useState<number>(0);
 
   const { data: gptColumnDetail } = useGptColumnDetail(columnId);
   const { data: userInfo } = useUserInfo();
 
+  const { showToast } = useToast();
   const { ref, isIntersecting: showOpinionBox } = useIntersectionObserver({ threshold: 0.2 });
 
-  const gptColumnLikeMutation = useGptColumnLike({
-    onSuccess: (data) => {
-      console.log(data);
+  const queryClient = useQueryClient();
+  const columnScrapMutation = useScrap({
+    onMutate: () => {
+      setIsScrapped(prev => !prev);
     },
-    onError: (data) => {
-      console.log(data);
+    onSuccess: () => {
+      showToast({ content: <ScrapToast />, duration: 2000 });
+      queryClient.invalidateQueries({ queryKey: queryKeys.gptColumnDetail(columnId) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.myScrap("topic") });
+    },
+    onError: () => {
+      setIsScrapped(prev => !prev);
+      showToast({ content: "잠시후 다시 시도해주세요!", type: "warning", duration: 2000 });
+    }
+  });
+  const columnLikeMutation = useGptColumnLike({
+    onMutate: () => {
+      setIsLiked(prevIsLiked => {
+        setTotalLikeCnt(prevTotalLikeCnt => prevIsLiked ? prevTotalLikeCnt - 1 : prevTotalLikeCnt + 1);
+        return !prevIsLiked;
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.gptColumnDetail(columnId) });
+    },
+    onError: () => {
+      setIsLiked(prevIsLiked => {
+        setTotalLikeCnt(prevTotalLikeCnt => prevIsLiked ? prevTotalLikeCnt + 1 : prevTotalLikeCnt - 1);
+        return !prevIsLiked;
+      });
+      showToast({ content: "잠시후 다시 시도해주세요!", type: "warning", duration: 2000 });
     }
   });
 
-  const onClickStar = () => {
-    if (curImg) {
-      setStarImgSrc('/column/star_icon.png');
-      setThumbImgSrc('/column/thumb_icon_green.png')
-      setCurImg(false);
-    } else {
-      setStarImgSrc('/column/green_star_icon.png');
-      setThumbImgSrc('/column/thumb_icon_green_full.png');
-      setCurImg(true);
-    }
+  useEffect(() => {
+    setIsScrapped(gptColumnDetail.scrapped)
+    setIsLiked(gptColumnDetail.liked)
+    setTotalLikeCnt(gptColumnDetail.totalLike);
+  }, [gptColumnDetail])
+
+  const handleScrapClick = () => {
+    columnScrapMutation.mutate({ id: columnId, type: SCRAP_TYPE.column })
   }
 
-  const onClickLike = () => {
-    if (curImg) {
-      setThumbImgSrc('/column/thumb_icon_green.png')
-      setCurImg(false);
-    } else {
-      setThumbImgSrc('/column/thumb_icon_green_full.png');
-      setCurImg(true);
-    }
-    gptColumnLikeMutation.mutate({ id: columnId, type: 1 });
-    // liked : false -> true
+  const handleColumnClick = () => {
+    columnLikeMutation.mutate({ id: columnId, type: COLUMN_LIKE_TYPE.column });
   }
 
   return (
@@ -82,8 +97,12 @@ export const ColumnDetailScreen = () => {
       <AppBar
         useLeftBack
       >
-        <ShareIcon />
-        <ScrapIcon />
+        <Box>
+          <ShareIcon />
+        </Box>
+        <Box onClick={handleScrapClick}>
+          {isScrapped ? <ScrapOnIcon /> : <ScrapIcon />}
+        </Box>
       </AppBar>
       <Box position='relative' width='100%' height={215}>
         <Image
@@ -129,9 +148,16 @@ export const ColumnDetailScreen = () => {
             <Text size={14} weight={600} color="#494F54">컬럼이 도움이 되셨나요?</Text>
 
             <FlexBox mt={20} gap={14}>
-              <Button height={44} py={10} px={16} backgroundColor="#F3FCF2" radius={10}>
+              <Button 
+                height={44} 
+                py={10} 
+                px={16} 
+                backgroundColor="#F3FCF2" 
+                radius={10}
+                onClick={handleColumnClick}
+              >
                 <FlexBox gap={5}>
-                  <LikeIcon />
+                  {isLiked ? <LikeOnIcon /> : <LikeIcon />}
                   <Text size={12} weight={600} color="#50BF50">도움이 됐어요</Text>
                 </FlexBox>
               </Button>
@@ -145,7 +171,7 @@ export const ColumnDetailScreen = () => {
               <Box>
                 <LikeIconGray />
               </Box>
-              <Text size={12} weight={500} color="#A6ABAF">{gptColumnDetail.totalLike}명이 도움을 받았어요!</Text>
+              <Text size={12} weight={500} color="#A6ABAF">{totalLikeCnt}명이 도움을 받았어요!</Text>
             </FlexBox>
           </FlexBox>
         </Stack>

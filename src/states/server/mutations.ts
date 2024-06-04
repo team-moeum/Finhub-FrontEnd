@@ -24,6 +24,11 @@ export const mutationKeys = {
   gptColumnComment: ["gptColumnComment"]
 }
 
+export const SCRAP_TYPE = {
+  topic: 1,
+  column: 2
+} as const;
+
 export const useScrap = (options?: UseMutationOptions<any, Error, any>) => {
   return useMutation<any, Error, { id: number, type: number, categoryId?: number }>({
     mutationKey: mutationKeys.scrap,
@@ -79,6 +84,11 @@ export const useUpdateNoSearchWord = (options?: UseMutationOptions<any, Error, a
     ...options,
   })
 }
+
+export const COLUMN_LIKE_TYPE = {
+  column: 1,
+  comment: 2,
+} as const;
 
 export const useGptColumnLike = (options?: UseMutationOptions<any, Error, any>) => {
   return useMutation<any, Error, { id: number, type: number }>({
