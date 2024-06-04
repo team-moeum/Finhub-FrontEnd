@@ -17,22 +17,10 @@ import { OpinionBox } from "../_component/OpinionBox";
 
 
 export default function CommentDetail() {
-  const router = useRouter();
   const columnId = Number(useParams().columnId);
-
-  const [whichTab, setWhichTab] = useState("popular");
 
   const { data: gptColumnDetail } = useGptColumnDetail(columnId);
   const { data: userInfo } = useUserInfo();
-  console.log(userInfo);
-
-  const onClickPopular = () => {
-    setWhichTab("popular");
-  }
-
-  const onClickNewest = () => {
-    setWhichTab("newest");
-  }
 
   return (
     <AppContainer>

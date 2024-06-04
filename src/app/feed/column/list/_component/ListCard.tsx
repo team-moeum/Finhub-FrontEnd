@@ -14,7 +14,6 @@ export default function ListCard() {
     } = useGptColumnList({ page: 1, size: 5 });
     const gptColumnList = data?.pages[0].columnInfo as gptColumn[];
     
-    console.log(gptColumnList);
     return (
         <>
             {gptColumnList && gptColumnList.map((item) => {
