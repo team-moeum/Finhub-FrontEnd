@@ -50,7 +50,10 @@ export const ColumnDetailScreen = () => {
       setIsScrapped(prev => !prev);
     },
     onSuccess: () => {
-      showToast({ content: <ScrapToast />, duration: 2000 });
+      if (isScrapped) {
+        showToast({ content: <ScrapToast />, duration: 2000 });
+      }
+
       queryClient.invalidateQueries({ queryKey: queryKeys.gptColumnDetail(columnId) });
       queryClient.invalidateQueries({ queryKey: queryKeys.myScrap("column") });
     },
