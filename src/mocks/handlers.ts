@@ -27,7 +27,6 @@ const CategoryMap = [
 export const handlers = [
   http.post('/api/login', async ({ request }) => {
     const kakaoCode = await request.json();
-    console.log("KaKao_Code : ", kakaoCode);
     return HttpResponse.json({
       info: {
         name: "UserName",

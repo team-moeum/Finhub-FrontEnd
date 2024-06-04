@@ -13,7 +13,6 @@ export async function requestSsr({
     const env = process.env.NEXT_PUBLIC_MODE;
     const domain = env === 'production' ? process.env.NEXT_PUBLIC_FRONT_URL : process.env.NEXT_PUBLIC_VERCEL_URL;
 
-    console.log(domain);
     const res = await fetch(`${domain}/api/${method}`, {
       headers: {
         'Access-Control-Allow-Origin': '*',
@@ -32,7 +31,6 @@ export async function requestSsr({
       })
     });
     
-    console.log(res);
     if (!res.ok) return {status: "FAIL"};
 
     let data =  await res.json();

@@ -5,8 +5,6 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_MOCKING === 'enabled' ? 'http:/
 
 export async function middleware(request: NextRequest) {
 
-  console.log("Middleware",getToken());
-
   const tokens = getToken();
   function autoLogin() {
     fetch(`${API_BASE_URL}/api/v1/auth/autoLogin`, {

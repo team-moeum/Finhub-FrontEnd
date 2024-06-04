@@ -91,10 +91,6 @@ export async function POST(req: Request) {
     res = await dataRetry.json();
   }
 
-  /* TOKEN TYPE ERROR */
-  if (res.apiStatus === "FAIL") res.status = "FAIL";
-  console.log("DELETE", url, res);
-
   return NextResponse.json(res);
 }
 
