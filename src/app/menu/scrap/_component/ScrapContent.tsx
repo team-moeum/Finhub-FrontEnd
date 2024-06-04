@@ -38,9 +38,8 @@ type ScrapColumnItemProps = {
   onScrapClick: (e: React.MouseEvent) => void
 }
 const ScrapColumnItem = ({ data, onScrapClick }: ScrapColumnItemProps) => {
-  /** To do GPT 컬럼 링크 연결 */
   return (
-    <LinkButton href={`/menu/scrap`}>
+    <LinkButton href={`/feed/column/${data.columnId}`}>
       <div className={style.item_container}>
         <div className={style.img_box}></div>
         <div className={style.content_box}>
@@ -74,8 +73,13 @@ const SrapList = ({type}: SrapListProps) => {
       }
 
       queryClient.invalidateQueries({queryKey: queryKeys.myScrap(type)});
-      queryClient.invalidateQueries({ queryKey: queryKeys.topicInfo(variable.id)});
-      queryClient.invalidateQueries({queryKey: queryKeys.topicList(variable.categoryId)});
+      if (type === "topic") {
+        queryClient.invalidateQueries({ queryKey: queryKeys.topicInfo(variable.id)});
+        queryClient.invalidateQueries({queryKey: queryKeys.topicList(variable.categoryId)});
+      }
+      if (type === "column") {
+        queryClient.invalidateQueries({ queryKey: queryKeys.gptColumnDetail(variable.id)});
+      }
 
       refetch();
     },
