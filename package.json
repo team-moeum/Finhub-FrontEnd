@@ -22,7 +22,6 @@
     "framer-motion": "^11.0.3",
     "next": "14.0.4",
     "next-auth": "^5.0.0-beta.15",
-    "nvm": "^0.0.4",
     "react": "^18",
     "react-dom": "^18",
     "react-string-replace": "^1.1.1",
