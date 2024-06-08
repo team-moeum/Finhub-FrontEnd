@@ -56,8 +56,6 @@ export async function POST(req: Request) {
     res = await dataRetry.json();
   }
 
-  console.log(res);
-
   return NextResponse.json(res);
 }
 
