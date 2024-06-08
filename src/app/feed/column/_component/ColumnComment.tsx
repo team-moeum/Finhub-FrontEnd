@@ -22,12 +22,17 @@ const TAB_NUMBER = {
   recent: 2
 } as const;
 
-type TabKey = keyof typeof TAB_NUMBER;
+const PAGE_TYPE = {
+  columnDetail: "columnDetail",
+  commentDetatil: "commentDetatil"
+} as const;
 
+type TabKey = keyof typeof TAB_NUMBER;
+type PageType = keyof typeof PAGE_TYPE;
 
 type ColumnCommentProps = {
   columnId: number;
-  pageType: 'columnDetail' | 'commentDetatil'
+  pageType: PageType;
 }
 export const ColumnComment = ({ columnId, pageType }: ColumnCommentProps) => {
   const [tab, setTab] = useState<TabKey>('popular');
@@ -37,18 +42,18 @@ export const ColumnComment = ({ columnId, pageType }: ColumnCommentProps) => {
     refetch,
     hasNextPage,
     fetchNextPage,
-    isLoading
+    isLoading,
   } = useGptColumnCommentList({
     id: columnId,
     type: TAB_NUMBER[tab],
-    size: pageType === 'columnDetail' ? 3 : 7
+    size: pageType === PAGE_TYPE.columnDetail ? 3 : 7
   });
   const commentList = useMemo(() => (data ? data.pages.flatMap((data) => (data.comments)) : []), [data]);
 
   const { ref, isIntersecting } = useIntersectionObserver({ threshold: 0.2 });
 
   useEffect(() => {
-    if (pageType === 'columnDetail') return;
+    if (pageType === PAGE_TYPE.columnDetail) return;
     if (isIntersecting && hasNextPage) fetchNextPage();
   }, [isIntersecting, hasNextPage])
 
@@ -106,7 +111,7 @@ export const ColumnComment = ({ columnId, pageType }: ColumnCommentProps) => {
             })}
           </Stack>
 
-          {pageType === 'columnDetail' && commentList?.length !== 0
+          {pageType === PAGE_TYPE.columnDetail && commentList?.length !== 0
             &&
             <LinkButton href={`/feed/column/${columnId}/comment`}>
               <FlexBox height={36} backgroundColor="#F6F7F9" radius={10}>
@@ -115,7 +120,7 @@ export const ColumnComment = ({ columnId, pageType }: ColumnCommentProps) => {
             </LinkButton>
           }
 
-          {pageType === 'commentDetatil' && commentList?.length !== 0
+          {pageType === PAGE_TYPE.commentDetatil && commentList?.length !== 0
             &&
             <Box ref={ref} height={20} />
           }

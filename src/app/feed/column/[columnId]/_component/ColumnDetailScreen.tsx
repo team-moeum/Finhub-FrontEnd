@@ -85,7 +85,7 @@ export const ColumnDetailScreen = () => {
     setIsScrapped(gptColumnDetail.scrapped)
     setIsLiked(gptColumnDetail.liked)
     setTotalLikeCnt(gptColumnDetail.totalLike);
-  }, [gptColumnDetail])
+  }, [gptColumnDetail.scrapped, gptColumnDetail.liked, gptColumnDetail.totalLike])
 
   const handleScrapClick = () => {
     columnScrapMutation.mutate({ id: columnId, type: SCRAP_TYPE.column })
