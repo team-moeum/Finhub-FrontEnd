@@ -21,3 +21,16 @@
 .pressButton_ScaleWrap:active {
     transform: scale(0.95);
 }
+
+.noBackgroundChange {
+    transition: none;
+}
+
+.noScaleChange {
+    transition: none;
+    transform: none;
+}
+
+.noScaleChange:active {
+    transform: none;
+}

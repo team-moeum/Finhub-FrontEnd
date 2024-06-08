@@ -18,6 +18,7 @@ export type BoxProps = {
   right?: string | number,
   bottom?: string | number,
   left?: string | number,
+  zIndex?: number;
 } & SpacingType & React.HTMLAttributes<HTMLDivElement>;
 
 export const Box = forwardRef(({
@@ -35,6 +36,7 @@ export const Box = forwardRef(({
   right,
   bottom,
   left,
+  zIndex,
   style = {},
   children,
   ...props
@@ -58,6 +60,7 @@ export const Box = forwardRef(({
       right,
       bottom,
       left,
+      zIndex,
       ...spacing,
       ...style
     }} {...props}>

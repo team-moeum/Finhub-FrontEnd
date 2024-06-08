@@ -1,0 +1,15 @@
+.base_button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+  outline: none;
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+}

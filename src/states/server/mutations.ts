@@ -8,6 +8,8 @@ import { postUserAvatar } from "./Menu/postUserAvatar";
 import { deleteUserAvatar } from "./Menu/deleteUserAvatar";
 import { postNoSearchWord } from "./Search/postNoSearchWord";
 import { deleteRecentKeyword } from "./Search/deleteRecentKeyword";
+import { postGptColumnLike } from "./Column/ColumnPost/postGptColumnLike";
+import { postGptColumnComment } from "./Column/ColumnComment/postGptColumnComment";
 
 
 export const mutationKeys = {
@@ -18,7 +20,14 @@ export const mutationKeys = {
   deleteUserAvatar: ["deleteUserAvatar"],
   updateNoSearchWord: ["updateNoSearchWord"],
   deleteRecentKeyword: ["deleteRecentKeyword"],
+  gptColumnLike: ["gptColumnLike"],
+  gptColumnComment: ["gptColumnComment"]
 }
+
+export const SCRAP_TYPE = {
+  topic: 1,
+  column: 2
+} as const;
 
 export const useScrap = (options?: UseMutationOptions<any, Error, any>) => {
   return useMutation<any, Error, { id: number, type: number, categoryId?: number }>({
@@ -74,4 +83,25 @@ export const useUpdateNoSearchWord = (options?: UseMutationOptions<any, Error, a
     mutationFn: (param) => postNoSearchWord(param),
     ...options,
   })
+}
+
+export const COLUMN_LIKE_TYPE = {
+  column: 1,
+  comment: 2,
+} as const;
+
+export const useGptColumnLike = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number, type: number }>({
+    mutationKey: mutationKeys.gptColumnLike,
+    mutationFn: (param) => postGptColumnLike(param),
+    ...options,
+  });
+}
+
+export const useGptColumnComment = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number, comment: string }>({
+    mutationKey: mutationKeys.gptColumnComment,
+    mutationFn: (param) => postGptColumnComment(param),
+    ...options,
+  });
 }
