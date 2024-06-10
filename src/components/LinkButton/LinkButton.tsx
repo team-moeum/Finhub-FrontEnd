@@ -1,13 +1,15 @@
 import Link from "next/link";
-import { PressBox, PressButton } from "../PressAnimator/PressAnimator";
+import { PressBox, PressButton, PressProps } from "../PressAnimator/PressAnimator";
+
 interface LinkProps {
-  href: string
+  href: string,
+  width?: string | number,
   children: React.ReactNode
 }
 
-export const LinkBox = ({ href, children }: LinkProps) => {
+export const LinkBox = ({ href, children, ...props }: LinkProps & PressProps) => {
   return (
-    <PressBox>
+    <PressBox {...props}>
       <Link href={href}>
         {children}
       </Link>
@@ -15,9 +17,9 @@ export const LinkBox = ({ href, children }: LinkProps) => {
   )
 }
 
-export const LinkButton = ({ href, children }: LinkProps) => {
+export const LinkButton = ({ href, width, children }: LinkProps) => {
   return (
-    <PressButton>
+    <PressButton width={width}>
       <Link href={href}>
         {children}
       </Link>

@@ -1,0 +1,36 @@
+.slide_img {
+    width: 100%;
+    position: relative;
+    height: 179px;
+    border-radius: 20px;
+    overflow: hidden;
+    .overlay_text {
+        z-index: 1;
+        position: absolute;
+        top: 21px;
+        left: 21px;
+        color: #fff;
+        .overlay_title {
+            font-size: 17px;
+            font-weight: 700;
+        }
+        .overlay_date {
+            padding-top: 5px;
+            font-size: 12px;
+            font-weight: 400;
+        }
+    }
+    .overlay_tag {
+        z-index: 1;
+        position: absolute;
+        top: 137px;
+        right: 20px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 500;
+    }
+}
+
+.list_img {
+    margin-bottom: 18px;
+}

@@ -1,0 +1,13 @@
+.detail_button {
+    background-color: #F6F7F9;
+    color: #A6ABAF;
+    font-size: 15px;
+    /* margin: 16px; */
+    /* width: 312px; */
+    margin-top: 18px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}

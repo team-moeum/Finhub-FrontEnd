@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const Tokens = getToken();
-  console.log("autoLogin: ", Tokens);
   
   const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/autoLogin`, {
     method: "GET",

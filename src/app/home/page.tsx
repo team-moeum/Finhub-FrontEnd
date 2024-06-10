@@ -29,7 +29,7 @@ export default async function Home() {
   });
 
   const firstCategory = queryClient.getQueryData(queryKeys.category) as Category[];
-  const firstCategoryId = firstCategory ? firstCategory[0].categoryId : -1;
+  const firstCategoryId = firstCategory ? firstCategory[0]?.categoryId : -1;
   await queryClient.prefetchQuery({
     queryKey: queryKeys.topicList(firstCategoryId),
     queryFn: () => getTopicList(firstCategoryId, true),
