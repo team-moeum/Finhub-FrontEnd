@@ -9,7 +9,7 @@ import { Modal, ModalProps } from '../Modal/Modal';
 import { Stack } from '../Stack';
 import { Text } from '../Text';
 import { FlexBox } from '../FlexBox';
-import { useLockScoll } from '@/hooks/useLockScoll';
+import { useLockScroll } from '@/hooks/useLockScroll';
 
 type PopupProps = {
   leftButtonText?: string,
@@ -30,7 +30,7 @@ export const Popup = ({
   children
 }: PopupProps) => {
 
-  useLockScoll({locked: show});
+  useLockScroll({locked: show});
 
   return (
     <Modal show={show} dim={dim} onClose={onClose}>
