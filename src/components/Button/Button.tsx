@@ -16,6 +16,7 @@ export type ButtonProps = {
   border?: string;
   disabled?: boolean;
   animate?: boolean;
+  flex?: string | number;
   children?: React.ReactNode;
 } & React.HTMLAttributes<HTMLButtonElement> & SpacingType;
 
@@ -33,6 +34,7 @@ export const Button = ({
   border,
   style = {},
   animate=true,
+  flex,
   onClick,
   ...props
 }: ButtonProps) => {
@@ -40,7 +42,7 @@ export const Button = ({
   const spacing = getBoxSpacing({ margin, padding, my, mx, mt, mb, ml, mr, py, px, pt, pb, pl, pr });
 
   return (
-    <PressButton animate={animate} style={{width: 'fit-content'}}>
+    <PressButton animate={animate} style={{width: 'fit-content', display: 'inline-flex', flex}}>
       <button
         className={cssStyle.base_button}
         style={{ 
@@ -51,6 +53,7 @@ export const Button = ({
           backgroundColor, 
           color: textColor, 
           border,
+          flex,
           ...spacing,
           ...style 
         }}
