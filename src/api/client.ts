@@ -1,4 +1,4 @@
-import { getToken } from "@/utils/auth_client";
+import { getToken } from "@/utils/authToken";
 import { ApiMethods, ApiConfig } from "./type";
 import {
   ApiError,
