@@ -29,6 +29,6 @@ export const deleteToken = () => {
 };
 
 export const setToken = (tokens: AuthToken) => {
-  if (isSSR()) return setServerToken(tokens);
-  return setClientToken(tokens);
+  setServerToken(tokens);
+  setClientToken(tokens);
 };
