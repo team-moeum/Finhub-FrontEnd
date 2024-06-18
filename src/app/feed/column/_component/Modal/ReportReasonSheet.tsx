@@ -54,6 +54,7 @@ export const ReportReasonSheet = ({ show, reportReasons, onClose, selectedId, on
       <Stack gap={10} px={16} pb={22}>
         {reportReasons.map(reason => (
           <ReasonRadioItem 
+            key={reason.id}
             selectedId={selectedId}
             reason={reason}
             onClick={() => onItemClick(reason.id)}
