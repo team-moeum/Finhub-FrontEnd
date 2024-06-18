@@ -20,6 +20,8 @@ import { useDeleteGptColumnComment } from "@/states/server/mutations";
 import { useToast } from "@/components/Toast/useToast";
 import { useSetRecoilState } from "recoil";
 import { gptColumnCommentState } from "@/states/client/atoms/gptColumnComment";
+import { BanCommentSheet } from "./Modal/BanCommentSheet";
+import { BanCommentPopup } from "./Modal/BanCommentPopup";
 
 type CommentCardProps = {
   id: number;
@@ -38,7 +40,9 @@ export const CommentCard = ({
   const setComment = useSetRecoilState(gptColumnCommentState);
 
   const EditCommentSheetModal = useModal();
+  const BanCommentSheetModal = useModal();
   const DeleteCommentPopupModal = useModal();
+  const BanCommentPopupModal = useModal();
 
   const { showToast } = useToast();
 
@@ -56,6 +60,11 @@ export const CommentCard = ({
 
   const handleLikeClick = () => setLike(prev => !prev);
 
+  const handleEditClick = () => {
+    if (isMine) return handleEditSheetModalOpen();
+    return BanCommentSheetModal.open();
+  }
+
   const handleEditSheetModalOpen = () => {
     setComment(comment.comment ?? "")
     EditCommentSheetModal.open()
@@ -68,6 +77,11 @@ export const CommentCard = ({
 
   const handleDeleteComment = () => {
     deleteCommentMutation.mutate({id})
+  }
+
+  const handleBanPopupOpen = () => {
+    BanCommentSheetModal.close();
+    BanCommentPopupModal.open();
   }
   
   return (
@@ -86,11 +100,10 @@ export const CommentCard = ({
               <Text size={10} weight={500} color="#CDD1D5">{comment.date}</Text>
             </Stack>
 
-            {isMine && 
-              <Box position='absolute' right={0} top={0} onClick={handleEditSheetModalOpen}>
-                <CommentEditIcon />
-              </Box>
-            }
+            <Box position='absolute' right={0} top={0} onClick={handleEditClick}>
+              <CommentEditIcon />
+            </Box>
+
           </FlexBox>
 
           <Box>
@@ -112,7 +125,9 @@ export const CommentCard = ({
       </Box>
       
       <EditCommentSheet show={EditCommentSheetModal.show} columnId={comment.id} onClose={EditCommentSheetModal.close} onDeleteClick={handleDeleteOpen} />
+      <BanCommentSheet show={BanCommentSheetModal.show} columnId={comment.id} commentId={comment.id} onClose={BanCommentSheetModal.close} onBanClick={handleBanPopupOpen} />
       <DeleteCommentPopup show={DeleteCommentPopupModal.show} onCancel={DeleteCommentPopupModal.close} onDelete={handleDeleteComment}/>
+      <BanCommentPopup show={BanCommentPopupModal.show} name={comment.nickname} onCancel={BanCommentPopupModal.close} onBan={() => {}}/>
     </>
   )
 }

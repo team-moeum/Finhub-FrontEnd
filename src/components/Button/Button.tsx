@@ -30,6 +30,8 @@ export const Button = ({
   children,
   disabled = false,
   backgroundColor,
+  disabledBgColor,
+  disabledTextColor,
   textColor,
   border,
   style = {},
@@ -40,6 +42,12 @@ export const Button = ({
 }: ButtonProps) => {
 
   const spacing = getBoxSpacing({ margin, padding, my, mx, mt, mb, ml, mr, py, px, pt, pb, pl, pr });
+
+  const disabledStyle = {
+    backgroundColor: disabledBgColor,
+    color:  disabledTextColor,
+    cursor: 'not-allowed',
+  };
 
   return (
     <PressButton animate={animate} style={{width: 'fit-content', display: 'inline-flex', flex}}>
@@ -55,7 +63,8 @@ export const Button = ({
           border,
           flex,
           ...spacing,
-          ...style 
+          ...style,
+          ...(disabled ? disabledStyle : {}),
         }}
         onClick={onClick}
         disabled={disabled}

@@ -12,6 +12,7 @@ import { postGptColumnLike } from "./Column/ColumnPost/postGptColumnLike";
 import { postGptColumnComment } from "./Column/ColumnComment/postGptColumnComment";
 import { deleteGptColumnComment } from "./Column/ColumnComment/deleteGptColumnComment";
 import { putGptColumnComment } from "./Column/ColumnComment/putGptColumnComment";
+import { postReportGptColumnComment } from "./Column/ColumnComment/postReportGptColumnComment";
 
 
 export const mutationKeys = {
@@ -25,7 +26,9 @@ export const mutationKeys = {
   gptColumnLike: ["gptColumnLike"],
   gptColumnComment: ["gptColumnComment"],
   deleteGptColumnComment: ["deleteGptColumnComment"],
-  editGptColumnComment: ["editGptColumnComment"]
+  editGptColumnComment: ["editGptColumnComment"],
+  reportGptColumnComment: ["reportGptColumnComment"],
+  banGptColumnComment: ["banGptColumnComment"],
 }
 
 export const SCRAP_TYPE = {
@@ -122,6 +125,22 @@ export const useEditGptColumnComment = (options?: UseMutationOptions<any, Error,
   return useMutation<any, Error, { id: number, comment: string }>({
     mutationKey: mutationKeys.editGptColumnComment,
     mutationFn: (param) => putGptColumnComment(param.id, param.comment),
+    ...options,
+  });
+}
+
+export const useReportGptColumnComment = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { commentId: number, reportId: number }>({
+    mutationKey: mutationKeys.reportGptColumnComment,
+    mutationFn: (param) => postReportGptColumnComment(param.commentId, param.reportId),
+    ...options,
+  });
+}
+
+export const useBanGptColumnComment = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { commentId: number, reportId: number }>({
+    mutationKey: mutationKeys.banGptColumnComment,
+    mutationFn: (param) => postReportGptColumnComment(param.commentId, param.reportId),
     ...options,
   });
 }
