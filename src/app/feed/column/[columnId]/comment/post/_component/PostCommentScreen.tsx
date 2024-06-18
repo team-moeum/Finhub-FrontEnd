@@ -5,22 +5,49 @@ import { Box } from "@/components/Box";
 import { AppContainer, Container } from "@/components/Container"
 import { Text } from "@/components/Text";
 import { useToast } from "@/components/Toast/useToast";
-import { useGptColumnComment } from "@/states/server/mutations";
+import { gptColumnCommentState } from "@/states/client/atoms/gptColumnComment";
+import { useEditGptColumnComment, useGptColumnComment } from "@/states/server/mutations";
 import styled from "@emotion/styled";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 
+export const COMMENT_POST_TYPE = {
+  post: "post",
+  edit: "edit"
+} as const;
 
 export const PostCommentScreen = () => {
   const router = useRouter();
   const columnId = Number(useParams().columnId);
+  const commentPostType = useSearchParams().get('type');
   
   const [comment, setComment] = useState('');
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
 
+  const editInitComment = useRecoilValue(gptColumnCommentState);
+
   const { showToast } = useToast();
 
+  useEffect(() => {
+    if (commentPostType === 'edit') setComment(editInitComment);
+  }, [editInitComment]);
+
   const postCommentMutation = useGptColumnComment({
+    onSuccess: (data) => {
+      if (data.status === "FAIL") {
+        showToast({content: data.errorMsg, type: 'warning'});
+        return;
+      }
+
+      router.back();
+    },
+    onError: () => {
+      showToast({content: "잠시 후 다시 이용해 주세요", type: 'warning'});
+    }
+  })
+
+  const editCommentMutation = useEditGptColumnComment({
     onSuccess: (data) => {
       if (data.status === "FAIL") {
         showToast({content: data.errorMsg, type: 'warning'});
@@ -41,7 +68,11 @@ export const PostCommentScreen = () => {
   };
 
   const handleSubmitClick = () => {
-    postCommentMutation.mutate({id: columnId, comment: comment})
+    if (commentPostType === 'post') {
+      postCommentMutation.mutate({id: columnId, comment: comment})
+    } else {
+      editCommentMutation.mutate({id: columnId, comment: comment})
+    }
   }
 
   return (
