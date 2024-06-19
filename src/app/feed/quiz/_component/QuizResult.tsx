@@ -1,11 +1,8 @@
 'use client'
-// QuizResult.tsx
 
-import React, { Dispatch, SetStateAction } from 'react';
 import style from './QuizResult.module.css';
 import Link from 'next/link';
 import { QuizSolveUser } from '@/model/QuizSolveUser';
-
 import QuizPenIcon from '@/public/quiz/quiz_pen_icon.svg';
 
 interface Props {
@@ -31,16 +28,11 @@ const QuizResult = ({ clickModal, quizResult }: Props) => {
                                 {quizResult.correctYN === "Y" ? "정답이에요!" : "아쉽지만 정답이 아니에요!"}
                             </p>
                             <p className={style.text}>{quizResult.comment}</p>
-
                         </div>
                         <div className={style.box}>
                             {quizResult.correctYN === 'N' && <p className={style.text2}>더 공부해볼까요?</p>}
-                            <div className={style.category_box}>
-
-
-                            </div>
+                            <div className={style.category_box}></div>
                         </div>
-
                         <div className={style.btn_box}>
                             <button onClick={clickModal} className={`${style.btn} ${style.left}`}>
                                 닫기

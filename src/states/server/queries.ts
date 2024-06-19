@@ -242,8 +242,11 @@ export const useSolvedQuizQuery = ({ isCorrect, date, limit }: useSolvedQuizQuer
     queryKey: queryKeys.solvedQuiz(isCorrect, date, limit),
     queryFn: ({ pageParam = date }) => getSolvedQuiz(isCorrect, pageParam, limit),
     getNextPageParam: (lastPage) => {
+      if (!lastPage || lastPage.length === 0) {
+        return undefined;
+      }
       const lastQuiz = lastPage[lastPage?.length - 1];
-      return lastQuiz ? lastPage.targetDate : undefined;
+      return lastQuiz ? lastQuiz : undefined;
     },
     initialPageParam: date,
     staleTime: 60 * 1000,

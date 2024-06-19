@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -8,11 +7,11 @@ import Image from 'next/image';
 import { useQuiz } from '@/states/server/queries';
 import { usePostQuizSolve } from '@/states/server/mutations';
 import { QuizSolveUser } from '@/model/QuizSolveUser';
-import Link from 'next/link';
 import Loading from '@/app/loading';
 
 interface TodayQizeProps {
     date: string;
+    entry?: '' | 'solved';
 }
 
 const TodayQize = ({ date }: TodayQizeProps) => {
@@ -89,14 +88,12 @@ const TodayQize = ({ date }: TodayQizeProps) => {
                     <div className={style.bb}>
                         <p className={style.text}>{todayQuiz.question}</p>
                     </div>
-
                     <div className={style.b}>
                         <button className={`${style.btn} ${style.o}`} onClick={() => handleAnswerClick(todayQuiz.id, "O")}>O</button>
                         <button className={style.btn} onClick={() => handleAnswerClick(todayQuiz.id, "X")}>X</button>
                     </div>
                 </div>
             )}
-
             {showModal && quizResult && <QuizResult clickModal={clickModal} quizResult={quizResult} />}
         </div>
     );

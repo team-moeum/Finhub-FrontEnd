@@ -3,18 +3,18 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import styled from "styled-components";
 import { StyledCalendarWrapper, StyleButton, StyleButtonContainer } from "./styles";
 import { quizlist } from "../quiz";
 import { useQuizCalendar } from "@/states/server/queries";
 import { usePostQuizCalendarEmoji } from "@/states/server/mutations";
+
 const QuizCalendar = () => {
   const today = new Date();
+
   const [date, setDate] = useState<Date | [Date, Date] | null>(today);
   const [activeDate, setActiveDate] = useState<Date | null>();
   const [selectedButton, setSelectedButton] = useState('😎'); // 기본 이모지 설정
   const [isExpanded, setIsExpanded] = useState(false);
-  const [quizzesWithCorrectYN, setQuizzesWithCorrectYN] = useState<string[]>([]);
   const postEmojiMutation = usePostQuizCalendarEmoji();
 
   const activeYear = activeDate ? activeDate.getFullYear() : today.getFullYear();
@@ -33,10 +33,8 @@ const QuizCalendar = () => {
       }
       return accumulator;
     }, []);
-    setQuizzesWithCorrectYN(emojis);
   }, []);
 
-  // 페이지 로드 시 로컬 스토리지에서 저장된 이모지 가져오기
   useEffect(() => {
     const storedEmoji = localStorage.getItem('selectedEmoji');
     if (storedEmoji) {
@@ -61,7 +59,7 @@ const QuizCalendar = () => {
         emojiId = 3;
         break;
       default:
-        emojiId = 0; // 기본값 설정
+        emojiId = 0; // 기본값 
         break;
     }
 

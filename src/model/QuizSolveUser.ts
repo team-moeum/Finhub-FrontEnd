@@ -5,8 +5,4 @@ export interface QuizSolveUser {
   correctYN: "Y" | "N";
   comment: string;
   topicList: QuizTopic[];
-
-  targetDate: string;
-  status: string,
-  question: string;
 }
