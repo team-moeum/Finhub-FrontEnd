@@ -30,7 +30,7 @@ export const PostCommentScreen = () => {
   const { showToast } = useToast();
 
   useEffect(() => {
-    if (commentPostType === 'edit') setComment(editInitComment);
+    if (commentPostType === COMMENT_POST_TYPE.edit) setComment(editInitComment);
   }, [editInitComment]);
 
   const postCommentMutation = useGptColumnComment({
