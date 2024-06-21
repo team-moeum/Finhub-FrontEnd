@@ -23,6 +23,7 @@ import { getTopicGptInfo } from "./List/getTopicGptInfo"
 import { getUserTypeList } from "./List/getUserTypeList"
 import { getUserAvatarList } from "./Menu/getUserAvatarList"
 import { getPopularKeywordList } from "./Search/getPopularKeywordList"
+
 import { getSearchGptColumn } from "./Search/getSearchGptColumn"
 import { getQuiz } from "./Feed/Quiz/getQuiz"
 import { getMissedQuiz } from "./Feed/Quiz/getMissedQuiz"
@@ -33,10 +34,21 @@ import { QuizCalenderResponse } from "@/model/QuizCalender"
 import { MissedQuiz } from "@/model/missedQuiz"
 import { SolvedQuiz } from "@/model/solvedQuiz"
 
+import { getGptColumnList } from "./Column/ColumnPost/getGptColumnList";
+import { gptColumn, gptColumnDetail, gptColumnComment, CommentPageInfo } from "@/model/GptColumn";
+import { getGptColumnDetail } from "./Column/ColumnPost/getGptColumnDetail"
+
 import { getNextTopic } from "./Home/getNextTopic"
 import { NextTopic } from "@/model/NextTopic"
+import { getGptColumnCommentList } from "./Column/ColumnComment/getGptColumnComment"
+import { getUserInfo } from "./User/getUserInfo"
+import { User } from "@/model/User"
+import { getReportReasons } from "./Column/ColumnComment/getReportReasons"
+import { CommentReportReason } from "@/model/CommentReportReason"
+
 
 export const queryKeys = {
+  userInfo: ['userInfo'],
   category: ['category'],
   banner: ['banner'],
   topicList: (categoryId: number) => ["topicList", categoryId?.toString()],
@@ -50,19 +62,25 @@ export const queryKeys = {
   popularKeywordList: ["popularKeywordList"],
   searchTopic: (type: "title" | "summary" | "both", keyword: string) => ['search', 'topic', type, keyword],
   searchGptColumn: (type: "title" | "summary" | "both", keyword: string) => ['search', 'column', type, keyword],
+  gptColumnList: (page: number, size?: number) => ["gptColumn", page.toString(), size?.toString() || ""],
+  gptColumnDetail: (id: number) => ["gptColumnDetail", id.toString()], 
+  gptColumnCommentList: (id: number, type: number, page: number, size?: number) => ["gptColumnComment", id.toString(), type.toString()|| "", page.toString(), size?.toString() || ""],
+  announce: (cursorId?: number, size?: number) => ['announce', cursorId?.toString() || "", size?.toString() || ""],
+  myScrap: (type: MyScrapRequest) => ["myScrap", type],
+  reportReasons: ["reportReasons"],
 
   quiz: (date?: string) => ["quiz", date || ""],
   quizCalendar: (year: string, month: string) => ["quizCalendar", year, month],
 
   missedQuiz: (date: string, limit?: number) => ["missedQuiz", date, limit?.toString() || ""],
   solvedQuiz: (isCorrect: string, date: string, limit?: number) => ["solvedQuiz", isCorrect, date, limit?.toString() || ""],
-
-  announce: (cursorId?: number, size?: number) => ['announce', cursorId?.toString() || "", size?.toString() || ""],
-  myScrap: (type: MyScrapRequest) => ["myScrap", type]
-
 }
 
 export const queryOptions: QueryOptionsType = {
+  userInfo: () => ({
+    queryKey: queryKeys.userInfo,
+    queryFn: () => getUserInfo()
+  }),
   category: () => ({
     queryKey: queryKeys.category,
     queryFn: () => getCategory(),
@@ -111,6 +129,26 @@ export const queryOptions: QueryOptionsType = {
     queryKey: queryKeys.searchGptColumn(type, keyword),
     queryFn: () => getSearchGptColumn(type, keyword, page)
   }),
+  gptColumnList: (page: number, size?: number) => ({
+    queryKey: queryKeys.gptColumnList(page, size),
+    queryFn: () => getGptColumnList(page, size)
+  }),
+  gptColumnDetail: (id: number) => ({
+    queryKey: queryKeys.gptColumnDetail(id),
+    queryFn: () => getGptColumnDetail(id)
+  }),
+  announce: (cursorId?: number, size?: number) => ({
+    queryKey: queryKeys.announce(cursorId, size),
+    queryFn: () => getAnnounce(cursorId, size)
+  }),
+  myScrap: (type: MyScrapRequest) => ({
+    queryKey: queryKeys.myScrap(type),
+    queryFn: () => getMyScrap(type)
+  }),
+  reportReasons: () => ({
+    queryKey: queryKeys.reportReasons,
+    queryFn: () => getReportReasons()
+  }),
 
   quiz: (date?: string) => ({
     queryKey: queryKeys.quiz(date),
@@ -129,22 +167,13 @@ export const queryOptions: QueryOptionsType = {
     queryKey: queryKeys.solvedQuiz(isCorrect, date, limit),
     queryFn: () => getSolvedQuiz(isCorrect, date, limit)
   }),
-
-  announce: (cursorId?: number, size?: number) => ({
-    queryKey: queryKeys.announce(cursorId, size),
-    queryFn: () => getAnnounce(cursorId, size)
-  }),
-  myScrap: (type: MyScrapRequest) => ({
-    queryKey: queryKeys.myScrap(type),
-    queryFn: () => getMyScrap(type)
-  }),
 };
 
 const useBaseSuspenseQuery = <T = unknown>(
-  queryOption: QueryOptionType<T>,
-  options?: Omit<UseSuspenseQueryOptions<T, Error, any>, "queryKey">
-) => {
-  const timeOption = { staleTime: 60 * 1000, gcTime: 300 * 1000 };
+  queryOption: QueryOptionType<T>, 
+  options?:  Omit<UseSuspenseQueryOptions<T, Error, any>, "queryKey" | 'queryFn'>
+  ) => {
+  const timeOption = {staleTime: 60 * 1000, gcTime: 300 * 1000};
 
   return useSuspenseQuery<any, Error, T, any>({
     queryKey: queryOption.queryKey,
@@ -154,6 +183,7 @@ const useBaseSuspenseQuery = <T = unknown>(
   });
 };
 
+export const useUserInfo = () => useBaseSuspenseQuery<User>({...queryOptions.userInfo()}, {staleTime: 0});
 export const useCategory = () => useBaseSuspenseQuery<Category[]>(queryOptions.category());
 export const useBannerList = () => useBaseSuspenseQuery<Banner[]>(queryOptions.banner());
 export const useTopicList = (categoryId: number) => useBaseSuspenseQuery<Topic[]>(queryOptions.topicList(categoryId));
@@ -163,17 +193,17 @@ export const useTopicInfo = (topicId: number) => useBaseSuspenseQuery<TopicInfo>
 export const useTopicGptInfo = (categoryId: number, topicId: number, userTypeId: number) => useBaseSuspenseQuery<TopicGptInfo>(queryOptions.topicGptInfo(categoryId, topicId, userTypeId));
 export const useUserTypeList = () => useBaseSuspenseQuery<UserType[]>(queryOptions.userTypeList());
 export const useUserAvatarList = () => useBaseSuspenseQuery<UserAvatar[]>(queryOptions.userAvatarList());
+export const usePopularKeywordList = () => useBaseSuspenseQuery<{ date: string, popularSearchList: PopularKeyword[] }>(queryOptions.popularKey1wordList());
+export const useGptColumnDetail = (columnId: number) => useBaseSuspenseQuery<gptColumnDetail>(queryOptions.gptColumnDetail(columnId));
+export const useMyScrap = (type: MyScrapRequest) => useBaseSuspenseQuery<MyTopicScarp[] | MyColumnScarp[]>(queryOptions.myScrap(type));
+export const useReportReasons = () => useBaseSuspenseQuery<CommentReportReason[]>(queryOptions.reportReasons());
+
 
 export const useQuizCalendar = (year: string, month: string) => useBaseSuspenseQuery<QuizCalenderResponse>(queryOptions.quizCalendar(year, month))
 //이거 아래 지워도 오류 안 남
 export const useQuiz = (date?: string) => useBaseSuspenseQuery<QuizInfo>(queryOptions.quiz(date));
 export const useMissedQuiz = (date?: string, limit?: number) => useBaseSuspenseQuery<MissedQuiz>(queryOptions.missedQuiz(date, limit));
 export const useSolvedQuiz = (isCorrect: string, date: string, limit?: number) => useBaseSuspenseQuery<SolvedQuiz>(queryOptions.solvedQuiz(isCorrect, date, limit));
-
-
-
-export const usePopularKeywordList = () => useBaseSuspenseQuery<{ date: string, popularSearchList: PopularKeyword[] }>(queryOptions.popularKey1wordList());
-export const useMyScrap = (type: MyScrapRequest) => useBaseSuspenseQuery<MyTopicScarp[] | MyColumnScarp[]>(queryOptions.myScrap(type));
 
 
 type UseSearchProps = {
@@ -226,17 +256,70 @@ export const useMissedQuizQuery = ({ date, limit }: useMissedQuizQueryProps) => 
       return lastQuiz ? lastPage.targetDate : undefined;
     },
     initialPageParam: date,
+  })
+}
+
+type UseGptColumnListProps = {
+  page: number,
+  size?: number
+}
+export const useGptColumnList = ({page, size}: UseGptColumnListProps) => {
+  return useInfiniteQuery({
+    queryKey: queryKeys.gptColumnList(page, size),
+    queryFn: ({ pageParam = 1 }) => getGptColumnList(pageParam, size),
+    initialPageParam: page || 1,
+    getNextPageParam: (lastPage) => {
+      const nextPage = lastPage.pageInfo.currentPage + 1;
+      return nextPage < lastPage.pageInfo.totalPages ? nextPage : undefined;
+    },
     staleTime: 60 * 1000,
     gcTime: 300 * 1000,
   })
 }
+
+type UseGptColumnCommentProps = {
+  id: number,
+  type: number,
+  page?: number,
+  size?: number
+}
+export const useGptColumnCommentList = ({id, type, page=1, size=3}: UseGptColumnCommentProps) => {
+  return useInfiniteQuery<{comments: gptColumnComment[], pageInfo: CommentPageInfo}>({
+    queryKey: queryKeys.gptColumnCommentList(id, type, page || 1, size),
+    queryFn: ({ pageParam = 1 }) => getGptColumnCommentList(id, type, pageParam as number, size),
+    initialPageParam: page || 1,
+    getNextPageParam: (lastPage) => {
+      const nextPage = lastPage.pageInfo.currentPage + 1;
+      return nextPage <= lastPage.pageInfo.totalPages ? nextPage : undefined;
+    },
+    staleTime: 0,
+    gcTime: 0,
+  })
+}
+
+type UseAnnounceInfinitQueryProps = {
+  cursorId?: number,
+  size?: number
+}
+export const useAnnounceInfiniteQuery = ({ cursorId, size }: UseAnnounceInfinitQueryProps) => {
+  return useInfiniteQuery({
+    queryKey: queryKeys.announce(cursorId, size),
+    queryFn: ({ pageParam = cursorId }) => getAnnounce(pageParam, size),
+    getNextPageParam: (lastPage) => {
+      const nextCursor = lastPage[lastPage.length - 1]?.id - 1;
+      return nextCursor && nextCursor > 0 ? nextCursor : undefined;
+    },
+    initialPageParam: cursorId,
+    staleTime: 60 * 1000,
+    gcTime: 300 * 1000,
+  });
+};
 
 type useSolvedQuizQueryProps = {
   isCorrect: string,
   date: string,
   limit?: number,
 }
-
 export const useSolvedQuizQuery = ({ isCorrect, date, limit }: useSolvedQuizQueryProps) => {
   return useInfiniteQuery({
     queryKey: queryKeys.solvedQuiz(isCorrect, date, limit),
@@ -253,22 +336,3 @@ export const useSolvedQuizQuery = ({ isCorrect, date, limit }: useSolvedQuizQuer
     gcTime: 300 * 1000,
   })
 }
-
-type UseAnnounceInfinitQueryProps = {
-  cursorId?: number,
-  size?: number
-}
-
-export const useAnnounceInfiniteQuery = ({ cursorId, size }: UseAnnounceInfinitQueryProps) => {
-  return useInfiniteQuery({
-    queryKey: queryKeys.announce(cursorId, size),
-    queryFn: ({ pageParam = cursorId }) => getAnnounce(pageParam, size),
-    getNextPageParam: (lastPage) => {
-      const nextCursor = lastPage[lastPage.length - 1]?.id - 1;
-      return nextCursor && nextCursor > 0 ? nextCursor : undefined;
-    },
-    initialPageParam: cursorId,
-    staleTime: 60 * 1000,
-    gcTime: 300 * 1000,
-  });
-};

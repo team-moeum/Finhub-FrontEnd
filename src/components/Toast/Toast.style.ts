@@ -1,3 +1,4 @@
+import { ZINDEX } from '@/styles/zIndex';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 
@@ -7,6 +8,7 @@ export const ToastWrap = styled(motion.div)`
     left: 0;
     right: 0;
     pointer-events: none;
+    z-index: ${ZINDEX.toast};
 `
 
 export const ToastContent = styled.div`

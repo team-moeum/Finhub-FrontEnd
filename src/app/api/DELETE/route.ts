@@ -1,23 +1,17 @@
-import { getToken } from "@/utils/auth_server";
+import { deleteToken, getToken } from "@/utils/auth_server";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_MOCKING === 'enabled' ? 'http://localhost:9090' : process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function POST(req: Request) {
-  const param = await req.json();
+  const { path, body } = await req.json();
   const reqToken = {accessToken: "", refreshToken: ""};
-  
-  if (param.token) {
-    reqToken.accessToken = param.token.accessToken ? param.token.accessToken : "";
-    reqToken.refreshToken = param.token.refreshToken ? param.token.refreshToken : "";
-  } else {
-    const tokens = getToken();
-    reqToken.accessToken = tokens.accessToken ? tokens.accessToken : "";
-    reqToken.refreshToken = tokens.refreshToken ? tokens.refreshToken : "";
-  }
+  const tokens = getToken();
+  reqToken.accessToken = tokens.accessToken ? tokens.accessToken : "";
+  reqToken.refreshToken = tokens.refreshToken ? tokens.refreshToken : "";
 
-  const url = `${API_BASE_URL}${param.path.startsWith("/") ? param.path : `/${param.path}`}`;
+  const url = `${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
   const data = await fetch(url, {
     method: "DELETE",
     headers: {
@@ -26,51 +20,24 @@ export async function POST(req: Request) {
       Authorization: `Bearer ${reqToken.accessToken}`,
       refreshToken: `${reqToken.refreshToken}`,
     },
-    cache: "no-store",
-    credentials: "include"
+    body: JSON.stringify(body)
   });
 
 
   if (!data.ok) return NextResponse.json({status: "FAIL", errorMsg: "error", data: data});
   
   let res = await data.json();
-  
 
-  /* auth */
-  if (param.use === "auth") {
-    if (res.status === "SUCCESS") {
-      const { accessToken, refreshToken } = res.data.token;
-      cookies().set("access-token", accessToken, {
-        maxAge: 60 * 60 * 24 * 14, // 14 days
-        secure: true,
-        httpOnly: true,
-      });
-      cookies().set("refresh-token", refreshToken, {
-        maxAge: 60 * 60 * 24 * 14, // 14 days
-        secure: true,
-        httpOnly: true,
-      });
-    }
-  }
-
-
-  /* EXPIRED_TOKEN */
-  if (res.data === "EXPIRED_TOKEN") {
+   /* EXPIRED_TOKEN */
+   if (res.data === "EXPIRED_TOKEN") {
     const resUpdateToken = await updateToken(reqToken);
     
     if (resUpdateToken.status === "FAIL") {
-      if (param.ssr) return NextResponse.json({ status: "EXPIRED_ALL_TOKEN" });
-      /* csr */
       deleteToken();
       return NextResponse.json({ status: "EXPIRED_ALL_TOKEN" });
     }
 
-    const updateAccessToken = resUpdateToken.data.token;
-    
-    if (param.ssr) return NextResponse.json({ status: "EXPIRED_TOKEN", token: updateAccessToken});
-
-    /* csr */
-    cookies().set("access-token", updateAccessToken, {
+    cookies().set("access-token", resUpdateToken.data.token, {
       maxAge: 60 * 60 * 24 * 14, // 14 days
       secure: true,
       httpOnly: true,
@@ -84,16 +51,11 @@ export async function POST(req: Request) {
         Authorization: `Bearer ${getToken().accessToken}`,
         refreshToken: `${getToken().refreshToken}`,
       },
-      cache: "no-store",
-      credentials: "include"
+      body: JSON.stringify(body)
     });
   
     res = await dataRetry.json();
   }
-
-  /* TOKEN TYPE ERROR */
-  if (res.apiStatus === "FAIL") res.status = "FAIL";
-  console.log("DELETE", url, res);
 
   return NextResponse.json(res);
 }
@@ -112,10 +74,7 @@ async function updateToken(reqToken: {accessToken: string, refreshToken: string}
     });
 
     const dataUpdateToken = await resUpdateToken.json();
-    return dataUpdateToken;
-}
+  
 
-function deleteToken() {
-  cookies().delete("access-token");
-  cookies().delete("refresh-token");
+    return dataUpdateToken;
 }

@@ -67,7 +67,6 @@ export default function SelectUserType({ userInfo }: Props) {
   }, [userInfo])
 
   const handleChangeUserType = (userType: UserType) => {
-    console.log(userType.id);
     userTypeMutation.mutate({id: userType.id});
     setUserType(userType);
     setDropList(!dropList);

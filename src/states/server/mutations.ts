@@ -8,9 +8,13 @@ import { postUserAvatar } from "./Menu/postUserAvatar";
 import { deleteUserAvatar } from "./Menu/deleteUserAvatar";
 import { postNoSearchWord } from "./Search/postNoSearchWord";
 import { deleteRecentKeyword } from "./Search/deleteRecentKeyword";
-
-//
-import { postQuizSolve } from "./Feed/Quiz/postQuizSolve"; 4
+import { postGptColumnLike } from "./Column/ColumnPost/postGptColumnLike";
+import { postGptColumnComment } from "./Column/ColumnComment/postGptColumnComment";
+import { deleteGptColumnComment } from "./Column/ColumnComment/deleteGptColumnComment";
+import { putGptColumnComment } from "./Column/ColumnComment/putGptColumnComment";
+import { postReportGptColumnComment } from "./Column/ColumnComment/postReportGptColumnComment";
+import { postBanGptColumnComment } from "./Column/ColumnComment/postBanGptColumnComment";
+import { postQuizSolve } from "./Feed/Quiz/postQuizSolve";
 import { postQuizCalendarEmoji } from "./Feed/Quiz/postQuizCalenderEmoji";
 
 export const mutationKeys = {
@@ -21,9 +25,20 @@ export const mutationKeys = {
   deleteUserAvatar: ["deleteUserAvatar"],
   updateNoSearchWord: ["updateNoSearchWord"],
   deleteRecentKeyword: ["deleteRecentKeyword"],
+  gptColumnLike: ["gptColumnLike"],
+  gptColumnComment: ["gptColumnComment"],
+  deleteGptColumnComment: ["deleteGptColumnComment"],
+  editGptColumnComment: ["editGptColumnComment"],
+  reportGptColumnComment: ["reportGptColumnComment"],
+  banGptColumnComment: ["banGptColumnComment"],
   quizSolve: ["quizSolve"],
-  quizCaledarEmoji: ["quizCalendarEmoji"]
+  quizCaledarEmoji: ["quizCalendarEmoji"],
 }
+
+export const SCRAP_TYPE = {
+  topic: 1,
+  column: 2
+} as const;
 
 export const useScrap = (options?: UseMutationOptions<any, Error, any>) => {
   return useMutation<any, Error, { id: number, type: number, categoryId?: number }>({
@@ -81,12 +96,64 @@ export const useUpdateNoSearchWord = (options?: UseMutationOptions<any, Error, a
   })
 }
 
+export const COLUMN_LIKE_TYPE = {
+  column: 1,
+  comment: 2,
+} as const;
+
+export const useGptColumnLike = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number, type: number }>({
+    mutationKey: mutationKeys.gptColumnLike,
+    mutationFn: (param) => postGptColumnLike(param),
+    ...options,
+  });
+}
+
+export const useGptColumnComment = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number, comment: string }>({
+    mutationKey: mutationKeys.gptColumnComment,
+    mutationFn: (param) => postGptColumnComment(param),
+    ...options,
+  });
+}
+
+export const useDeleteGptColumnComment = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number }>({
+    mutationKey: mutationKeys.deleteGptColumnComment,
+    mutationFn: (param) => deleteGptColumnComment(param.id),
+    ...options,
+  });
+}
+
+export const useEditGptColumnComment = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number, comment: string }>({
+    mutationKey: mutationKeys.editGptColumnComment,
+    mutationFn: (param) => putGptColumnComment(param.id, param.comment),
+    ...options,
+  });
+}
+
+export const useReportGptColumnComment = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { commentId: number, reportId: number }>({
+    mutationKey: mutationKeys.reportGptColumnComment,
+    mutationFn: (param) => postReportGptColumnComment(param.commentId, param.reportId),
+    ...options,
+  });
+}
+
+export const useBanGptColumnComment = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { memberId: number }>({
+    mutationKey: mutationKeys.banGptColumnComment,
+    mutationFn: (param) => postBanGptColumnComment(param.memberId),
+    ...options,
+  });
+}
+
 export const usePostQuizSolve = (options?: UseMutationOptions<any, Error, any>) => {
   return useMutation<any, Error, { id: number, answer: "O" | "X" }>({
     mutationKey: mutationKeys.quizSolve,
     mutationFn: (param) => postQuizSolve(param),
-    ...options,
-  });
+  })
 }
 
 export const usePostQuizCalendarEmoji = (options?: UseMutationOptions<any, Error, any>) => {
@@ -96,3 +163,4 @@ export const usePostQuizCalendarEmoji = (options?: UseMutationOptions<any, Error
     ...options,
   });
 }
+

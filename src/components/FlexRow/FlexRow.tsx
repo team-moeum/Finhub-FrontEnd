@@ -6,6 +6,7 @@ export type FlexRowProps = {
 export const FlexRow = ({
   direction = 'row',
   justifyContent = "space-between",
+  alignItems = "center",
   flexWrap = 'wrap',
   style = {},
   children,
@@ -16,6 +17,7 @@ export const FlexRow = ({
         flexDirection: direction,
         flexWrap,
         justifyContent,
+        alignItems,
         ...style,
       }}
       width={'100%'}

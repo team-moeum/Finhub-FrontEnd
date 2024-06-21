@@ -21,6 +21,11 @@ const nextConfig = {
   images: {
     domains: ['finhub-bucket.s3.ap-northeast-2.amazonaws.com']
   },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
   /* svg config */
   webpack(config) {
     // Grab the existing rule that handles SVG imports

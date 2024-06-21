@@ -57,10 +57,6 @@ export default function UserTypeItemList({ data }: Props) {
 
   const itemRefs = useRef<(HTMLLabelElement | null)[]>([]);
 
-  useEffect(() => {
-    console.log(activeItem);
-  }, [activeItem])
-
   const handleToggle = () => {
     setIsOpen(isOpen ? false : true)
   }
