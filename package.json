@@ -29,6 +29,7 @@
     "react-string-replace": "^1.1.1",
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",
+    "styled-components": "^6.1.11",
     "swiper": "^11.0.5"
   },
   "devDependencies": {

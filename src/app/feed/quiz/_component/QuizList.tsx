@@ -190,7 +190,7 @@ export default function QuizList() {
       {selectedType === 'solved' && (
         (solvedQuizList && solvedQuizList.length > 0) ? (
           solvedQuizList.map((quizResult: any) => (
-            <button key={quizResult.id} className={style.item_box} onClick={() => openQuizResultModal(quizResult)}>
+            <button key={quizResult.id} className={style.item_box} onClick={() => {}}>
               <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
               <div className={style.item_box_text}>
                 <div className={style.item_box_font}> {quizResult.question}</div>
