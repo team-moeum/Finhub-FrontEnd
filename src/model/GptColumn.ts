@@ -21,7 +21,9 @@ export interface gptColumnComment {
     avatarImgPath: string | null,
     comment: string,
     like: number,
-    useComment: boolean
+    userComment: boolean,
+    userLike: boolean,
+    writerId: number
 }
 
 export interface CommentPageInfo {

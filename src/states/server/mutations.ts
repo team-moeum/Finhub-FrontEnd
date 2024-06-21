@@ -13,6 +13,7 @@ import { postGptColumnComment } from "./Column/ColumnComment/postGptColumnCommen
 import { deleteGptColumnComment } from "./Column/ColumnComment/deleteGptColumnComment";
 import { putGptColumnComment } from "./Column/ColumnComment/putGptColumnComment";
 import { postReportGptColumnComment } from "./Column/ColumnComment/postReportGptColumnComment";
+import { postBanGptColumnComment } from "./Column/ColumnComment/postBanGptColumnComment";
 
 
 export const mutationKeys = {
@@ -138,9 +139,9 @@ export const useReportGptColumnComment = (options?: UseMutationOptions<any, Erro
 }
 
 export const useBanGptColumnComment = (options?: UseMutationOptions<any, Error, any>) => {
-  return useMutation<any, Error, { commentId: number, reportId: number }>({
+  return useMutation<any, Error, { memberId: number }>({
     mutationKey: mutationKeys.banGptColumnComment,
-    mutationFn: (param) => postReportGptColumnComment(param.commentId, param.reportId),
+    mutationFn: (param) => postBanGptColumnComment(param.memberId),
     ...options,
   });
 }
