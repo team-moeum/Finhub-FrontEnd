@@ -34,6 +34,8 @@ import { getSearchGptColumn } from "./Search/getSearchGptColumn"
 import { getGptColumnCommentList } from "./Column/ColumnComment/getGptColumnComment"
 import { getUserInfo } from "./User/getUserInfo"
 import { User } from "@/model/User"
+import { getReportReasons } from "./Column/ColumnComment/getReportReasons"
+import { CommentReportReason } from "@/model/CommentReportReason"
 
 
 export const queryKeys = {
@@ -56,6 +58,7 @@ export const queryKeys = {
   gptColumnCommentList: (id: number, type: number, page: number, size?: number) => ["gptColumnComment", id.toString(), type.toString()|| "", page.toString(), size?.toString() || ""],
   announce: (cursorId?: number, size?: number) => ['announce', cursorId?.toString() || "", size?.toString() || ""],
   myScrap: (type: MyScrapRequest) => ["myScrap", type],
+  reportReasons: ["reportReasons"],
 }
 
 export const queryOptions: QueryOptionsType = {
@@ -127,6 +130,10 @@ export const queryOptions: QueryOptionsType = {
     queryKey: queryKeys.myScrap(type),
     queryFn: () => getMyScrap(type)
   }),
+  reportReasons: () => ({
+    queryKey: queryKeys.reportReasons,
+    queryFn: () => getReportReasons()
+  }),
 };
 
 const useBaseSuspenseQuery = <T = unknown>(
@@ -156,6 +163,7 @@ export const useUserAvatarList = () => useBaseSuspenseQuery<UserAvatar[]>(queryO
 export const usePopularKeywordList = () => useBaseSuspenseQuery<{date: string, popularSearchList: PopularKeyword[]}>(queryOptions.popularKeywordList());
 export const useGptColumnDetail = (columnId: number) => useBaseSuspenseQuery<gptColumnDetail>(queryOptions.gptColumnDetail(columnId));
 export const useMyScrap = (type: MyScrapRequest) => useBaseSuspenseQuery<MyTopicScarp[] | MyColumnScarp[]>(queryOptions.myScrap(type));
+export const useReportReasons = () => useBaseSuspenseQuery<CommentReportReason[]>(queryOptions.reportReasons());
 
 /** useInfiniteQuery */
 type UseSearchProps = {
