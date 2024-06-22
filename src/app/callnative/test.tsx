@@ -58,6 +58,21 @@ export const CallNativeTestPage = () => {
           }}>
           getPushToken
         </button>
+
+        <button
+          className={style.test_btn}
+          onClick={() => {
+            jsToNative(
+              {
+                val1: "getRemoteConfig",
+                val2: "android_version"
+              },
+              (data: any) => {
+                setTest(data.detail);
+              })
+          }}>
+          getRemoteConfig
+        </button>
       </div>
     </div>
   );
