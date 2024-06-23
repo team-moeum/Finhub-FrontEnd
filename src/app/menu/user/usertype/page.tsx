@@ -23,8 +23,9 @@ export default function UserTypePage() {
         <Image 
           src={imgPath}
           alt='UserType Image'
-          width={124}
-          height={144}
+          width={120}
+          height={120}
+          priority
         />
       </div>
       <SelectUserType userInfo={userInfo}/>
