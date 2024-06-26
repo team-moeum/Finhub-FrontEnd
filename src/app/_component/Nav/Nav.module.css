@@ -7,10 +7,15 @@
     height: 65px;
     padding: 10px 16px 0 16px;
     z-index: 5;
+    top: 0;
 }
 
-.main {
+.green {
     background-color: #50BF50;
+}
+
+.white {
+    background-color: #FFFFFF;
 }
 
 .post {

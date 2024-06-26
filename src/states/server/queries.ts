@@ -200,7 +200,7 @@ export const useReportReasons = () => useBaseSuspenseQuery<CommentReportReason[]
 
 
 export const useQuizCalendar = (year: string, month: string) => useBaseSuspenseQuery<QuizCalenderResponse>(queryOptions.quizCalendar(year, month))
-//이거 아래 지워도 오류 안 남
+
 export const useQuiz = (date?: string) => useBaseSuspenseQuery<QuizInfo>(queryOptions.quiz(date));
 export const useMissedQuiz = (date?: string, limit?: number) => useBaseSuspenseQuery<MissedQuiz>(queryOptions.missedQuiz(date, limit));
 export const useSolvedQuiz = (isCorrect: string, date: string, limit?: number) => useBaseSuspenseQuery<SolvedQuiz>(queryOptions.solvedQuiz(isCorrect, date, limit));

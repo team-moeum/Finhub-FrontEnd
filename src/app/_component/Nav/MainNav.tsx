@@ -5,14 +5,20 @@ import Image from "next/image";
 
 import { isUserLoginSsr } from "@/utils/auth_server";
 
-export default async function MainNav() {
+type MainNavColor = 'white' | 'green';
+
+export default function MainNav({color='green'}: {color?: MainNavColor}) {
   const isLogin = isUserLoginSsr();
 
   return (
-    <div className={cx([style.container, style.main])}>
+    <div className={cx([
+      style.container, 
+      color==='green' && style.green,
+      color==='white' && style.white,
+    ])}>
       <Link href="/home">
         <Image
-          src="/finhub_logo_white.svg"
+          src={color === 'green' ? "/finhub_logo_white.svg" : "/finhub_logo_green.svg"}
           alt="FinhubLogo"
           width={102}
           height={25}
@@ -22,7 +28,7 @@ export default async function MainNav() {
         <Link href={isLogin ? `/notify` : `/login`}>
           <Image
             priority
-            src="/icons/notify.svg"
+            src={color === 'green' ? "/icons/notify.svg" : "/icons/notify_green.svg"}
             alt="notify icon"
             width={21}
             height={22}

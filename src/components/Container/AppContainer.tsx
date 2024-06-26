@@ -7,12 +7,13 @@ import { Box, BoxProps } from "@/components/Box";
 type AppContainerProps = {
   children: ReactNode;
   footer?: boolean;
+  header?: boolean;
 } & BoxProps;
 
-export const AppContainer = ({ style = {}, children, ...props }: AppContainerProps) => {
+export const AppContainer = ({ style = {}, footer=true, header=false, children, ...props }: AppContainerProps) => {
   return (
     <Box
-      className={cx([cssStyle.appContainerWrap, cssStyle.footer])}
+      className={cx([cssStyle.appContainerWrap, cssStyle.footer, header && cssStyle.header])}
       style={style}
       {...props}
     >

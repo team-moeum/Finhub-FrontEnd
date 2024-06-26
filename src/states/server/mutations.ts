@@ -153,6 +153,7 @@ export const usePostQuizSolve = (options?: UseMutationOptions<any, Error, any>) 
   return useMutation<any, Error, { id: number, answer: "O" | "X" }>({
     mutationKey: mutationKeys.quizSolve,
     mutationFn: (param) => postQuizSolve(param),
+    ...options,
   })
 }
 

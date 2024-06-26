@@ -4,14 +4,14 @@ import QuizHeader from "./QuizHeader";
 import Loading from "@/app/loading";
 import dynamic from "next/dynamic";
 
-const TodayQize = dynamic(() => import('./TodayQize'), { ssr: false })
+const TodayQuiz = dynamic(() => import('./TodayQuiz'), { ssr: false })
 
 export const QuizScreen = () => {
   return (
     <>
       <QuizHeader />
       <Suspense fallback={<Loading height={200} />}>
-        <TodayQize />
+        <TodayQuiz />
       </Suspense>
     </>
   )

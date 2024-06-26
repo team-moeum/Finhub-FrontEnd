@@ -1,53 +1,86 @@
 'use client'
 
-import style from './QuizResult.module.css';
-import Link from 'next/link';
 import { QuizSolveUser } from '@/model/QuizSolveUser';
-import QuizPenIcon from '@/public/quiz/quiz_pen_icon.svg';
+import { Popup } from '@/components/Popup';
+import { Container } from '@/components/Container';
+import { Box } from '@/components/Box';
+import { FlexBox } from '@/components/FlexBox';
+import { Text } from '@/components/Text';
+import { Button } from '@/components/Button';
+import { useRouter } from 'next/navigation';
+import { Stack } from '@/components/Stack';
+
+import PenIcon from '@/public/quiz/quiz_pen_icon.svg';
 
 interface Props {
-    clickModal: () => void;
-    quizResult: QuizSolveUser;
+  show: boolean,
+  onClose: () => void
+  quizResult: QuizSolveUser;
 }
 
-const QuizResult = ({ clickModal, quizResult }: Props) => {
-    if (!quizResult) {
-        console.log('123')
-        return null;
-    }
-    return (
-        <div onClick={clickModal}>
-            <div onClick={(e) => e.stopPropagation()}>
-                <div className={style.modalBackground}>
-                    <div className={style.container}>
-                        <div className={style.bb}>
-                            <p className={style.result_i}>
-                                {quizResult.correctYN === "Y" ? "👏" : "😓"}
-                            </p>
-                            <p className={style.title}>
-                                {quizResult.correctYN === "Y" ? "정답이에요!" : "아쉽지만 정답이 아니에요!"}
-                            </p>
-                            <p className={style.text}>{quizResult.comment}</p>
-                        </div>
-                        <div className={style.box}>
-                            {quizResult.correctYN === 'N' && <p className={style.text2}>더 공부해볼까요?</p>}
-                            <div className={style.category_box}></div>
-                        </div>
-                        <div className={style.btn_box}>
-                            <button onClick={clickModal} className={`${style.btn} ${style.left}`}>
-                                닫기
-                            </button>
-                            <Link href={'/feed/quiz'} className={`${style.btn} ${style.right}`}>
-                                <QuizPenIcon />
-                                다른 퀴즈 풀기
-                            </Link>
-                        </div>
-                    </div>
-                </div>
+export const QuizResult = ({ show, onClose, quizResult }: Props) => {
+  const router = useRouter();
 
-            </div>
-        </div>
-    );
+  const handleOtherQuizClick = () => {
+    router.push('/feed/quiz')
+  }
+
+  return (
+    <Popup show={show} onClose={onClose} custom>
+      <Box backgroundColor='#FFF' radius={20}>
+        <Container variant='thick' pt={33} pb={38}>
+          <FlexBox direction='column' gap={15}>
+            <Text size={30} weight={600}>
+              {quizResult.correctYN === "Y" ? "👏" : "😓"}
+            </Text>
+
+            <Text size={20} weight={600} color='#191B1C'>
+              {quizResult.correctYN === "Y" ? "정답이에요!" : "아쉽지만 정답이 아니에요!"}
+            </Text>
+
+            <Stack gap={3}>
+              <Text size={16} weight={500} color='#494F54' lineHeight={1.6}>
+                {quizResult.comment}
+              </Text>
+              {quizResult.correctYN === 'N' 
+                && <Text size={13} weight={600} color='#A6ABAF' lineHeight={1.6} textAlign='center'>더 공부해볼까요?</Text>
+              }
+            </Stack>
+          </FlexBox>
+
+          <FlexBox mt={13} gap={12} flexWrap='wrap'>
+            {quizResult.topicList.map((item, index) => (
+              <Button key={index} radius={10} padding={10} backgroundColor='#50BF50'>
+                <Text size={12} weight={600} color='#F9FAFA'># {item.title}</Text>
+              </Button>
+            ))}
+          </FlexBox>
+
+          <FlexBox mt={40} gap={12}>
+            <Button
+              height={60}
+              radius={10}
+              backgroundColor='#F3F3F3'
+              onClick={onClose}
+              px={22}
+            >
+              <Text size={16} weight={600} color='#7B8287'>닫기</Text>
+            </Button>
+            <Button
+              flex={1}
+              height={60}
+              radius={10}
+              backgroundColor='#F3FCF2'
+              onClick={handleOtherQuizClick}
+            >
+              <FlexBox gap={5}>
+                <PenIcon />
+                <Text size={16} weight={600} color='#50BF50'>다른 퀴즈 풀기</Text>
+              </FlexBox>
+            </Button>
+          </FlexBox>
+        </Container>
+      </Box>
+    </Popup>
+  );
 };
-
-export default QuizResult;

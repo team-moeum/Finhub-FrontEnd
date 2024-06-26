@@ -2,8 +2,6 @@
 import style from './QuizList.module.css';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import TodayQize from './TodayQize';
-import QuizResult from './QuizResult';
 import { useMissedQuizQuery } from '@/states/server/queries';
 import { useSolvedQuizQuery } from '@/states/server/queries';
 import moment from 'moment';
@@ -12,6 +10,7 @@ import { SolvedQuiz } from '@/model/solvedQuiz';
 import Loading from '@/app/loading';
 import { QuizSolveUser } from '@/model/QuizSolveUser';
 import { useSolvedQuiz } from '@/states/server/queries';
+import TodayQuiz from './TodayQuiz';
 const formatDate = (dateString: string): string => {
   return dateString.replace(/-/g, '');
 };
@@ -183,7 +182,7 @@ export default function QuizList() {
 
       {showTodayQuizModal && (
         <div className={style.modal}>
-          <TodayQize date={formatDate(selectedQuizDate)} />
+          <TodayQuiz date={formatDate(selectedQuizDate)} />
         </div>
       )}
 
@@ -258,7 +257,7 @@ export default function QuizList() {
 
           {showTodayQuizModal && (
             <div className={style.modal}>
-              <TodayQize date={formatDate(selectedQuizDate)} />
+              <TodayQuiz date={formatDate(selectedQuizDate)} />
             </div>
           )}
 
