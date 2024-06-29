@@ -140,6 +140,17 @@ export const StyledCalendarWrapper = styled.div`
   .react-calendar__tile:not(.react-calendar__tile--now):not(.react-calendar__tile--active) {
   pointer-events: none; 
   }
+
+  .react-calendar__month-view__weekdays {
+  font-size: 12px;
+  font-weight: 500;
+  color: #191b1c;
+  border-bottom: 0.5px solid #EDF0F3;
+  }
+
+  .react-calendar__tile {
+    padding: 10px;
+  }
 `;
 
 export const StyleButtonContainer = styled.div`

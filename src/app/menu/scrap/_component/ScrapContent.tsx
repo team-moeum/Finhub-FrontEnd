@@ -11,6 +11,7 @@ import Loading from '@/app/loading';
 import { useScrap } from '@/states/server/mutations';
 import { useToast } from '@/components/Toast/useToast';
 import { useQueryClient } from '@tanstack/react-query';
+import { Toggle } from '@/components/Toggle/Toggle';
 
 type ScrapTopicItemProps = {
   data: MyTopicScarp,
@@ -122,21 +123,34 @@ const SrapList = ({type}: SrapListProps) => {
   )
 }
 
-export default function ScrapContent() {
-  const [toggleType, setToggleType] = useState<MyScrapRequest>("topic");
+enum TOGGLE_TYPE {
+  topic = 0,
+  column = 1,
+}
 
-  const handleToggleClick = (type: MyScrapRequest) => {
-    setToggleType(type);
+export default function ScrapContent() {
+  const [toggleType, setToggleType] = useState<number>(0);
+
+  const handleToggleClick = (value: TOGGLE_TYPE) => {
+    setToggleType(value);
+  }
+
+  const getTypeString = (type: TOGGLE_TYPE): 'topic' | 'column' => {
+    return TOGGLE_TYPE[type] as 'topic' | 'column';
   }
 
   return (
     <div className={style.container}>
-      <ul className={cx([style.toggle_box, toggleType === "column" && style.slide])}>
-        <li onClick={() => handleToggleClick("topic")}>단어</li>
-        <li onClick={() => handleToggleClick("column")}>컬럼</li>
-      </ul>
+      <Toggle 
+        data={[
+          {text: '단어', value: TOGGLE_TYPE.topic},
+          {text: '컬럼', value: TOGGLE_TYPE.column}
+        ]}
+        selectedValue={toggleType}
+        onChange={handleToggleClick}
+      />
       <Suspense fallback={<Loading height={300}/>}>
-        <SrapList type={toggleType}/>
+        <SrapList type={getTypeString(toggleType)}/>
       </Suspense>
     </div>
   )

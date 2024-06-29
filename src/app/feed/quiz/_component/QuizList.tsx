@@ -1,331 +1,172 @@
 'use client'
-import style from './QuizList.module.css';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
-import { useMissedQuizQuery } from '@/states/server/queries';
-import { useSolvedQuizQuery } from '@/states/server/queries';
+import { useState } from 'react';
 import moment from 'moment';
 import { MissedQuiz } from '@/model/missedQuiz';
 import { SolvedQuiz } from '@/model/solvedQuiz';
 import Loading from '@/app/loading';
-import { QuizSolveUser } from '@/model/QuizSolveUser';
-import { useSolvedQuiz } from '@/states/server/queries';
-import TodayQuiz from './TodayQuiz';
-const formatDate = (dateString: string): string => {
-  return dateString.replace(/-/g, '');
-};
+import { Toggle } from '@/components/Toggle';
+import { AppContainer, Container } from '@/components/Container';
+import { Box } from '@/components/Box';
+import { FlexBox } from '@/components/FlexBox';
+import { Stack } from '@/components/Stack';
+import { Text } from '@/components/Text';
+import { Button } from '@/components/Button';
+import { useQuizListData } from '../_hooks/useQuizListData';
+import { TodayQuizPopup } from './TodayQuizPopup';
+import { QuizResult } from './QuizResult';
+import { useSolveQuizHook } from '../_hooks/useSolveQuizHook';
 
-export default function QuizList() {
+import QuizListItemIcon from '@/public/quiz/quiz_icon_list.svg';
+import { LinkButton } from '@/components/LinkButton';
 
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedType, setSelectedType] = useState('missed');
-  const [selectedQuiz, setSelectedQuiz] = useState('incorrect')
-  const [selectedQuestion, setSelectedQuestion] = useState<any>(null);
-
-  const [showTodayQuizModal, setShowTodayQuizModal] = useState(false);
-
-  const [selectedQuizDate, setSelectedQuizDate] = useState<any>(null);
-  const requestDate = moment().format("YYYYMMDD");
-  const [showSimpleModal, setShowSimpleModal] = useState(false);
-
-
-  const {
-    data: missedQuizData,
-    fetchNextPage: fetchNextMissedPage,
-    hasNextPage: hasMissedNextPage,
-    isFetching: isMissedFetching,
-  } = useMissedQuizQuery({ date: requestDate });
-
-  const missedQuizList = missedQuizData?.pages.flatMap(page => page) as MissedQuiz[];
-
-  const {
-    data: missedQuizData_,
-    fetchNextPage: fetchNextMissedPage_,
-    hasNextPage: hasMissedNextPage_,
-    isFetching: isMissedFetching_
-  } = useMissedQuizQuery({ date: requestDate, limit: 100 });
-  const missedQuizList_ = missedQuizData_?.pages.flatMap(page => page) as MissedQuiz[];
-
-  const {
-    data: solvedQuizData,
-    fetchNextPage: fetchNextSolvedPage,
-    hasNextPage: hasSolvedNextPage,
-    isFetching: isSolvedFetching
-  } = useSolvedQuizQuery({ isCorrect: "Y", date: requestDate });
-  const solvedQuizList = solvedQuizData?.pages.flatMap(page => page) as QuizSolveUser[];
-
-  const clickModal = (quizResult: QuizSolveUser) => {
-    setSelectedQuizResult(quizResult);
-    setShowResultQuizModal(true);
-    console.log('quisResult:', quizResult.comment);
-  };
-  console.log(solvedQuizList);
-
-  const {
-    data: solvedQuizData_,
-    fetchNextPage: fetchNextSolvedPage_,
-    hasNextPage: hasSolvedNextPage_,
-    isFetching: isSolvedFetching_
-  } = useSolvedQuizQuery({ isCorrect: "N", date: requestDate });
-  const solvedQuizList_ = solvedQuizData_?.pages.flatMap(page => page) as SolvedQuiz[];
-
-
-
-  // TodayQize 모달 열기 함수
-  const openTodayQuizModal = (targetDate: string) => {
-    console.log('quiztoday:', targetDate)
-    setSelectedQuizDate(targetDate);
-    setShowTodayQuizModal(true);
-  };
-
-
-
-  //quizResult 모달 열기 함수
-  const [selectedQuizResult, setSelectedQuizResult] = useState<QuizSolveUser>();
-  const [showResultQuizModal, setShowResultQuizModal] = useState(false);
-
-
-
-
-
-
-  const openModal = (Question: any) => {
-    setSelectedQuestion(Question);
-    setIsOpen(true);
-  };
-
-
-
-  useEffect(() => {
-    const solvedButton = document.getElementById('solvedButton');
-    if (solvedButton) {
-      solvedButton.classList.add(style.active);
-    }
-  }, []);
-
-  useEffect(() => {
-    const missedButton = document.getElementById('missedButton');
-    if (missedButton) {
-      missedButton.classList.add(style.active);
-    }
-  }, []);
-
-  if (!missedQuizData) {
-    console.log('123')
-    return (
-      <>
-        <div className={`${style.select_one_box}`}>
-          <button
-            className={`${style.type_sel}`}
-          >
-            놓친 퀴즈
-          </button>
-          <button
-            className={`${style.type_sel}`}
-          >
-            풀었던 퀴즈
-          </button>
-        </div>
-
-        <div className={style.container_i}>
-          <div className={style.image_vacation}>
-            <Image
-              src='/quiz/quiz_icon_login.svg'
-              alt='quiz_icon'
-              width={235}
-              height={196}
-            />
-            <p className={style.image_title}>로그인이 필요한 서비스입니다</p>
-          </div>
-        </div>
-      </>
-    );
-  }
-
-  if (isMissedFetching || isSolvedFetching) return <Loading height={300} />;
+const QuizItem = ({
+  item,
+  onClick
+}: {
+  item: MissedQuiz | SolvedQuiz,
+  onClick?: () => void;
+}) => {
   return (
-    <div className={style.container}>
-      <div className={`${style.select_one_box}`}>
-        <button
-          className={`${style.type_sel}  ${selectedType === 'missed' ? style.active : ''}`}
-          onClick={() => setSelectedType('missed')}
-        >
-          놓친 퀴즈
-        </button>
-        <button
-          className={`${style.type_sel} ${selectedType === 'solved' ? style.active : ''}`}
-          onClick={() => setSelectedType('solved')}
-        >
-          풀었던 퀴즈
-        </button>
-      </div>
-
-      {selectedType === 'missed' && (
-        (missedQuizList && missedQuizList.length > 0) ? (
-          missedQuizList.map((question: any) => (
-            <button key={question.id} className={style.item_box} onClick={() => openTodayQuizModal(question.targetDate)} >
-              <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
-              <div className={style.item_box_text}>
-                <div className={style.item_box_font}> {question.question}</div>
-                <div className={style.item_box_cal}>{question.targetDate}</div>
-              </div>
-            </button>
-          ))
-        ) : (
-          <div className={style.noquiz_box}>
-            <p className={style.noquiz_font}>놓친 퀴즈가 없어요</p>
-          </div>
-        )
-      )}
-
-
-      {showTodayQuizModal && (
-        <div className={style.modal}>
-          <TodayQuiz date={formatDate(selectedQuizDate)} />
-        </div>
-      )}
-
-      {selectedType === 'solved' && (
-        (solvedQuizList && solvedQuizList.length > 0) ? (
-          solvedQuizList.map((quizResult: any) => (
-            <button key={quizResult.id} className={style.item_box} onClick={() => {}}>
-              <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
-              <div className={style.item_box_text}>
-                <div className={style.item_box_font}> {quizResult.question}</div>
-                <div className={style.item_box_cal}>{quizResult.targetDate}</div>
-              </div>
-            </button>
-          ))
-        ) : (
-          <div className={style.noquiz_box}>
-            <p className={style.noquiz_font}>풀었던 퀴즈가 없어요</p>
-          </div>
-        )
-      )}
-
-
-
-
-      <button onClick={openModal} className={`${style.more}`}>
-        <p> 더보기</p>
-        <svg className={style.icon} width="20" height="20" viewBox="0 0 15 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 1L5.5 6L1 1" stroke="#A6ABAF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
-
-      <div className={`${style.btnClick} ${isOpen ? style.open : ''}`}>
-        <a href="quiz" className={style.top}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
-            <path d="M7 1L1 7L7 13" stroke="#979797" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </a>
-        <div className={`${style.select_one_box}`}>
-          <button
-            className={`${style.type_sel}  ${selectedType === 'missed' ? style.active : ''}`}
-            onClick={() => setSelectedType('missed')}
-          >
-            놓친 퀴즈
-          </button>
-          <button
-            className={`${style.type_sel} ${selectedType === 'solved' ? style.active : ''}`}
-            onClick={() => setSelectedType('solved')}
-          >
-            풀었던 퀴즈
-          </button>
-        </div>
-
-        <div className={style.item_item_box}>
-
-          {selectedType === 'missed' && (
-            (missedQuizList && missedQuizList.length > 0) ? (
-              missedQuizList.map((question: any) => (
-                <button key={question.id} className={style.item_box} onClick={() => openTodayQuizModal(question.targetDate)} >
-                  <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
-                  <div className={style.item_box_text}>
-                    <div className={style.item_box_font}> {question.question}</div>
-                    <div className={style.item_box_cal}>{question.targetDate}</div>
-                  </div>
-                </button>
-              ))
-            ) : (
-              <div className={style.noquiz_box}>
-                <p className={style.noquiz_font}>놓친 퀴즈가 없어요</p>
-              </div>
-            )
-          )}
-
-          {showTodayQuizModal && (
-            <div className={style.modal}>
-              <TodayQuiz date={formatDate(selectedQuizDate)} />
-            </div>
-          )}
-
-          {selectedType === 'solved' &&
-            (
-              <div>
-                <div className={style.select}>
-                  <button
-                    className={`${style.select_quiz} ${selectedQuiz === 'incorrect' ? style.active : ''}`}
-                    onClick={() => setSelectedQuiz('incorrect')}
-                  >
-                    틀렸던 퀴즈
-                  </button>
-                  <button
-                    className={`${style.select_quiz}  ${selectedQuiz === 'correct' ? style.active : ''}`}
-                    onClick={() => setSelectedQuiz('correct')}
-                  >
-                    맞춘 퀴즈
-                  </button>
-                </div>
-
-                <div className={style.item_item_box}>
-
-                  {selectedQuiz === 'correct' && (
-                    (solvedQuizList_ && solvedQuizList_.length > 0) ? (
-                      solvedQuizList_.map((question: any) => (
-                        <button key={question.id} className={style.item_box}  >
-                          <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
-                          <div className={style.item_box_text}>
-                            <div className={style.item_box_font}> {question.question}</div>
-                            <div className={style.item_box_cal}>{question.targetDate}</div>
-                          </div>
-                        </button>
-                      ))
-                    ) : (
-                      <div className={style.noquiz_box}>
-                        <p className={style.noquiz_font}>맞춘 퀴즈가 없어요</p>
-                      </div>
-                    )
-                  )}
-
-
-                  {selectedQuiz === 'incorrect' && (
-                    (solvedQuizList_ && solvedQuizList_.length > 0) ? (
-                      solvedQuizList_.map((question: any) => (
-                        <button key={question.id} className={style.item_box} >
-                          <Image src='/quiz/quiz_icon_list.svg' alt='quiz_icon' width={25} height={23} />
-                          <div className={style.item_box_text}>
-                            <div className={style.item_box_font}> {question.question}</div>
-                            <div className={style.item_box_cal}>{question.targetDate}</div>
-                          </div>
-                        </button>
-                      ))
-                    ) : (
-                      <div className={style.noquiz_box}>
-                        <p className={style.noquiz_font}>틀렸던 퀴즈가 없어요</p>
-                      </div>
-                    )
-                  )}
-
-                </div>
-              </div>
-            )}
-        </div>
-      </div>
-
-    </div>
-
-  );
+    <Button full height={60} radius={10} backgroundColor='#F9FAFA' onClick={onClick}>
+      <FlexBox width='100%' px={16} gap={12} justifyContent='flex-start'>
+        <QuizListItemIcon />
+        <Stack gap={4}>
+          <Text textAlign='left' size={15} weight={500} color='#494F54'>{item.question}</Text>
+          <Text textAlign='left' size={10} weight={400} color='#CDD1D5'>{item.targetDate}</Text>
+        </Stack>
+      </FlexBox>
+    </Button>
+  )
 }
 
+const NoQuizItem = ({ text }: { text: string }) => {
+  return (
+    <FlexBox width='100%' height={60} radius={10} backgroundColor='#F9FAFA'>
+      <Text size={15} weight={500} color='#7B8287'>{text}</Text>
+    </FlexBox>
+  )
+}
+
+const QuizDetailButton = () => {
+  return (
+    <LinkButton href={`/feed/quiz/detail`}>
+      <FlexBox height={36} backgroundColor="#F6F7F9" radius={10}>
+        <Text size={15} weight={600} color="#A6ABAF">더보기</Text>
+      </FlexBox>
+    </LinkButton>
+  )
+}
+
+export const LoginNeedBox = () => {
+  return (
+    <Container>
+      <Toggle
+        data={[
+          { text: '놓친 퀴즈', value: 0 },
+          { text: '풀었던 퀴즈', value: 0 },
+        ]}
+      />
+      <Box
+        mt={22}
+        padding={34}
+        radius={20}
+        boxShadow={'0px 0px 30px 0px rgba(0, 0, 0, 0.10)'}
+      >
+        <FlexBox direction='column' gap={16}>
+          <Image
+            src='/quiz/quiz_icon_login.svg'
+            alt='quiz_icon'
+            width={235}
+            height={153}
+          />
+          <Text size={20} weight={600} color='#7B8287'>로그인이 필요한 서비스입니다</Text>
+        </FlexBox>
+      </Box>
+    </Container>
+  )
+}
+
+const SELECTED_TYPE = {
+  missed: 0,
+  solved: 1
+} as const;
+
+export default function QuizList() {
+  const requestDate = moment().format("YYYYMMDD");
+
+  const [selectedValue, setSelectedValue] = useState<number>(SELECTED_TYPE.missed);
+
+  const {
+    isLoading,
+    missedQuizList,
+    solvedQuizList
+  } = useQuizListData({ requestDate: requestDate });
+
+  const {
+    selectedQuizDate,
+    selectedQuizRusult,
+    todayQuizPopupModal,
+    quizResultPopupModal,
+    handleQuizItemClick,
+    handleQuizResultClose,
+    handleAnswerClick
+  } = useSolveQuizHook();
+
+  if (isLoading) return <Loading height={300} />;
+  return (
+    <AppContainer>
+      <Container>
+        <Toggle
+          data={[
+            { text: '놓친 퀴즈', value: SELECTED_TYPE.missed },
+            { text: '풀었던 퀴즈', value: SELECTED_TYPE.solved },
+          ]}
+          selectedValue={selectedValue}
+          onChange={setSelectedValue}
+        />
+
+        <Stack mt={20} gap={10}>
+          {selectedValue === SELECTED_TYPE.missed && (
+            (missedQuizList && missedQuizList?.length > 0)
+              ? <>
+                  {missedQuizList.map((item: MissedQuiz) => (
+                    <QuizItem key={item.id} item={item} onClick={() => handleQuizItemClick(item.targetDate)} />
+                  ))}
+                  <QuizDetailButton />
+                </>
+              : <NoQuizItem text='놓친 퀴즈가 없어요' />
+          )}
+
+          {selectedValue === SELECTED_TYPE.solved && (
+            (solvedQuizList && solvedQuizList?.length > 0)
+            ? <>
+                {solvedQuizList.map((item: SolvedQuiz) => (
+                  <QuizItem key={item.id} item={item} />
+                ))}
+                <QuizDetailButton />
+              </>
+              : <NoQuizItem text='풀었던 퀴즈가 없어요' />
+          )}
+        </Stack>
+      </Container>
+
+      <TodayQuizPopup
+        show={todayQuizPopupModal.show}
+        date={selectedQuizDate}
+        onAnswerClick={handleAnswerClick}
+        onClose={todayQuizPopupModal.close}
+      />
+
+      {selectedQuizRusult &&
+        <QuizResult
+          show={quizResultPopupModal.show}
+          onClose={handleQuizResultClose}
+          quizResult={selectedQuizRusult}
+          onSolveOtherClick={handleQuizResultClose}
+        />
+      }
+
+    </AppContainer>
+  );
+}

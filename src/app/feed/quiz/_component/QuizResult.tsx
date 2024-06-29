@@ -16,12 +16,14 @@ interface Props {
   show: boolean,
   onClose: () => void
   quizResult: QuizSolveUser;
+  onSolveOtherClick?: () => void,
 }
 
-export const QuizResult = ({ show, onClose, quizResult }: Props) => {
+export const QuizResult = ({ show, onClose, quizResult, onSolveOtherClick }: Props) => {
   const router = useRouter();
 
   const handleOtherQuizClick = () => {
+    if (onSolveOtherClick) return onSolveOtherClick();
     router.push('/feed/quiz')
   }
 

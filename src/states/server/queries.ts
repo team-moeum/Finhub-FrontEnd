@@ -1,5 +1,5 @@
 import { QueryOptionType, QueryOptionsType } from "./type"
-import { useInfiniteQuery, useSuspenseQuery, UseSuspenseQueryOptions } from "@tanstack/react-query"
+import { useInfiniteQuery, useQueries, useSuspenseQuery, UseSuspenseQueryOptions } from "@tanstack/react-query"
 
 import { Topic } from "@/model/Topic"
 import { Banner } from "@/model/Banner"
@@ -63,8 +63,8 @@ export const queryKeys = {
   searchTopic: (type: "title" | "summary" | "both", keyword: string) => ['search', 'topic', type, keyword],
   searchGptColumn: (type: "title" | "summary" | "both", keyword: string) => ['search', 'column', type, keyword],
   gptColumnList: (page: number, size?: number) => ["gptColumn", page.toString(), size?.toString() || ""],
-  gptColumnDetail: (id: number) => ["gptColumnDetail", id.toString()], 
-  gptColumnCommentList: (id: number, type: number, page: number, size?: number) => ["gptColumnComment", id.toString(), type.toString()|| "", page.toString(), size?.toString() || ""],
+  gptColumnDetail: (id: number) => ["gptColumnDetail", id.toString()],
+  gptColumnCommentList: (id: number, type: number, page: number, size?: number) => ["gptColumnComment", id.toString(), type.toString() || "", page.toString(), size?.toString() || ""],
   announce: (cursorId?: number, size?: number) => ['announce', cursorId?.toString() || "", size?.toString() || ""],
   myScrap: (type: MyScrapRequest) => ["myScrap", type],
   reportReasons: ["reportReasons"],
@@ -149,7 +149,6 @@ export const queryOptions: QueryOptionsType = {
     queryKey: queryKeys.reportReasons,
     queryFn: () => getReportReasons()
   }),
-
   quiz: (date?: string) => ({
     queryKey: queryKeys.quiz(date),
     queryFn: () => getQuiz(date)
@@ -158,22 +157,21 @@ export const queryOptions: QueryOptionsType = {
     queryKey: queryKeys.quizCalendar(year, month),
     queryFn: () => getQuizCalender(year, month)
   }),
-  //이거아래지워도 오류안남
   missedQuiz: (date: string, limit?: number) => ({
     queryKey: queryKeys.missedQuiz(date, limit),
     queryFn: () => getMissedQuiz(date, limit)
   }),
-  solvedQuiz: (isCorrect: string, date: string, limit?: number) => ({
+  solvedQuiz: (isCorrect: string, date: string, limit: number) => ({
     queryKey: queryKeys.solvedQuiz(isCorrect, date, limit),
     queryFn: () => getSolvedQuiz(isCorrect, date, limit)
   }),
 };
 
 const useBaseSuspenseQuery = <T = unknown>(
-  queryOption: QueryOptionType<T>, 
-  options?:  Omit<UseSuspenseQueryOptions<T, Error, any>, "queryKey" | 'queryFn'>
-  ) => {
-  const timeOption = {staleTime: 60 * 1000, gcTime: 300 * 1000};
+  queryOption: QueryOptionType<T>,
+  options?: Omit<UseSuspenseQueryOptions<T, Error, any>, "queryKey" | 'queryFn'>
+) => {
+  const timeOption = { staleTime: 60 * 1000, gcTime: 300 * 1000 };
 
   return useSuspenseQuery<any, Error, T, any>({
     queryKey: queryOption.queryKey,
@@ -183,7 +181,7 @@ const useBaseSuspenseQuery = <T = unknown>(
   });
 };
 
-export const useUserInfo = () => useBaseSuspenseQuery<User>({...queryOptions.userInfo()}, {staleTime: 0});
+export const useUserInfo = () => useBaseSuspenseQuery<User>({ ...queryOptions.userInfo() }, { staleTime: 0 });
 export const useCategory = () => useBaseSuspenseQuery<Category[]>(queryOptions.category());
 export const useBannerList = () => useBaseSuspenseQuery<Banner[]>(queryOptions.banner());
 export const useTopicList = (categoryId: number) => useBaseSuspenseQuery<Topic[]>(queryOptions.topicList(categoryId));
@@ -198,14 +196,14 @@ export const useGptColumnDetail = (columnId: number) => useBaseSuspenseQuery<gpt
 export const useMyScrap = (type: MyScrapRequest) => useBaseSuspenseQuery<MyTopicScarp[] | MyColumnScarp[]>(queryOptions.myScrap(type));
 export const useReportReasons = () => useBaseSuspenseQuery<CommentReportReason[]>(queryOptions.reportReasons());
 
-
 export const useQuizCalendar = (year: string, month: string) => useBaseSuspenseQuery<QuizCalenderResponse>(queryOptions.quizCalendar(year, month))
-
 export const useQuiz = (date?: string) => useBaseSuspenseQuery<QuizInfo>(queryOptions.quiz(date));
 export const useMissedQuiz = (date?: string, limit?: number) => useBaseSuspenseQuery<MissedQuiz>(queryOptions.missedQuiz(date, limit));
 export const useSolvedQuiz = (isCorrect: string, date: string, limit?: number) => useBaseSuspenseQuery<SolvedQuiz>(queryOptions.solvedQuiz(isCorrect, date, limit));
 
-
+/**
+ * infiniteQuery
+ */
 type UseSearchProps = {
   type: "title" | "summary" | "both",
   keyword: string,
@@ -242,28 +240,11 @@ export const useSearchGptColumn = ({ type, keyword, page }: UseSearchProps) => {
   })
 }
 
-type useMissedQuizQueryProps = {
-  date: string,
-  limit?: number,
-}
-
-export const useMissedQuizQuery = ({ date, limit }: useMissedQuizQueryProps) => {
-  return useInfiniteQuery({
-    queryKey: queryKeys.missedQuiz(date, limit),
-    queryFn: ({ pageParam = date }) => getMissedQuiz(pageParam, limit),
-    getNextPageParam: (lastPage) => {
-      const lastQuiz = lastPage[lastPage?.length - 1];
-      return lastQuiz ? lastPage.targetDate : undefined;
-    },
-    initialPageParam: date,
-  })
-}
-
 type UseGptColumnListProps = {
   page: number,
   size?: number
 }
-export const useGptColumnList = ({page, size}: UseGptColumnListProps) => {
+export const useGptColumnList = ({ page, size }: UseGptColumnListProps) => {
   return useInfiniteQuery({
     queryKey: queryKeys.gptColumnList(page, size),
     queryFn: ({ pageParam = 1 }) => getGptColumnList(pageParam, size),
@@ -283,8 +264,8 @@ type UseGptColumnCommentProps = {
   page?: number,
   size?: number
 }
-export const useGptColumnCommentList = ({id, type, page=1, size=3}: UseGptColumnCommentProps) => {
-  return useInfiniteQuery<{comments: gptColumnComment[], pageInfo: CommentPageInfo}>({
+export const useGptColumnCommentList = ({ id, type, page = 1, size = 3 }: UseGptColumnCommentProps) => {
+  return useInfiniteQuery<{ comments: gptColumnComment[], pageInfo: CommentPageInfo }>({
     queryKey: queryKeys.gptColumnCommentList(id, type, page || 1, size),
     queryFn: ({ pageParam = 1 }) => getGptColumnCommentList(id, type, pageParam as number, size),
     initialPageParam: page || 1,
@@ -315,12 +296,32 @@ export const useAnnounceInfiniteQuery = ({ cursorId, size }: UseAnnounceInfinitQ
   });
 };
 
+type useMissedQuizQueryProps = {
+  date: string,
+  limit?: number,
+}
+
+export const useMissedQuizQuery = ({ date, limit }: useMissedQuizQueryProps) => {
+  return useInfiniteQuery({
+    queryKey: queryKeys.missedQuiz(date, limit),
+    queryFn: ({ pageParam = date }) => getMissedQuiz(pageParam, limit),
+    getNextPageParam: (lastPage) => {
+      if (!lastPage || lastPage.length === 0) {
+        return undefined;
+      }
+      const lastQuiz = lastPage[lastPage.length - 1];
+      return lastQuiz ? lastQuiz.targetDate : undefined;
+    },
+    initialPageParam: date,
+  })
+}
+
 type useSolvedQuizQueryProps = {
   isCorrect: string,
   date: string,
   limit?: number,
 }
-export const useSolvedQuizQuery = ({ isCorrect, date, limit }: useSolvedQuizQueryProps) => {
+export const useSolvedQuizQuery = ({ isCorrect, date, limit=5 }: useSolvedQuizQueryProps) => {
   return useInfiniteQuery({
     queryKey: queryKeys.solvedQuiz(isCorrect, date, limit),
     queryFn: ({ pageParam = date }) => getSolvedQuiz(isCorrect, pageParam, limit),
@@ -328,8 +329,8 @@ export const useSolvedQuizQuery = ({ isCorrect, date, limit }: useSolvedQuizQuer
       if (!lastPage || lastPage.length === 0) {
         return undefined;
       }
-      const lastQuiz = lastPage[lastPage?.length - 1];
-      return lastQuiz ? lastQuiz : undefined;
+      const lastQuiz = lastPage[lastPage.length - 1];
+      return lastQuiz ? lastQuiz.targetDate : undefined;
     },
     initialPageParam: date,
     staleTime: 60 * 1000,

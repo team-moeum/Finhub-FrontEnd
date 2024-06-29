@@ -1,20 +1,17 @@
 "use client";
 
 import { AppContainer, Container } from '@/components/Container';
-import dynamic from 'next/dynamic';
 import QuizCalIcon from '@/public/quiz/quiz_cal_icon.svg'
 import { Box } from '@/components/Box';
-import Loading from '@/app/loading';
 import { Suspense } from 'react';
-import QuizList from './QuizList';
+import QuizList, { LoginNeedBox } from './QuizList';
 import { Text } from '@/components/Text';
 import { FlexBox } from '@/components/FlexBox';
+import QuizCalendar, { SkeletonCalendar } from './QuizCalendar';
 
-const QuizCalendar = dynamic(() => import('./QuizCalendar'), { ssr: false })
-
-export const QuizPageScreen = () => {
+export const QuizPageScreen = ({isLogin}: {isLogin: boolean}) => {
   return (
-    <AppContainer header>
+    <AppContainer header mb={34}>
       <Container>
         <FlexBox mt={10} gap={8} justifyContent='flex-start'>
           <Text size={18} weight={600} color='#191B1C'>오늘의 퀴즈</Text>
@@ -23,7 +20,7 @@ export const QuizPageScreen = () => {
       </Container>
 
       <Box mt={15} pb={30}>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<SkeletonCalendar />}>
           <QuizCalendar />
         </Suspense>
       </Box>
@@ -31,7 +28,12 @@ export const QuizPageScreen = () => {
       <Box height={10} backgroundColor='#EDF0F3'/>
 
       <Box mt={25}>
-        <QuizList />
+        {isLogin 
+          ?
+            <QuizList />
+          :
+            <LoginNeedBox />
+        }
       </Box>
     </AppContainer>
   )

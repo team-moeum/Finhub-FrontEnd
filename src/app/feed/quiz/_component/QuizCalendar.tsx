@@ -1,39 +1,39 @@
 'use client'
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, useMemo } from "react";
 import moment from "moment";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+
 import { StyledCalendarWrapper, StyleButton, StyleButtonContainer } from "./styles";
 import { quizlist } from "../quiz";
 import { useQuizCalendar } from "@/states/server/queries";
 import { usePostQuizCalendarEmoji } from "@/states/server/mutations";
+import { Box } from "@/components/Box";
+import { useMounted } from "@/hooks/useMounted";
+import { Container } from "@/components/Container";
+
+export const SkeletonCalendar = () => {
+  return (
+    <Container>
+      <Box mt={22} height={330} radius={20} backgroundColor="#F9FAFA"/>
+    </Container>
+  )
+}
 
 const QuizCalendar = () => {
   const today = new Date();
 
   const [date, setDate] = useState<Date | [Date, Date] | null>(today);
   const [activeDate, setActiveDate] = useState<Date | null>();
-  const [selectedButton, setSelectedButton] = useState('😎'); // 기본 이모지 설정
+  const [selectedButton, setSelectedButton] = useState('😎');
   const [isExpanded, setIsExpanded] = useState(false);
-  const postEmojiMutation = usePostQuizCalendarEmoji();
-
-  const activeYear = activeDate ? activeDate.getFullYear() : today.getFullYear();
-  const activeMonth = activeDate ? activeDate.getMonth() + 1 : today.getMonth() + 1;
-
+  const isMount = useMounted();
+  
+  const activeYear = useMemo(() => activeDate ? activeDate.getFullYear() : today.getFullYear(), [activeDate])
+  const activeMonth = useMemo(() => activeDate ? activeDate.getMonth() + 1 : today.getMonth() + 1, [activeDate])
+  
   const { data: quizCalendarData } = useQuizCalendar(activeYear.toString(), activeMonth.toString());
-
-  useEffect(() => {
-    console.log(activeYear, activeMonth)
-  }, [activeDate])
-
-  useEffect(() => {
-    const emojis: string[] = quizlist.reduce((accumulator: string[], quiz) => {
-      if (quiz.correctYN !== "") {
-        accumulator.push(quiz.correctYN);
-      }
-      return accumulator;
-    }, []);
-  }, []);
+  const postEmojiMutation = usePostQuizCalendarEmoji();
 
   useEffect(() => {
     const storedEmoji = localStorage.getItem('selectedEmoji');
@@ -59,7 +59,7 @@ const QuizCalendar = () => {
         emojiId = 3;
         break;
       default:
-        emojiId = 0; // 기본값 
+        emojiId = 0;
         break;
     }
 
@@ -83,6 +83,7 @@ const QuizCalendar = () => {
     setDate(newDate);
   };
 
+  if (!isMount) return <SkeletonCalendar />;
   return (
     <StyledCalendarWrapper>
       <StyleButtonContainer onClick={toggleExpanded}>
@@ -114,7 +115,9 @@ const QuizCalendar = () => {
         prev2Label={null}
         minDetail="year"
         tileContent={({ date }: { date: Date }) => {
-          return getQuizListWithEmoji(date);
+          if (isMount) {
+            return getQuizListWithEmoji(date);
+          }
         }}
       />
     </StyledCalendarWrapper>

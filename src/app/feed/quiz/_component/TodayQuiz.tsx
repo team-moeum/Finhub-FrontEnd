@@ -6,14 +6,12 @@ import Image from 'next/image';
 import { useQuiz } from '@/states/server/queries';
 import { usePostQuizSolve } from '@/states/server/mutations';
 import { QuizSolveUser } from '@/model/QuizSolveUser';
-import Loading from '@/app/loading';
 import { Container } from '@/components/Container';
 import { Box } from '@/components/Box';
 import { Text } from '@/components/Text';
 import { FlexBox } from '@/components/FlexBox';
 import { Button } from '@/components/Button';
 import { useModal } from '@/hooks/useModal';
-import { QueryClient } from '@tanstack/react-query';
 import { useToast } from '@/components/Toast/useToast';
 
 const TodayQuizSolved = () => {
@@ -64,16 +62,12 @@ const TodayQuizEmpty = () => {
   )
 }
 
-interface TodayQuizProps {
-  date?: string;
-  entry?: '' | 'solved';
-}
-export default function TodayQuiz({ date }: TodayQuizProps) {
+export default function TodayQuiz() {
   const [quizResult, setQuizResult] = useState<QuizSolveUser>();
 
   const quizResultPopup = useModal();
 
-  const { data: todayQuiz, refetch: refetchTodayQuiz } = useQuiz(date);
+  const { data: todayQuiz, refetch: refetchTodayQuiz } = useQuiz();
 
   const { showToast } = useToast();
 

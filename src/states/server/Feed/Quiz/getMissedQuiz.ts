@@ -17,7 +17,7 @@ export const getMissedQuiz = async (
   });
 
   if (response.status === "FAIL") {
-    return null;
+    return [];
   }
 
   return response.data.quizList;
