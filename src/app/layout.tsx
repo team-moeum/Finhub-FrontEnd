@@ -11,6 +11,7 @@ import Loading from "./loading";
 import { ToastProvider } from "@/components/Toast/ToastProvider";
 
 import localFont from 'next/font/local';
+import { GlobalProvider } from "./_component/GlobalProvider";
 
 const pretendard = localFont({
   src: '../assets/fonts/PretendardVariable.woff2',
@@ -41,6 +42,7 @@ export default function RootLayout({
               </Suspense>
             <MenuBar />
             <ToastProvider />
+            <GlobalProvider />
           </RQProvider>
         </RecoilRootProvider>
         <div id="toast-portal" />
