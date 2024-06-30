@@ -114,11 +114,11 @@ export default function SearchScreen() {
                   { value: "both", text: "제목 및 내용" },
                 ]}
                 defaultValue={resultTabActive}
-                onChange={(value: string) => setResultTabActive(value as SearchRequestType)}
+                onChange={(value: string ) => setResultTabActive(value as SearchRequestType)}
                 style={{
                   width: '100vw',
                   position: 'relative',
-                  left: '-20px'
+                  left: '-16px'
                 }}
               />
             </Box>

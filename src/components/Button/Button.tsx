@@ -3,6 +3,7 @@ import { PressButton } from "../PressAnimator";
 import { SpacingType, getBoxSpacing } from '../Box/Box.style';
 
 export type ButtonProps = {
+  full?: boolean;
   width?: string | number;
   height?: string | number;
   radius?: string | number;
@@ -23,6 +24,7 @@ export type ButtonProps = {
 export const Button = ({
   margin, my, mx, mt, mb, ml, mr,
   padding, py, px, pt, pb, pl, pr,
+  full=false,
   color,
   width,
   height,
@@ -50,11 +52,11 @@ export const Button = ({
   };
 
   return (
-    <PressButton animate={animate} style={{width: 'fit-content', display: 'inline-flex', flex}}>
+    <PressButton animate={animate} style={{width: full ? '100%' : 'fit-content', display: 'inline-flex', flex}}>
       <button
         className={cssStyle.base_button}
         style={{ 
-          width, 
+          width: full ? '100%' : width, 
           height, 
           borderRadius: radius, 
           padding, 

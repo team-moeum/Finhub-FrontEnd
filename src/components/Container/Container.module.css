@@ -2,6 +2,10 @@
   padding-bottom: 54px;
 }
 
+.header {
+  padding-top: 65px;
+}
+
 .appContainerWrap {
   display: flex;
   flex-flow: column;

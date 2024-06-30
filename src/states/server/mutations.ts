@@ -14,7 +14,8 @@ import { deleteGptColumnComment } from "./Column/ColumnComment/deleteGptColumnCo
 import { putGptColumnComment } from "./Column/ColumnComment/putGptColumnComment";
 import { postReportGptColumnComment } from "./Column/ColumnComment/postReportGptColumnComment";
 import { postBanGptColumnComment } from "./Column/ColumnComment/postBanGptColumnComment";
-
+import { postQuizSolve } from "./Feed/Quiz/postQuizSolve";
+import { postQuizCalendarEmoji } from "./Feed/Quiz/postQuizCalenderEmoji";
 
 export const mutationKeys = {
   scrap: ["scrap"],
@@ -30,6 +31,8 @@ export const mutationKeys = {
   editGptColumnComment: ["editGptColumnComment"],
   reportGptColumnComment: ["reportGptColumnComment"],
   banGptColumnComment: ["banGptColumnComment"],
+  quizSolve: ["quizSolve"],
+  quizCaledarEmoji: ["quizCalendarEmoji"],
 }
 
 export const SCRAP_TYPE = {
@@ -145,3 +148,20 @@ export const useBanGptColumnComment = (options?: UseMutationOptions<any, Error, 
     ...options,
   });
 }
+
+export const usePostQuizSolve = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number, answer: "O" | "X" }>({
+    mutationKey: mutationKeys.quizSolve,
+    mutationFn: (param) => postQuizSolve(param),
+    ...options,
+  })
+}
+
+export const usePostQuizCalendarEmoji = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number }>({
+    mutationKey: mutationKeys.quizCaledarEmoji,
+    mutationFn: (param) => postQuizCalendarEmoji(param),
+    ...options,
+  });
+}
+

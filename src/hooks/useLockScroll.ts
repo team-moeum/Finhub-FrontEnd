@@ -10,29 +10,23 @@ const LockElementSroll = (el?: HTMLElement) => {
   document.documentElement.style.overflow = 'hidden';
 }
 
-const unLockElementScroll = (originalOverflow: {html: string, body: string, element: string}, el?: HTMLElement) => {
+const unLockElementScroll = (el?: HTMLElement) => {
   if (el) {
-    el.style.overflow = originalOverflow.element || "";
+    el.style.overflow = "";
     return;
   }
 
-  document.body.style.overflow = originalOverflow.body;
-  document.documentElement.style.overflow = originalOverflow.html;
+  document.body.style.overflow = "";
+  document.documentElement.style.overflow = "";
 }
 
 export const useLockScroll = ({locked, element}: {locked: boolean, element?: HTMLElement}) => {
   useLayoutEffect(() => {
-    const originalOverflow = {
-      html: window.getComputedStyle(document.documentElement).overflow,
-      body: window.getComputedStyle(document.body).overflow,
-      element: element ? window.getComputedStyle(element).overflow : ""
-    }
-
     if (locked) LockElementSroll(element);
-    else unLockElementScroll(originalOverflow, element);
+    else unLockElementScroll(element);
 
     return () => {
-      unLockElementScroll(originalOverflow, element);
+      unLockElementScroll(element);
     };
   }, [locked, element]);
 };
