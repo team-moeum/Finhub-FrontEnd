@@ -11,7 +11,7 @@ import { Box } from '@/components/Box';
 import { FlexBox } from '@/components/FlexBox';
 import { Stack } from '@/components/Stack';
 import { Text } from '@/components/Text';
-import { useQuizListData } from '../_hooks/useQuizListData';
+import { QUIZ_LIST_TYPE, useQuizListData } from '../_hooks/useQuizListData';
 import { TodayQuizPopup } from './TodayQuizPopup';
 import { QuizResult } from './QuizResult';
 import { useSolveQuizHook } from '../_hooks/useSolveQuizHook';

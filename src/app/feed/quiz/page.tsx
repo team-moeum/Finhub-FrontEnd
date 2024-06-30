@@ -15,22 +15,22 @@ export default async function QuizPage() {
   
   const queryClient = new QueryClient();
   await queryClient.prefetchInfiniteQuery({
-    queryKey: queryKeys.missedQuiz(requestDate, 5),
-    queryFn: () => getMissedQuiz(requestDate, 5, true),
+    queryKey: queryKeys.missedQuiz(requestDate, 3),
+    queryFn: () => getMissedQuiz(requestDate, 3, true),
     initialPageParam: requestDate,
     getNextPageParam: (lastPage) => lastPage[lastPage.length - 1].targetDate,
     pages: 1,
   })
   await queryClient.prefetchInfiniteQuery({
-    queryKey: queryKeys.solvedQuiz("Y", requestDate, 5),
-    queryFn: () => getSolvedQuiz("Y", requestDate, 5, true),
+    queryKey: queryKeys.solvedQuiz("Y", requestDate, 3),
+    queryFn: () => getSolvedQuiz("Y", requestDate, 3, true),
     initialPageParam: requestDate,
     getNextPageParam: (lastPage) => lastPage[lastPage.length - 1].targetDate,
     pages: 1,
   })
   await queryClient.prefetchInfiniteQuery({
-    queryKey: queryKeys.solvedQuiz("N", requestDate, 5),
-    queryFn: () => getSolvedQuiz("N", requestDate, 5, true),
+    queryKey: queryKeys.solvedQuiz("N", requestDate, 3),
+    queryFn: () => getSolvedQuiz("N", requestDate, 3, true),
     initialPageParam: requestDate,
     getNextPageParam: (lastPage) => lastPage[lastPage.length - 1].targetDate,
     pages: 1,

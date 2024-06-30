@@ -5,17 +5,18 @@ import { SolvedQuiz } from "@/model/solvedQuiz";
 import { useMissedQuizQuery, useSolvedQuizQuery } from "@/states/server/queries";
 import { useEffect, useMemo, useState } from "react";
 
-const QUIZ_LIST_TYPE = {
+export const QUIZ_LIST_TYPE = {
   quizList: "quizList",
   quizDetail: "quizDetail"
 } as const;
 
 type UseQuisListDataProps = {
   type?: keyof typeof QUIZ_LIST_TYPE;
-  requestDate: string
+  requestDate: string;
+  solvedType?: "Y" | "N";
 }
 
-export const useQuizListData = ({type, requestDate}: UseQuisListDataProps) => {
+export const useQuizListData = ({type, requestDate, solvedType}: UseQuisListDataProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const {
@@ -23,14 +24,14 @@ export const useQuizListData = ({type, requestDate}: UseQuisListDataProps) => {
     fetchNextPage: fetchNextMissedPage,
     hasNextPage: hasMissedNextPage,
     isFetching: isMissedFetching,
-  } = useMissedQuizQuery({ date: requestDate, limit: 5 });
+  } = useMissedQuizQuery({ date: requestDate, limit: type === QUIZ_LIST_TYPE.quizDetail ? 10 : 3 });
 
   const {
     data: solvedQuizData,
     fetchNextPage: fetchNextSolvedPage,
     hasNextPage: hasSolvedNextPage,
-    isFetching: isSolvedFetching
-  } = useSolvedQuizQuery({ isCorrect: "Y", date: requestDate });
+    isFetching: isSolvedFetching,
+  } = useSolvedQuizQuery({ isCorrect: solvedType || "Y", date: requestDate, limit: type === QUIZ_LIST_TYPE.quizDetail ? 10 : 3 });
 
   const missedQuizList = useMemo(() => {
     return missedQuizData?.pages.flatMap(page => page) as MissedQuiz[];
@@ -44,11 +45,14 @@ export const useQuizListData = ({type, requestDate}: UseQuisListDataProps) => {
     setIsLoading(isMissedFetching || isSolvedFetching);
   }, [isMissedFetching, isSolvedFetching])
 
-  console.log(missedQuizList)
   return {
     isLoading,
     missedQuizList,
-    solvedQuizList
+    solvedQuizList,
+    fetchNextMissedPage,
+    fetchNextSolvedPage,
+    hasMissedNextPage,
+    hasSolvedNextPage,
   }
 
 }

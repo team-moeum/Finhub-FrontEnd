@@ -45,6 +45,7 @@ import { getUserInfo } from "./User/getUserInfo"
 import { User } from "@/model/User"
 import { getReportReasons } from "./Column/ColumnComment/getReportReasons"
 import { CommentReportReason } from "@/model/CommentReportReason"
+import moment from "moment"
 
 
 export const queryKeys = {
@@ -306,11 +307,20 @@ export const useMissedQuizQuery = ({ date, limit }: useMissedQuizQueryProps) => 
     queryKey: queryKeys.missedQuiz(date, limit),
     queryFn: ({ pageParam = date }) => getMissedQuiz(pageParam, limit),
     getNextPageParam: (lastPage) => {
-      if (!lastPage || lastPage.length === 0) {
+      if (lastPage.length === 0) {
         return undefined;
       }
+
       const lastQuiz = lastPage[lastPage.length - 1];
-      return lastQuiz ? lastQuiz.targetDate : undefined;
+      if (!lastQuiz.targetDate) {
+        return undefined;
+      }
+      
+      const date = moment(lastQuiz.targetDate, 'YYYY-MM-DD');
+      const previousDay = date.subtract(1, 'days');
+      const targetDate = previousDay.format('YYYYMMDD');
+
+      return targetDate;
     },
     initialPageParam: date,
   })
@@ -326,11 +336,20 @@ export const useSolvedQuizQuery = ({ isCorrect, date, limit=5 }: useSolvedQuizQu
     queryKey: queryKeys.solvedQuiz(isCorrect, date, limit),
     queryFn: ({ pageParam = date }) => getSolvedQuiz(isCorrect, pageParam, limit),
     getNextPageParam: (lastPage) => {
-      if (!lastPage || lastPage.length === 0) {
+      if (lastPage.length === 0) {
         return undefined;
       }
+
       const lastQuiz = lastPage[lastPage.length - 1];
-      return lastQuiz ? lastQuiz.targetDate : undefined;
+      if (!lastQuiz.targetDate) {
+        return undefined;
+      }
+      
+      const date = moment(lastQuiz.targetDate, 'YYYY-MM-DD');
+      const previousDay = date.subtract(1, 'days');
+      const targetDate = previousDay.format('YYYYMMDD');
+
+      return targetDate;
     },
     initialPageParam: date,
     staleTime: 60 * 1000,
