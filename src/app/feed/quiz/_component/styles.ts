@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import "react-calendar/dist/Calendar.css";
 
 export const StyledCalendarWrapper = styled.div`
@@ -48,7 +48,6 @@ export const StyledCalendarWrapper = styled.div`
   /* 네비게이션 비활성화 됐을때 스타일 */
   .react-calendar__navigation button:disabled {
   background-color: #F9FAFA;;
-  color: ${(props) => props.theme.darkBlack};
   }
 
   .tile-content {
@@ -68,30 +67,20 @@ export const StyledCalendarWrapper = styled.div`
   font-weight: 800;
   }
 
-  /* 일요일에만 빨간 폰트 */
-  .react-calendar__month-view__weekdays__weekday--weekend abbr[title="일요일"] {
-  color: ${(props) => props.theme.black};
-  }
-
   /* 오늘 날짜 폰트 컬러 */
   .react-calendar__tile--now {
   background: #F9FAFA;
-  abbr {
-    color: ${(props) => props.theme.black};
-    }
   color:black;
   }
 
   /* 네비게이션 월 스타일 적용 */
   .react-calendar__year-view__months__month {
   border-radius: 0.8rem;
-  background-color: ${(props) => props.theme.gray_5};
   padding: 0;
   }
 
   /* 네비게이션 현재 월 스타일 적용 */
   .react-calendar__tile--hasActive {
-  background-color: ${(props) => props.theme.primary_2};
   abbr {
     color: white;
     }

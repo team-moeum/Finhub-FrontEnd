@@ -5,7 +5,6 @@ import moment from "moment";
 import Calendar from "react-calendar";
 
 import { StyledCalendarWrapper, StyleButton, StyleButtonContainer } from "./styles";
-import { quizlist } from "../quiz";
 import { useQuizCalendar } from "@/states/server/queries";
 import { usePostQuizCalendarEmoji } from "@/states/server/mutations";
 import { Box } from "@/components/Box";
