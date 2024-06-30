@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 const LockElementSroll = (el?: HTMLElement) => {
   if (el) {
@@ -35,4 +35,37 @@ export const useLockScroll = ({locked, element}: {locked: boolean, element?: HTM
       unLockElementScroll(originalOverflow, element);
     };
   }, [locked, element]);
+};
+
+export const useClearLockScroll = () => {
+  const observerRef = useRef<MutationObserver | null>(null);
+
+  useEffect(() => {
+    const modalPortal = document.getElementById('modal-portal');
+
+    if (!modalPortal) return;
+
+    const checkAndClearLockScroll = () => {
+      if (modalPortal.childElementCount === 0) {
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+      }
+    };
+
+    observerRef.current = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          checkAndClearLockScroll();
+        }
+      });
+    });
+
+    observerRef.current.observe(modalPortal, { childList: true });
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, []);
 };
