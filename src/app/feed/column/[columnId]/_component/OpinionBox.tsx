@@ -4,6 +4,8 @@ import { Text } from "@/components/Text"
 import { Box } from "@/components/Box"
 import { FlexBox } from "@/components/FlexBox"
 import { LinkBox } from "@/components/LinkButton"
+import { ZINDEX } from "@/styles/zIndex"
+import { COMMENT_POST_TYPE } from "../comment/post/_component/PostCommentScreen"
 
 export const OpinionBox = ({ columnId, imgSrc }: { columnId: number, imgSrc?: string }) => {
   return (
@@ -16,12 +18,12 @@ export const OpinionBox = ({ columnId, imgSrc }: { columnId: number, imgSrc?: st
       style={{
         borderTop: "0.5px solid #CDD1D5"
       }}
-      zIndex={999}
+      zIndex={ZINDEX.modal-1}
     >
-      <LinkBox href={`/feed/column/${columnId}/comment/post`} radius={0}>
+      <LinkBox href={`/feed/column/${columnId}/comment/post?type=${COMMENT_POST_TYPE.post}`} radius={0}>
         <FlexBox width='100%' height={72} gap={14} justifyContent='flex-start'>
           <Image
-            src={imgSrc || '/column/user_img.png'}
+            src={imgSrc || '/column/user_img.svg'}
             alt="User Image"
             width={48}
             height={48}

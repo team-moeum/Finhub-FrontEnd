@@ -12,12 +12,13 @@ export interface PressProps {
   children: React.ReactNode;
 }
 
-export const PressBox = ({ py = 16, radius = 10, animate = true, style={}, children }: PressProps) => {
+export const PressBox = ({ py = 16, radius = 10, animate = true, style={}, onClick, children }: PressProps) => {
   return (
     <div
       className={cx(CssStyle.pressBox_backgroundWrap, {
         [CssStyle.noBackgroundChange]: !animate,
       })}
+      onClick={onClick}
       style={{
         paddingLeft: py,
         paddingRight: py,
