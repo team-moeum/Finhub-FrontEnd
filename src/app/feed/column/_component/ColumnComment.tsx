@@ -9,7 +9,7 @@ import { LinkButton } from "@/components/LinkButton";
 import { Stack } from "@/components/Stack";
 import { Text } from "@/components/Text";
 
-import { useGptColumnCommentList } from "@/states/server/queries";
+import { useGptColumnCommentList, useUserInfo } from "@/states/server/queries";
 import { useEffect, useMemo, useState } from "react";
 import { CommentCard } from "./CommentCard";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
@@ -37,6 +37,7 @@ type ColumnCommentProps = {
 export const ColumnComment = ({ columnId, pageType }: ColumnCommentProps) => {
   const [tab, setTab] = useState<TabKey>('popular');
 
+  const { data: userInfo } = useUserInfo();
   const {
     data,
     refetch,
@@ -106,7 +107,7 @@ export const ColumnComment = ({ columnId, pageType }: ColumnCommentProps) => {
           <Stack mt={20} mb={15} gap={10}>
             {commentList?.map((item) => {
               return (
-                <CommentCard key={item.id} comment={item} />
+                <CommentCard key={item.id} id={item.id} comment={item} isMine={item.nickname === userInfo?.nickname} refetch={handleRefreshClick}/>
               )
             })}
           </Stack>

@@ -30,8 +30,6 @@ export default function ColumnCard() {
       speed={2000}
       loop={true}
       pagination={{ clickable: true }}
-      onSwiper={(swiper: any) => console.log(swiper)}
-      onSlideChange={() => console.log('slide change')}
     >
       {gptColumnList.map((item, index) => {
         return (

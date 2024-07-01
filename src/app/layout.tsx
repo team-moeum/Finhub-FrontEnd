@@ -44,6 +44,7 @@ export default function RootLayout({
           </RQProvider>
         </RecoilRootProvider>
         <div id="toast-portal" />
+        <div id="modal-portal" />
       </body>
     </html>
   );

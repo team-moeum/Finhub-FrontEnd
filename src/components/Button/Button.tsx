@@ -3,6 +3,7 @@ import { PressButton } from "../PressAnimator";
 import { SpacingType, getBoxSpacing } from '../Box/Box.style';
 
 export type ButtonProps = {
+  full?: boolean;
   width?: string | number;
   height?: string | number;
   radius?: string | number;
@@ -16,12 +17,14 @@ export type ButtonProps = {
   border?: string;
   disabled?: boolean;
   animate?: boolean;
+  flex?: string | number;
   children?: React.ReactNode;
 } & React.HTMLAttributes<HTMLButtonElement> & SpacingType;
 
 export const Button = ({
   margin, my, mx, mt, mb, ml, mr,
   padding, py, px, pt, pb, pl, pr,
+  full=false,
   color,
   width,
   height,
@@ -29,30 +32,41 @@ export const Button = ({
   children,
   disabled = false,
   backgroundColor,
+  disabledBgColor,
+  disabledTextColor,
   textColor,
   border,
   style = {},
   animate=true,
+  flex,
   onClick,
   ...props
 }: ButtonProps) => {
 
   const spacing = getBoxSpacing({ margin, padding, my, mx, mt, mb, ml, mr, py, px, pt, pb, pl, pr });
 
+  const disabledStyle = {
+    backgroundColor: disabledBgColor,
+    color:  disabledTextColor,
+    cursor: 'not-allowed',
+  };
+
   return (
-    <PressButton animate={animate} style={{width: 'fit-content'}}>
+    <PressButton animate={animate} style={{width: full ? '100%' : 'fit-content', display: 'inline-flex', flex}}>
       <button
         className={cssStyle.base_button}
         style={{ 
-          width, 
+          width: full ? '100%' : width, 
           height, 
           borderRadius: radius, 
           padding, 
           backgroundColor, 
           color: textColor, 
           border,
+          flex,
           ...spacing,
-          ...style 
+          ...style,
+          ...(disabled ? disabledStyle : {}),
         }}
         onClick={onClick}
         disabled={disabled}

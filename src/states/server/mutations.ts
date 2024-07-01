@@ -10,7 +10,12 @@ import { postNoSearchWord } from "./Search/postNoSearchWord";
 import { deleteRecentKeyword } from "./Search/deleteRecentKeyword";
 import { postGptColumnLike } from "./Column/ColumnPost/postGptColumnLike";
 import { postGptColumnComment } from "./Column/ColumnComment/postGptColumnComment";
-
+import { deleteGptColumnComment } from "./Column/ColumnComment/deleteGptColumnComment";
+import { putGptColumnComment } from "./Column/ColumnComment/putGptColumnComment";
+import { postReportGptColumnComment } from "./Column/ColumnComment/postReportGptColumnComment";
+import { postBanGptColumnComment } from "./Column/ColumnComment/postBanGptColumnComment";
+import { postQuizSolve } from "./Feed/Quiz/postQuizSolve";
+import { postQuizCalendarEmoji } from "./Feed/Quiz/postQuizCalenderEmoji";
 
 export const mutationKeys = {
   scrap: ["scrap"],
@@ -21,7 +26,13 @@ export const mutationKeys = {
   updateNoSearchWord: ["updateNoSearchWord"],
   deleteRecentKeyword: ["deleteRecentKeyword"],
   gptColumnLike: ["gptColumnLike"],
-  gptColumnComment: ["gptColumnComment"]
+  gptColumnComment: ["gptColumnComment"],
+  deleteGptColumnComment: ["deleteGptColumnComment"],
+  editGptColumnComment: ["editGptColumnComment"],
+  reportGptColumnComment: ["reportGptColumnComment"],
+  banGptColumnComment: ["banGptColumnComment"],
+  quizSolve: ["quizSolve"],
+  quizCaledarEmoji: ["quizCalendarEmoji"],
 }
 
 export const SCRAP_TYPE = {
@@ -105,3 +116,52 @@ export const useGptColumnComment = (options?: UseMutationOptions<any, Error, any
     ...options,
   });
 }
+
+export const useDeleteGptColumnComment = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number }>({
+    mutationKey: mutationKeys.deleteGptColumnComment,
+    mutationFn: (param) => deleteGptColumnComment(param.id),
+    ...options,
+  });
+}
+
+export const useEditGptColumnComment = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number, comment: string }>({
+    mutationKey: mutationKeys.editGptColumnComment,
+    mutationFn: (param) => putGptColumnComment(param.id, param.comment),
+    ...options,
+  });
+}
+
+export const useReportGptColumnComment = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { commentId: number, reportId: number }>({
+    mutationKey: mutationKeys.reportGptColumnComment,
+    mutationFn: (param) => postReportGptColumnComment(param.commentId, param.reportId),
+    ...options,
+  });
+}
+
+export const useBanGptColumnComment = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { memberId: number }>({
+    mutationKey: mutationKeys.banGptColumnComment,
+    mutationFn: (param) => postBanGptColumnComment(param.memberId),
+    ...options,
+  });
+}
+
+export const usePostQuizSolve = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number, answer: "O" | "X" }>({
+    mutationKey: mutationKeys.quizSolve,
+    mutationFn: (param) => postQuizSolve(param),
+    ...options,
+  })
+}
+
+export const usePostQuizCalendarEmoji = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number }>({
+    mutationKey: mutationKeys.quizCaledarEmoji,
+    mutationFn: (param) => postQuizCalendarEmoji(param),
+    ...options,
+  });
+}
+
