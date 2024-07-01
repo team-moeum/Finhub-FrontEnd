@@ -1,17 +1,19 @@
 "use client";
 
 import { useResetRecoilState } from "recoil";
-
-import { fetchApi } from "./fetchApi";
 import { ApiResponse } from "@/api/type";
 import { userState } from "@/states/client/atoms/user";
-import { deleteToken } from "@/utils/auth_server";
+import { get, post } from "./client";
+import { deleteToken, setToken } from "@/utils/authToken";
 
 const loginWithKakao = async (kakaoCode: string | null) => {
-  const response: ApiResponse = await fetchApi({
-    method: "GET",
-    use: "auth",
-    path: `/api/v1/auth/login/oauth2/callback/kakao?code=${kakaoCode}&origin=${process.env.NEXT_PUBLIC_MODE}`
+  const response: ApiResponse = await get(
+    `/api/v1/auth/login/oauth2/callback/kakao?code=${kakaoCode}&origin=${process.env.NEXT_PUBLIC_MODE}`
+  );
+
+  setToken({
+    accessToken: response.data.token.accessToken,
+    refreshToken: response.data.token.refreshToken,
   });
 
   return response;
@@ -19,10 +21,8 @@ const loginWithKakao = async (kakaoCode: string | null) => {
 
 /* 수정 필요 */
 const autoLogin = async () => {
-  const response: ApiResponse = await fetchApi({
-    method: "POST",
-    path: '/api/v1/auth/autoLogin',
-    body: {token: "fcm"},
+  const response: ApiResponse = await post("/api/v1/auth/autoLogin", {
+    token: "fcm",
   });
 
   return response;
