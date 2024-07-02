@@ -7,6 +7,15 @@ declare global {
 
 type EventHandler = (payload: any) => void;
 class FHEventBus {
+  static uniqueIdSet = new Set<string>();
+  static generateUniqueId(prefix: string): string {
+    let id: string;
+    do {
+      id = `${prefix}_${Math.random().toString(36).substring(2, 11)}`;
+    } while (this.uniqueIdSet.has(id));
+    this.uniqueIdSet.add(id);
+    return id;
+  }
   on(key: string, handler: EventHandler): () => void {
     const eventListener = (e: CustomEvent) => handler(e.detail);
     window.addEventListener(key, eventListener as EventListener);
@@ -14,6 +23,7 @@ class FHEventBus {
   }
   off(key: string, handler: EventHandler): void {
     window.removeEventListener(key, handler as EventListener);
+    if (FHEventBus.uniqueIdSet.has(key)) FHEventBus.uniqueIdSet.delete(key);
   }
   emit(key: string, ...payload: Parameters<EventHandler>): void {
     window.dispatchEvent(new CustomEvent(key, { detail: payload[0] }));
@@ -39,7 +49,7 @@ export function jsToNative(
   if (typeof window === "undefined") return;
 
   const eventBus = new FHEventBus();
-  const callbackId = "callback_" + Math.random().toString(36).substring(2, 11);
+  const callbackId = FHEventBus.generateUniqueId("callback_");
   eventBus.once(callbackId, callback);
 
   const userAgent = navigator.userAgent.toLowerCase();
