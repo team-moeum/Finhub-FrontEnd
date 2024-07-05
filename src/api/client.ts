@@ -6,6 +6,7 @@ import {
   UnauthorizedError,
 } from "./error";
 import { getToken } from "@/utils/authToken";
+import { bypass } from "msw";
 
 export async function request<T>(
   method: ApiMethods,
@@ -33,7 +34,15 @@ export async function request<T>(
 
   try {
     const response = await fetch(url, options);
-    if (!response.ok && !config.bypass) {
+    if (!response.ok) {
+      if (config.bypass) {
+        try {
+          return (await response.json()) as T;
+        } catch {
+          return { status: "FAIL"} as T;
+        }
+      }
+
       switch (response.status) {
         case 401:
           throw new UnauthorizedError("Unauthorized access");
