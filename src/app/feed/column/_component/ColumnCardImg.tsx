@@ -15,8 +15,8 @@ export default function ColumnCardImg({item}: ColumnCardImgProps) {
                     <p className="overlay_date">{item.date}</p>
                 </div>
                 <div className="overlay_tag">
-                    {item.topicList.map((topic) => (
-                        <span key={topic.id}>#{topic.title} </span>    
+                    {item.topicList.map((topic, index) => (
+                        <span key={index}>#{topic.title} </span>    
                     ))}
                 </div>
                 <Image 

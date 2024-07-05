@@ -1,19 +1,22 @@
-import { fetchApi } from "@/api/fetchApi";
 import { queryKeys } from "../queries";
 import { ApiResponse } from "@/api/type";
 import { MyScrapRequest } from "@/model/MyScrap";
+import { get, getSsr } from "@/api/client";
 
-export const getMyScrap = async (type: MyScrapRequest, ssr?:boolean) => {
-  const response: ApiResponse = await fetchApi({
-    method: "GET",
-    path: `/api/v1/main/menu/myscrap/${type}`,
-    tags: queryKeys.myScrap(type),
-    ssr
-  });
+export const getMyScrap = async (type: MyScrapRequest) => {
+  const response: ApiResponse = await get(
+    `/api/v1/main/menu/myscrap/${type}`,
+    queryKeys.myScrap(type),
+  );
 
-  if (response.status === "FAIL") {
-    return null;
-  }
+  return response.data;
+}
+
+export const getSsrMyScrap = async (type: MyScrapRequest) => {
+  const response: ApiResponse = await getSsr(
+    `/api/v1/main/menu/myscrap/${type}`,
+    queryKeys.myScrap(type),
+  );
 
   return response.data;
 }

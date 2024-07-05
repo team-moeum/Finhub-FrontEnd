@@ -49,6 +49,7 @@ const ProfileContent = ({
                 alt={`user avatar icon${item.id}`}
                 width={60}
                 height={60}
+                priority
               />
             </div>
           )

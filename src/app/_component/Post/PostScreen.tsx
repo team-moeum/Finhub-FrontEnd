@@ -84,6 +84,7 @@ export default function PostScreen({ categoryId, topicId }: Props) {
           src={img_path ?? PostImg} 
           alt="post Img" 
           fill
+          priority
          />
       </div>
       <div className={style.container}>

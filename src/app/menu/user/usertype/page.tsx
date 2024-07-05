@@ -5,7 +5,7 @@ import Image from "next/image";
 import MenuHeader from "@/app/_component/Menu/MenuHeader";
 import SelectUserType from "./_component/SelectUserType";
 import { useRecoilState } from "recoil";
-import { useSsrComplectedState, userState } from "@/states/client/atoms/user";
+import { userState } from "@/states/client/atoms/user";
 import { useEffect, useState } from "react";
 
 export default function UserTypePage() {

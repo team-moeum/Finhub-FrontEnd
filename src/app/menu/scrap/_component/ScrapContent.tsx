@@ -2,7 +2,6 @@
 
 import { Suspense, useState } from 'react';
 import style from './ScrapContent.module.css';
-import cx from 'classnames';
 import ScrapIcon from "@/assets/Icons";
 import { LinkButton } from '@/components/LinkButton';
 import { queryKeys, useMyScrap } from '@/states/server/queries';

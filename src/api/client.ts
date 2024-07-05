@@ -6,14 +6,13 @@ import {
   UnauthorizedError,
 } from "./error";
 import { getToken } from "@/utils/authToken";
-import { bypass } from "msw";
 
 export async function request<T>(
   method: ApiMethods,
   endpoint: string,
   config: ApiConfig = {ssr: false}
 ): Promise<T> {
-  const url = `${config.ssr ? process.env.NEXT_PUBLIC_BASE_URL : ""}${endpoint}`;
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`
 
   const tokens = getToken(config.ssr);
 
@@ -72,8 +71,8 @@ export function get<T>(
 
 export function post<T>(
   endpoint: string,
-  body = {},
   tags = [] as string[],
+  body = {},
   headers = {}
 ): Promise<T> {
   return request<T>("POST", endpoint, { body, headers, tags });
@@ -81,8 +80,8 @@ export function post<T>(
 
 export function put<T>(
   endpoint: string,
-  body = {},
   tags = [] as string[],
+  body = {},
   headers = {}
 ): Promise<T> {
   return request<T>("PUT", endpoint, { body, headers, tags });
@@ -91,9 +90,10 @@ export function put<T>(
 export function remove<T>(
   endpoint: string,
   tags = [] as string[],
+  body = {},
   headers = {}
 ): Promise<T> {
-  return request<T>("DELETE", endpoint, { headers, tags });
+  return request<T>("DELETE", endpoint, { body, headers, tags });
 }
 
 /**

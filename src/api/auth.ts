@@ -20,13 +20,13 @@ const loginWithKakao = async (kakaoCode: string | null) => {
 };
 
 /* 수정 필요 */
-const autoLogin = async () => {
-  const response: ApiResponse = await post("/api/v1/auth/autoLogin", {
-    token: "fcm",
-  });
+// const autoLogin = async () => {
+//   const response: ApiResponse = await post("/api/v1/auth/autoLogin", {
+//     token: "fcm",
+//   });
 
-  return response;
-};
+//   return response;
+// };
 
 //await fetch("/api/auth/logout", { method: "GET" });
 const useLogout = () => {
@@ -40,6 +40,5 @@ const useLogout = () => {
 
 export const authAPI = {
   loginWithKakao,
-  autoLogin,
   useLogout,
 };
