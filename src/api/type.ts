@@ -4,6 +4,7 @@ export interface ApiConfig {
   tags?: string[];
   body?: Record<string, any>;
   headers?: Record<string, string>;
+  ssr?: boolean;
 }
 
 export interface ApiParams {

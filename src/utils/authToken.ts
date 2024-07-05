@@ -10,11 +10,12 @@ import {
   deleteToken as deleteClientToken,
   setToken as setClientToken,
 } from "./auth_client";
+
 import { AuthToken } from "@/model/AuthToken";
 import { isSSR } from "./isSSR";
 
-export const getToken = () => {
-  if (isSSR()) return getServerToken();
+export const getToken = (ssr?: boolean) => {
+  if (ssr) return getServerToken();
   return getClientToken();
 };
 

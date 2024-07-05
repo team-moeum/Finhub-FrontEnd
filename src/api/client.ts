@@ -1,4 +1,3 @@
-import { getToken } from "@/utils/authToken";
 import { ApiMethods, ApiConfig } from "./type";
 import {
   ApiError,
@@ -6,15 +5,17 @@ import {
   InternetServerError,
   UnauthorizedError,
 } from "./error";
-import { isSSR } from "@/utils/isSSR";
+import { getToken } from "@/utils/authToken";
 
 export async function request<T>(
   method: ApiMethods,
   endpoint: string,
-  config: ApiConfig = {}
+  config: ApiConfig = {ssr: false}
 ): Promise<T> {
-  const url = `${isSSR() ? process.env.NEXT_PUBLIC_BASE_URL : ""}${endpoint}`;
-  const tokens = getToken();
+  const url = `${config.ssr ? process.env.NEXT_PUBLIC_BASE_URL : ""}${endpoint}`;
+
+  const tokens = getToken(config.ssr);
+
   const options: RequestInit = {
     method: method,
     next: {
@@ -54,7 +55,7 @@ export async function request<T>(
 export function get<T>(
   endpoint: string,
   tags = [] as string[],
-  headers = {}
+  headers = {},
 ): Promise<T> {
   return request<T>("GET", endpoint, { headers, tags });
 }
@@ -83,4 +84,15 @@ export function remove<T>(
   headers = {}
 ): Promise<T> {
   return request<T>("DELETE", endpoint, { headers, tags });
+}
+
+/**
+ * ssr api request for prefetch
+ */
+export function getSsr<T>(
+  endpoint: string,
+  tags = [] as string[],
+  headers = {},
+): Promise<T> {
+  return request<T>("GET", endpoint, { headers, tags, ssr: true });
 }
