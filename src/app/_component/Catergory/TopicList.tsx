@@ -86,7 +86,7 @@ export default function TopicList({activeItem}:Props) {
   return (
     <Fragment>
       <div className={style.topic_list}>
-        {topicList.map(item => (
+        {topicList && topicList.map(item => (
           <TopicItem 
             key={`${item.categoryName}_${item.topicId}_${item.scrapped}`}
             data={item}
