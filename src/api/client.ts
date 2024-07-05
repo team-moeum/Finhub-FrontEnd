@@ -33,7 +33,7 @@ export async function request<T>(
 
   try {
     const response = await fetch(url, options);
-    if (!response.ok) {
+    if (!response.ok && !config.bypass) {
       switch (response.status) {
         case 401:
           throw new UnauthorizedError("Unauthorized access");
@@ -56,8 +56,9 @@ export function get<T>(
   endpoint: string,
   tags = [] as string[],
   headers = {},
+  bypass?: boolean
 ): Promise<T> {
-  return request<T>("GET", endpoint, { headers, tags });
+  return request<T>("GET", endpoint, { headers, tags, bypass });
 }
 
 export function post<T>(
@@ -93,6 +94,7 @@ export function getSsr<T>(
   endpoint: string,
   tags = [] as string[],
   headers = {},
+  bypass?: boolean
 ): Promise<T> {
-  return request<T>("GET", endpoint, { headers, tags, ssr: true });
+  return request<T>("GET", endpoint, { headers, tags, ssr: true, bypass });
 }

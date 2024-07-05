@@ -5,6 +5,7 @@ export interface ApiConfig {
   body?: Record<string, any>;
   headers?: Record<string, string>;
   ssr?: boolean;
+  bypass?: boolean;
 }
 
 export interface ApiParams {
