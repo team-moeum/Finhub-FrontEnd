@@ -8,6 +8,7 @@ import { recentSearchState } from "@/states/client/atoms/recentSearch";
 import { useDeleteRecentSearchState } from "../hooks/useRecentSearch";
 
 import CloseIcon from '@/public/icons/icon_close_gray.svg';
+import { useMounted } from "@/hooks/useMounted";
 
 type RecentItemProps = {
   name: string;
@@ -30,6 +31,7 @@ type RecentSearchProps = {
   onItemSelect: (value: string) => void
 }
 export default function RecentSearch({ onItemSelect }: RecentSearchProps) {
+  const isMount = useMounted();
   const recentSearchList = useRecoilValue(recentSearchState);
   const deleteRecentKeyword = useDeleteRecentSearchState();
 
@@ -45,7 +47,7 @@ export default function RecentSearch({ onItemSelect }: RecentSearchProps) {
   return (
     <div className={style.container}>
       <div className={style.recent_box}>
-        {!isEmpty(recentSearchList) &&
+        {isMount && !isEmpty(recentSearchList) &&
           <div className={style.recent_list}>
             {recentSearchList.map((v, i) => (
               <RecentItem

@@ -1,5 +1,5 @@
 import { recoilPersist } from "recoil-persist";
-import { AtomEffect, atom, selector, useSetRecoilState } from "recoil";
+import { AtomEffect, atom } from "recoil";
 import { ssrCompletedState } from "./user";
 
 
