@@ -64,8 +64,7 @@ export const CallNativeTestPage = () => {
           onClick={() => {
             jsToNative(
               {
-                val1: "getRemoteConfig",
-                val2: "android_version"
+                val1: "getRemoteConfig"
               },
               (data: any) => {
                 setTest(data.detail);
