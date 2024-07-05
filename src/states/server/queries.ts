@@ -196,7 +196,6 @@ export const usePopularKeywordList = () => useBaseSuspenseQuery<{ date: string, 
 export const useGptColumnDetail = (columnId: number) => useBaseSuspenseQuery<gptColumnDetail>(queryOptions.gptColumnDetail(columnId));
 export const useMyScrap = (type: MyScrapRequest) => useBaseSuspenseQuery<MyTopicScarp[] | MyColumnScarp[]>(queryOptions.myScrap(type));
 export const useReportReasons = () => useBaseSuspenseQuery<CommentReportReason[]>(queryOptions.reportReasons());
-
 export const useQuizCalendar = (year: string, month: string) => useBaseSuspenseQuery<QuizCalenderResponse>(queryOptions.quizCalendar(year, month))
 export const useQuiz = (date?: string) => useBaseSuspenseQuery<QuizInfo>(queryOptions.quiz(date));
 export const useMissedQuiz = (date?: string, limit?: number) => useBaseSuspenseQuery<MissedQuiz>(queryOptions.missedQuiz(date, limit));
