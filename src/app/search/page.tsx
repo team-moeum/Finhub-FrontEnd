@@ -6,6 +6,8 @@ import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query
 import { getSsrPopularKeywordList } from "@/states/server/Search/getPopularKeywordList";
 import { queryKeys } from "@/states/server/queries";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Search",
 };

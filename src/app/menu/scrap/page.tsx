@@ -5,6 +5,8 @@ import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query
 import { queryKeys } from "@/states/server/queries";
 import { getSsrMyScrap } from "@/states/server/Menu/getMyScrap";
 
+export const dynamic = "force-dynamic";
+
 export default async function ScrapPage() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({

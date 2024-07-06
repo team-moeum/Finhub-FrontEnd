@@ -3,6 +3,8 @@ import { UserPageScreen } from "./_component/UserPageScreen";
 import { queryKeys } from "@/states/server/queries";
 import { getSsrUserAvatarList } from "@/states/server/Menu/getUserAvatarList";
 
+export const dynamic = "force-dynamic";
+
 export default async function UserPage() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
