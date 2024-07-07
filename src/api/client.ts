@@ -6,6 +6,7 @@ import {
   UnauthorizedError,
 } from "./error";
 import { getToken } from "@/utils/authToken";
+import { authAPI } from "./auth";
 
 export async function request<T>(
   method: ApiMethods,
@@ -14,25 +15,40 @@ export async function request<T>(
 ): Promise<T> {
   const url = `${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`
 
-  const tokens = getToken(config.ssr);
-
-  const options: RequestInit = {
-    method: method,
-    next: {
-      tags: config.tags,
-    },
-    headers: new Headers({
-      "Content-Type": "application/json",
-      finhub: `${process.env.NEXT_PUBLIC_API_KEY}`,
-      Authorization: `Bearer ${tokens.accessToken}`,
-      refreshToken: `${tokens.refreshToken}`,
-      ...config.headers,
-    }),
-    body: method !== "GET" ? JSON.stringify(config.body) : null,
-  };
+  async function makeRequest(tokens: {accessToken?: string | null, refreshToken?: string | null}) {
+    const options: RequestInit = {
+      method: method,
+      next: {
+        tags: config.tags,
+      },
+      headers: new Headers({
+        "Content-Type": "application/json",
+        finhub: `${process.env.NEXT_PUBLIC_API_KEY}`,
+        Authorization: `Bearer ${tokens.accessToken || ""}`,
+        refreshToken: `${tokens.refreshToken || ""}`,
+        ...config.headers,
+      }),
+      body: method !== "GET" ? JSON.stringify(config.body) : null,
+    };
+    
+    return fetch(url, options);
+  }
 
   try {
-    const response = await fetch(url, options);
+    let tokens = getToken(config.ssr);
+    let response = await makeRequest(tokens);
+
+    /** refreshAccessToken and Refetch */
+    if (response.status === 403) {
+      await authAPI.refreshAccessToken();
+      tokens = getToken(config.ssr);
+      response = await makeRequest(tokens);
+
+      if (response.ok) {
+        return (await response.json()) as T;
+      }
+    }
+
     if (!response.ok) {
       if (config.bypass) {
         try {
@@ -51,6 +67,7 @@ export async function request<T>(
           throw new ApiError(response.status, "An error occurred");
       }
     }
+
     return (await response.json()) as T;
   } catch (error) {
     if (error instanceof Response) {

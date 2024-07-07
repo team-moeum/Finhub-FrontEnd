@@ -1,10 +1,6 @@
-"use client";
-
-import { useResetRecoilState } from "recoil";
 import { ApiResponse } from "@/api/type";
-import { userState } from "@/states/client/atoms/user";
-import { get, post } from "./client";
-import { deleteToken, setToken } from "@/utils/authToken";
+import { get } from "./client";
+import { deleteToken, setAccessToken, setToken } from "@/utils/authToken";
 
 const loginWithKakao = async (kakaoCode: string | null) => {
   const response: ApiResponse = await get(
@@ -19,26 +15,19 @@ const loginWithKakao = async (kakaoCode: string | null) => {
   return response;
 };
 
-/* 수정 필요 */
-// const autoLogin = async () => {
-//   const response: ApiResponse = await post("/api/v1/auth/autoLogin", {
-//     token: "fcm",
-//   });
+const refreshAccessToken = async () => {
+  const response: ApiResponse = await get(
+    `/api/v1/auth/updateAccessToken`
+  );
 
-//   return response;
-// };
+  if (response.status === "FAIL") {
+    return deleteToken();
+  }
 
-//await fetch("/api/auth/logout", { method: "GET" });
-const useLogout = () => {
-  const resetUserInfo = useResetRecoilState(userState);
-
-  return () => {
-    deleteToken();
-    resetUserInfo();
-  };
-};
+  setAccessToken(response.data.token);
+}
 
 export const authAPI = {
   loginWithKakao,
-  useLogout,
+  refreshAccessToken
 };

@@ -1,5 +1,7 @@
 "use server";
 
+import { post } from "@/api/client";
+import { ApiResponse } from "@/api/type";
 import { WEEK_TIME } from "@/configs/date";
 import { TokenKeys } from "@/configs/enum";
 import { AuthToken } from "@/model/AuthToken";
@@ -10,6 +12,7 @@ export const isUserLoginSsr = () => {
   if (cookieStore.get("access-token")) return true;
   return false;
 };
+
 export const getToken = () => {
   const cookieStore = cookies();
   const accessToken = cookieStore.get("access-token")?.value;
@@ -37,6 +40,24 @@ export const setToken = (tokens: AuthToken) => {
     httpOnly: true,
   });
   cookies().set(TokenKeys.REFRESH_TOKEN, tokens.refreshToken ?? "", {
+    maxAge: WEEK_TIME * 2,
+    secure: true,
+    httpOnly: true,
+  });
+};
+
+export const autoLogin = async (fcmToken: string) => {
+  const response: ApiResponse = await post(
+    "/api/v1/auth/autoLogin",
+    ["autoLogin"],
+    {token: fcmToken}
+  );
+
+  return response;
+};
+
+export const setAccessToken = (at: string) => {
+  cookies().set(TokenKeys.ACCESS_TOKEN, at ?? "", {
     maxAge: WEEK_TIME * 2,
     secure: true,
     httpOnly: true,
