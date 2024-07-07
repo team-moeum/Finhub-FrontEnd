@@ -19,10 +19,16 @@ import { useScrap } from "@/states/server/mutations";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { ScrapToast } from "@/components/Toast/ScrapToast";
+import { LoginSlide } from "../Catergory/LoginSlide";
+import { useModal } from "@/hooks/useModal";
+import { isLoggedIn } from "@/utils/auth_client";
 
 type Props = { categoryId: number; topicId: number };
 export default function PostScreen({ categoryId, topicId }: Props) {
+  const isLogin = isLoggedIn();
+
   const { showToast } = useToast();
+  const LoginModal = useModal();
   
   const {
     data: { title, summary, definition, img_path, scrapped },
@@ -62,6 +68,7 @@ export default function PostScreen({ categoryId, topicId }: Props) {
   }, [scrapped]);
 
   const handleScrapClick = () => {
+    if (!isLogin) return LoginModal.open();
     scrapMutation.mutate({id: topicId, type: 1});
   };
 
@@ -131,6 +138,7 @@ export default function PostScreen({ categoryId, topicId }: Props) {
           </LinkButton>
         }
       </div>
+      <LoginSlide show={LoginModal.show} onClose={LoginModal.close} />
     </>
   );
 }

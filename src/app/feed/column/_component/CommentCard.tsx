@@ -22,6 +22,8 @@ import LikeIconGray from '@/public/column/thumb_icon_gray.svg';
 import LikeIconGreenOn from '@/public/column/thumb_icon_green_on.svg';
 import CommentEditIcon from '@/public/column/comment_edit_icon.svg';
 import CommentBanToastIcon from '@/public/column/comment_toast_ban_icon.svg';
+import { LoginSlide } from "@/app/_component/Catergory/LoginSlide";
+import { isLoggedIn } from "@/utils/auth_client";
 
 type CommentCardProps = {
   id: number;
@@ -36,6 +38,7 @@ export const CommentCard = ({
   comment,
   refetch
 }: CommentCardProps) => {
+  const isLogin = isLoggedIn();
   const [like, setLike] = useState(false);
   const [totalLikeCnt, setTotalLikeCnt] = useState<number>(0);
   const setComment = useSetRecoilState(gptColumnCommentState);
@@ -44,6 +47,7 @@ export const CommentCard = ({
   const BanCommentSheetModal = useModal();
   const DeleteCommentPopupModal = useModal();
   const BanCommentPopupModal = useModal();
+  const LoginModal = useModal();
 
   const { showToast } = useToast();
 
@@ -108,11 +112,13 @@ export const CommentCard = ({
   }, [comment.like])
 
   const handleCommentClick = () => {
+    if (!isLogin) return LoginModal.open();
     if (comment.userComment) return;
     commentLikeMutation.mutate({ id: comment.id, type: COLUMN_LIKE_TYPE.comment });
   }
 
   const handleEditClick = () => {
+    if (!isLogin) return LoginModal.open();
     if (isMine) return handleEditSheetModalOpen();
     return BanCommentSheetModal.open();
   }
@@ -184,6 +190,7 @@ export const CommentCard = ({
       <BanCommentSheet show={BanCommentSheetModal.show} columnId={comment.id} commentId={comment.id} onClose={BanCommentSheetModal.close} onBanClick={handleBanPopupOpen} />
       <DeleteCommentPopup show={DeleteCommentPopupModal.show} onCancel={DeleteCommentPopupModal.close} onDelete={handleDeleteComment} />
       <BanCommentPopup show={BanCommentPopupModal.show} name={comment.nickname} onCancel={BanCommentPopupModal.close} onBan={handleBanUser} />
+      <LoginSlide show={LoginModal.show} onClose={LoginModal.close} />
     </>
   )
 }

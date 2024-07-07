@@ -70,7 +70,7 @@ const QuizCalendar = () => {
 
   const getQuizListWithEmoji = (date: Date) => {
     const formattedDate = moment(date).format("YYYY-MM-DD");
-    if (quizCalendarData.quizData) {
+    if (quizCalendarData?.quizData) {
       const solvedYn = quizCalendarData.quizData.find(quiz => quiz.date === formattedDate)?.solvedYn;
       if (solvedYn === "Y") return selectedButton;
       else return null;
