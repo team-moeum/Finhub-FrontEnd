@@ -1,22 +1,21 @@
-import { fetchApi } from "@/api/fetchApi";
 import { queryKeys } from "../queries";
 import { ApiResponse } from "@/api/type";
+import { get, getSsr } from "@/api/client";
 
-export const getNextTopic = async (categoryId: number, topicId: number, ssr?:boolean) => {
-  const response: ApiResponse = await fetchApi({
-    method: "GET",
-    path: `/api/v1/main/nextTopic/${categoryId}/${topicId}`,
-    tags: queryKeys.nextTopic(categoryId, topicId),
-    ssr
-  });
+export const getNextTopic = async (categoryId: number, topicId: number) => {
+  const response: ApiResponse = await get(
+    `/api/v1/main/nextTopic/${categoryId}/${topicId}`,
+    queryKeys.nextTopic(categoryId, topicId),
+  );
 
-  if (response.status === "FAIL") {
-    return {
-      id: 0,
-      title: "",
-      img_path: ""
-    };
-  }
+  return response.data?.nextTopic;
+}
 
+export const getSsrNextTopic = async (categoryId: number, topicId: number) => {
+  const response: ApiResponse = await getSsr(
+    `/api/v1/main/nextTopic/${categoryId}/${topicId}`,
+    queryKeys.nextTopic(categoryId, topicId),
+  );
+  
   return response.data?.nextTopic;
 }

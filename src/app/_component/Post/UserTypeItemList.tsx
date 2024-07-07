@@ -38,6 +38,7 @@ const UserTypeItem = forwardRef<HTMLLabelElement, UserTypeItemProps>(({ id, name
             alt="user type avatar image"
             width={48}
             height={48}
+            priority
           />
         </div>
         <p>{name}</p>

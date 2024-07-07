@@ -5,9 +5,9 @@ import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query
 import Loading from "@/app/loading";
 import PostScreen from "@/app/_component/Post/PostScreen";
 import { queryKeys } from "@/states/server/queries";
-import { getUserTypeList } from "@/states/server/List/getUserTypeList";
-import { getTopicInfo } from "@/states/server/List/getTopicInfo";
-import { getNextTopic } from "@/states/server/Home/getNextTopic";
+import { getSsrUserTypeList } from "@/states/server/List/getUserTypeList";
+import { getSsrTopicInfo } from "@/states/server/List/getTopicInfo";
+import { getSsrNextTopic } from "@/states/server/Home/getNextTopic";
 
 export const metadata: Metadata = {
   title: "Post",
@@ -17,15 +17,15 @@ export default async function PostPage({ params }: { params: { category: string,
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: queryKeys.userTypeList,
-    queryFn: () => getUserTypeList(true), // ssr true
+    queryFn: () => getSsrUserTypeList(),
   });
   await queryClient.prefetchQuery({
     queryKey: queryKeys.topicInfo(Number(params.topicId)),
-    queryFn: () => getTopicInfo(Number(params.topicId), true),
+    queryFn: () => getSsrTopicInfo(Number(params.topicId)),
   });
   await queryClient.prefetchQuery({
     queryKey: queryKeys.nextTopic(Number(params.category), Number(params.topicId)),
-    queryFn: () => getNextTopic(Number(params.category), Number(params.topicId), true), 
+    queryFn: () => getSsrNextTopic(Number(params.category), Number(params.topicId)), 
   });
   const dehydratedState = dehydrate(queryClient);
 

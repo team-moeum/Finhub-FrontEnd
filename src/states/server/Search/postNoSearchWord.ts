@@ -1,6 +1,6 @@
-import { fetchApi } from "@/api/fetchApi";
 import { ApiResponse } from "@/api/type";
 import { mutationKeys } from "../mutations";
+import { post } from "@/api/client";
 
 /**
  * 없는 단어 요청 API
@@ -10,16 +10,11 @@ import { mutationKeys } from "../mutations";
  * 실패 시: { status: "FAIL", errorMsg: "" }
  */
 export const postNoSearchWord = async (param: any) => {
-  const response: ApiResponse = await fetchApi({
-    method: "POST",
-    path: `/api/v1/main/search/keyword`,
-    tags: mutationKeys.updateNoSearchWord,
-    body: param
-  });
-
-  if (response.status === "FAIL") {
-    throw new Error(`Failed post NoSearchWord: ${response.errorMsg}`);
-  }
+  const response: ApiResponse = await post(
+    `/api/v1/main/search/keyword`,
+    mutationKeys.updateNoSearchWord,
+    param
+  );
 
   return response;
 }

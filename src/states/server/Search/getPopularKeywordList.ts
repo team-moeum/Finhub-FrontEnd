@@ -1,6 +1,6 @@
-import { fetchApi } from "@/api/fetchApi";
 import { queryKeys } from "../queries";
 import { ApiResponse } from "@/api/type";
+import { get, getSsr } from "@/api/client";
 
 /**
  * 인기 검색어 날짜, 목록 API
@@ -8,17 +8,20 @@ import { ApiResponse } from "@/api/type";
  * @returns {PopularKeyword[]} popularSearchList
  */
 
-export const getPopularKeywordList = async (ssr?:boolean) => {
-  const response: ApiResponse = await fetchApi({
-    method: "GET",
-    path: `/api/v1/main/popularKeyword`,
-    tags: queryKeys.popularKeywordList,
-    ssr
-  });
+export const getPopularKeywordList = async () => {
+  const response: ApiResponse = await get(
+    `/api/v1/main/popularKeyword`,
+    queryKeys.popularKeywordList,
+  );
 
-  if (response.status === "FAIL") {
-    return {date: "", popularSearchList: []};
-  }
+  return response.data;
+}
+
+export const getSsrPopularKeywordList = async () => {
+  const response: ApiResponse = await getSsr(
+    `/api/v1/main/popularKeyword`,
+    queryKeys.popularKeywordList,
+  );
 
   return response.data;
 }

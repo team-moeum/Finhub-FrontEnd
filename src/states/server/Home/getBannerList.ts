@@ -1,18 +1,21 @@
-import { fetchApi } from "@/api/fetchApi";
 import { queryKeys } from "../queries";
 import { ApiResponse } from "@/api/type";
+import { get, getSsr } from "@/api/client";
 
-export const getBannerList = async(ssr?: boolean) => {
-  const response: ApiResponse = await fetchApi({
-    method: "GET",
-    path: `/api/v1/main/home/banner`,
-    tags: queryKeys.banner,
-    ssr
-  });
+export const getBannerList = async() => {
+  const response: ApiResponse = await get(
+    `/api/v1/main/home/banner`,
+    queryKeys.category
+  );
 
-  if (response.status === "FAIL") {
-    return [];
-  }
+  return response.data?.bannerList;
+}
+
+export const getSsrBannerList = async() => {
+  const response: ApiResponse = await getSsr(
+    `/api/v1/main/home/banner`,
+    queryKeys.category
+  );
 
   return response.data?.bannerList;
 }

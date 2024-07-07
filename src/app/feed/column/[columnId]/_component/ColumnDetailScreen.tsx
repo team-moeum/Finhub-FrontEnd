@@ -30,8 +30,12 @@ import LikeIconGray from '@/public/column/thumb_icon_gray.svg';
 import ShareIcon from '@/public/icons/icon_share_white.svg';
 import ScrapIcon from '@/public/icons/Icon_scrap_white.svg';
 import ScrapOnIcon from '@/public/icons/scrap_icon_on.svg';
+import { isLoggedIn } from "@/utils/auth_client";
+import { useModal } from "@/hooks/useModal";
+import { LoginSlide } from "@/app/_component/Catergory/LoginSlide";
 
 export const ColumnDetailScreen = () => {
+  const isLogin = isLoggedIn();
   const columnId = Number(useParams().columnId);
 
   const [isLiked, setIsLiked] = useState(false);
@@ -42,6 +46,7 @@ export const ColumnDetailScreen = () => {
   const { data: userInfo } = useUserInfo();
 
   const { showToast } = useToast();
+  const LoginModal = useModal();
   const { ref, isIntersecting: showOpinionBox } = useIntersectionObserver({ threshold: 0.2 });
 
   const queryClient = useQueryClient();
@@ -88,10 +93,12 @@ export const ColumnDetailScreen = () => {
   }, [gptColumnDetail.scrapped, gptColumnDetail.liked, gptColumnDetail.totalLike])
 
   const handleScrapClick = () => {
+    if (!isLogin) return LoginModal.open();
     columnScrapMutation.mutate({ id: columnId, type: SCRAP_TYPE.column })
   }
 
   const handleColumnClick = () => {
+    if (!isLogin) return LoginModal.open();
     columnLikeMutation.mutate({ id: columnId, type: COLUMN_LIKE_TYPE.column });
   }
 
@@ -186,7 +193,9 @@ export const ColumnDetailScreen = () => {
         <ColumnComment columnId={columnId} pageType='columnDetail' />
       </Box>
 
-      {showOpinionBox && <OpinionBox columnId={columnId} imgSrc={userInfo?.avatarUrl} />}
+      {showOpinionBox && isLogin && <OpinionBox columnId={columnId} imgSrc={userInfo?.avatarUrl} />}
+
+      <LoginSlide show={LoginModal.show} onClose={LoginModal.close} />
 
     </AppContainer>
   )

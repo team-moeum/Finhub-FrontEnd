@@ -1,5 +1,6 @@
+"use client";
+
 import style from './InputResultArticleList.module.css'
-import Link from 'next/link';
 
 import Loading from '@/app/loading';
 import { SearchResult } from '@/model/SearchTopic';

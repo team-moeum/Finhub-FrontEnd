@@ -1,7 +1,6 @@
-import { fetchApi } from "@/api/fetchApi";
 import { queryKeys } from "../queries";
 import { ApiResponse } from "@/api/type";
-import { SearchPageInfo, SearchResult } from "@/model/SearchTopic";
+import { get } from "@/api/client";
 
 /**
  * Topic 검색 API
@@ -14,21 +13,18 @@ import { SearchPageInfo, SearchResult } from "@/model/SearchTopic";
  */
 
 export const getSearchTopic = async (
-    type: "title" | "summary" | "both",
-    keyword: string,
-    page: number,
-    ssr?: boolean
+  type: "title" | "summary" | "both",
+  keyword: string,
+  page: number,
 ) => {
-    const response: ApiResponse = await fetchApi({
-        method: "GET",
-        path: `/api/v1/main/search/topic/${type}?keyword=${keyword}&page=${page}`,
-        tags: queryKeys.popularKeywordList,
-        ssr
-    });
+  const response: ApiResponse = await get(
+    `/api/v1/main/search/topic/${type}?keyword=${keyword}&page=${page}`,
+    queryKeys.popularKeywordList,
+  );
 
-    if (response.status === "FAIL") {
-        return { result: [], pageInfo: {currentPage: 0, totalPages: 0, totalResults: 0} };
-    }
+  if (response.status === "FAIL") {
+    return { result: [], pageInfo: { currentPage: 0, totalPages: 0, totalResults: 0 } };
+  }
 
-    return response.data;
+  return response.data;
 }

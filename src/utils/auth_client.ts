@@ -34,3 +34,6 @@ export function deleteToken(): void {
 export function isLoggedIn(): boolean {
   return storageAPI.get(TokenKeys.ACCESS_TOKEN) !== null;
 }
+export function setAccessToken(at: string): void {
+  storageAPI.set(TokenKeys.ACCESS_TOKEN, at ?? "");
+}

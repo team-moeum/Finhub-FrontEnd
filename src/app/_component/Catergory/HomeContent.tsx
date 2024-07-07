@@ -20,17 +20,18 @@ import TopicList from "./TopicList";
 import CategoryItemList from "./CatergoryItemList";
 import LoginModalContent from './LoginModalContent';
 import { Category } from '@/model/Category';
+import { useCategory } from '@/states/server/queries';
 
-type HomeContentProps = {
-  initCategory?: Category;
-}
-export default function HomeContent({initCategory}: HomeContentProps) {
+
+export default function HomeContent() {
   const [activeItem, setActiveItem] = useRecoilState(activeCategory);
   const [activeLogin, setActiveLogin] = useRecoilState(activeLoginModal);
+  
+  const { data: categoryList } = useCategory();
 
   useEffect(() => {
-    if (initCategory) setActiveItem(initCategory);
-  }, [initCategory])
+    if (categoryList.length > 0) setActiveItem(categoryList[0]);
+  }, [categoryList])
 
   return (
     <Container variant='full'>

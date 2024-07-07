@@ -3,9 +3,7 @@
 import style from './TopicList.module.css';
 import ScrapIcon from "@/assets/Icons";
 
-import Link from "next/link";
-import { useRouter } from 'next/navigation';
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import React, { Fragment, useState } from "react";
 
 import { Topic } from "@/model/Topic";
@@ -15,11 +13,8 @@ import { useScrap } from '@/states/server/mutations';
 import { ScrapToast } from "@/components/Toast/ScrapToast";
 import { queryKeys, useTopicList } from "@/states/server/queries";
 import { activeCategory } from "@/states/client/atoms/activeCategory";
-import { AnimatePresence } from "framer-motion";
 import { activeLoginModal } from "@/states/client/atoms/activeLoginModal";
-import ToastPortal from "@/components/Toast/ToastPortal";
 import { useQueryClient } from '@tanstack/react-query';
-import { userState } from '@/states/client/atoms/user';
 import { useIsLoginCsr } from '@/utils/auth_client';
 import { LinkButton } from '../../../components/LinkButton/LinkButton';
 
@@ -86,7 +81,7 @@ export default function TopicList({activeItem}:Props) {
   return (
     <Fragment>
       <div className={style.topic_list}>
-        {topicList.map(item => (
+        {topicList && topicList.map(item => (
           <TopicItem 
             key={`${item.categoryName}_${item.topicId}_${item.scrapped}`}
             data={item}

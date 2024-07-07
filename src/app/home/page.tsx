@@ -10,9 +10,9 @@ import HomeContent from "../_component/Catergory/HomeContent";
 import CategoryCard from "../_component/Catergory/CategoryCard";
 
 import { queryKeys } from "@/states/server/queries";
-import { getCategory } from "@/states/server/Home/getCategory";
-import { getTopicList } from "@/states/server/Home/getTopicList";
-import { getBannerList } from "@/states/server/Home/getBannerList";
+import { getSsrCategory } from "@/states/server/Home/getCategory";
+import { getSsrTopicList } from "@/states/server/Home/getTopicList";
+import { getSsrBannerList } from "@/states/server/Home/getBannerList";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import { Category } from "@/model/Category";
 
@@ -20,19 +20,19 @@ export default async function Home() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: queryKeys.category,
-    queryFn: () => getCategory(true), // ssr true
+    queryFn: () => getSsrCategory(),
   });
 
   await queryClient.prefetchQuery({
     queryKey: queryKeys.banner,
-    queryFn: () => getBannerList(true),
+    queryFn: () => getSsrBannerList(),
   });
 
   const firstCategory = queryClient.getQueryData(queryKeys.category) as Category[];
   const firstCategoryId = firstCategory ? firstCategory[0]?.categoryId : -1;
   await queryClient.prefetchQuery({
     queryKey: queryKeys.topicList(firstCategoryId),
-    queryFn: () => getTopicList(firstCategoryId, true),
+    queryFn: () => getSsrTopicList(firstCategoryId),
   });
 
   const dehydratedState = dehydrate(queryClient);
@@ -55,7 +55,7 @@ export default async function Home() {
         <Box mt={26} mb={32}>
           <HydrationBoundary state={dehydratedState}>
             <CategoryCard />
-            <HomeContent initCategory={firstCategory ? firstCategory[0] : {categoryId: -1, name: ""}}/>
+            <HomeContent />
           </HydrationBoundary>
         </Box>
       </Container>

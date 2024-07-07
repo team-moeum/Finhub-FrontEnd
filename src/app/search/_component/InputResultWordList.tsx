@@ -1,3 +1,5 @@
+"use client";
+
 import style from './InputResultWordList.module.css'
 import Link from 'next/link';
 

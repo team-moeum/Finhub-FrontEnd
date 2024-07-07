@@ -1,6 +1,6 @@
-import { fetchApi } from "@/api/fetchApi";
 import { ApiResponse } from "@/api/type";
 import { mutationKeys } from "../../mutations";
+import { post } from "@/api/client";
 
 /**
  * 컬럼 댓글 사용자 차단 API
@@ -8,12 +8,11 @@ import { mutationKeys } from "../../mutations";
  * 성공 시: { status: "SUCCESS" }
  */
 export const postBanGptColumnComment = async (memberId: number) => {
-  const response: ApiResponse = await fetchApi({
-    method: "POST",
-    path: `/api/v1/main/column/block`,
-    tags: mutationKeys.banGptColumnComment,
-    body: {memberId}
-  });
+  const response: ApiResponse = await post(
+    `/api/v1/main/column/block`,
+    mutationKeys.banGptColumnComment,
+    { memberId }
+  );
 
   return response;
 }

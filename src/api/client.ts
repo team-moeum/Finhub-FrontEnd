@@ -1,4 +1,3 @@
-import { getToken } from "@/utils/authToken";
 import { ApiMethods, ApiConfig } from "./type";
 import {
   ApiError,
@@ -6,33 +5,59 @@ import {
   InternetServerError,
   UnauthorizedError,
 } from "./error";
-import { isSSR } from "@/utils/isSSR";
+import { getToken } from "@/utils/authToken";
+import { authAPI } from "./auth";
 
 export async function request<T>(
   method: ApiMethods,
   endpoint: string,
-  config: ApiConfig = {}
+  config: ApiConfig = {ssr: false}
 ): Promise<T> {
-  const url = `${isSSR() ? process.env.NEXT_PUBLIC_BASE_URL : ""}${endpoint}`;
-  const tokens = getToken();
-  const options: RequestInit = {
-    method: method,
-    next: {
-      tags: config.tags,
-    },
-    headers: new Headers({
-      "Content-Type": "application/json",
-      finhub: `${process.env.NEXT_PUBLIC_API_KEY}`,
-      Authorization: `Bearer ${tokens.accessToken}`,
-      refreshToken: `${tokens.refreshToken}`,
-      ...config.headers,
-    }),
-    body: method !== "GET" ? JSON.stringify(config.body) : null,
-  };
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`
+
+  async function makeRequest(tokens: {accessToken?: string | null, refreshToken?: string | null}) {
+    const options: RequestInit = {
+      method: method,
+      next: {
+        tags: config.tags,
+      },
+      headers: new Headers({
+        "Content-Type": "application/json",
+        finhub: `${process.env.NEXT_PUBLIC_API_KEY}`,
+        Authorization: `Bearer ${tokens.accessToken || ""}`,
+        refreshToken: `${tokens.refreshToken || ""}`,
+        ...config.headers,
+      }),
+      body: method !== "GET" ? JSON.stringify(config.body) : null,
+    };
+    
+    return fetch(url, options);
+  }
 
   try {
-    const response = await fetch(url, options);
+    let tokens = getToken(config.ssr);
+    let response = await makeRequest(tokens);
+
+    /** refreshAccessToken and Refetch */
+    if (response.status === 403) {
+      await authAPI.refreshAccessToken();
+      tokens = getToken(config.ssr);
+      response = await makeRequest(tokens);
+
+      if (response.ok) {
+        return (await response.json()) as T;
+      }
+    }
+
     if (!response.ok) {
+      if (config.bypass) {
+        try {
+          return (await response.json()) as T;
+        } catch {
+          return { status: "FAIL"} as T;
+        }
+      }
+
       switch (response.status) {
         case 401:
           throw new UnauthorizedError("Unauthorized access");
@@ -42,6 +67,7 @@ export async function request<T>(
           throw new ApiError(response.status, "An error occurred");
       }
     }
+
     return (await response.json()) as T;
   } catch (error) {
     if (error instanceof Response) {
@@ -54,15 +80,16 @@ export async function request<T>(
 export function get<T>(
   endpoint: string,
   tags = [] as string[],
-  headers = {}
+  headers = {},
+  bypass?: boolean
 ): Promise<T> {
-  return request<T>("GET", endpoint, { headers, tags });
+  return request<T>("GET", endpoint, { headers, tags, bypass });
 }
 
 export function post<T>(
   endpoint: string,
-  body = {},
   tags = [] as string[],
+  body = {},
   headers = {}
 ): Promise<T> {
   return request<T>("POST", endpoint, { body, headers, tags });
@@ -70,8 +97,8 @@ export function post<T>(
 
 export function put<T>(
   endpoint: string,
-  body = {},
   tags = [] as string[],
+  body = {},
   headers = {}
 ): Promise<T> {
   return request<T>("PUT", endpoint, { body, headers, tags });
@@ -80,7 +107,20 @@ export function put<T>(
 export function remove<T>(
   endpoint: string,
   tags = [] as string[],
+  body = {},
   headers = {}
 ): Promise<T> {
-  return request<T>("DELETE", endpoint, { headers, tags });
+  return request<T>("DELETE", endpoint, { body, headers, tags });
+}
+
+/**
+ * ssr api request for prefetch
+ */
+export function getSsr<T>(
+  endpoint: string,
+  tags = [] as string[],
+  headers = {},
+  bypass?: boolean
+): Promise<T> {
+  return request<T>("GET", endpoint, { headers, tags, ssr: true, bypass });
 }

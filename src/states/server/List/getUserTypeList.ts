@@ -1,18 +1,21 @@
-import { fetchApi } from "@/api/fetchApi";
 import { queryKeys } from "../queries";
 import { ApiResponse } from "@/api/type";
+import { get, getSsr } from "@/api/client";
 
-export const getUserTypeList = async(ssr?: boolean) => {
-  const response: ApiResponse = await fetchApi({
-    method: "GET",
-    path: `/api/v1/main/usertypeList`,
-    tags: queryKeys.userTypeList,
-    ssr
-  });
+export const getUserTypeList = async() => {
+  const response: ApiResponse = await get(
+    `/api/v1/main/usertypeList`,
+    queryKeys.userTypeList,
+  );
 
-  if (response.status === "FAIL") {
-    return [];
-  }
+  return response.data?.usertypeList;
+}
+
+export const getSsrUserTypeList = async() => {
+  const response: ApiResponse = await getSsr(
+    `/api/v1/main/usertypeList`,
+    queryKeys.userTypeList,
+  );
 
   return response.data?.usertypeList;
 }

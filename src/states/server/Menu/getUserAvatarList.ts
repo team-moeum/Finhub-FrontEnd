@@ -1,18 +1,21 @@
-import { fetchApi } from "@/api/fetchApi";
 import { queryKeys } from "../queries";
 import { ApiResponse } from "@/api/type";
+import { get, getSsr } from "@/api/client";
 
-export const getUserAvatarList = async (ssr?:boolean) => {
-  const response: ApiResponse = await fetchApi({
-    method: "GET",
-    path: `/api/v1/main/menu/setting/avatar`,
-    tags: queryKeys.userAvatarList,
-    ssr
-  });
+export const getUserAvatarList = async () => {
+  const response: ApiResponse = await get(
+    `/api/v1/main/menu/setting/avatar`,
+    queryKeys.userAvatarList,
+  );
 
-  if (response.status === "FAIL") {
-    return [];
-  }
+  return response.data?.avatarList;
+}
+
+export const getSsrUserAvatarList = async () => {
+  const response: ApiResponse = await getSsr(
+    `/api/v1/main/menu/setting/avatar`,
+    queryKeys.userAvatarList,
+  );
 
   return response.data?.avatarList;
 }

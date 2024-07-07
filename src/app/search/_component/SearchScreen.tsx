@@ -19,7 +19,6 @@ import { useInput } from "../hooks/useInput";
 import { useSearch } from "../hooks/useSearch";
 import { SearchRequestType, SearchResult } from "@/model/SearchTopic";
 
-import FinhubLogoGrayIcon from '@/public/finhub_logo_gray.svg';
 import SearchGrayIcon from '@/public/icons/search_gray.svg';
 import SearchCloseIcon from '@/public/icons/search_close_icon.svg';
 import { AppContainer, Container } from "@/components/Container";
