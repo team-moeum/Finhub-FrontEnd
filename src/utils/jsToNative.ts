@@ -17,7 +17,7 @@ class FHEventBus {
     return id;
   }
   on(key: string, handler: EventHandler): () => void {
-    const eventListener = (e: CustomEvent) => handler(e.detail);
+    const eventListener = (e: CustomEvent) => handler(e);
     window.addEventListener(key, eventListener as EventListener);
     return () => this.off(key, eventListener as EventListener);
   }
@@ -37,6 +37,26 @@ class FHEventBus {
   }
 }
 
+export function isAndroid() {
+  if (!navigator) return false;
+
+  const userAgent = navigator.userAgent.toLowerCase();
+
+  return userAgent.match("android");
+}
+
+export function isIos() {
+  if (!navigator) return false;
+
+  const userAgent = navigator.userAgent.toLowerCase();
+
+  return (
+    userAgent.match("iphone") ||
+    userAgent.match("ipad") ||
+    userAgent.match("ipod")
+  );
+}
+
 export function jsToNative(
   {
     val1,
@@ -52,13 +72,7 @@ export function jsToNative(
   const callbackId = FHEventBus.generateUniqueId("callback_");
   eventBus.once(callbackId, callback);
 
-  const userAgent = navigator.userAgent.toLowerCase();
-
-  if (
-    userAgent.match("iphone") ||
-    userAgent.match("ipad") ||
-    userAgent.match("ipod")
-  ) {
+  if (isIos()) {
     //아이폰
     if (val1 && val1.match("\t")) {
       val1 = encodeURIComponent(val1);
@@ -84,7 +98,7 @@ export function jsToNative(
         })
       );
     }
-  } else if (userAgent.match("android")) {
+  } else if (isAndroid()) {
     //안드로이드
     window.Bridge.jsToNative(
       JSON.stringify({
