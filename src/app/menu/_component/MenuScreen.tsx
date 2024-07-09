@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { jsToNative } from "@/utils/jsToNative";
+import { isAndroid, isIos, jsToNative } from "@/utils/jsToNative";
 import { useIsLoginCsr } from "@/utils/auth_client";
 
 import LoginBox from "@/app/_component/Menu/LoginBox";
 import MenuCard from "@/app/_component/Menu/MenuCard";
 import LogOutButton from "./LogOutButton";
-import { AppContainer, Container } from '@/components/Container';
-import { Box } from '@/components/Box';
-import { Text } from '@/components/Text';
-
+import { AppContainer, Container } from "@/components/Container";
+import { Box } from "@/components/Box";
+import { Text } from "@/components/Text";
 
 export default function MenuPage() {
   const isLogin = useIsLoginCsr();
@@ -21,8 +20,18 @@ export default function MenuPage() {
     jsToNative({ val1: "appVersion" }, (data: any) => {
       setCurrentVersion(data.detail);
     });
-    // TODO
-    setRecentVersion("1.0.0");
+    jsToNative({ val1: "getRemoteConfig" }, (data: any) => {
+      if (!data.detail) return;
+
+      const { result, config } = JSON.parse(data.detail);
+      if (result !== "success") return;
+
+      if (isAndroid()) {
+        setRecentVersion(config.android_version);
+      } else if (isIos()) {
+        setRecentVersion(config.ios_version);
+      }
+    });
   }, []);
 
   return (
@@ -35,14 +44,14 @@ export default function MenuPage() {
         {isLogin && <MenuCard href="/menu/alarm">알림</MenuCard>}
       </Container>
 
-      <Container variant='thick'>
+      <Container variant="thick">
         <Box>
-          <Text size={16} weight={400} color='#A6ABAF'>버전 현재 {currentVersion} / 최신 {recentVersion}</Text>
+          <Text size={16} weight={400} color="#A6ABAF">
+            버전 현재 {currentVersion} / 최신 {recentVersion}
+          </Text>
         </Box>
 
-        <Box mt={20}>
-          {isLogin && <LogOutButton />}
-        </Box>
+        <Box mt={20}>{isLogin && <LogOutButton />}</Box>
       </Container>
     </AppContainer>
   );
