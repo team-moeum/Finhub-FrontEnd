@@ -17,7 +17,7 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import RefreshIcon from '@/public/column/refresh_icon.svg';
 import SpeechBubbleIcon from '@/public/column/speech_bubble_icon.svg';
 
-const TAB_NUMBER = {
+export const TAB_NUMBER = {
   popular: 1,
   recent: 2
 } as const;

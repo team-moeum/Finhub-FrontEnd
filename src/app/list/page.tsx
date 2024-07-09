@@ -3,21 +3,28 @@ import style from './List.module.css';
 import ListContent from '../home/_component/ListContent';
 
 import { queryKeys } from '@/states/server/queries';
-import { getCategory } from '@/states/server/Home/getCategory';
-import { getTotalList } from '@/states/server/List/getTotalList';
+import { getSsrCategory } from '@/states/server/Home/getCategory';
+import { getSsrTotalList } from '@/states/server/List/getTotalList';
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
+import { Category } from '@/model/Category';
 
 export default async function ListPage({searchParams}: {searchParams: {categoryId: string}}) {
-  const categoryId = searchParams.categoryId ? Number(searchParams.categoryId) : 1;
   const queryClient = new QueryClient();
+
   await queryClient.prefetchQuery({
     queryKey: queryKeys.category,
-    queryFn: () => getCategory(true)
+    queryFn: () => getSsrCategory()
   });
+
+  const firstCategory = queryClient.getQueryData(queryKeys.category) as Category[];
+  const firstCategoryId = firstCategory ? firstCategory[0]?.categoryId : -1;
+  const categoryId = searchParams.categoryId ? Number(searchParams.categoryId) : firstCategoryId;
+
   await queryClient.prefetchQuery({
-    queryKey: queryKeys.totalList(1),
-    queryFn: () => getTotalList(1, true)
+    queryKey: queryKeys.totalList(categoryId),
+    queryFn: () => getSsrTotalList(categoryId)
   });
+
   const dehydratedState = dehydrate(queryClient);
   
   return (

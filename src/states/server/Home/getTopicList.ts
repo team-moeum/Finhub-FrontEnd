@@ -1,18 +1,23 @@
-import { fetchApi } from "@/api/fetchApi";
 import { queryKeys } from "../queries";
 import { ApiResponse } from "@/api/type";
+import { get, getSsr } from "@/api/client";
 
-export const getTopicList = async (categoryId: number, ssr?:boolean) => {
-  const response: ApiResponse = await fetchApi({
-    method: "GET",
-    path: `/api/v1/main/home/topicList?categoryId=${categoryId}`,
-    tags: queryKeys.topicList(categoryId),
-    ssr
-  });
+export const getTopicList = async (categoryId: number) => {
+  if (categoryId < 0) return null;
+  
+  const response: ApiResponse = await get(
+    `/api/v1/main/home/topicList?categoryId=${categoryId}`,
+    queryKeys.category,
+  );
+  
+  return response.data?.topicList;
+}
 
-  if (response.status === "FAIL") {
-    return [];
-  }
-
+export const getSsrTopicList = async (categoryId: number) => {
+  const response: ApiResponse = await getSsr(
+    `/api/v1/main/home/topicList?categoryId=${categoryId}`,
+    queryKeys.category,
+  );
+  
   return response.data?.topicList;
 }

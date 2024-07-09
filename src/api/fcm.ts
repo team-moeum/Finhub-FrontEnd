@@ -1,13 +1,14 @@
 "use client";
 
-import { fetchApi } from "./fetchApi";
+import { post } from "./client";
+
 
 const updateFcmToken = async (token: string) => {
-  fetchApi({
-    method: "POST",
-    path: "/api/v1/main/fcm-token",
-    body: { token },
-  });
+  post(
+    "/api/v1/main/fcm-token",
+    ["updateFcmToken"],
+    { token },
+  );
 };
 
 export const fcmAPI = {

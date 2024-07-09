@@ -46,6 +46,7 @@ export default function LoginBox({ isLogin }: { isLogin: boolean }) {
                   alt='user avatar icon'
                   width={60}
                   height={60}
+                  priority
                 />
               </Box>
 

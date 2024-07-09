@@ -1,45 +1,33 @@
-"use client";
-
-import { useResetRecoilState } from "recoil";
-
-import { fetchApi } from "./fetchApi";
 import { ApiResponse } from "@/api/type";
-import { userState } from "@/states/client/atoms/user";
-import { deleteToken } from "@/utils/auth_server";
+import { get } from "./client";
+import { deleteToken, setAccessToken, setToken } from "@/utils/authToken";
 
 const loginWithKakao = async (kakaoCode: string | null) => {
-  const response: ApiResponse = await fetchApi({
-    method: "GET",
-    use: "auth",
-    path: `/api/v1/auth/login/oauth2/callback/kakao?code=${kakaoCode}&origin=${process.env.NEXT_PUBLIC_MODE}`
+  const response: ApiResponse = await get(
+    `/api/v1/auth/login/oauth2/callback/kakao?code=${kakaoCode}&origin=${process.env.NEXT_PUBLIC_MODE}`
+  );
+
+  setToken({
+    accessToken: response.data.token.accessToken,
+    refreshToken: response.data.token.refreshToken,
   });
 
   return response;
 };
 
-/* 수정 필요 */
-const autoLogin = async () => {
-  const response: ApiResponse = await fetchApi({
-    method: "POST",
-    path: '/api/v1/auth/autoLogin',
-    body: {token: "fcm"},
-  });
+const refreshAccessToken = async () => {
+  const response: ApiResponse = await get(
+    `/api/v1/auth/updateAccessToken`
+  );
 
-  return response;
-};
+  if (response.status === "FAIL") {
+    return deleteToken();
+  }
 
-//await fetch("/api/auth/logout", { method: "GET" });
-const useLogout = () => {
-  const resetUserInfo = useResetRecoilState(userState);
-
-  return () => {
-    deleteToken();
-    resetUserInfo();
-  };
-};
+  setAccessToken(response.data.token);
+}
 
 export const authAPI = {
   loginWithKakao,
-  autoLogin,
-  useLogout,
+  refreshAccessToken
 };

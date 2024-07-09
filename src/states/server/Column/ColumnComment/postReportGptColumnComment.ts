@@ -1,6 +1,6 @@
-import { fetchApi } from "@/api/fetchApi";
 import { ApiResponse } from "@/api/type";
 import { mutationKeys } from "../../mutations";
+import { post } from "@/api/client";
 
 /**
  * 컬럼 댓글 수정 API
@@ -12,12 +12,11 @@ import { mutationKeys } from "../../mutations";
  * 실패 시: { status: "FAIL", errorMsg: "신고사유ID가 존재하지 않습니다." }
  */
 export const postReportGptColumnComment = async (commentId: number, reportId: number) => {
-  const response: ApiResponse = await fetchApi({
-    method: "POST",
-    path: `/api/v1/main/column/comment/actions`,
-    tags: mutationKeys.reportGptColumnComment,
-    body: {commentId, reportId}
-  });
+  const response: ApiResponse = await post(
+    `/api/v1/main/column/comment/actions`,
+    mutationKeys.reportGptColumnComment,
+    {commentId, reportId}
+  );
 
   return response;
 }

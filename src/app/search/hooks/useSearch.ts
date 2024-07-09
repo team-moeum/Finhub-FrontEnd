@@ -13,13 +13,14 @@ export const useSearch = ({
   type,
   keyword,
 }: UseSearchProps) => {
+  const [isResultEmpty, setIsResultEmpty] = useState(false);
+  
   const {
     data: searchTopicData,
     fetchNextPage: fetchTopicNextPage,
     hasNextPage: hasTopicNextPage,
     isFetching: isTopicFetching,
   } = useSearchTopic({ type: type, keyword: keyword, page: 0 });
-  const [isResultEmpty, setIsResultEmpty] = useState(false);
 
   const {
     data: searchColumnData,

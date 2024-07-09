@@ -1,19 +1,29 @@
-import { fetchApi } from "@/api/fetchApi";
 import { queryKeys } from "../../queries";
 import { ApiResponse } from "@/api/type";
+import { get, getSsr } from "@/api/client";
 
-export const getGptColumnCommentList = async(id: number, type: number, page: number, size?: number, ssr?: boolean) => {
-  const response: ApiResponse = await fetchApi({
-    method: "GET",
-    path: `/api/v1/main/column/comment/${id}/${type}?page=${page}&size=${size}`,
-    tags: queryKeys.gptColumnCommentList(id, type, page, size),
-    ssr
-  });
+export const getGptColumnCommentList = async(id: number, type: number, page: number, size?: number) => {
+  const response: ApiResponse = await get(
+    `/api/v1/main/column/comment/${id}/${type}?page=${page}&size=${size}`,
+    queryKeys.gptColumnCommentList(id, type, page, size),
+  );
 
   if (response.status === "FAIL") {
     return null;
   }
 
-  // id, nickname, date, AvatarImgPath, comment, like, userComment (bool) -> 본인 댓글 여부
+  return response.data;
+}
+
+export const getSsrGptColumnCommentList = async(id: number, type: number, page: number, size?: number) => {
+  const response: ApiResponse = await getSsr(
+    `/api/v1/main/column/comment/${id}/${type}?page=${page}&size=${size}`,
+    queryKeys.gptColumnCommentList(id, type, page, size),
+  );
+
+  if (response.status === "FAIL") {
+    return null;
+  }
+
   return response.data;
 }

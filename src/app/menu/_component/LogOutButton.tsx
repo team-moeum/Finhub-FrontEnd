@@ -2,16 +2,21 @@
 
 import { useRouter } from "next/navigation";
 
-import { authAPI } from "@/api/auth";
 import { Text } from "@/components/Text";
 import { Box } from "@/components/Box";
+import { useResetRecoilState } from "recoil";
+import { userState } from "@/states/client/atoms/user";
+import { deleteToken } from "@/utils/auth_client";
 
 export default function LogOutButton() {
   const router = useRouter();
-  const logout = authAPI.useLogout();
+  const resetUserInfo = useResetRecoilState(userState);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async() => {
+    await fetch('/api/auth/logout', { method: 'GET' });
+    deleteToken();
+    resetUserInfo();
+
     router.refresh();
   };
 

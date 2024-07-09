@@ -11,17 +11,6 @@ import { useRecoilState } from 'recoil';
 import { userState } from '@/states/client/atoms/user';
 import { UserType } from '@/model/UserType';
 
-const data = [
-  { name: '개발자' },
-  { name: '디자이너' },
-  { name: '선생님' },
-  { name: '대학생' },
-  { name: '직업 이름1' },
-  { name: '직업 이름2' },
-  { name: '직업 이름3' },
-  { name: '직업 이름4' },
-]
-
 type UserTypeItemProps = {
   name: string,
   checked: boolean,

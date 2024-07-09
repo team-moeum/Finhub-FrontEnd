@@ -1,14 +1,12 @@
-import { fetchApi } from "@/api/fetchApi";
 import { queryKeys } from "../queries";
 import { ApiResponse } from "@/api/type";
+import { get } from "@/api/client";
 
-export const getAnnounce = async (cursorId?: number, size=7, ssr?:boolean) => {
-  const response: ApiResponse = await fetchApi({
-    method: "GET",
-    path: `/api/v1/main/announce?cursorId=${cursorId || ""}&size=${size}`,
-    tags: queryKeys.userAvatarList,
-    ssr
-  });
+export const getAnnounce = async (cursorId?: number, size=7) => {
+  const response: ApiResponse = await get(
+    `/api/v1/main/announce?cursorId=${cursorId || ""}&size=${size}`,
+    queryKeys.userAvatarList,
+  );
 
   if (response.status === "FAIL") {
     return [];
