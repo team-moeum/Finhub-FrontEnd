@@ -38,17 +38,6 @@ export async function request<T>(
     let tokens = getToken(config.ssr);
     let response = await makeRequest(tokens);
 
-    /** refreshAccessToken and Refetch */
-    if (response.status === 403) {
-      await authAPI.refreshAccessToken();
-      tokens = getToken(config.ssr);
-      response = await makeRequest(tokens);
-
-      if (response.ok) {
-        return (await response.json()) as T;
-      }
-    }
-
     if (!response.ok) {
       if (config.bypass) {
         try {
@@ -62,6 +51,13 @@ export async function request<T>(
         case 401:
           throw new UnauthorizedError("Unauthorized access");
         case 403:
+          /** refreshAccessToken and Refetch */
+          await authAPI.refreshAccessToken();
+          tokens = getToken(config.ssr);
+          response = await makeRequest(tokens);
+          if (response.ok) {
+            return (await response.json()) as T;
+          }
           throw new ForbiddenError("Forbidden error");
         default:
           throw new ApiError(response.status, "An error occurred");
