@@ -45,29 +45,6 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:latest"
 
-      - name: Install Docker on EC2
-        uses: appleboy/ssh-action@v0.1.6
-        with:
-          host: ${{ env.EC2_HOST }}
-          username: ubuntu
-          key: ${{ env.EC2_SSH_PRIVATE_KEY }}
-          script: |
-            if ! apt list --upgradable 2>/dev/null | grep -q "upgradable"; then
-              sudo apt update -y
-            fi
-            if ! command -v docker &> /dev/null; then
-              sudo apt install -y docker.io
-              sudo systemctl start docker
-              sudo systemctl enable docker
-              sudo usermod -aG docker ubuntu
-            else
-              echo "Docker is already installed"
-            fi
-            if ! command -v docker-compose &> /dev/null; then
-              sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-              sudo chmod +x /usr/local/bin/docker-compose
-            fi
-
       - name: Deploy on EC2 instance
         uses: appleboy/ssh-action@v0.1.6
         with:
@@ -83,7 +60,7 @@ jobs:
             sudo docker stop ${{ env.ECR_REPOSITORY }} || true
             sudo docker rm ${{ env.ECR_REPOSITORY }} || true
             sudo docker pull ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
-            sudo docker run -d --name finhub-frontend -p 3080:3080 ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
+            sudo docker run -d --name finhub-frontend -p 3000:3000 ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
 
       - name: Send Slack Message
         uses: 8398a7/action-slack@v3
