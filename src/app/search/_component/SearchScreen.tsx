@@ -5,6 +5,7 @@ import cx from "classnames";
 import Link from "next/link";
 import Image from "next/image";
 import React, { Suspense, useState } from "react";
+import MainNav from "@/app/_component/Nav/MainNav";
 
 import Loading from "@/app/loading";
 import TopSearch from "./TopSearch";
@@ -71,15 +72,8 @@ export default function SearchScreen() {
           {isResultPage ?
             <BackButton icon="type2" onClick={handleClickBackPress} />
             :
-            <FlexBox width='100%' mb={25} justifyContent='flex-start'>
-              <Link href='/home'>
-                <Image
-                  src='/finhub_logo_green.svg'
-                  alt='finhub logo'
-                  width={102}
-                  height={25}
-                />
-              </Link>
+            <FlexBox width='100%' mb={64}>
+              <MainNav color="white" />
             </FlexBox>
           }
           <div className={style.input_box}>
