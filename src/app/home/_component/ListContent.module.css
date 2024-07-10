@@ -41,8 +41,8 @@
 
 .right_content {
     padding-bottom: 40px;
-    flex: 1;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .list_item {
@@ -61,8 +61,9 @@
 }
 
 .right_content .list_item {
+    height: 40px;
     padding: 10px 16px;
     color: #494F54;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
 }
