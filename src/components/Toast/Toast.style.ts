@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 export const ToastWrap = styled(motion.div)`
     position: fixed;
-    bottom: 63px;
+    bottom: 88px;
     left: 0;
     right: 0;
     pointer-events: none;
@@ -13,7 +13,9 @@ export const ToastWrap = styled(motion.div)`
 
 export const ToastContent = styled.div`
     margin: 0 auto;
-    width: 328px;
+    margin-right:16px;
+    margin-left:16px;
+    width: calc(100%-32px);
     background-color: #25292C;
     border-radius: 10px;
     padding: 15px 20px;
