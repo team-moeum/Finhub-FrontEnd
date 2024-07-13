@@ -8,10 +8,12 @@ import { TopicInfo } from "@/model/TopicInfo"
 import { UserAvatar } from "@/model/UserAvatar"
 import { TopicGptInfo } from "@/model/TopicGptInfo"
 import { MyColumnScarp, MyScrap, MyScrapRequest, MyTopicScarp } from "@/model/MyScrap"
+import { MyCommentProp, MyComment } from "@/model/MyComment"
 import { PopularKeyword } from "@/model/PopularKeyword"
 import { UserType } from "@/model/UserType"
 
 import { getMyScrap } from "./Menu/getMyScrap"
+import { getMyComment } from "./Menu/getMyComment"
 import { getAnnounce } from "./Menu/getAnnounce"
 import { getCategory } from "./Home/getCategory"
 import { getTopicInfo } from "./List/getTopicInfo"
@@ -68,6 +70,7 @@ export const queryKeys = {
   gptColumnCommentList: (id: number, type: number, page: number, size?: number) => ["gptColumnComment", id.toString(), type.toString() || "", page.toString(), size?.toString() || ""],
   announce: (cursorId?: number, size?: number) => ['announce', cursorId?.toString() || "", size?.toString() || ""],
   myScrap: (type: MyScrapRequest) => ["myScrap", type],
+  myComment: () => ["myComment"],
   reportReasons: ["reportReasons"],
 
   quiz: (date?: string) => ["quiz", date || ""],
@@ -146,6 +149,10 @@ export const queryOptions: QueryOptionsType = {
     queryKey: queryKeys.myScrap(type),
     queryFn: () => getMyScrap(type)
   }),
+  myComment: () => ({
+    queryKey: queryKeys.myComment(),
+    queryFn: () => getMyComment()
+  }),
   reportReasons: () => ({
     queryKey: queryKeys.reportReasons,
     queryFn: () => getReportReasons()
@@ -200,6 +207,8 @@ export const useQuizCalendar = (year: string, month: string) => useBaseSuspenseQ
 export const useQuiz = (date?: string) => useBaseSuspenseQuery<QuizInfo>(queryOptions.quiz(date));
 export const useMissedQuiz = (date?: string, limit?: number) => useBaseSuspenseQuery<MissedQuiz>(queryOptions.missedQuiz(date, limit));
 export const useSolvedQuiz = (isCorrect: string, date: string, limit?: number) => useBaseSuspenseQuery<SolvedQuiz>(queryOptions.solvedQuiz(isCorrect, date, limit));
+export const useMyComment = () => useBaseSuspenseQuery<MyComment>(queryOptions.myComment());
+
 
 /**
  * infiniteQuery
@@ -314,7 +323,7 @@ export const useMissedQuizQuery = ({ date, limit }: useMissedQuizQueryProps) => 
       if (!lastQuiz.targetDate) {
         return undefined;
       }
-      
+
       const date = moment(lastQuiz.targetDate, 'YYYY-MM-DD');
       const previousDay = date.subtract(1, 'days');
       const targetDate = previousDay.format('YYYYMMDD');
@@ -330,7 +339,7 @@ type useSolvedQuizQueryProps = {
   date: string,
   limit?: number,
 }
-export const useSolvedQuizQuery = ({ isCorrect, date, limit=5 }: useSolvedQuizQueryProps) => {
+export const useSolvedQuizQuery = ({ isCorrect, date, limit = 5 }: useSolvedQuizQueryProps) => {
   return useInfiniteQuery({
     queryKey: queryKeys.solvedQuiz(isCorrect, date, limit),
     queryFn: ({ pageParam = date }) => getSolvedQuiz(isCorrect, pageParam, limit),
@@ -343,7 +352,7 @@ export const useSolvedQuizQuery = ({ isCorrect, date, limit=5 }: useSolvedQuizQu
       if (!lastQuiz.targetDate) {
         return undefined;
       }
-      
+
       const date = moment(lastQuiz.targetDate, 'YYYY-MM-DD');
       const previousDay = date.subtract(1, 'days');
       const targetDate = previousDay.format('YYYYMMDD');
