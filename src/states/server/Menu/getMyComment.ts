@@ -1,15 +1,12 @@
-import { fetchApi } from "@/api/fetchApi";
+import { get } from "@/api/client";
 import { queryKeys } from "../queries";
 import { ApiResponse } from "@/api/type";
-import { MyComment } from "@/model/MyComment";
 
-export const getMyComment = async (ssr?: boolean) => {
-    const response: ApiResponse = await fetchApi({
-        method: "GET",
-        path: `/api/v1/main/menu/comment`,
-        tags: queryKeys.myComment(),
-        ssr
-    });
+export const getMyComment = async () => {
+    const response: ApiResponse = await get(
+        `/api/v1/main/menu/comment`,
+        queryKeys.myComment(),
+    );
 
     return response.data;
 }
