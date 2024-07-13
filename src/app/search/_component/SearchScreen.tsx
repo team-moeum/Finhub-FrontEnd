@@ -97,7 +97,7 @@ export default function SearchScreen() {
                 maxLength={20}
               />
               <SearchGrayIcon className={style.search_icon} />
-              <button type="button" className={cx([style.clear_btn, (isFocus || userInput) && style.focus])} onClick={hanldeClearBtn}>
+              <button type="button" className={cx([style.clear_btn, userInput && style.focus])} onClick={hanldeClearBtn}>
                 <SearchCloseIcon />
               </button>
             </form>
