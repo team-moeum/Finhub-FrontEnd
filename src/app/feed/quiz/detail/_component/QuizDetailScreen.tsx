@@ -69,7 +69,7 @@ export const QuizDetailScreen = () => {
   }, [solvedIsIntersecting, hasSolvedNextPage])
 
   return (
-    <AppContainer header>
+    <AppContainer>
       <AppBar
         useLeftBack
         leftBackColor="black"

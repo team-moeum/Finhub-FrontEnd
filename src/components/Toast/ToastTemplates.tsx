@@ -7,6 +7,8 @@ import ErrorIcon from '@/public/icons/toast_error_icon.svg';
 import WarningIcon from '@/public/icons/toast_warning_icon.svg';
 import { FlexBox } from '../FlexBox';
 import { ToastType } from '@/states/client/atoms/toast';
+import ToastCheckIcon from '@/public/icons/toast_check_icon.svg';
+import { Stack } from '../Stack';
 
 const TextWrap = styled.div`
   display: flex;
@@ -21,51 +23,62 @@ const TextItemWrap = styled.p<{ weight?: number }>`
 
 const NotWordSuccess = () => {
   return (
-    <TextWrap>
-      <TextItemWrap weight={600}>
-        없는 단어를 요청했어요.
-      </TextItemWrap>
-      <TextItemWrap>
-        핀허브가 빠르게 검수 후 반영할게요! 🫡
-      </TextItemWrap>
-    </TextWrap>
+    <FlexBox gap={14} justifyContent='flex-start' position='relative'>
+      <ToastCheckIcon />
+      <TextWrap>
+        <Stack>
+          <TextItemWrap>
+            없는 단어를 요청했어요.
+          </TextItemWrap>
+          <TextItemWrap>
+            핀허브가 빠르게 검수 후 반영할게요!🫡
+          </TextItemWrap>
+        </Stack>
+      </TextWrap>
+    </FlexBox>
   )
 }
 
 const NotWordDuplicate = () => {
   return (
+
     <TextWrap>
-      <TextItemWrap weight={600}>
-        다른 사람이 이미 요청한 단어예요.
-      </TextItemWrap>
-      <TextItemWrap>
-        검수 중이니 조금만 기다려주세요! 🕒
-      </TextItemWrap>
+      <Stack>
+        <TextItemWrap weight={600}>
+          다른 사람이 이미 요청한 단어예요.
+        </TextItemWrap>
+        <TextItemWrap>
+          검수 중이니 조금만 기다려주세요! 🕒
+        </TextItemWrap>
+      </Stack>
     </TextWrap>
   )
 }
 
 const NotWordOneTime = () => {
   return (
-    <TextWrap>
-      <TextItemWrap weight={600}>
-        요청은 단어 당 1회만 가능해요.
-      </TextItemWrap>
-      <TextItemWrap>
-        이 단어는 이미 요청하신 단어예요. 😓
-      </TextItemWrap>
+    <TextWrap >
+      <Stack>
+        <TextItemWrap weight={600}>
+          요청은 단어 당 1회만 가능해요.
+        </TextItemWrap>
+        <TextItemWrap>
+          이 단어는 이미 요청하신 단어예요. 😓
+        </TextItemWrap>
+      </Stack>
+
     </TextWrap>
   )
 }
 
-const TypeToast = ({type, content}: Partial<ToastType>) => {
+const TypeToast = ({ type, content }: Partial<ToastType>) => {
   if (type === "success") return (
     <FlexBox justifyContent='flex-start' gap={12}>
       <SuccessIcon />
       {content}
     </FlexBox>
   )
-  
+
   if (type === "error") return (
     <FlexBox justifyContent='flex-start' gap={12}>
       <ErrorIcon />
