@@ -1,13 +1,18 @@
-import style from './announcemnet.module.css';
-
-import MenuHeader from '@/app/_component/Menu/MenuHeader';
 import { AnnouncementList } from './_component/AnnouncementList';
+import { AppContainer, Container } from '@/components/Container';
+import { AppBar } from '@/components/AppBar';
 
 export default async function AnnouncementPage() {
   return (
-    <div className={style.container}>
-      <MenuHeader>공지사항</MenuHeader>
-      <AnnouncementList />
-    </div>
+    <AppContainer>
+      <AppBar
+        useLeftBack
+        leftBackColor="black"
+        title='공지사항' 
+      />
+      <Container>
+        <AnnouncementList />
+      </Container>
+    </AppContainer>
   )
 }

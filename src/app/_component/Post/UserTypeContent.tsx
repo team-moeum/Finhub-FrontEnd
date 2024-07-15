@@ -8,16 +8,17 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import Loading from "@/app/loading";
 import { UserType } from "@/model/UserType";
 import { userState } from "@/states/client/atoms/user";
-import { topicUserType } from "@/states/client/atoms/topicUsertype"
+import { topicUserType } from "@/states/client/atoms/topicUsertype";
 import UserTypeItemList from "./UserTypeItemList";
 import { useTopicGptInfo, useUserTypeList } from "@/states/server/queries";
 
 type UserTypeGptConentProps = {
-  categoryId: number,
-  topicId: number,
-  activeType: UserType,
-  userTypeList: UserType[]
-}
+  categoryId: number;
+  topicId: number;
+  activeType: UserType;
+  userTypeList: UserType[];
+};
+
 const UserTypeGptConent = ({ categoryId, topicId, activeType, userTypeList }: UserTypeGptConentProps) => {
   const userInfo = useRecoilValue(userState);
   const setActiveType = useSetRecoilState(topicUserType);
@@ -25,12 +26,20 @@ const UserTypeGptConent = ({ categoryId, topicId, activeType, userTypeList }: Us
   const { data: topicGptInfo } = useTopicGptInfo(categoryId, topicId, activeType.id);
 
   useEffect(() => {
-    setActiveType(userTypeList.find((item) => userInfo.userType === item.name) || userTypeList[0])
-  }, [userInfo])
+    setActiveType(userTypeList.find((item) => userInfo.userType === item.name) || userTypeList[0]);
+  }, [userInfo]);
+
+  const hasFinalConsonant = (name: string) => {
+    const charCode = name.charCodeAt(name.length - 1) - 0xac00;
+    const finalConsonant = charCode % 28;
+    return finalConsonant !== 0;
+  };
+
+  const particle = hasFinalConsonant(activeType.name) ? "을 위한 설명은 준비 중이에요!" : "를 위한 설명은 준비 중이에요!";
 
   return (
     <div className={style.content_text}>
-      {topicGptInfo.content ||
+      {topicGptInfo.content || (
         <div className={style.not_found_content}>
           <Image
             src='/icons/loading_icon.svg'
@@ -39,19 +48,30 @@ const UserTypeGptConent = ({ categoryId, topicId, activeType, userTypeList }: Us
             height={24}
           />
           <div className={style.text_box}>
-            <p><span>{activeType.name}</span>을 위한 설명은 준비 중이에요!</p>
+            <p><span>{activeType.name}</span>{particle}</p>
             <p>조금만 기다려주세요!</p>
           </div>
         </div>
-      }
+      )}
     </div>
-  )
-}
+  );
+};
 
 type Props = {
-  categoryId: number,
-  topicId: number,
-}
+  categoryId: number;
+  topicId: number;
+};
+
+const hasFinalConsonant = (name: string) => {
+  const charCode = name.charCodeAt(name.length - 1) - 0xac00;
+  const finalConsonant = charCode % 28;
+  return finalConsonant !== 0;
+};
+
+const getParticle = (name: string) => {
+  return hasFinalConsonant(name) ? "을 위한 설명" : "를 위한 설명";
+};
+
 export default function UserTypeContent({ categoryId, topicId }: Props) {
   const activeType = useRecoilValue(topicUserType);
 
@@ -61,10 +81,11 @@ export default function UserTypeContent({ categoryId, topicId }: Props) {
     <div className={style.container}>
       <UserTypeItemList data={userTypeList} />
       <div className={style.notify_box}>
-        <p className={style.active_name}>{activeType.name}</p>을 위한 설명
+        <p className={style.active_name}>{activeType.name}</p>
+        {getParticle(activeType.name)}
       </div>
-      <Suspense fallback={<Loading height={200}/>}>
-        <UserTypeGptConent 
+      <Suspense fallback={<Loading height={200} />}>
+        <UserTypeGptConent
           categoryId={categoryId}
           topicId={topicId}
           activeType={activeType}
@@ -72,5 +93,5 @@ export default function UserTypeContent({ categoryId, topicId }: Props) {
         />
       </Suspense>
     </div>
-  )
+  );
 }

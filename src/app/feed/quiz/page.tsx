@@ -4,9 +4,9 @@ import { QuizPageScreen } from './_component/QuizPageScreen';
 import MainNav from '@/app/_component/Nav/MainNav';
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 import moment from 'moment';
-import { getSolvedQuiz, getSsrSolvedQuiz } from '@/states/server/Feed/Quiz/getSolvedQuiz';
+import { getSsrSolvedQuiz } from '@/states/server/Feed/Quiz/getSolvedQuiz';
 import { queryKeys } from '@/states/server/queries';
-import { getMissedQuiz, getSsrMissedQuiz } from '@/states/server/Feed/Quiz/getMissedQuiz';
+import { getSsrMissedQuiz } from '@/states/server/Feed/Quiz/getMissedQuiz';
 import { isUserLoginSsr } from '@/utils/auth_server';
 import { getSsrQuizCalender } from '@/states/server/Feed/Quiz/getQuizCalender';
 

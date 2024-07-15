@@ -25,7 +25,7 @@ export const LoginSlide = ({show, onClose}: LoginSlideProps) => {
       <Container variant="thick">
         <FlexBox direction='column' mt={46} mb={31}>
           <Stack gap={10}>
-            <Text textAlign="center" size={20} weight={600} color="#191B1C">로그인이 필요한<br />서비스입니다.</Text>
+            <Text textAlign="center" lineHeight={1.5} size={20} weight={600} color="#191B1C">로그인이 필요한<br />서비스입니다.</Text>
             <Text size={16} weight={400} color="#494F54">로그인 후 다양한 기능을 이용해보세요!</Text>  
           </Stack>
 

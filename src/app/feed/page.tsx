@@ -8,14 +8,12 @@ import QuizScreen from "./quiz/_component/QuizScreen";
 export default function FeedPage() {
   return (
     <AppContainer>
+      <MainNav color="white"/>
       <Box pb={25}>
-        <div className={style.feed_container}>
-          <ColumnPage />
-          <div className={style.divider} />
-          <QuizScreen />
-        </div>
+        <ColumnPage />
+        <div className={style.divider} />
+        <QuizScreen />
       </Box>
-      <MainNav />
     </AppContainer>
   )
 }
