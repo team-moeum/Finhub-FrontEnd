@@ -22,6 +22,7 @@ import { ScrapToast } from "@/components/Toast/ScrapToast";
 import { LoginSlide } from "../Catergory/LoginSlide";
 import { useModal } from "@/hooks/useModal";
 import { isLoggedIn } from "@/utils/auth_client";
+import { AppContainer } from "@/components/Container";
 
 type Props = { categoryId: number; topicId: number };
 export default function PostScreen({ categoryId, topicId }: Props) {
@@ -29,14 +30,14 @@ export default function PostScreen({ categoryId, topicId }: Props) {
 
   const { showToast } = useToast();
   const LoginModal = useModal();
-  
+
   const {
     data: { title, summary, definition, img_path, scrapped },
   } = useTopicInfo(topicId);
   const [isScrap, setIsScrap] = useState(scrapped);
-  
+
   const { data: nextTopic } = useNextTopic(categoryId, topicId);
-  
+
   const queryClient = useQueryClient();
   const scrapMutation = useScrap({
     onMutate: () => {
@@ -44,32 +45,32 @@ export default function PostScreen({ categoryId, topicId }: Props) {
     },
     onSuccess: (data) => {
       if (data.status === "FAIL") {
-        showToast({content: "잠시후 다시 시도해주세요.", type: 'warning'});
+        showToast({ content: "잠시후 다시 시도해주세요.", type: 'warning' });
         setIsScrap(prev => !prev);
         return;
       }
 
       if (isScrap) {
-        showToast({content: <ScrapToast />, duration: 3000});
+        showToast({ content: <ScrapToast />, duration: 3000 });
       }
 
       queryClient.invalidateQueries({ queryKey: queryKeys.topicList(categoryId) });
-      queryClient.invalidateQueries({ queryKey: queryKeys.topicInfo(topicId)});
+      queryClient.invalidateQueries({ queryKey: queryKeys.topicInfo(topicId) });
       queryClient.invalidateQueries({ queryKey: queryKeys.myScrap("topic") });
     },
     onError: () => {
-      showToast({content: "잠시후 다시 시도해주세요.", type: "warning"});
+      showToast({ content: "잠시후 다시 시도해주세요.", type: "warning" });
       setIsScrap(prev => !prev);
     }
   });
 
   useEffect(() => {
-      setIsScrap(scrapped);
+    setIsScrap(scrapped);
   }, [scrapped]);
 
   const handleScrapClick = () => {
     if (!isLogin) return LoginModal.open();
-    scrapMutation.mutate({id: topicId, type: 1});
+    scrapMutation.mutate({ id: topicId, type: 1 });
   };
 
   const handleShareClick = () => {
@@ -80,20 +81,20 @@ export default function PostScreen({ categoryId, topicId }: Props) {
   };
 
   return (
-    <>
+    <AppContainer disabledTopArea>
+      <div className={style.image_box}>
+        <Image
+          src={img_path ?? PostImg}
+          alt="post Img"
+          fill
+          priority
+        />
+      </div>
       <PostNav
         scrap={isScrap}
         onClick={handleScrapClick}
         onShare={handleShareClick}
       />
-      <div className={style.image_box}>
-        <Image 
-          src={img_path ?? PostImg} 
-          alt="post Img" 
-          fill
-          priority
-         />
-      </div>
       <div className={style.container}>
         <p className={style.title}>{title}</p>
         <div className={style.summary}>
@@ -139,6 +140,6 @@ export default function PostScreen({ categoryId, topicId }: Props) {
         }
       </div>
       <LoginSlide show={LoginModal.show} onClose={LoginModal.close} />
-    </>
+    </AppContainer>
   );
 }

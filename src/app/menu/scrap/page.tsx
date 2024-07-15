@@ -4,6 +4,7 @@ import ScrapContent from "./_component/ScrapContent";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import { queryKeys } from "@/states/server/queries";
 import { getSsrMyScrap } from "@/states/server/Menu/getMyScrap";
+import { AppBar } from "@/components/AppBar";
 
 export const dynamic = "force-dynamic";
 
@@ -24,8 +25,11 @@ export default async function ScrapPage() {
   return (
     <HydrationBoundary state={dehydratedState}>
       <AppContainer>
+        <AppBar 
+          useLeftBack
+          title="스크랩"
+        />
         <Container pb={30}>
-          <MenuHeader>스크랩</MenuHeader>
           <ScrapContent />
         </Container>
       </AppContainer>

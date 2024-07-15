@@ -53,9 +53,7 @@ export const ReportCommentScreen = () => {
   return (
     <AppContainer>
       <AppBar
-        fixed={false}
         useLeftBack
-        leftBackColor='black'
         title="신고하기"
       />
 

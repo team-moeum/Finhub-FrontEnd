@@ -1,16 +1,21 @@
 import { Suspense } from "react";
 import UpdateNickName from "./_component/UpdateNickName";
-import style from "./name.module.css";
-import MenuHeader from "@/app/_component/Menu/MenuHeader";
 import Loading from "@/app/loading";
+import { AppContainer, Container } from "@/components/Container";
+import { AppBar } from "@/components/AppBar";
 
 export default function NamePage() {
   return (
-    <div className={style.container}>
-      <MenuHeader>닉네임 변경</MenuHeader>
-      <Suspense fallback={<Loading />}>
-        <UpdateNickName />
-      </Suspense>
-    </div>
+    <AppContainer>
+      <AppBar
+        useLeftBack
+        title="닉네임 설정"
+      />
+      <Container>
+        <Suspense fallback={<Loading />}>
+          <UpdateNickName />
+        </Suspense>
+      </Container>  
+    </AppContainer>
   )
 }

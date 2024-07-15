@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import moment from 'moment';
 import { MissedQuiz } from '@/model/missedQuiz';
 import { SolvedQuiz } from '@/model/solvedQuiz';
@@ -74,7 +74,7 @@ export default function QuizList() {
 
   if (isLoading) return <Loading height={300} />;
   return (
-    <AppContainer>
+    <Fragment>
       <Container>
         <Toggle
           data={[
@@ -89,17 +89,17 @@ export default function QuizList() {
           {selectedValue === SELECTED_TYPE.missed && (
             (missedQuizList && missedQuizList?.length > 0)
               ? <>
-                  {missedQuizList.map((item: MissedQuiz) => (
-                    <QuizItem key={item.id} item={item} onClick={() => handleQuizItemClick(item.targetDate)} />
-                  ))}
-                  <QuizDetailButton />
-                </>
+                {missedQuizList.map((item: MissedQuiz) => (
+                  <QuizItem key={item.id} item={item} onClick={() => handleQuizItemClick(item.targetDate)} />
+                ))}
+                <QuizDetailButton />
+              </>
               : <NoQuizItem text='놓친 퀴즈가 없어요' />
           )}
 
           {selectedValue === SELECTED_TYPE.solved && (
             (solvedQuizList && solvedQuizList?.length > 0)
-            ? <>
+              ? <>
                 {solvedQuizList.map((item: SolvedQuiz) => (
                   <QuizItem key={item.id} item={item} />
                 ))}
@@ -125,7 +125,7 @@ export default function QuizList() {
           onSolveOtherClick={handleQuizResultClose}
         />
       }
+    </Fragment>
 
-    </AppContainer>
   );
 }

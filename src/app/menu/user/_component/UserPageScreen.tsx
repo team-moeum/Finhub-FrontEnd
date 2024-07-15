@@ -10,16 +10,19 @@ import { FlexBox } from "@/components/FlexBox";
 import { Stack } from "@/components/Stack";
 import { Text } from "@/components/Text";
 import { Box } from "@/components/Box";
-import MenuHeader from "@/app/_component/Menu/MenuHeader";
 import ProfileAvatar from "./ProfileAvatar";
+import { AppBar } from "@/components/AppBar";
 
 export const UserPageScreen = () => {
   const userInfo = useRecoilValue(userState);
 
   return (
     <AppContainer>
-      <Container>
-        <MenuHeader>프로필</MenuHeader>
+      <AppBar 
+        useLeftBack
+        title="프로필"
+      />
+      <Container width='100%'>
         <FlexBox mt={30} mb={44}>
           <ProfileAvatar />
         </FlexBox>

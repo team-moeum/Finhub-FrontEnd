@@ -26,8 +26,6 @@ export default function CommentDetail() {
     <AppContainer>
       <AppBar
         useLeftBack
-        leftBackColor='black'
-        fixed={false}
       />
 
       <Container pt={32} pb={26}>
@@ -52,7 +50,7 @@ export default function CommentDetail() {
 
       <Box width='100%' height={10} backgroundColor="#EDF0F3" />
 
-      <Box mt={20} mb={135}>
+      <Box mt={20} mb={100}>
         <ColumnComment columnId={columnId} pageType='commentDetatil' />
       </Box>
 

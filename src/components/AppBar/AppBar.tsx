@@ -1,3 +1,5 @@
+"use client";
+
 import React, { ReactNode } from "react";
 import { Box } from "../Box";
 import { FlexRow } from "../FlexRow";
@@ -7,6 +9,8 @@ import { FlexBox } from "../FlexBox";
 import ArrowBackIcon from '@/public/icons/icon_arrow_white_back.svg';
 import ArrowBackBlackIcon from '@/public/icons/arrow_back_black.svg';
 import { Text } from "../Text";
+import { userSafeAreaTop } from "@/hooks/useSafeAreaTop";
+import { useScrollPosition } from "@/hooks/useScrollPosition";
 
 type AppBarProps = {
   fixed?: boolean;
@@ -17,6 +21,7 @@ type AppBarProps = {
   leftBackColor?: 'black' | 'white',
   scrolledTitle?: ReactNode;
   backgroundColor?: string;
+  scrollThreshold?: number;
   style?: React.CSSProperties;
 };
 
@@ -40,51 +45,61 @@ const BackButton = ({ onClick, color }: { onClick?: React.MouseEventHandler<HTML
 }
 
 export const AppBar = ({
-  fixed=true,
+  fixed = true,
   title,
   onBackPress,
   children,
   useLeftBack = false,
-  leftBackColor = 'white',
-  backgroundColor = 'transparent',
+  leftBackColor = 'black',
+  backgroundColor = '#fff',
+  scrollThreshold,
   style,
 }: AppBarProps) => {
+  const top = userSafeAreaTop();
+  const scrollPosition = useScrollPosition();
+
+  const opacity = scrollPosition < (scrollThreshold || 160) ? 0 : 1;
+  const scrolledBackgroundColor = `rgba(255, 255, 255, ${opacity})`;
+
   return (
     <Box
-      height={54}
       position={fixed ? 'fixed' : 'relative'}
       top={0}
       left={0}
       right={0}
-      backgroundColor={backgroundColor}
+      backgroundColor={fixed && backgroundColor === 'transparent' ? scrolledBackgroundColor : backgroundColor}
       zIndex={40}
-      style={{ ...style }}
+      style={{ transition: 'background 0.3s ease-in', ...style }}
     >
-      <Container width='100%' height='100%' position='relative'>
-        <FlexRow width='100%' height='100%' alignItems='flex-end'>
-          {useLeftBack && (
-            <FlexBox
-              display="flex"
-              alignItems='center'
-              justifyContent="center"
-            >
-              <BackButton onClick={onBackPress} color={leftBackColor} />
-            </FlexBox>
-          )}
-          {title && 
-            <Box position='absolute' left={0}  width='100%' height='100%' style={{pointerEvents: 'none'}}>
-              <FlexBox height='100%' alignItems='flex-end'>
-                <Text size={16} weight={500} color="#525252">{title}</Text>
+      <Box width='100%' height={top} />
+      <Box height={54}>
+        <Container width='100%' height='100%' position='relative'>
+          <FlexRow width='100%' height='100%' alignItems='center'>
+            {useLeftBack 
+              ? <FlexBox
+                  display="flex"
+                  alignItems='center'
+                  justifyContent="center"
+                >
+                  <BackButton onClick={onBackPress} color={leftBackColor} />
+                </FlexBox>
+              : <Box />
+            }
+            {title &&
+              <Box position='absolute' left={0} width='100%' height='100%' style={{ pointerEvents: 'none' }}>
+                <FlexBox height='100%'>
+                  <Text size={16} weight={500} color="#525252">{title}</Text>
+                </FlexBox>
+              </Box>
+            }
+            <Box>
+              <FlexBox gap={24}>
+                {children}
               </FlexBox>
             </Box>
-          }
-          <Box>
-            <FlexBox gap={24}>
-              {children}
-            </FlexBox>
-          </Box>
-        </FlexRow>
-      </Container>
+          </FlexRow>
+        </Container>
+      </Box>
     </Box>
   );
 }

@@ -78,9 +78,7 @@ export const PostCommentScreen = () => {
   return (
     <AppContainer>
       <AppBar
-        fixed={false}
         useLeftBack
-        leftBackColor='black'
         title="의견"
       >
         <Box onClick={handleSubmitClick}>
@@ -107,6 +105,7 @@ const TextAreaWrap = styled.textarea`
   height: 300px;
   border: none;
   resize: none;
+  font-size: 14px;
   padding: 0;
   caret-color: #50BF50;
 `

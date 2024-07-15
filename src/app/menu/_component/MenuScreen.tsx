@@ -7,9 +7,12 @@ import { useIsLoginCsr } from "@/utils/auth_client";
 import LoginBox from "@/app/_component/Menu/LoginBox";
 import MenuCard from "@/app/_component/Menu/MenuCard";
 import LogOutButton from "./LogOutButton";
-import { AppContainer, Container } from "@/components/Container";
-import { Box } from "@/components/Box";
-import { Text } from "@/components/Text";
+import { AppContainer, Container } from '@/components/Container';
+import { Box } from '@/components/Box';
+import { Text } from '@/components/Text';
+import { AppBar } from "@/components/AppBar";
+
+import BellIcon from '@/public/icons/bell_gray_ico.svg';
 
 export default function MenuPage() {
   const isLogin = useIsLoginCsr();
@@ -36,11 +39,18 @@ export default function MenuPage() {
 
   return (
     <AppContainer>
+      <AppBar 
+        title="메뉴"
+        backgroundColor="#F6F7F9"
+      >
+        {isLogin && <BellIcon />
+      }
+      </AppBar>
       <LoginBox isLogin={isLogin} />
 
       <Container mt={30} mb={100}>
         <MenuCard href="/menu/announcement">공지사항</MenuCard>
-        <MenuCard href="/menu/theme">테마</MenuCard>
+        {/* <MenuCard href="/menu/theme">테마</MenuCard> */}
         {isLogin && <MenuCard href="/menu/alarm">알림</MenuCard>}
       </Container>
 
