@@ -4,8 +4,15 @@
 }
 
 .header {
+    background-color: #FFF;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     display: flex;
     align-items: center;
+    padding: 12px 16px;
+    z-index: 40;
 }
 
 .header.focus {

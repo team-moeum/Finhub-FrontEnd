@@ -1,10 +1,12 @@
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import ColumnCard from "./_component/ColumnCard";
 import DetailButton from "./_component/DetailButton";
-import style from "./ColumnPage.module.css"
 import { queryKeys } from "@/states/server/queries";
 import { getSsrUserInfo } from "@/states/server/User/getUserInfo";
 import { getSsrGptColumnList } from "@/states/server/Column/ColumnPost/getGptColumnList";
+import { Container } from "@/components/Container";
+import { Text } from "@/components/Text";
+import { Box } from "@/components/Box";
 
 export default async function ColumnPage() {
   const queryClient = new QueryClient();
@@ -26,11 +28,13 @@ export default async function ColumnPage() {
   const dehydratedState = dehydrate(queryClient);
   return (
     <HydrationBoundary state={dehydratedState}>
-      <div className={style.card_container}>
-        <h3>GPT 칼럼</h3>
-        <ColumnCard />
-        <DetailButton />
-      </div>
+      <Container pt={10} pb={20}>
+        <Text size={18} weight={700} color="#000">GPT 컬럼</Text>
+        <Box mt={20}>
+          <ColumnCard />
+          <DetailButton />
+        </Box>
+      </Container>
     </HydrationBoundary>
   )
 }

@@ -103,9 +103,11 @@ export const ColumnDetailScreen = () => {
   }
 
   return (
-    <AppContainer>
+    <AppContainer disabledTopArea>
       <AppBar
         useLeftBack
+        backgroundColor="transparent"
+        scrollThreshold={160}
       >
         <Box>
           <ShareIcon />
@@ -114,88 +116,93 @@ export const ColumnDetailScreen = () => {
           {isScrapped ? <ScrapOnIcon /> : <ScrapIcon />}
         </Box>
       </AppBar>
-      <Box position='relative' width='100%' height={215}>
-        <Image
-          className={style.background_image}
-          src={gptColumnDetail?.backgroundImgUrl || '/column/column_banner.png'}
-          alt="column post image"
-          fill
-        />
-        <Box position='absolute' top={0} left={0} width='100%' height='100%' backgroundColor="rgba(0, 0, 0, 0.5)" />
+
+      <Box position="fixed" top={0} width='100%' height={215}>
+        <Box position='relative' width='100%' height='100%'>
+          <Image
+            className={style.background_image}
+            src={gptColumnDetail?.backgroundImgUrl || '/column/column_banner.png'}
+            alt="column post image"
+            fill
+          />
+        </Box>
       </Box>
 
-      <Container pt={16} pb={32}>
-        <FlexBox justifyContent='flex-start' gap={12} flexWrap='wrap'>
-          {gptColumnDetail.topicList.map((topic) => (
-            <Button
-              key={topic.id}
-              padding={10}
-              radius={10}
-              backgroundColor="#F3F3F3"
-            >
-              <Text size={12} weight={600} color="#7B8287"># {topic.title}</Text>
-            </Button>
-          ))}
-        </FlexBox>
-
-        <Stack mt={20}>
-          <Stack gap={10}>
-            <Text size={12} weight={400} color="#25292C">{gptColumnDetail.date}</Text>
-            <Text size={24} weight={700} color="#191B1C">{gptColumnDetail.title}</Text>
-          </Stack>
-
-          <Box backgroundColor="#EDF0F3" radius={20} py={20} px={16} mt={20}>
-            <Text size={16} weight={500} color="#A6ABAF">{gptColumnDetail.summary}</Text>
-          </Box>
-
-          <Box mt={28}>
-            <Text size={16} weight={500} color="#191B1C">
-              <div dangerouslySetInnerHTML={{ __html: gptColumnDetail.content }} />
-            </Text>
-          </Box>
-
-          <FlexBox mt={36} direction='column'>
-            <Text size={14} weight={600} color="#494F54">컬럼이 도움이 되셨나요?</Text>
-
-            <FlexBox mt={20} gap={14}>
-              <Button 
-                height={44} 
-                py={10} 
-                px={16} 
-                backgroundColor="#F3FCF2" 
+      <Box mt={165} zIndex={2} backgroundColor="#FFF">
+        <Container pt={16} pb={32}>
+          <FlexBox justifyContent='flex-start' gap={12} flexWrap='wrap'>
+            {gptColumnDetail.topicList.map((topic) => (
+              <Button
+                key={topic.id}
+                padding={10}
                 radius={10}
-                onClick={handleColumnClick}
+                backgroundColor="#F3F3F3"
               >
-                <FlexBox gap={5}>
-                  {isLiked ? <LikeOnIcon /> : <LikeIcon />}
-                  <Text size={12} weight={600} color="#50BF50">도움이 됐어요</Text>
-                </FlexBox>
+                <Text size={12} weight={600} color="#7B8287"># {topic.title}</Text>
               </Button>
-
-              <Button height={44} py={10} px={16} backgroundColor="#F3F3F3" radius={10}>
-                <Text size={12} weight={600} color="#7B8287">공유하기</Text>
-              </Button>
-            </FlexBox>
-
-            <FlexBox mt={16} gap={7}>
-              <Box>
-                <LikeIconGray />
-              </Box>
-              <Text size={12} weight={500} color="#A6ABAF">{totalLikeCnt}명이 도움을 받았어요!</Text>
-            </FlexBox>
+            ))}
           </FlexBox>
-        </Stack>
-      </Container>
 
-      <Box ref={ref} width='100%' height={10} backgroundColor="#EDF0F3" />
+          <Stack mt={20}>
+            <Stack gap={10}>
+              <Text size={12} weight={400} color="#25292C">{gptColumnDetail.date}</Text>
+              <Text size={24} weight={700} color="#191B1C">{gptColumnDetail.title}</Text>
+            </Stack>
 
-      <Box mt={20} mb={135}>
-        <ColumnComment columnId={columnId} pageType='columnDetail' />
+            <Box backgroundColor="#EDF0F3" radius={20} py={20} px={16} mt={20}>
+              <Text size={16} weight={500} color="#A6ABAF">{gptColumnDetail.summary}</Text>
+            </Box>
+
+            <Box mt={28}>
+              <Text size={16} weight={500} color="#191B1C">
+                <div dangerouslySetInnerHTML={{ __html: gptColumnDetail.content }} />
+              </Text>
+            </Box>
+
+            <FlexBox mt={36} direction='column'>
+              <Text size={14} weight={600} color="#494F54">컬럼이 도움이 되셨나요?</Text>
+
+              <FlexBox mt={20} gap={14}>
+                <Button
+                  height={44}
+                  py={10}
+                  px={16}
+                  backgroundColor="#F3FCF2"
+                  radius={10}
+                  onClick={handleColumnClick}
+                >
+                  <FlexBox gap={5}>
+                    {isLiked ? <LikeOnIcon /> : <LikeIcon />}
+                    <Text size={12} weight={600} color="#50BF50">도움이 됐어요</Text>
+                  </FlexBox>
+                </Button>
+
+                <Button height={44} py={10} px={16} backgroundColor="#F3F3F3" radius={10}>
+                  <Text size={12} weight={600} color="#7B8287">공유하기</Text>
+                </Button>
+              </FlexBox>
+
+              <FlexBox mt={16} gap={7}>
+                <Box>
+                  <LikeIconGray />
+                </Box>
+                <Text size={12} weight={500} color="#A6ABAF">{totalLikeCnt}명이 도움을 받았어요!</Text>
+              </FlexBox>
+            </FlexBox>
+          </Stack>
+        </Container>
+
+        <Box ref={ref} width='100%' height={10} backgroundColor="#EDF0F3" />
+
+        <Box mt={20} mb={135}>
+          <ColumnComment columnId={columnId} pageType='columnDetail' />
+        </Box>
+        
+        {showOpinionBox && isLogin && <OpinionBox columnId={columnId} imgSrc={userInfo?.avatarUrl} />}
+
+        <LoginSlide show={LoginModal.show} onClose={LoginModal.close} />
       </Box>
 
-      {showOpinionBox && isLogin && <OpinionBox columnId={columnId} imgSrc={userInfo?.avatarUrl} />}
-
-      <LoginSlide show={LoginModal.show} onClose={LoginModal.close} />
 
     </AppContainer>
   )

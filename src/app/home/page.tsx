@@ -16,6 +16,8 @@ import { getSsrBannerList } from "@/states/server/Home/getBannerList";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import { Category } from "@/model/Category";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
@@ -40,7 +42,7 @@ export default async function Home() {
   return (
     <AppContainer>
       <MainNav />
-      <Box padding='75px 16px 24px 16px' backgroundColor="#50BF50">
+      <Box padding='0 16px 24px 16px' backgroundColor="#50BF50">
         <Link href="/search" className={style.inputLinkBox}>
           <Image
             src='/icons/search.svg'

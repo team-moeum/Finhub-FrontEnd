@@ -3,7 +3,7 @@
 }
 
 .header {
-  padding-top: 65px;
+  padding-top: 54px;
 }
 
 .appContainerWrap {
@@ -16,6 +16,8 @@
 
   -ms-overflow-style: none;
   scrollbar-width: none;
+
+  background-color: #FFF;
 }
 
 .appContainerWrap::-webkit-scrollbar {

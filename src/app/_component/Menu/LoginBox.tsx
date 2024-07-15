@@ -27,16 +27,7 @@ export default function LoginBox({ isLogin }: { isLogin: boolean }) {
   const [activeLogin, setActiveLogin] = useState(false);
 
   return (
-    <Container padding='60px 16px 20px 16px' radius='0px 0px 20px 20px' backgroundColor="#F6F7F9">
-      <FlexBox position='relative'>
-        <Text size={16} weight={500} color="#525252">메뉴</Text>
-        {isLogin &&
-          <Box position='absolute' right={0}>
-            <BellIcon />
-          </Box>
-        }
-      </FlexBox>
-
+    <Container padding='0 16px 20px 16px' radius='0px 0px 20px 20px' backgroundColor="#F6F7F9">
       <Box mt={26} >
         {isLogin ?
           <LinkButton href={'/menu/user'}>
