@@ -4,7 +4,7 @@ import { ReactNode } from "react"
 import cssStyle from './Container.module.css';
 import cx from 'classnames';
 import { Box, BoxProps } from "@/components/Box";
-import { userSafeAreaTop } from "@/hooks/useSafeAreaTop";
+import { useSafeAreaTop } from "@/hooks/useSafeAreaTop";
 
 type AppContainerProps = {
   children: ReactNode;
@@ -21,7 +21,7 @@ export const AppContainer = ({
   children,
   ...props
 }: AppContainerProps) => {
-  const top = userSafeAreaTop();
+  const top = useSafeAreaTop();
 
   return (
     <Box

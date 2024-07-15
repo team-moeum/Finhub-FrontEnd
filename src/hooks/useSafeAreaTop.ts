@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 /**
  * IOS SafeAreaTop value
  */
-export const userSafeAreaTop = () => {
+export const useSafeAreaTop = () => {
   const [top, setTop] = useState(0);
 
   useEffect(() => {

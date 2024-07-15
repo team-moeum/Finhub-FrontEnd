@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { isLoggedIn } from "@/utils/auth_client";
-import { userSafeAreaTop } from "@/hooks/useSafeAreaTop";
+import { useSafeAreaTop } from "@/hooks/useSafeAreaTop";
 import { FlexBox } from "@/components/FlexBox";
 import { Box } from "@/components/Box";
 import { FlexRow } from "@/components/FlexRow";
@@ -20,7 +20,7 @@ const COLOR_MAP: Record<MainNavColor, string> = {
 
 export default function MainNav({ color = 'green', noCotent = false }: { color?: MainNavColor, noCotent?: boolean }) {
   const isLogin = isLoggedIn();
-  const top = userSafeAreaTop();
+  const top = useSafeAreaTop();
 
   return (
     <div className={cx([

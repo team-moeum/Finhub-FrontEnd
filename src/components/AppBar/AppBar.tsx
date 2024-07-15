@@ -9,7 +9,7 @@ import { FlexBox } from "../FlexBox";
 import ArrowBackIcon from '@/public/icons/icon_arrow_white_back.svg';
 import ArrowBackBlackIcon from '@/public/icons/arrow_back_black.svg';
 import { Text } from "../Text";
-import { userSafeAreaTop } from "@/hooks/useSafeAreaTop";
+import { useSafeAreaTop } from "@/hooks/useSafeAreaTop";
 import { useScrollPosition } from "@/hooks/useScrollPosition";
 
 type AppBarProps = {
@@ -55,7 +55,7 @@ export const AppBar = ({
   scrollThreshold,
   style,
 }: AppBarProps) => {
-  const top = userSafeAreaTop();
+  const top = useSafeAreaTop();
   const scrollPosition = useScrollPosition();
 
   const opacity = scrollPosition < (scrollThreshold || 160) ? 0 : 1;
@@ -69,7 +69,7 @@ export const AppBar = ({
       right={0}
       backgroundColor={fixed && backgroundColor === 'transparent' ? scrolledBackgroundColor : backgroundColor}
       zIndex={40}
-      style={{ transition: 'background 0.3s ease-in', ...style }}
+      style={{ transition: 'background 0.3s ease-in-out', ...style }}
     >
       <Box width='100%' height={top} />
       <Box height={54}>

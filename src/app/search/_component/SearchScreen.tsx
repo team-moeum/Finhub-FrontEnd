@@ -25,7 +25,7 @@ import { AppContainer, Container } from "@/components/Container";
 import { FlexBox } from "@/components/FlexBox";
 import { Box } from "@/components/Box";
 import { Text } from "@/components/Text";
-import { userSafeAreaTop } from "@/hooks/useSafeAreaTop";
+import { useSafeAreaTop } from "@/hooks/useSafeAreaTop";
 
 export type TopicInfiniteQueryType = {
   resultTopicSearchList: SearchResult[];
@@ -43,7 +43,7 @@ export type ColumnInfiniteQueryType = {
 
 export default function SearchScreen() {
   const [resultTabActive, setResultTabActive] = useState<SearchRequestType>("title");
-  const top = userSafeAreaTop();
+  const top = useSafeAreaTop();
 
   const {
     inputRef,

@@ -7,7 +7,7 @@ import Image from "next/image";
 import BackButton from "./BackButton";
 import { FlexBox } from "@/components/FlexBox";
 import { FlexRow } from "@/components/FlexRow";
-import { userSafeAreaTop } from "@/hooks/useSafeAreaTop";
+import { useSafeAreaTop } from "@/hooks/useSafeAreaTop";
 import { Box } from "@/components/Box";
 import { useScrollPosition } from "@/hooks/useScrollPosition";
 
@@ -18,7 +18,7 @@ type Props = {
 };
 
 export default function PostNav({ scrap, onClick, onShare }: Props) {
-  const top = userSafeAreaTop();
+  const top = useSafeAreaTop();
   const scrollPosition = useScrollPosition();
 
   const scrapIconPath = scrap
