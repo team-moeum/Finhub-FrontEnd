@@ -50,6 +50,7 @@ export default function MenuPage() {
 
       <Container mt={30} mb={100}>
         <MenuCard href="/menu/announcement">공지사항</MenuCard>
+        <MenuCard href="/privacy">개인정보처리방침</MenuCard>
         {/* <MenuCard href="/menu/theme">테마</MenuCard> */}
         {isLogin && <MenuCard href="/menu/alarm">알림</MenuCard>}
       </Container>
