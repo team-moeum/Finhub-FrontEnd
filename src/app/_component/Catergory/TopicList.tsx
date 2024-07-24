@@ -15,8 +15,8 @@ import { queryKeys, useTopicList } from "@/states/server/queries";
 import { activeCategory } from "@/states/client/atoms/activeCategory";
 import { activeLoginModal } from "@/states/client/atoms/activeLoginModal";
 import { useQueryClient } from '@tanstack/react-query';
-import { useIsLoginCsr } from '@/utils/auth_client';
 import { LinkButton } from '../../../components/LinkButton/LinkButton';
+import { isLoggedIn } from '@/utils/auth_client';
 
 type TopicItemProps = {
   data: Topic; 
@@ -27,7 +27,7 @@ export function TopicItem({data}: TopicItemProps) {
   const [, setActiveLogin] = useRecoilState(activeLoginModal);
   const [activeCategoryItem] = useRecoilState(activeCategory);
   const { showToast } = useToast();
-  const isLogin = useIsLoginCsr();
+  const isLogin = isLoggedIn();
 
   const queryClient = useQueryClient();
   const scrapMutation = useScrap({

@@ -11,7 +11,6 @@ import { isUserLoginSsr } from '@/utils/auth_server';
 import { getSsrQuizCalender } from '@/states/server/Feed/Quiz/getQuizCalender';
 
 export default async function QuizPage() {
-  const isLogin = isUserLoginSsr();
   const requestDate = moment().format("YYYYMMDD");
   const currentYear = moment().format("YYYY");
   const currentMonth = moment().format("MM");
@@ -52,7 +51,7 @@ export default async function QuizPage() {
     <HydrationBoundary state={dehydratedState}>
       <Suspense fallback={<Loading />}>
         <MainNav color='white' />
-        <QuizPageScreen isLogin={isLogin}/>
+        <QuizPageScreen />
       </Suspense>
     </HydrationBoundary>
   );
