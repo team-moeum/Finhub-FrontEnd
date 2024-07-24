@@ -11,7 +11,6 @@ import LoginModalContent from "../Catergory/LoginModalContent";
 import { AnimatePresence } from "framer-motion";
 import { PressButton } from "../../../components/PressAnimator/PressAnimator";
 
-import BellIcon from '@/public/icons/bell_gray_ico.svg';
 import { Container } from "@/components/Container";
 import { Box } from "@/components/Box";
 import { FlexBox } from "@/components/FlexBox";
@@ -44,7 +43,7 @@ export default function LoginBox({ isLogin }: { isLogin: boolean }) {
 
               <FlexBox direction='column' ml={10} gap={6} flex={1} alignItems='flex-start'>
                 <Text size={20} weight={600} color="#191B1C">{userInfo.nickname}</Text>
-                <Text size={14} weight={400} color="#CDD1D5">{userInfo.userType || "직업 없음"}</Text>
+                <Text size={14} weight={400} color={!userInfo.userType || userInfo.userType !== '직업 없음' ? "#50BF50" : "#CDD1D5"}>{userInfo.userType || "직업 없음"}</Text>
               </FlexBox>
 
               <Box width={18} height={18}>
