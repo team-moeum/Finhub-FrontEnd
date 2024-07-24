@@ -9,6 +9,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Box } from "@/components/Box";
 import { Text } from "@/components/Text";
 import { Button } from "@/components/Button";
+import { LinkButton } from "@/components/LinkButton";
 import { AppBar } from "@/components/AppBar";
 import { Stack } from "@/components/Stack";
 import { FlexBox } from "@/components/FlexBox";
@@ -132,14 +133,11 @@ export const ColumnDetailScreen = () => {
         <Container pt={16} pb={32}>
           <FlexBox justifyContent='flex-start' gap={12} flexWrap='wrap'>
             {gptColumnDetail.topicList.map((topic) => (
-              <Button
-                key={topic.id}
-                padding={10}
-                radius={10}
-                backgroundColor="#F3F3F3"
-              >
-                <Text size={12} weight={600} color="#7B8287"># {topic.title}</Text>
-              </Button>
+              <LinkButton href={`/${topic.categoryId}/${topic.topicId}`}>
+                <Button key={topic.id} padding={10} radius={10} backgroundColor="#F3F3F3">
+                  <Text size={12} weight={600} color="#7B8287"># {topic.title}</Text>
+                </Button>
+              </LinkButton>
             ))}
           </FlexBox>
 
