@@ -4,6 +4,7 @@ import { WithdrawPageScreen } from "./_component/WithdrawPageScreen";
 import { Suspense } from "react";
 import Loading from "@/app/loading";
 
+export const dynamic = "force-dynamic";
 
 export default function WitdrawPage() {
   return (
