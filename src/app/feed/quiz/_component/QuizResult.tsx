@@ -9,6 +9,7 @@ import { Text } from '@/components/Text';
 import { Button } from '@/components/Button';
 import { useRouter } from 'next/navigation';
 import { Stack } from '@/components/Stack';
+import { LinkBox, LinkButton } from '@/components/LinkButton';
 
 import PenIcon from '@/public/quiz/quiz_pen_icon.svg';
 
@@ -52,9 +53,12 @@ export const QuizResult = ({ show, onClose, quizResult, onSolveOtherClick }: Pro
 
           <FlexBox mt={13} gap={12} flexWrap='wrap'>
             {quizResult.topicList.map((item, index) => (
-              <Button key={index} radius={10} padding={10} backgroundColor='#50BF50'>
-                <Text size={12} weight={600} color='#F9FAFA'># {item.title}</Text>
-              </Button>
+              <LinkBox href={`/${item.categoryId}/${item.topicId}`} >
+                <Box key={index} radius={10} padding={10} mx={-15} backgroundColor='#50BF50'>
+                  <Text size={12} weight={600} color='#F9FAFA'># {item.title}</Text>
+                </Box>
+              </LinkBox>
+
             ))}
           </FlexBox>
 
