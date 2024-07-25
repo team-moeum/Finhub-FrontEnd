@@ -12,9 +12,15 @@ import { Text } from "@/components/Text";
 import { Box } from "@/components/Box";
 import ProfileAvatar from "./ProfileAvatar";
 import { AppBar } from "@/components/AppBar";
+import { useRouter } from "next/navigation";
 
 export const UserPageScreen = () => {
+  const router = useRouter();
   const userInfo = useRecoilValue(userState);
+
+  const handleClickWithdraw = () => {
+    router.push('/menu/user/withdraw');
+  }
 
   return (
     <AppContainer>
@@ -39,7 +45,7 @@ export const UserPageScreen = () => {
           <Text size={14} weight={500} color="#CDD1D5">카카오톡 이메일 {userInfo.email}</Text>
         </Stack>
 
-        <Box position='fixed' bottom={100}>
+        <Box position='fixed' bottom={100} onClick={handleClickWithdraw}>
           <Text size={12} weight={600} color="rgba(232, 59, 59, 0.80)">탈퇴하기</Text>
         </Box>
       </Container>

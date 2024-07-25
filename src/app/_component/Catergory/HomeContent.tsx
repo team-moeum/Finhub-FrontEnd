@@ -19,7 +19,6 @@ import Loading from '@/app/loading';
 import TopicList from "./TopicList";
 import CategoryItemList from "./CatergoryItemList";
 import LoginModalContent from './LoginModalContent';
-import { Category } from '@/model/Category';
 import { useCategory } from '@/states/server/queries';
 
 

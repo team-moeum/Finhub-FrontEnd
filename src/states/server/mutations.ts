@@ -16,6 +16,8 @@ import { postReportGptColumnComment } from "./Column/ColumnComment/postReportGpt
 import { postBanGptColumnComment } from "./Column/ColumnComment/postBanGptColumnComment";
 import { postQuizSolve } from "./Feed/Quiz/postQuizSolve";
 import { postQuizCalendarEmoji } from "./Feed/Quiz/postQuizCalenderEmoji";
+import { postQuit } from "./Menu/postQuit";
+import { postAlarm } from "./Notify/postAlarm";
 
 export const mutationKeys = {
   scrap: ["scrap"],
@@ -31,8 +33,10 @@ export const mutationKeys = {
   editGptColumnComment: ["editGptColumnComment"],
   reportGptColumnComment: ["reportGptColumnComment"],
   banGptColumnComment: ["banGptColumnComment"],
+  quit: ["quit"],
   quizSolve: ["quizSolve"],
   quizCaledarEmoji: ["quizCalendarEmoji"],
+  readAlarm: ["readAlarm"],
 }
 
 export const SCRAP_TYPE = {
@@ -164,4 +168,21 @@ export const usePostQuizCalendarEmoji = (options?: UseMutationOptions<any, Error
     ...options,
   });
 }
+
+export const usePostQuit = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number, reason: string }>({
+    mutationKey: mutationKeys.quit,
+    mutationFn: (param) => postQuit(param),
+    ...options,
+  });
+}
+
+export const useReadAlram = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { id: number }>({
+    mutationKey: mutationKeys.quit,
+    mutationFn: (param) => postAlarm(param),
+    ...options,
+  });
+}
+
 

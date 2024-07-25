@@ -48,6 +48,9 @@ import { User } from "@/model/User"
 import { getReportReasons } from "./Column/ColumnComment/getReportReasons"
 import { CommentReportReason } from "@/model/CommentReportReason"
 import moment from "moment"
+import { getQuitReasons } from "./Menu/getQuitReasons"
+import { QuitReason } from "@/model/QuitReasons"
+import { getAlarmList } from "./Notify/getAlarmList"
 
 
 export const queryKeys = {
@@ -69,13 +72,13 @@ export const queryKeys = {
   gptColumnDetail: (id: number) => ["gptColumnDetail", id.toString()],
   gptColumnCommentList: (id: number, type: number, page: number, size?: number) => ["gptColumnComment", id.toString(), type.toString() || "", page.toString(), size?.toString() || ""],
   announce: (cursorId?: number, size?: number) => ['announce', cursorId?.toString() || "", size?.toString() || ""],
+  alarm: (cursorId?: number, size?: number) => ['alarm', cursorId?.toString() || "", size?.toString() || ""],
   myScrap: (type: MyScrapRequest) => ["myScrap", type],
   myComment: () => ["myComment"],
   reportReasons: ["reportReasons"],
-
+  quitReasons: ["quitReasons"],
   quiz: (date?: string) => ["quiz", date || ""],
   quizCalendar: (year: string, month: string) => ["quizCalendar", year, month],
-
   missedQuiz: (date: string, limit?: number) => ["missedQuiz", date, limit?.toString() || ""],
   solvedQuiz: (isCorrect: string, date: string, limit?: number) => ["solvedQuiz", isCorrect, date, limit?.toString() || ""],
 }
@@ -157,6 +160,10 @@ export const queryOptions: QueryOptionsType = {
     queryKey: queryKeys.reportReasons,
     queryFn: () => getReportReasons()
   }),
+  quitReasons: () => ({
+    queryKey: queryKeys.quitReasons,
+    queryFn: () => getQuitReasons()
+  }),
   quiz: (date?: string) => ({
     queryKey: queryKeys.quiz(date),
     queryFn: () => getQuiz(date)
@@ -203,6 +210,7 @@ export const usePopularKeywordList = () => useBaseSuspenseQuery<{ date: string, 
 export const useGptColumnDetail = (columnId: number) => useBaseSuspenseQuery<gptColumnDetail>(queryOptions.gptColumnDetail(columnId));
 export const useMyScrap = (type: MyScrapRequest) => useBaseSuspenseQuery<MyTopicScarp[] | MyColumnScarp[]>(queryOptions.myScrap(type));
 export const useReportReasons = () => useBaseSuspenseQuery<CommentReportReason[]>(queryOptions.reportReasons());
+export const useQuitReasons = () => useBaseSuspenseQuery<QuitReason[]>(queryOptions.quitReasons());
 export const useQuizCalendar = (year: string, month: string) => useBaseSuspenseQuery<QuizCalenderResponse>(queryOptions.quizCalendar(year, month))
 export const useQuiz = (date?: string) => useBaseSuspenseQuery<QuizInfo>(queryOptions.quiz(date));
 export const useMissedQuiz = (date?: string, limit?: number) => useBaseSuspenseQuery<MissedQuiz>(queryOptions.missedQuiz(date, limit));
@@ -296,6 +304,28 @@ export const useAnnounceInfiniteQuery = ({ cursorId, size }: UseAnnounceInfinitQ
     queryKey: queryKeys.announce(cursorId, size),
     queryFn: ({ pageParam = cursorId }) => getAnnounce(pageParam, size),
     getNextPageParam: (lastPage) => {
+      const nextCursor = lastPage[lastPage.length - 1]?.id - 1;
+      return nextCursor && nextCursor > 0 ? nextCursor : undefined;
+    },
+    initialPageParam: cursorId,
+    staleTime: 60 * 1000,
+    gcTime: 300 * 1000,
+  });
+};
+
+type UseAlarmInfiniteQueryProps = {
+  cursorId?: number,
+  size?: number
+}
+export const useAlarmInfiniteQuery = ({ cursorId, size=10 }: UseAlarmInfiniteQueryProps) => {
+  return useInfiniteQuery({
+    queryKey: queryKeys.alarm(cursorId, size),
+    queryFn: ({ pageParam }) => getAlarmList(pageParam, size),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.length < size) {
+        return undefined;
+      }
+
       const nextCursor = lastPage[lastPage.length - 1]?.id - 1;
       return nextCursor && nextCursor > 0 ? nextCursor : undefined;
     },

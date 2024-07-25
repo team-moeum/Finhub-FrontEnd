@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { isAndroid, isIos, jsToNative } from "@/utils/jsToNative";
-import { useIsLoginCsr } from "@/utils/auth_client";
+import { isLoggedIn } from "@/utils/auth_client";
 
 import LoginBox from "@/app/_component/Menu/LoginBox";
 import MenuCard from "@/app/_component/Menu/MenuCard";
@@ -15,7 +15,7 @@ import { AppBar } from "@/components/AppBar";
 import BellIcon from '@/public/icons/bell_gray_ico.svg';
 
 export default function MenuPage() {
-  const isLogin = useIsLoginCsr();
+  const isLogin = isLoggedIn();
   const [currentVersion, setCurrentVersion] = useState("");
   const [recentVersion, setRecentVersion] = useState("");
 

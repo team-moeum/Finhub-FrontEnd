@@ -152,7 +152,7 @@ export const CommentCard = ({
                 </Stack>
             </Box>
 
-            <EditCommentSheet show={EditCommentSheetModal.show} columnId={columnId} onClose={EditCommentSheetModal.close} onDeleteClick={handleDeleteOpen} />
+            <EditCommentSheet show={EditCommentSheetModal.show} columnId={commentId} onClose={EditCommentSheetModal.close} onDeleteClick={handleDeleteOpen} />
             <DeleteCommentPopup show={DeleteCommentPopupModal.show} onCancel={DeleteCommentPopupModal.close} onDelete={handleDeleteComment} />
         </>
     )
