@@ -17,7 +17,10 @@ const loginWithKakao = async (kakaoCode: string | null) => {
 
 const refreshAccessToken = async () => {
   const response: ApiResponse = await get(
-    `/api/v1/auth/updateAccessToken`
+    `/api/v1/auth/updateAccessToken`,
+    ['updateAccessToken'],
+    {},
+    true
   );
 
   if (response.status === "FAIL") {

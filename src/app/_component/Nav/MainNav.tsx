@@ -10,6 +10,9 @@ import { useSafeAreaTop } from "@/hooks/useSafeAreaTop";
 import { FlexBox } from "@/components/FlexBox";
 import { Box } from "@/components/Box";
 import { FlexRow } from "@/components/FlexRow";
+import { LoginSlide } from "../Catergory/LoginSlide";
+import { useModal } from "@/hooks/useModal";
+import { useRouter } from "next/navigation";
 
 type MainNavColor = 'white' | 'green' | 'gray';
 const COLOR_MAP: Record<MainNavColor, string> = {
@@ -19,8 +22,16 @@ const COLOR_MAP: Record<MainNavColor, string> = {
 }
 
 export default function MainNav({ color = 'green', noCotent = false }: { color?: MainNavColor, noCotent?: boolean }) {
+  const router = useRouter();
   const isLogin = isLoggedIn();
   const top = useSafeAreaTop();
+  
+  const loginModal = useModal();
+
+  const handleNotifyClick = () => {
+    if (isLogin) router.push('/notify');
+    else loginModal.open();
+  }
 
   return (
     <div className={cx([
@@ -41,20 +52,20 @@ export default function MainNav({ color = 'green', noCotent = false }: { color?:
                 height={25}
               />
             </Link>
-            <div className={style.right_box}>
-              <Link href={isLogin ? `/notify` : `/login`}>
-                <Image
-                  priority
-                  src={color === 'green' ? "/icons/notify.svg" : "/icons/notify_green.svg"}
-                  alt="notify icon"
-                  width={21}
-                  height={22}
-                />
-              </Link>
+            <div className={style.right_box} onClick={handleNotifyClick}>
+              <Image
+                priority
+                src={color === 'green' ? "/icons/notify.svg" : "/icons/notify_green.svg"}
+                alt="notify icon"
+                width={21}
+                height={22}
+              />
             </div>
           </FlexRow>
         }
       </FlexBox>
+
+      <LoginSlide show={loginModal.show} onClose={loginModal.close} />
     </div>
   )
 }

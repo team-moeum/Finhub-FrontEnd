@@ -8,8 +8,11 @@ import QuizList, { LoginNeedBox } from './QuizList';
 import { Text } from '@/components/Text';
 import { FlexBox } from '@/components/FlexBox';
 import QuizCalendar, { SkeletonCalendar } from './QuizCalendar';
+import { isLoggedIn } from '@/utils/auth_client';
 
-export const QuizPageScreen = ({isLogin}: {isLogin: boolean}) => {
+export const QuizPageScreen = () => {
+  const isLogin = isLoggedIn();
+  
   return (
     <AppContainer header mb={34}>
       <Container>

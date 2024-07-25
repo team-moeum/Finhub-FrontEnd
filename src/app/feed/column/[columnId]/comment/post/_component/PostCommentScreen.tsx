@@ -8,6 +8,7 @@ import { useToast } from "@/components/Toast/useToast";
 import { gptColumnCommentState } from "@/states/client/atoms/gptColumnComment";
 import { useEditGptColumnComment, useGptColumnComment } from "@/states/server/mutations";
 import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
@@ -21,6 +22,7 @@ export const PostCommentScreen = () => {
   const router = useRouter();
   const columnId = Number(useParams().columnId);
   const commentPostType = useSearchParams().get('type');
+  const queryClient = useQueryClient();
   
   const [comment, setComment] = useState('');
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
@@ -40,6 +42,8 @@ export const PostCommentScreen = () => {
         return;
       }
 
+      queryClient.invalidateQueries({ queryKey: ['gptColumnComment']});
+      queryClient.invalidateQueries({ queryKey: ['myComment']});
       router.back();
     },
     onError: () => {
@@ -54,6 +58,8 @@ export const PostCommentScreen = () => {
         return;
       }
 
+      queryClient.invalidateQueries({ queryKey: ['gptColumnComment']});
+      queryClient.invalidateQueries({ queryKey: ['myComment']});
       router.back();
     },
     onError: () => {

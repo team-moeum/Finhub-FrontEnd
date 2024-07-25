@@ -53,14 +53,14 @@ export default async function Home() {
           <Text color="#CDD1D5" size={14} weight={400} lineHeight={1.5}>찾고 싶은 단어를 입력해주세요.</Text>
         </Link>
       </Box>
-      <Container>
+      <HydrationBoundary state={dehydratedState}>
         <Box mt={26} mb={32}>
-          <HydrationBoundary state={dehydratedState}>
-            <CategoryCard />
+          <CategoryCard />
+          <Container>
             <HomeContent />
-          </HydrationBoundary>
+          </Container>
         </Box>
-      </Container>
+      </HydrationBoundary>
     </AppContainer>
   );
 }
