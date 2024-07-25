@@ -1,4 +1,4 @@
-import { jsToNative } from "@/utils/jsToNative";
+import { isAndroid, jsToNative } from "@/utils/jsToNative";
 import { useEffect, useState } from "react";
 
 /**
@@ -8,6 +8,8 @@ export const useSafeAreaTop = () => {
   const [top, setTop] = useState(0);
 
   useEffect(() => {
+    if (isAndroid()) return; 
+    
     jsToNative({ val1: "getSafeAreaInset" }, (data: any) => {
       const dataObj = JSON.parse(data.detail);
       setTop(dataObj.top);
