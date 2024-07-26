@@ -5,4 +5,5 @@ export interface Topic {
     categoryId?: number;
     summary: string;
     scrapped: boolean;
+    img_path: string | null;
 }
