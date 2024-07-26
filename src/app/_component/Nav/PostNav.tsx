@@ -7,9 +7,8 @@ import Image from "next/image";
 import BackButton from "./BackButton";
 import { FlexBox } from "@/components/FlexBox";
 import { FlexRow } from "@/components/FlexRow";
-import { useSafeAreaTop } from "@/hooks/useSafeAreaTop";
-import { Box } from "@/components/Box";
 import { useScrollPosition } from "@/hooks/useScrollPosition";
+import { SafeArea } from "../SafeArea";
 
 type Props = {
   scrap: boolean;
@@ -18,7 +17,6 @@ type Props = {
 };
 
 export default function PostNav({ scrap, onClick, onShare }: Props) {
-  const top = useSafeAreaTop();
   const scrollPosition = useScrollPosition();
 
   const scrapIconPath = scrap
@@ -37,10 +35,7 @@ export default function PostNav({ scrap, onClick, onShare }: Props) {
       }}
     >
       <FlexBox direction="column" width='100%'>
-        <Box 
-          width='100%' 
-          height={top}
-        />
+        <SafeArea />
         <FlexRow width='100%' py={12} px={16}>
           <BackButton />
           <div className={style.right_box}>
