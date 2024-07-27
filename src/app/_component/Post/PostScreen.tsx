@@ -116,6 +116,7 @@ export default function PostScreen({ categoryId, topicId }: Props) {
               radius={10}
               backgroundColor="#F6F7F9"
               boxShadow="4px 4px 20px 0px rgba(0, 0, 0, 0.08)"
+              style={{overflow: "hidden"}}
             >
               <FlexBox pr={34} justifyContent='space-between'>
                 <Box width={70}>

@@ -18,10 +18,12 @@
 }
 
 .img_box {
+    position: relative;
     width: 64px;
     height: 64px;
     background-color: #E0F1DC;
     border-radius: 8px;
+    overflow: hidden;
 }
 
 .content_box {
