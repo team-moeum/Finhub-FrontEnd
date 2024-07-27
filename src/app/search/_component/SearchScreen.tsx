@@ -26,6 +26,7 @@ import { FlexBox } from "@/components/FlexBox";
 import { Box } from "@/components/Box";
 import { Text } from "@/components/Text";
 import { useSafeAreaTop } from "@/hooks/useSafeAreaTop";
+import { SafeArea } from "@/app/_component/SafeArea";
 
 export type TopicInfiniteQueryType = {
   resultTopicSearchList: SearchResult[];
@@ -69,7 +70,7 @@ export default function SearchScreen() {
   return (
     <AppContainer>
       <Box position="fixed" top={0} left={0} right={0}>
-        <Box width='100%' height={top} backgroundColor="#FFF"/>
+        <SafeArea backgroundColor="#FFF" />
       </Box>
       <div className={cx([style.header, !isResultPage && style.focus])} style={{ top: top }}>
         {isResultPage ?

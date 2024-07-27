@@ -2,6 +2,7 @@
 
 import style from './TopicList.module.css';
 import ScrapIcon from "@/assets/Icons";
+import Image from 'next/image';
 
 import { useRecoilState } from "recoil";
 import React, { Fragment, useState } from "react";
@@ -59,7 +60,23 @@ export function TopicItem({data}: TopicItemProps) {
   return (
     <LinkButton href={`/${activeCategoryItem.categoryId}/${data.topicId}`}>
       <div className={style.item_container}>
-        <div className={style.img_box}></div>
+        <div className={style.img_box}>
+          {data.img_path &&
+            <Image 
+              width={80}
+              height={80}
+              src={data.img_path}
+              alt='토픽 이미지'
+              priority
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)'
+              }}
+            />
+          }
+        </div>
         <div className={style.content_box}>
           <p>{data.title}</p>
           <p>{data.summary}</p>
