@@ -1,4 +1,4 @@
-export type ApiMethods = "GET" | "POST" | "PUT" | "DELETE";
+export type ApiMethods = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 export interface ApiConfig {
   tags?: string[];
