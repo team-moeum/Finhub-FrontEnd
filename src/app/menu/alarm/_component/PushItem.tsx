@@ -62,19 +62,19 @@ export default function PushItem() {
   }
 
   const toggleHandler = () => {
-    if (!checked) {
-      jsToNative({ val1: "getNotificationPermission" }, (data: any) => {
-        const systemAlarmYn = JSON.parse(data.detail).result;
+    /** 알림 비활성화 */
+    if (checked) return pushAlarmYnMutation.mutate({yn: false});
 
-        if (!systemAlarmYn) {
-          return AlarmAgreeModal.open();
-        }
+    /** 알림 활성화 */
+    jsToNative({ val1: "getNotificationPermission" }, (data: any) => {
+      const systemAlarmYn = JSON.parse(data.detail).result;
 
-        pushAlarmYnMutation.mutate({yn: true});
-      });
-    } else {
-      pushAlarmYnMutation.mutate({yn: false});
-    }
+      if (!systemAlarmYn) {
+        return AlarmAgreeModal.open();
+      }
+
+      pushAlarmYnMutation.mutate({yn: true});
+    });
   };
 
   return (
