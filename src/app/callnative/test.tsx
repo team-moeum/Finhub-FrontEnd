@@ -72,6 +72,34 @@ export const CallNativeTestPage = () => {
           }}>
           getRemoteConfig
         </button>
+
+        <button
+          className={style.test_btn}
+          onClick={() => {
+            jsToNative(
+              {
+                val1: "getNotificationPermission"
+              },
+              (data: any) => {
+                setTest(data.detail);
+              })
+          }}>
+          getNotificationPermission
+        </button>
+
+        <button
+          className={style.test_btn}
+          onClick={() => {
+            jsToNative(
+              {
+                val1: "requestNotificationPermission"
+              },
+              (data: any) => {
+                // 콜백 없음
+              })
+          }}>
+          requestNotificationPermission
+        </button>
       </div>
     </div>
   );
