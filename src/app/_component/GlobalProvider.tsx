@@ -1,18 +1,26 @@
 "use client";
 
-import { FHEventBus } from "@/utils/jsToNative";
+import { jsToNative } from "@/utils/jsToNative";
 import { ReactNode, useEffect } from "react";
+import { isLoggedIn } from '@/utils/auth_client';
+import { fcmAPI } from "@/api/fcm";
+import { usePageHistory } from "@/hooks/usePageHistory";
+
 
 export const GlobalProvider = ({
   children
 }: {
   children:ReactNode
 }) => {
-  useEffect(() => {
-    const eventBus = new FHEventBus();
+  const { isFirstVisit } = usePageHistory();
 
-    eventBus.on('getPushToken', (e) => {});
-  }, []);
+  useEffect(() => {
+    if (!isLoggedIn() || !isFirstVisit) return;
+    
+    jsToNative({ val1: "getPushToken" }, (data: any) => {
+      fcmAPI.updateFcmToken(data.detail);
+    });
+  }, [isFirstVisit]);
 
   return <>{children}</>;
 }
