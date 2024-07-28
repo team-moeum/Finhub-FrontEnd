@@ -7,6 +7,11 @@ import { useRecoilState } from "recoil";
 import { userState } from "@/states/client/atoms/user";
 import { usePushAlarmYn } from "@/states/server/mutations";
 import { useToast } from "@/components/Toast/useToast";
+import { jsToNative } from "@/utils/jsToNative";
+import { Popup } from "@/components/Popup";
+import { useModal } from "@/hooks/useModal";
+import { FlexBox } from "@/components/FlexBox";
+import { Text } from "@/components/Text";
 
 type ToggleButtonProps = {
   checked: boolean,
@@ -26,6 +31,7 @@ export default function PushItem() {
   const [userInfo, setUserInfo] = useRecoilState(userState);
 
   const { showToast } = useToast();
+  const AlarmAgreeModal = useModal();
 
   const pushAlarmYnMutation = usePushAlarmYn({
     onSettled: () => {
@@ -50,14 +56,47 @@ export default function PushItem() {
     setChecked(userInfo.pushYN === true)
   }, [userInfo])
 
+  const handleAlarmAgreeClick = () => {
+    jsToNative({ val1: "requestNotificationPermission" }, (data: any) => {});
+    AlarmAgreeModal.close();
+  }
+
   const toggleHandler = () => {
-    pushAlarmYnMutation.mutate({yn: !checked});
+    if (!checked) {
+      jsToNative({ val1: "getNotificationPermission" }, (data: any) => {
+        const systemAlarmYn = JSON.parse(data.detail).result;
+
+        if (!systemAlarmYn) {
+          return AlarmAgreeModal.open();
+        }
+
+        pushAlarmYnMutation.mutate({yn: true});
+      });
+    } else {
+      pushAlarmYnMutation.mutate({yn: false});
+    }
   };
 
   return (
-    <div className={style.container}>
-      <span>푸시 알림</span>
-      <ToggleButton checked={checked} onChange={toggleHandler} />
-    </div>
+    <>
+      <div className={style.container}>
+        <span>푸시 알림</span>
+        <ToggleButton checked={checked} onChange={toggleHandler} />
+      </div>
+
+      <Popup 
+        show={AlarmAgreeModal.show} 
+        onClose={AlarmAgreeModal.close} 
+        leftButtonText="취소" 
+        rightButtonText="확인"
+        onLeftClick={AlarmAgreeModal.close}
+        onRightClick={handleAlarmAgreeClick}
+      >
+        <FlexBox direction="column" gap={6}>
+          <Text size={16}>알림을 허용하시겠습니까?</Text>
+          <Text size={14}>(OS와 버전에 따라 설정 페이지로 이동할 수 있습니다)</Text>
+        </FlexBox>
+      </Popup>
+    </>
   )
 }
