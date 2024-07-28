@@ -109,6 +109,15 @@ export function remove<T>(
   return request<T>("DELETE", endpoint, { body, headers, tags });
 }
 
+export function patch<T>(
+  endpoint: string,
+  tags = [] as string[],
+  body = {},
+  headers = {}
+): Promise<T> {
+  return request<T>("PATCH", endpoint, { body, headers, tags });
+}
+
 /**
  * ssr api request for prefetch
  */

@@ -18,6 +18,7 @@ import { postQuizSolve } from "./Feed/Quiz/postQuizSolve";
 import { postQuizCalendarEmoji } from "./Feed/Quiz/postQuizCalenderEmoji";
 import { postQuit } from "./Menu/postQuit";
 import { postAlarm } from "./Notify/postAlarm";
+import { patchPushAlarmYn } from "./Menu/patchPushAlarmYn";
 
 export const mutationKeys = {
   scrap: ["scrap"],
@@ -37,6 +38,7 @@ export const mutationKeys = {
   quizSolve: ["quizSolve"],
   quizCaledarEmoji: ["quizCalendarEmoji"],
   readAlarm: ["readAlarm"],
+  pushAlarmYn: ["pushAlarmYn"]
 }
 
 export const SCRAP_TYPE = {
@@ -185,4 +187,10 @@ export const useReadAlram = (options?: UseMutationOptions<any, Error, any>) => {
   });
 }
 
-
+export const usePushAlarmYn = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { yn: boolean }>({
+    mutationKey: mutationKeys.pushAlarmYn,
+    mutationFn: (param) => patchPushAlarmYn(param),
+    ...options,
+  });
+}
