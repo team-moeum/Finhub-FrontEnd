@@ -1,6 +1,7 @@
 import { ApiResponse } from "@/api/type";
 import { get } from "./client";
 import { deleteToken, setAccessToken, setToken } from "@/utils/authToken";
+import { jsToNative } from "@/utils/jsToNative";
 
 const loginWithKakao = async (kakaoCode: string | null) => {
   const response: ApiResponse = await get(
