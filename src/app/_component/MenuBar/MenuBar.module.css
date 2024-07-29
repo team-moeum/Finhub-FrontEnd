@@ -15,9 +15,7 @@
 }
 
 .container svg {
-    width: 24px;
-    height: 24px;
-    fill: #A9A7A2;
+    color: #CDD1D5;
     transform: translate3d(0, 9px, 0);
     transition: 0.2s ease-in;
 }
@@ -44,7 +42,7 @@
 
 .tab.active svg {
     transform: translate3d(0, 0, 0);
-    fill: #32B768;
+    color: #32B768;
 }
 
 .tab.active span {
