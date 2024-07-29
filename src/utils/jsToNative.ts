@@ -6,7 +6,7 @@ declare global {
 }
 
 type EventHandler = (payload: any) => void;
-class FHEventBus {
+export class FHEventBus {
   static uniqueIdSet = new Set<string>();
   static generateUniqueId(prefix: string): string {
     let id: string;

@@ -8,6 +8,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  SERVICE_NAME: frontend
 on:
   push:
     branches:
@@ -20,9 +21,9 @@ jobs:
 
       - name: Generate Environment Variables File
         run: |
-          echo "$NEXT_SECRET" >> .env
+          echo "$NEXT_SECRET_DEV" >> .env
         env:
-          NEXT_SECRET: ${{ secrets.NEXT_SECRET }}
+          NEXT_SECRET_DEV: ${{ secrets.NEXT_SECRET_DEV }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -57,10 +58,11 @@ jobs:
             aws configure set aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY }}
             aws configure set region ${{ env.AWS_REGION }}
             ECR_REGISTRY_LOGIN=$(aws ecr get-login-password --region ${{ env.AWS_REGION }} | sudo docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }})
-            sudo docker stop ${{ env.ECR_REPOSITORY }} || true
-            sudo docker rm ${{ env.ECR_REPOSITORY }} || true
-            sudo docker pull ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
-            sudo docker run -d --name finhub-frontend -p 3000:3000 ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
+            sudo docker-compose stop ${{ env.SERVICE_NAME }}
+            sudo docker-compose rm -f ${{ env.SERVICE_NAME }}
+            sudo docker rmi ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest || true
+            sudo docker-compose pull ${{ env.SERVICE_NAME }}
+            sudo docker-compose up -d ${{ env.SERVICE_NAME }}
 
       - name: Send Slack Message
         uses: 8398a7/action-slack@v3

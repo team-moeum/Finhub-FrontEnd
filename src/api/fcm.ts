@@ -1,6 +1,6 @@
 "use client";
 
-import { post } from "./client";
+import { post, remove } from "./client";
 
 
 const updateFcmToken = async (token: string) => {
@@ -11,6 +11,14 @@ const updateFcmToken = async (token: string) => {
   );
 };
 
+const deleteFcmToken = async () => {
+  remove(
+    "/api/v1/main/fcm-token",
+    ["deleteFcmToken"],
+  );
+}
+
 export const fcmAPI = {
   updateFcmToken,
+  deleteFcmToken
 };

@@ -30,7 +30,26 @@ const refreshAccessToken = async () => {
   setAccessToken(response.data.token);
 }
 
+const autoLogin = async () => {
+  const response: ApiResponse = await get(
+    '/api/v1/auth/autoLogin',
+    ['autoLogin']
+  )
+
+  if (response.status === "FAIL") {
+    deleteToken();
+  }
+
+  setToken({
+    accessToken: response.data.token.accessToken,
+    refreshToken: response.data.token.refreshToken,
+  });
+
+  return response
+}
+
 export const authAPI = {
+  autoLogin,
   loginWithKakao,
   refreshAccessToken
 };
