@@ -56,7 +56,7 @@ export default function MenuPage() {
         {isLogin && <MenuCard href="/menu/alarm">알림</MenuCard>}
       </Container>
 
-      <Container variant="thick">
+      <Container variant="thick" pb={30}>
         <Box>
           <Text size={16} weight={400} color="#A6ABAF">
             버전 현재 {currentVersion} / 최신 {recentVersion}
