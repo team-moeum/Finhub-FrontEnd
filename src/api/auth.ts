@@ -48,8 +48,22 @@ const autoLogin = async () => {
   return response
 }
 
+const loginWithGoogle = async (code: string | null) => {
+  const response: ApiResponse = await get(
+    `/api/v1/auth/login/oauth2/callback/google?code=${code}&origin=${process.env.NEXT_PUBLIC_MODE}`
+  );
+
+  setToken({
+    accessToken: response.data.token.accessToken,
+    refreshToken: response.data.token.refreshToken,
+  });
+
+  return response;
+};
+
 export const authAPI = {
   autoLogin,
   loginWithKakao,
-  refreshAccessToken
+  refreshAccessToken,
+  loginWithGoogle,
 };

@@ -36,7 +36,7 @@
     font-weight: 500;
 }
 
-.kakao_login {
+.login_button {
     position: relative;
     width: 100%;
     height: 55px;
@@ -44,10 +44,22 @@
     align-items: center;
     justify-content: center;
     border-radius: 12px;
+}
+
+.kakao_login {
     background-color: #FEE500;
 }
 
-.kakao_login .kakao_login_icon {
+.google_login {
+    border: 1px solid #E6E8EB;
+}
+
+.apple_login {
+    color: #ffffff;
+    background-color: #000000;
+}
+
+.login_icon {
     position: absolute;
     left: 28px;
 }
