@@ -27,7 +27,7 @@ export default function ColumnCard() {
       spaceBetween={50}
       slidesPerView={1}
       autoplay={{ delay: 3000 }}
-      speed={2000}
+      speed={1500}
       loop={true}
       pagination={{ clickable: true }}
     >

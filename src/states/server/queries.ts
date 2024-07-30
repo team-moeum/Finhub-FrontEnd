@@ -268,7 +268,7 @@ export const useGptColumnList = ({ page, size }: UseGptColumnListProps) => {
     initialPageParam: page || 1,
     getNextPageParam: (lastPage) => {
       const nextPage = lastPage.pageInfo.currentPage + 1;
-      return nextPage < lastPage.pageInfo.totalPages ? nextPage : undefined;
+      return nextPage <= lastPage.pageInfo.totalPages ? nextPage : undefined;
     },
     staleTime: 60 * 1000,
     gcTime: 300 * 1000,
