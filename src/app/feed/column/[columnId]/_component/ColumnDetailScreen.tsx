@@ -133,7 +133,7 @@ export const ColumnDetailScreen = () => {
         <Container pt={16} pb={32}>
           <FlexBox justifyContent='flex-start' gap={12} flexWrap='wrap'>
             {gptColumnDetail.topicList.map((topic) => (
-              <LinkButton href={`/${topic.categoryId}/${topic.topicId}`}>
+              <LinkButton key={topic.id} href={`/${topic.categoryId}/${topic.topicId}`}>
                 <Button key={topic.id} padding={10} radius={10} backgroundColor="#F3F3F3">
                   <Text size={12} weight={600} color="#7B8287"># {topic.title}</Text>
                 </Button>
