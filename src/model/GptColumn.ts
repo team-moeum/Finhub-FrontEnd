@@ -3,7 +3,7 @@ export interface gptColumn {
     title: string,
     date: string,
     backgroundImgUrl: string,
-    topicList: {id: number, title: string}[]
+    topicList: { id: number, title: string, topicId: number, categoryId: number }[]
 }
 
 export interface gptColumnDetail extends gptColumn {
