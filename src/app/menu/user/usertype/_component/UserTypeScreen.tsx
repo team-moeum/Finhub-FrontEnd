@@ -14,7 +14,11 @@ export const UserTypeScreen = () => {
   const [userInfo, _] = useRecoilState(userState);
 
   useEffect(() => {
-    if (userInfo.userTypeUrl) serImgPath(userInfo.userTypeUrl);
+    if (userInfo.userTypeUrl) {
+      serImgPath(userInfo.userTypeUrl);
+    } else if (userInfo.userType === '직업 없음') {
+      serImgPath('/images/userType_default_img.png');
+    }
   }, [userInfo, serImgPath])
 
   return (

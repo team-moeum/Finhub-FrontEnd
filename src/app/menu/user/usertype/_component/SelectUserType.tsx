@@ -32,28 +32,32 @@ type Props = {
   userInfo: User
 }
 export default function SelectUserType({ userInfo }: Props) {
-  const [userType, setUserType] = useState<UserType>();
+  const defaultUserType: UserType = { id: 0, name: "직업 없음", img_path: '' };
+  const [userType, setUserType] = useState<UserType>(defaultUserType);
+
   const [dropList, setDropList] = useState(false);
   const [_, setUserInfo] = useRecoilState(userState);
 
   const { showToast } = useToast();
-  const { data: userTypeList } = useUserTypeList();
+  const { data: userTypeListData } = useUserTypeList();
   const userTypeMutation = useUpdateUserType({
     onSuccess: () => {
-      showToast({content: "직업이 변경 되었습니다!", type: 'success'});
-      setUserInfo(prev => ({...prev, 
+      showToast({ content: "직업이 변경 되었습니다!", type: 'success' });
+      setUserInfo(prev => ({
+        ...prev,
         userType: userType?.name,
         userTypeUrl: userType?.img_path,
       }))
     },
     onError: () => {
-      showToast({content: "잠시후 다시 시도해주세요!", type: "warning"});
+      showToast({ content: "잠시후 다시 시도해주세요!", type: "warning" });
     }
   });
+  const userTypeList = [{ id: 0, name: "직업 없음", img_path: '' }, ...(userTypeListData || [])];
 
   useEffect(() => {
     if (!userInfo.userType || userInfo.userType === "직업 없음") {
-      setUserType({ id: 0, name: "직업 없음", img_path: '' });
+      setUserType(defaultUserType);
     } else {
       const userSelectedType = userTypeList.find(element => element.name === userInfo.userType);
       if (userSelectedType) setUserType(userSelectedType);
@@ -82,12 +86,6 @@ export default function SelectUserType({ userInfo }: Props) {
       {dropList ?
         <div className={style.select_list}>
           <div className={style.select_list_wrap}>
-            <UserTypeItem
-              key={0}
-              name="직업 없음"
-              checked={userType?.name === "직업 없음"}
-              onChange={() => handleChangeUserType({ id: 0, name: "직업 없음", img_path: '' })}
-            />
             {userTypeList.map((item, i) => (
               <UserTypeItem
                 key={item.id}
