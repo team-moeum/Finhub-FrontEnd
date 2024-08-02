@@ -1,3 +1,4 @@
+
 "use client";
 
 import { User } from '@/model/User';
@@ -31,32 +32,40 @@ type Props = {
   userInfo: User
 }
 export default function SelectUserType({ userInfo }: Props) {
-  const [userType, setUserType] = useState<UserType>();
+  const defaultUserType: UserType = { id: 0, name: "직업 없음", img_path: '' };
+  const [userType, setUserType] = useState<UserType>(defaultUserType);
+
   const [dropList, setDropList] = useState(false);
   const [_, setUserInfo] = useRecoilState(userState);
 
   const { showToast } = useToast();
-  const { data: userTypeList } = useUserTypeList();
+  const { data: userTypeListData } = useUserTypeList();
   const userTypeMutation = useUpdateUserType({
     onSuccess: () => {
-      showToast({content: "직업이 변경 되었습니다!", type: 'success'});
-      setUserInfo(prev => ({...prev, 
+      showToast({ content: "직업이 변경 되었습니다!", type: 'success' });
+      setUserInfo(prev => ({
+        ...prev,
         userType: userType?.name,
         userTypeUrl: userType?.img_path,
       }))
     },
     onError: () => {
-      showToast({content: "잠시후 다시 시도해주세요!", type: "warning"});
+      showToast({ content: "잠시후 다시 시도해주세요!", type: "warning" });
     }
   });
+  const userTypeList = [{ id: 0, name: "직업 없음", img_path: '' }, ...(userTypeListData || [])];
 
   useEffect(() => {
-    const userSelectedType = userTypeList.find(element => element.name === userInfo.userType)
-    if (userSelectedType) setUserType(userSelectedType)
+    if (!userInfo.userType || userInfo.userType === "직업 없음") {
+      setUserType(defaultUserType);
+    } else {
+      const userSelectedType = userTypeList.find(element => element.name === userInfo.userType);
+      if (userSelectedType) setUserType(userSelectedType);
+    }
   }, [userInfo])
 
   const handleChangeUserType = (userType: UserType) => {
-    userTypeMutation.mutate({id: userType.id});
+    userTypeMutation.mutate({ id: userType.id });
     setUserType(userType);
     setDropList(!dropList);
   }
@@ -68,7 +77,7 @@ export default function SelectUserType({ userInfo }: Props) {
   return (
     <div className={style.container}>
       <div className={cx([style.select_box, dropList && style.active])} onClick={handleDropList}>
-        <span>{userType?.name || "직업없음"}</span>
+        <span>{userType?.name || '직업 없음'}</span>
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="8" viewBox="0 0 14 8" fill="none">
           <path d="M1 1L7 7L13 1" stroke="current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -88,12 +97,11 @@ export default function SelectUserType({ userInfo }: Props) {
           </div>
         </div>
         :
+        userType?.name === "직업 없음" &&
         <div className={style.info_box}>
-          <p>
-            맞춤형 설명에서 직업을 선택하지 않아도<br />
-            <span>설정한 직업</span>으로 설명이 나와요.
-          </p>
+          <p>직업을 설정하면 맞춤형 설명에서 <span> 내 직업을 먼저 </span>볼 수 있어요!</p>
         </div>
+
       }
     </div>
   )

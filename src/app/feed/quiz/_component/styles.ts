@@ -25,8 +25,10 @@ export const StyledCalendarWrapper = styled.div`
   /* 네비게이션 가운데 정렬 */
   .react-calendar__navigation {
   margin-bottom:2px;
-  margin-top:-8px;
-  }
+  margin-top:-3px;
+  &:hover {
+    background-color: #f9fafa; /* 버튼에 마우스를 올렸을 때 백그라운드 색상 변경 */
+  }}
 
   /* 네비게이션 폰트 설정 */
   .react-calendar__navigation button {
@@ -35,14 +37,18 @@ export const StyledCalendarWrapper = styled.div`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-bottom:0px;
-  padding-top:0px;
+  margin-bottom:6px;
+  padding-top:-2px;
   color: var(--black-800, #191B1C);
-  }
+  &:hover {
+    background-color: #E6;
+    border-radius:0.7rem;  
+  }}
 
   /* 네비게이션 버튼 컬러 */
   .react-calendar__navigation button:focus {
   background-color: #F9FAFA;
+  border-radius: 0.7rem;
   }
 
   /* 네비게이션 비활성화 됐을때 스타일 */
@@ -54,6 +60,7 @@ export const StyledCalendarWrapper = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
+  border-radius: 0.7rem;
   }
 
   /* 년/월 상단 네비게이션 칸 크기 줄이기 */
@@ -73,19 +80,6 @@ export const StyledCalendarWrapper = styled.div`
   color:black;
   }
 
-  /* 네비게이션 월 스타일 적용 */
-  .react-calendar__year-view__months__month {
-  border-radius: 0.8rem;
-  padding: 0;
-  }
-
-  /* 네비게이션 현재 월 스타일 적용 */
-  .react-calendar__tile--hasActive {
-  abbr {
-    color: white;
-    }
-  }
-
   /* 일 날짜 간격 */
   .react-calendar__tile {
   position: relative;
@@ -95,7 +89,7 @@ export const StyledCalendarWrapper = styled.div`
   font-weight: 550;
   color:black;
   height:45px;
-  display: flex; /* 내부 요소를 가로로 배치하기 위해 flex 사용 */
+  display: flex; 
   align-items:center;
   flex-direction:column;
   }
@@ -110,35 +104,47 @@ export const StyledCalendarWrapper = styled.div`
   margin-inline-start: 5px !important;
   margin-inline-end: 5px !important;
   margin-block-end: 10px;
+  margin-bottom:7px;
+
   padding: 20px 6.6667px;
   font-size: 0.9rem;
   font-weight: 600;
-  color:  #F9FAFA;;
+  border-radius: 0.7rem;
+  color:  #000;;
   }
 
   /* 선택 가능한 오늘 날짜 스타일 적용 */
   .react-calendar__tile--now:enabled:hover,
   .react-calendar__tile--now:enabled:focus,
   .react-calendar__tile--now {
-  background-color: #F3F3F3;
-  border-radius: 0.3rem;
+  background-color: #E6E6E6;
+  border-radius: 0.7rem;
   cursor: default;
   }
   
-  /* 다른 날짜는 선택 불가능하도록 설정 */
-  .react-calendar__tile:not(.react-calendar__tile--now):not(.react-calendar__tile--active) {
+  /* 일자 타일에 대한 스타일 */
+  .react-calendar__month-view .react-calendar__tile {
   pointer-events: none; 
   }
 
-  .react-calendar__month-view__weekdays {
-  font-size: 12px;
-  font-weight: 500;
-  color: #191b1c;
-  border-bottom: 0.5px solid #EDF0F3;
+  /* 월에 대한 스타일과 클릭 가능 설정 */
+  .react-calendar__year-view__months__month {
+  cursor: pointer; 
+  }
+
+  /* 오늘 날짜에 대한 스타일 */
+  .react-calendar__tile--now {
+  cursor: default;
+  }
+
+  /* 활성화된 날짜에 대한 스타일 */
+  .react-calendar__tile--active {
+  cursor: default; 
   }
 
   .react-calendar__tile {
-    padding: 10px;
+  border-radius: 0.7rem;
+  padding: 12px;
   }
 `;
 
@@ -151,8 +157,8 @@ export const StyleButtonContainer = styled.div`
   flex-shrink: 0;
   border-radius: 10px;
   border: 1px solid var(--primary-primary, #50BF50);
-  margin-right:10px;
-  margin-top:8px;
+  margin-right:13px;
+  margin-top:13px;
   padding:5px;
   padding-top:3px;
   gap:16px;
