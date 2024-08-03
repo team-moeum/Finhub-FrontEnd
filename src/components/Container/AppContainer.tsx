@@ -6,6 +6,7 @@ import cx from 'classnames';
 import { Box, BoxProps } from "@/components/Box";
 import { useRecoilValue } from "recoil";
 import { safeAreaState } from "@/states/client/atoms/safeArea";
+import { useMounted } from "@/hooks/useMounted";
 
 type AppContainerProps = {
   children: ReactNode;
@@ -22,16 +23,19 @@ export const AppContainer = ({
   children,
   ...props
 }: AppContainerProps) => {
-  const top = useRecoilValue(safeAreaState);
+  const safeAreaTop = useRecoilValue(safeAreaState);
+  const isMounted = useMounted();
+
+  const containerStyle = {
+    position: 'relative' as const,
+    marginTop: disabledTopArea ? 0 : (isMounted ? safeAreaTop : 0),
+    ...style
+  };
 
   return (
     <Box
       className={cx([cssStyle.appContainerWrap, cssStyle.footer, header && cssStyle.header])}
-      style={{
-        position: 'relative',
-        marginTop: disabledTopArea ? 0 : top,
-        ...style
-      }}
+      style={containerStyle}
       {...props}
     >
       {children}

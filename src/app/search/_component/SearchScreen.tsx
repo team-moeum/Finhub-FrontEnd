@@ -28,6 +28,7 @@ import { Text } from "@/components/Text";
 import { SafeArea } from "@/app/_component/SafeArea";
 import { safeAreaState } from "@/states/client/atoms/safeArea";
 import { useRecoilValue } from "recoil";
+import { useMounted } from "@/hooks/useMounted";
 
 export type TopicInfiniteQueryType = {
   resultTopicSearchList: SearchResult[];
@@ -46,6 +47,7 @@ export type ColumnInfiniteQueryType = {
 export default function SearchScreen() {
   const [resultTabActive, setResultTabActive] = useState<SearchRequestType>("title");
   const top = useRecoilValue(safeAreaState);
+  const isMounted = useMounted();
 
   const {
     inputRef,
@@ -73,7 +75,7 @@ export default function SearchScreen() {
       <Box position="fixed" top={0} left={0} right={0}>
         <SafeArea backgroundColor="#FFF" />
       </Box>
-      <div className={cx([style.header, !isResultPage && style.focus])} style={{ top: top }}>
+      <div className={cx([style.header, !isResultPage && style.focus])} style={{ top: isMounted ? top : 0 }}>
         {isResultPage ?
           <BackButton icon="type2" onClick={handleClickBackPress} />
           :
