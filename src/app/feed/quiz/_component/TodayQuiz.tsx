@@ -13,6 +13,8 @@ import { FlexBox } from '@/components/FlexBox';
 import { Button } from '@/components/Button';
 import { useModal } from '@/hooks/useModal';
 import { useToast } from '@/components/Toast/useToast';
+import { LoginSlide } from '@/app/_component/Catergory/LoginSlide';
+import { isLoggedIn } from '@/utils/auth_client';
 
 const TodayQuizSolved = () => {
   return (
@@ -63,9 +65,12 @@ const TodayQuizEmpty = () => {
 }
 
 export default function TodayQuiz() {
+  const isLogin = isLoggedIn();
+
   const [quizResult, setQuizResult] = useState<QuizSolveUser>();
 
   const quizResultPopup = useModal();
+  const loginModal = useModal();
 
   const { data: todayQuiz, refetch: refetchTodayQuiz } = useQuiz();
 
@@ -82,6 +87,9 @@ export default function TodayQuiz() {
   });
 
   const handleAnswerClick = (quizId: number, answer: "O" | "X") => {
+    if (!isLogin) {
+      return loginModal.open();
+    }
     quizSolveMutation.mutate({ id: quizId, answer });
   };
 
@@ -142,6 +150,8 @@ export default function TodayQuiz() {
           quizResult={quizResult}
         />
       }
+
+      <LoginSlide show={loginModal.show} onClose={loginModal.close} />
 
     </Container>
   );
