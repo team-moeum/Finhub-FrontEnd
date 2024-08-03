@@ -25,8 +25,9 @@ import { AppContainer, Container } from "@/components/Container";
 import { FlexBox } from "@/components/FlexBox";
 import { Box } from "@/components/Box";
 import { Text } from "@/components/Text";
-import { useSafeAreaTop } from "@/hooks/useSafeAreaTop";
 import { SafeArea } from "@/app/_component/SafeArea";
+import { safeAreaState } from "@/states/client/atoms/safeArea";
+import { useRecoilValue } from "recoil";
 
 export type TopicInfiniteQueryType = {
   resultTopicSearchList: SearchResult[];
@@ -44,7 +45,7 @@ export type ColumnInfiniteQueryType = {
 
 export default function SearchScreen() {
   const [resultTabActive, setResultTabActive] = useState<SearchRequestType>("title");
-  const top = useSafeAreaTop();
+  const top = useRecoilValue(safeAreaState);
 
   const {
     inputRef,

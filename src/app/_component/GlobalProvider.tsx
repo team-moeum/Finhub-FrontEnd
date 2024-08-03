@@ -2,6 +2,7 @@
 
 import { ReactNode } from "react";
 import { useAutoLogin } from "@/hooks/useAutoLogin";
+import { useSafeAreaTop } from "@/hooks/useSafeAreaTop";
 
 
 export const GlobalProvider = ({
@@ -10,6 +11,7 @@ export const GlobalProvider = ({
   children:ReactNode
 }) => {
   useAutoLogin();
+  useSafeAreaTop();
 
   return <>{children}</>;
 }

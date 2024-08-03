@@ -4,7 +4,8 @@ import { ReactNode } from "react"
 import cssStyle from './Container.module.css';
 import cx from 'classnames';
 import { Box, BoxProps } from "@/components/Box";
-import { useSafeAreaTop } from "@/hooks/useSafeAreaTop";
+import { useRecoilValue } from "recoil";
+import { safeAreaState } from "@/states/client/atoms/safeArea";
 
 type AppContainerProps = {
   children: ReactNode;
@@ -21,7 +22,7 @@ export const AppContainer = ({
   children,
   ...props
 }: AppContainerProps) => {
-  const top = useSafeAreaTop();
+  const top = useRecoilValue(safeAreaState);
 
   return (
     <Box
