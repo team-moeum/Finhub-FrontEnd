@@ -45,7 +45,7 @@ export default function LoginPage() {
           />
           Google로 로그인
         </Link>
-        {/* <Link href={APPLE_AUTH_URL} className={cx([style.login_button, style.apple_login])}>
+        <Link href={APPLE_AUTH_URL} className={cx([style.login_button, style.apple_login])}>
           <Image
             className={style.login_icon}
             src="/icons/apple.svg"
@@ -54,7 +54,7 @@ export default function LoginPage() {
             height={18}
           />
           Apple로 로그인
-        </Link> */}
+        </Link>
         <Link href="/" className={style.not_login}>
           로그인 없이 둘러보기
         </Link>
