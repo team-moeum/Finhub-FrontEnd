@@ -117,7 +117,7 @@ export default function TodayQuiz() {
           />
 
           <Box mt={14}>
-            <Text size={20} weight={600} color='#25292C'>{todayQuiz.question}</Text>
+            <Text size={18} weight={600} lineHeight={1.4} color='#494F54'>{todayQuiz.question}</Text>
           </Box>
 
           <FlexBox mt={25} gap={16} width='100%'>
