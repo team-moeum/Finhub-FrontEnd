@@ -7,6 +7,7 @@ import { getSsrCategory } from '@/states/server/Home/getCategory';
 import { getSsrTotalList } from '@/states/server/List/getTotalList';
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 import { Category } from '@/model/Category';
+import { AppContainer } from '@/components/Container';
 
 export default async function ListPage({searchParams}: {searchParams: {categoryId: string}}) {
   const queryClient = new QueryClient();
@@ -28,11 +29,11 @@ export default async function ListPage({searchParams}: {searchParams: {categoryI
   const dehydratedState = dehydrate(queryClient);
   
   return (
-    <div className={style.container}>
+    <AppContainer footer>
       <p className={style.title}>목록</p>
       <HydrationBoundary state={dehydratedState}>
         <ListContent categoryId={categoryId}/>
       </HydrationBoundary>
-    </div>
+    </AppContainer>
   )
 }

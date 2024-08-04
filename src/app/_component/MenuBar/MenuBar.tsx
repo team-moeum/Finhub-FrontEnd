@@ -17,6 +17,10 @@ export const MENUBAR_HEIGHT = 54;
 export default function MenuBar() {
   const pathName = usePathname();
 
+  if (pathName.split('/').filter(Boolean).length >= 2) {
+    return null;
+  }
+
   return (
     <div className={style.container}>
       <Link href="/home" className={cx([style.tab, pathName === "/home" && style.active])}>

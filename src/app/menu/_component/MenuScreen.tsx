@@ -61,7 +61,7 @@ export default function MenuPage() {
   }
 
   return (
-    <AppContainer>
+    <AppContainer footer>
       <AppBar 
         title="메뉴"
         backgroundColor="#F6F7F9"

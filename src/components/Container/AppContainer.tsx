@@ -14,7 +14,7 @@ type AppContainerProps = {
 } & BoxProps;
 
 export const AppContainer = ({ 
-  footer=true,
+  footer=false,
   header=true,
   disabledTopArea=false,
   style = {},
@@ -25,7 +25,7 @@ export const AppContainer = ({
 
   return (
     <Box
-      className={cx([cssStyle.appContainerWrap, cssStyle.footer, header && cssStyle.header])}
+      className={cx([cssStyle.appContainerWrap, footer && cssStyle.footer, header && cssStyle.header])}
       style={{
         position: 'relative',
         marginTop: disabledTopArea ? 0 : top,
