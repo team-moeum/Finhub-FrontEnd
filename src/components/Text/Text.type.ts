@@ -12,6 +12,7 @@ export type VariantValueType = {
   display?: DisPlayType;
   textAlign?: TextAlignType;
   height?: number | string;
+  textLineClamp?: number;
 } 
 
 export type TextProps = {
