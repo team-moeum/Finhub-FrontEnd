@@ -9,4 +9,4 @@ export const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?cli
 
 export const APPLE_CLIENT_ID = process.env.NEXT_PUBLIC_APPLE_CLIENT_ID;
 export const APPLE_REDIRECT_URI = process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI;
-export const APPLE_AUTH_URL = `https://appleid.apple.com/auth/authorize?response_type=code&client_id=${APPLE_CLIENT_ID}&redirect_uri=${APPLE_REDIRECT_URI}&scope=name%20email`;
+export const APPLE_AUTH_URL = `https://appleid.apple.com/auth/authorize?response_type=code&client_id=${APPLE_CLIENT_ID}&redirect_uri=${APPLE_REDIRECT_URI}`;
