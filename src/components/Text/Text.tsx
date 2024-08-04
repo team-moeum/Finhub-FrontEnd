@@ -1,4 +1,5 @@
 import { TextProps } from './Text.type';
+import { getTextOverflowStyle } from './textUtils';
 
 export const Text = ({ 
   size,
@@ -9,23 +10,29 @@ export const Text = ({
   textAlign,
   lineHeight, 
   letterSpacing,
+  textLineClamp,
   style={},
   children
 }: TextProps) => {
+
+  let combinedStyle = {
+    color,
+    height,
+    display,
+    textAlign,
+    lineHeight,
+    letterSpacing,
+    fontSize: size,
+    fontWeight: weight,
+    ...style,
+  };
+
+  if (textLineClamp) {
+    combinedStyle = { ...combinedStyle, ...getTextOverflowStyle(textLineClamp) };
+  }
+
   return (
-    <span 
-      style={{
-        color,
-        height,
-        display,
-        textAlign,
-        lineHeight,
-        letterSpacing,
-        fontSize: size,
-        fontWeight: weight,
-        ...style,
-      }}
-    >
+    <span style={combinedStyle}>
       {children}
     </span>
   );

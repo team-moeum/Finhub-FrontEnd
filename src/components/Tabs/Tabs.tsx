@@ -96,7 +96,7 @@ const TabItemWrap = styled.div<{ active: boolean }>`
 
 const TabUnderLine = styled.div<{width: number, left: number}>`
   position: absolute;
-  bottom: 0;
+  bottom: -1px;
   height: 1px;
   background-color: #494F54;
   width: ${({width}) => width || 0}px;

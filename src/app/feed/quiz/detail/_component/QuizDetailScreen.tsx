@@ -94,6 +94,7 @@ export const QuizDetailScreen = () => {
               ]}
               defaultValue={selectedSolvedValue}
               onChange={(value: string) => setSelectedSolvedValue(value)}
+              style={{borderBottom: "1px solid #EDF0F3"}}
             />
           </Box>
         }

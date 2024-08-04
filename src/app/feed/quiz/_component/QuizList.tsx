@@ -60,7 +60,7 @@ export default function QuizList() {
     isLoading,
     missedQuizList,
     solvedQuizList
-  } = useQuizListData({ requestDate: requestDate });
+  } = useQuizListData({ requestDate: requestDate, solvedType: "X" });
 
   const {
     selectedQuizDate,
