@@ -121,29 +121,34 @@ export default function SearchScreen() {
               onChange={(value: string) => setResultTabActive(value as SearchRequestType)}
               style={{
                 position: 'fixed',
-                top: 60 + top,
+                top: 74 + top,
                 left: 0,
-                backgroundColor: "#FFF"
+                backgroundColor: "#FFF",
+                borderBottom: "1px solid #EDF0F3"
               }}
             />
-            {isResultEmpty ?
+            {isResultEmpty && !topicInfiniteQuery.isTopicFetching && !columnInfiniteQuery.isColumnFetching ?
               <NoSearchResult userInput={userInput} />
               :
               <>
-                <Box>
-                  <Text size={18} weight={600} color="#191B1C">단어</Text>
-                  <InputResultWordList keyword={fetchInput} topicInfiniteQuery={topicInfiniteQuery} />
-                </Box>
-                <div className={style.divider}></div>
-                <Box mt={35}>
-                  <Text size={18} weight={600} color="#191B1C">아티클</Text>
-                  <InputResultArticleList keyword={fetchInput} topicInfiniteQuery={columnInfiniteQuery} />
-                </Box>
+                {!isResultEmpty &&
+                  <>
+                    <Box mt={65}>
+                      <Text size={18} weight={600} color="#191B1C">단어</Text>
+                      <InputResultWordList keyword={fetchInput} topicInfiniteQuery={topicInfiniteQuery} />
+                    </Box>
+                    <div className={style.divider}></div>
+                    <Box mt={35}>
+                      <Text size={18} weight={600} color="#191B1C">아티클</Text>
+                      <InputResultArticleList keyword={fetchInput} topicInfiniteQuery={columnInfiniteQuery} />
+                    </Box>
+                  </>
+                }
               </>
             }
           </Box>
           :
-          <Box mt={40}>
+          <Box mt={54}>
             <RecentSearch onItemSelect={handleSetInputValue} />
             <Suspense fallback={<Loading height={300} />}>
               <TopSearch onItemSelect={handleSetInputValue} />

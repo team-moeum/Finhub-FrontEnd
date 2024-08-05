@@ -40,16 +40,13 @@ export default function InputResultWordList({ keyword, topicInfiniteQuery }: dat
     topicInfiniteQuery.fetchTopicNextPage();
   }
 
-  if (topicInfiniteQuery.isTopicFetching) return <Loading height={100} />;
   return (
     <>
       <div className={style.container}>
-        {resultSearchList ?
+        {resultSearchList &&
           resultSearchList.map((item, index) => (
             <Item key={index} keyword={keyword} item={item} />
           ))
-          :
-          <div>No data</div>
         }
       </div>
       {topicInfiniteQuery.hasTopicNextPage &&
