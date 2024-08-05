@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { QuizResult } from './QuizResult';
 import Image from 'next/image';
 import { useQuiz } from '@/states/server/queries';
@@ -15,6 +15,10 @@ import { useModal } from '@/hooks/useModal';
 import { useToast } from '@/components/Toast/useToast';
 import { LoginSlide } from '@/app/_component/Catergory/LoginSlide';
 import { isLoggedIn } from '@/utils/auth_client';
+import { useRecoilState } from 'recoil';
+import { quizResultCacheState } from '@/states/client/atoms/cache';
+import { usePathname, useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 const TodayQuizSolved = () => {
   return (
@@ -67,7 +71,11 @@ const TodayQuizEmpty = () => {
 export default function TodayQuiz() {
   const isLogin = isLoggedIn();
 
+  const router = useRouter();
+  const pathName = usePathname();
+
   const [quizResult, setQuizResult] = useState<QuizSolveUser>();
+  const [quizResultCache, setQuizResultCache] = useRecoilState(quizResultCacheState);
 
   const quizResultPopup = useModal();
   const loginModal = useModal();
@@ -76,6 +84,7 @@ export default function TodayQuiz() {
 
   const { showToast } = useToast();
 
+  const queryClient = useQueryClient();
   const quizSolveMutation = usePostQuizSolve({
     onSuccess: (data) => {
       setQuizResult(data);
@@ -85,6 +94,20 @@ export default function TodayQuiz() {
       showToast({content: "잠시후 다시 시도해주세요!", type: "warning"});
     }
   });
+  
+  const invalidateQuizQuery = () => {
+    queryClient.invalidateQueries({ queryKey: ["quiz"]});
+    queryClient.invalidateQueries({ queryKey: ["missedQuiz"] });
+    queryClient.invalidateQueries({ queryKey: ["solvedQuiz"] });
+    queryClient.invalidateQueries({ queryKey: ["quizCalendar"] });
+  }
+
+  useEffect(() => {
+    if (quizResultCache) {
+      setQuizResult(quizResultCache);
+      quizResultPopup.open();
+    }
+  }, [quizResultCache]);
 
   const handleAnswerClick = (quizId: number, answer: "O" | "X") => {
     if (!isLogin) {
@@ -96,6 +119,20 @@ export default function TodayQuiz() {
   const handleQuizResultPopupClose = () => {
     quizResultPopup.close();
     refetchTodayQuiz();
+    setQuizResultCache(null);
+    invalidateQuizQuery();
+  }
+
+  const handleClickTag = (url: string) => {
+    if (!quizResult) return;
+    setQuizResultCache({...quizResult, startPath: pathName});
+    router.push(url);
+  }
+
+  const handleOtherQuizClick = () => {
+    setQuizResultCache(null);
+    invalidateQuizQuery();
+    router.push('/feed/quiz');
   }
 
   if (todayQuiz.status === "SOLVED") return <TodayQuizSolved />;
@@ -148,6 +185,8 @@ export default function TodayQuiz() {
           show={quizResultPopup.show}
           onClose={handleQuizResultPopupClose}
           quizResult={quizResult}
+          onTagClick={handleClickTag}
+          onSolveOtherClick={handleOtherQuizClick}
         />
       }
 

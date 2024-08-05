@@ -7,9 +7,7 @@ import { Box } from '@/components/Box';
 import { FlexBox } from '@/components/FlexBox';
 import { Text } from '@/components/Text';
 import { Button } from '@/components/Button';
-import { useRouter } from 'next/navigation';
 import { Stack } from '@/components/Stack';
-import { LinkButton } from '@/components/LinkButton';
 
 import PenIcon from '@/public/quiz/quiz_pen_icon.svg';
 
@@ -17,15 +15,17 @@ interface Props {
   show: boolean,
   onClose: () => void
   quizResult: QuizSolveUser;
-  onSolveOtherClick?: () => void,
+  onTagClick: (url: string) => void;
+  onSolveOtherClick: () => void,
 }
 
-export const QuizResult = ({ show, onClose, quizResult, onSolveOtherClick }: Props) => {
-  const router = useRouter();
-
+export const QuizResult = ({ show, onClose, quizResult, onTagClick, onSolveOtherClick }: Props) => {
   const handleOtherQuizClick = () => {
-    if (onSolveOtherClick) return onSolveOtherClick();
-    router.push('/feed/quiz')
+    onSolveOtherClick();
+  }
+
+  const handleClickTag = (url: string) => {
+    onTagClick(url);
   }
 
   return (
@@ -53,11 +53,11 @@ export const QuizResult = ({ show, onClose, quizResult, onSolveOtherClick }: Pro
 
           <FlexBox mt={13} gap={12} flexWrap='wrap'>
             {quizResult.topicList.map((item, index) => (
-              <LinkButton key={index} href={`/${item.categoryId}/${item.topicId}`} >
+              <Button key={index}  onClick={() => handleClickTag(`/${item.categoryId}/${item.topicId}`)} >
                 <Box key={index} radius={10} px={10} backgroundColor='#50BF50'>
                   <Text size={12} weight={600} color='#F9FAFA' lineHeight='32px'># {item.title}</Text>
                 </Box>
-              </LinkButton>
+              </Button>
 
             ))}
           </FlexBox>

@@ -69,7 +69,8 @@ export default function QuizList() {
     quizResultPopupModal,
     handleQuizItemClick,
     handleQuizResultClose,
-    handleAnswerClick
+    handleAnswerClick,
+    handleClickTag,
   } = useSolveQuizHook();
 
   if (isLoading) return <Loading height={300} />;
@@ -123,6 +124,7 @@ export default function QuizList() {
           onClose={handleQuizResultClose}
           quizResult={selectedQuizRusult}
           onSolveOtherClick={handleQuizResultClose}
+          onTagClick={handleClickTag}
         />
       }
     </Fragment>

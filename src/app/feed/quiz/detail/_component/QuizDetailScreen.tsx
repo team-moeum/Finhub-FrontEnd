@@ -58,6 +58,8 @@ export const QuizDetailScreen = () => {
     handleQuizItemClick,
     handleQuizResultClose,
     handleAnswerClick,
+    quizResultCache,
+    handleClickTag,
   } = useSolveQuizHook();
 
   useEffect(() => {
@@ -135,6 +137,7 @@ export const QuizDetailScreen = () => {
           onClose={handleQuizResultClose}
           quizResult={selectedQuizRusult}
           onSolveOtherClick={handleQuizResultClose}
+          onTagClick={handleClickTag}
         />
       }
 
