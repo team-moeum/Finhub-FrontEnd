@@ -12,6 +12,7 @@ import { ToastProvider } from "@/components/Toast/ToastProvider";
 
 import localFont from 'next/font/local';
 import { GlobalProvider } from "./_component/GlobalProvider";
+import AppLayout from "./_component/AppLayout/AppLayout";
 
 const pretendard = localFont({
   src: '../assets/fonts/PretendardVariable.woff2',
@@ -39,9 +40,10 @@ export default function RootLayout({
             <MSWComponent />
             <GlobalProvider>
               <Suspense fallback={<Loading />}>
-                {children}
+                <AppLayout>
+                  {children}
+                </AppLayout>
               </Suspense>
-              <MenuBar />
               <ToastProvider />
             </GlobalProvider>
           </RQProvider>

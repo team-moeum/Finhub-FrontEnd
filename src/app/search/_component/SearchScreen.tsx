@@ -68,7 +68,7 @@ export default function SearchScreen() {
   } = useSearch({ type: resultTabActive, keyword: fetchInput });
 
   return (
-    <AppContainer>
+    <AppContainer footer>
       <Box position="fixed" top={0} left={0} right={0}>
         <SafeArea backgroundColor="#FFF" />
       </Box>

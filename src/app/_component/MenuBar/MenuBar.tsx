@@ -4,7 +4,6 @@ import Link from "next/link";
 import React from "react";
 import style from "./MenuBar.module.css";
 import cx from 'classnames';
-import { usePathname } from "next/navigation";
 
 import HomeIcon from '@/public/menuBar/home.svg';
 import ListIcon from '@/public/menuBar/list.svg';
@@ -14,28 +13,33 @@ import MenuIcon from '@/public/menuBar/menu.svg';
 
 export const MENUBAR_HEIGHT = 54;
 
-export default function MenuBar() {
-  const pathName = usePathname();
+export type ActiveMenuType = "home" | "list" | "search" | "feed" | "menu";
+
+export default function MenuBar({
+  activeMenu
+}: {
+  activeMenu?: ActiveMenuType
+}) {
 
   return (
     <div className={style.container}>
-      <Link href="/home" className={cx([style.tab, pathName === "/home" && style.active])}>
+      <Link href="/home" className={cx([style.tab, activeMenu === "home" && style.active])}>
         <HomeIcon />
         <span className={style.text}>홈</span>
       </Link>
-      <Link href="/list" className={cx([style.tab, pathName === "/list" && style.active])}>
+      <Link href="/list" className={cx([style.tab, activeMenu === "list" && style.active])}>
         <ListIcon />
         <span className={style.text}>목록</span>
       </Link>
-      <Link href="/search" className={cx([style.tab, pathName === "/search" && style.active])}>
+      <Link href="/search" className={cx([style.tab, activeMenu === "search" && style.active])}>
         <SearchIcon />
         <span className={style.text}>검색</span>
       </Link>
-      <Link href="/feed" className={cx([style.tab, pathName === "/feed" && style.active])}>
+      <Link href="/feed" className={cx([style.tab, activeMenu === "feed" && style.active])}>
         <FeedIcon />
         <span className={style.text}>피드</span>
       </Link>
-      <Link href="/menu" className={cx([style.tab, pathName.includes("/menu") && style.active])}>
+      <Link href="/menu" className={cx([style.tab, activeMenu === "menu" && style.active])}>
         <MenuIcon />
         <span className={style.text}>메뉴</span>
       </Link>

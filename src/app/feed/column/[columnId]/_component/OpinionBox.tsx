@@ -13,7 +13,7 @@ export const OpinionBox = ({ columnId, imgSrc }: { columnId: number, imgSrc?: st
       position='fixed'
       left={0}
       right={0}
-      bottom={54}
+      bottom={0}
       backgroundColor="#FFF"
       style={{
         borderTop: "0.5px solid #CDD1D5"
