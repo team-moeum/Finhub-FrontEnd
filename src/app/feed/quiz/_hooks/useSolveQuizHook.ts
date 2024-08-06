@@ -4,17 +4,17 @@ import { QuizSolveUser } from "@/model/QuizSolveUser";
 import { usePostQuizSolve } from "@/states/server/mutations";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useRecoilState } from "recoil";
-import { quizResultCacheState } from "@/states/client/atoms/cache";
 import { usePathname, useRouter } from "next/navigation";
+import { useCache } from "@/hooks/useCache";
+import { CACHE_KEY } from "@/hooks/useCacheControl";
 
 export const useSolveQuizHook = () => {
   const router = useRouter();
   const pathName = usePathname();
+  const { get: getCache, set: setCache, clear: clearCache } = useCache();
 
   const [selectedQuizDate, setSelectedQuizDate] = useState<string>('');
   const [selectedQuizRusult, setSelectedQuizRusult] = useState<QuizSolveUser>();
-  const [quizResultCache, setQuizResultCache] = useRecoilState(quizResultCacheState);
 
   const { showToast } = useToast();
   const todayQuizPopupModal = useModal();
@@ -32,11 +32,16 @@ export const useSolveQuizHook = () => {
   });
 
   useEffect(() => {
-    if (quizResultCache) {
-      setSelectedQuizRusult(quizResultCache);
-      quizResultPopupModal.open();
-    }
-  }, [quizResultCache]);
+    const checkCache = () => {
+      const cachedResult = getCache(CACHE_KEY.quizResult);
+      if (cachedResult) {
+        setSelectedQuizRusult(cachedResult);
+        quizResultPopupModal.open();
+      }
+    };
+
+    checkCache();
+  }, []);
 
   const handleQuizItemClick = (date: string) => {
     setSelectedQuizDate(date);
@@ -45,7 +50,7 @@ export const useSolveQuizHook = () => {
 
   const handleQuizResultClose = () => {
     quizResultPopupModal.close();
-    setQuizResultCache(null);
+    clearCache(CACHE_KEY.quizResult);
 
     queryClient.invalidateQueries({ queryKey: ["quizCalendar"], refetchType: 'all' });
     queryClient.invalidateQueries({ queryKey: ["missedQuiz"], refetchType: 'all' });
@@ -59,7 +64,7 @@ export const useSolveQuizHook = () => {
 
   const handleClickTag = (url: string) => {
     if (!selectedQuizRusult) return;
-    setQuizResultCache({...selectedQuizRusult, startPath: pathName});
+    setCache(CACHE_KEY.quizResult, { ...selectedQuizRusult, startPath: pathName });
     router.push(url);
   }
 
@@ -71,7 +76,6 @@ export const useSolveQuizHook = () => {
     handleQuizItemClick,
     handleQuizResultClose,
     handleAnswerClick,
-    quizResultCache,
     handleClickTag,
   }
 }

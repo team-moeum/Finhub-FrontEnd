@@ -1,15 +1,19 @@
-import { quizResultCacheState } from "@/states/client/atoms/cache"
 import { historyPathsState } from "@/states/client/atoms/history";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
+import { useRecoilValue } from "recoil"
+import { useCache } from "./useCache";
+
+export const CACHE_KEY = {
+  quizResult: "quizResult"
+} as const;
 
 export const useCacheControl = () => {
-  const historyPaths = useRecoilValue(historyPathsState);
-  
-  /** Quiz Result tag 이동 후 뒤로가지 않은 경우 */
-  const [quizResultCache, setQuizResultCache] = useRecoilState(quizResultCacheState);
+  const { get, clear } = useCache();
   const queryClient = useQueryClient();
+  const historyPaths = useRecoilValue(historyPathsState);
+
+  /** Quiz Result tag 이동 후 뒤로가지 않은 경우 */
   const verifyQuizResultExitWithoutBack = (startPath?: string) => {
     if (!startPath) return;
 
@@ -18,14 +22,14 @@ export const useCacheControl = () => {
       historyPaths.at(-1) !== startPath
     ) {
       if (startPath === "/feed") {
-        queryClient.invalidateQueries({ queryKey: ["quiz"]}); 
+        queryClient.invalidateQueries({ queryKey: ["quiz"] });
       }
 
-      setQuizResultCache(null);
+      clear(CACHE_KEY.quizResult);
     }
   }
 
   useEffect(() => {
-    verifyQuizResultExitWithoutBack(quizResultCache?.startPath);
+    verifyQuizResultExitWithoutBack(get(CACHE_KEY.quizResult)?.startPath);
   }, [historyPaths]);
 }

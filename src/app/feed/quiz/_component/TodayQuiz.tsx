@@ -15,10 +15,10 @@ import { useModal } from '@/hooks/useModal';
 import { useToast } from '@/components/Toast/useToast';
 import { LoginSlide } from '@/app/_component/Catergory/LoginSlide';
 import { isLoggedIn } from '@/utils/auth_client';
-import { useRecoilState } from 'recoil';
-import { quizResultCacheState } from '@/states/client/atoms/cache';
 import { usePathname, useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
+import { useCache } from '@/hooks/useCache';
+import { CACHE_KEY } from '@/hooks/useCacheControl';
 
 const TodayQuizSolved = () => {
   return (
@@ -73,16 +73,15 @@ export default function TodayQuiz() {
 
   const router = useRouter();
   const pathName = usePathname();
-
+  const {get: getCache, set: setCache, clear: clearCache} = useCache();
+  
   const [quizResult, setQuizResult] = useState<QuizSolveUser>();
-  const [quizResultCache, setQuizResultCache] = useRecoilState(quizResultCacheState);
 
+  const { showToast } = useToast();
   const quizResultPopup = useModal();
   const loginModal = useModal();
 
-  const { data: todayQuiz, refetch: refetchTodayQuiz } = useQuiz();
-
-  const { showToast } = useToast();
+  const { data: todayQuiz } = useQuiz();
 
   const queryClient = useQueryClient();
   const quizSolveMutation = usePostQuizSolve({
@@ -103,11 +102,16 @@ export default function TodayQuiz() {
   }
 
   useEffect(() => {
-    if (quizResultCache) {
-      setQuizResult(quizResultCache);
-      quizResultPopup.open();
-    }
-  }, [quizResultCache]);
+    const checkCache = () => {
+      const cachedResult = getCache(CACHE_KEY.quizResult);
+      if (cachedResult) {
+        setQuizResult(cachedResult);
+        quizResultPopup.open();
+      }
+    };
+
+    checkCache();
+  }, []);
 
   const handleAnswerClick = (quizId: number, answer: "O" | "X") => {
     if (!isLogin) {
@@ -118,19 +122,18 @@ export default function TodayQuiz() {
 
   const handleQuizResultPopupClose = () => {
     quizResultPopup.close();
-    refetchTodayQuiz();
-    setQuizResultCache(null);
+    clearCache(CACHE_KEY.quizResult);
     invalidateQuizQuery();
   }
 
   const handleClickTag = (url: string) => {
     if (!quizResult) return;
-    setQuizResultCache({...quizResult, startPath: pathName});
+    setCache(CACHE_KEY.quizResult, {...quizResult, startPath: pathName});
     router.push(url);
   }
 
   const handleOtherQuizClick = () => {
-    setQuizResultCache(null);
+    clearCache(CACHE_KEY.quizResult);
     invalidateQuizQuery();
     router.push('/feed/quiz');
   }

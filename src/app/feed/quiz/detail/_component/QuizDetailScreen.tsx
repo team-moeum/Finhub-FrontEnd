@@ -58,7 +58,6 @@ export const QuizDetailScreen = () => {
     handleQuizItemClick,
     handleQuizResultClose,
     handleAnswerClick,
-    quizResultCache,
     handleClickTag,
   } = useSolveQuizHook();
 

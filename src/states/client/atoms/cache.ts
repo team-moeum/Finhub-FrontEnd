@@ -1,7 +1,10 @@
-import { QuizSolveUser } from "@/model/QuizSolveUser";
 import { atom } from "recoil";
 
-export const quizResultCacheState = atom<QuizSolveUser & {startPath: string} | null>({
-  key: "quizResultCache",
-  default: null
+type CacheStateType = {
+  [key: string]: any;
+}
+
+export const cacheState = atom<CacheStateType>({
+  key: "cacheState",
+  default: {}
 })
