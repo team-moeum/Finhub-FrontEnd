@@ -17,6 +17,7 @@ import { Popup } from "@/components/Popup";
 import { useModal } from "@/hooks/useModal";
 import { FlexBox } from "@/components/FlexBox";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const EXTERNAL_URL = {
   privacyPolicy: "https://lemon-mosquito-5dc.notion.site/393b108e85c84e6c9e5c173766b5ef5a?pvs=74",
@@ -61,12 +62,15 @@ export default function MenuPage() {
   }
 
   return (
-    <AppContainer>
+    <AppContainer footer>
       <AppBar 
         title="메뉴"
         backgroundColor="#F6F7F9"
       >
-        {isLogin && <BellIcon />
+        {isLogin && 
+          <Link href='/notify'>
+            <BellIcon />
+          </Link>
       }
       </AppBar>
       <LoginBox isLogin={isLogin} />

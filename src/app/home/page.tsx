@@ -40,7 +40,7 @@ export default async function Home() {
   const dehydratedState = dehydrate(queryClient);
 
   return (
-    <AppContainer>
+    <AppContainer footer>
       <MainNav />
       <Box padding='0 16px 24px 16px' backgroundColor="#50BF50">
         <Link href="/search" className={style.inputLinkBox}>

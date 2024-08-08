@@ -2,10 +2,17 @@ import { useToast } from "@/components/Toast/useToast";
 import { useModal } from "@/hooks/useModal";
 import { QuizSolveUser } from "@/model/QuizSolveUser";
 import { usePostQuizSolve } from "@/states/server/mutations";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { usePathname, useRouter } from "next/navigation";
+import { useCache } from "@/hooks/useCache";
+import { CACHE_KEY } from "@/hooks/useCacheControl";
 
 export const useSolveQuizHook = () => {
+  const router = useRouter();
+  const pathName = usePathname();
+  const { get: getCache, set: setCache, clear: clearCache } = useCache();
+
   const [selectedQuizDate, setSelectedQuizDate] = useState<string>('');
   const [selectedQuizRusult, setSelectedQuizRusult] = useState<QuizSolveUser>();
 
@@ -24,6 +31,18 @@ export const useSolveQuizHook = () => {
     }
   });
 
+  useEffect(() => {
+    const checkCache = () => {
+      const cachedResult = getCache(CACHE_KEY.quizResult);
+      if (cachedResult) {
+        setSelectedQuizRusult(cachedResult);
+        quizResultPopupModal.open();
+      }
+    };
+
+    checkCache();
+  }, []);
+
   const handleQuizItemClick = (date: string) => {
     setSelectedQuizDate(date);
     todayQuizPopupModal.open();
@@ -31,6 +50,7 @@ export const useSolveQuizHook = () => {
 
   const handleQuizResultClose = () => {
     quizResultPopupModal.close();
+    clearCache(CACHE_KEY.quizResult);
 
     queryClient.invalidateQueries({ queryKey: ["quizCalendar"], refetchType: 'all' });
     queryClient.invalidateQueries({ queryKey: ["missedQuiz"], refetchType: 'all' });
@@ -42,6 +62,12 @@ export const useSolveQuizHook = () => {
     quizSolveMutation.mutate({ id, answer });
   }
 
+  const handleClickTag = (url: string) => {
+    if (!selectedQuizRusult) return;
+    setCache(CACHE_KEY.quizResult, { ...selectedQuizRusult, startPath: pathName });
+    router.push(url);
+  }
+
   return {
     selectedQuizDate,
     selectedQuizRusult,
@@ -49,6 +75,7 @@ export const useSolveQuizHook = () => {
     quizResultPopupModal,
     handleQuizItemClick,
     handleQuizResultClose,
-    handleAnswerClick
+    handleAnswerClick,
+    handleClickTag,
   }
 }

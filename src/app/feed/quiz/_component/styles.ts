@@ -70,6 +70,7 @@ export const StyledCalendarWrapper = styled.div`
 
   /* 요일 밑줄 제거 */
   .react-calendar__month-view__weekdays abbr {
+  font-size:0.9rem;
   text-decoration: none;
   font-weight: 800;
   }

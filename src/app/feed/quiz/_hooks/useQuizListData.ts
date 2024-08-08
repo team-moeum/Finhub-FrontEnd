@@ -13,7 +13,7 @@ export const QUIZ_LIST_TYPE = {
 type UseQuisListDataProps = {
   type?: keyof typeof QUIZ_LIST_TYPE;
   requestDate: string;
-  solvedType?: "Y" | "N";
+  solvedType?: "Y" | "N" | "X";
 }
 
 export const useQuizListData = ({type, requestDate, solvedType}: UseQuisListDataProps) => {

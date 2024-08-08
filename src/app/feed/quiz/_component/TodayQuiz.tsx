@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { QuizResult } from './QuizResult';
 import Image from 'next/image';
 import { useQuiz } from '@/states/server/queries';
@@ -13,6 +13,12 @@ import { FlexBox } from '@/components/FlexBox';
 import { Button } from '@/components/Button';
 import { useModal } from '@/hooks/useModal';
 import { useToast } from '@/components/Toast/useToast';
+import { LoginSlide } from '@/app/_component/Catergory/LoginSlide';
+import { isLoggedIn } from '@/utils/auth_client';
+import { usePathname, useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
+import { useCache } from '@/hooks/useCache';
+import { CACHE_KEY } from '@/hooks/useCacheControl';
 
 const TodayQuizSolved = () => {
   return (
@@ -63,14 +69,21 @@ const TodayQuizEmpty = () => {
 }
 
 export default function TodayQuiz() {
+  const isLogin = isLoggedIn();
+
+  const router = useRouter();
+  const pathName = usePathname();
+  const {get: getCache, set: setCache, clear: clearCache} = useCache();
+  
   const [quizResult, setQuizResult] = useState<QuizSolveUser>();
 
-  const quizResultPopup = useModal();
-
-  const { data: todayQuiz, refetch: refetchTodayQuiz } = useQuiz();
-
   const { showToast } = useToast();
+  const quizResultPopup = useModal();
+  const loginModal = useModal();
 
+  const { data: todayQuiz } = useQuiz();
+
+  const queryClient = useQueryClient();
   const quizSolveMutation = usePostQuizSolve({
     onSuccess: (data) => {
       setQuizResult(data);
@@ -80,14 +93,49 @@ export default function TodayQuiz() {
       showToast({content: "잠시후 다시 시도해주세요!", type: "warning"});
     }
   });
+  
+  const invalidateQuizQuery = () => {
+    queryClient.invalidateQueries({ queryKey: ["quiz"]});
+    queryClient.invalidateQueries({ queryKey: ["missedQuiz"] });
+    queryClient.invalidateQueries({ queryKey: ["solvedQuiz"] });
+    queryClient.invalidateQueries({ queryKey: ["quizCalendar"] });
+  }
+
+  useEffect(() => {
+    const checkCache = () => {
+      const cachedResult = getCache(CACHE_KEY.quizResult);
+      if (cachedResult) {
+        setQuizResult(cachedResult);
+        quizResultPopup.open();
+      }
+    };
+
+    checkCache();
+  }, []);
 
   const handleAnswerClick = (quizId: number, answer: "O" | "X") => {
+    if (!isLogin) {
+      return loginModal.open();
+    }
     quizSolveMutation.mutate({ id: quizId, answer });
   };
 
   const handleQuizResultPopupClose = () => {
     quizResultPopup.close();
-    refetchTodayQuiz();
+    clearCache(CACHE_KEY.quizResult);
+    invalidateQuizQuery();
+  }
+
+  const handleClickTag = (url: string) => {
+    if (!quizResult) return;
+    setCache(CACHE_KEY.quizResult, {...quizResult, startPath: pathName});
+    router.push(url);
+  }
+
+  const handleOtherQuizClick = () => {
+    clearCache(CACHE_KEY.quizResult);
+    invalidateQuizQuery();
+    router.push('/feed/quiz');
   }
 
   if (todayQuiz.status === "SOLVED") return <TodayQuizSolved />;
@@ -109,7 +157,7 @@ export default function TodayQuiz() {
           />
 
           <Box mt={14}>
-            <Text size={20} weight={600} color='#25292C'>{todayQuiz.question}</Text>
+            <Text size={18} weight={600} lineHeight={1.4} color='#494F54'>{todayQuiz.question}</Text>
           </Box>
 
           <FlexBox mt={25} gap={16} width='100%'>
@@ -140,8 +188,12 @@ export default function TodayQuiz() {
           show={quizResultPopup.show}
           onClose={handleQuizResultPopupClose}
           quizResult={quizResult}
+          onTagClick={handleClickTag}
+          onSolveOtherClick={handleOtherQuizClick}
         />
       }
+
+      <LoginSlide show={loginModal.show} onClose={loginModal.close} />
 
     </Container>
   );

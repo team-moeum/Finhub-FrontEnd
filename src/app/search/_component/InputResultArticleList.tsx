@@ -39,16 +39,13 @@ export default function InputResultArticleList({ keyword, topicInfiniteQuery }: 
     topicInfiniteQuery.fetchColumnNextPage();
   };
 
-  if (topicInfiniteQuery.isColumnFetching) return <Loading height={100} />;
   return (
     <>
       <div className={style.container}>
-        {resultSearchList ?
+        {resultSearchList &&
           resultSearchList.map((item, index) => (
             <Item key={index} keyword={keyword} item={item} />
           ))
-          :
-          <div>No data</div>
         }
       </div>
       {topicInfiniteQuery.hasColumnNextPage &&

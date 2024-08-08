@@ -58,6 +58,7 @@ export const QuizDetailScreen = () => {
     handleQuizItemClick,
     handleQuizResultClose,
     handleAnswerClick,
+    handleClickTag,
   } = useSolveQuizHook();
 
   useEffect(() => {
@@ -94,6 +95,7 @@ export const QuizDetailScreen = () => {
               ]}
               defaultValue={selectedSolvedValue}
               onChange={(value: string) => setSelectedSolvedValue(value)}
+              style={{borderBottom: "1px solid #EDF0F3"}}
             />
           </Box>
         }
@@ -134,6 +136,7 @@ export const QuizDetailScreen = () => {
           onClose={handleQuizResultClose}
           quizResult={selectedQuizRusult}
           onSolveOtherClick={handleQuizResultClose}
+          onTagClick={handleClickTag}
         />
       }
 
