@@ -36,7 +36,7 @@ const nextConfig = {
     ];
   },
   images: {
-    domains: ["finhub-bucket.s3.ap-northeast-2.amazonaws.com"],
+    domains: ["dgf7bkcblr65n.cloudfront.net"]
   },
   logging: {
     fetches: {

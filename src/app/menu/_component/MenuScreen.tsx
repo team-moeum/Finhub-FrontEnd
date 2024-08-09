@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { isAndroid, isIos, jsToNative } from "@/utils/jsToNative";
 import { isLoggedIn } from "@/utils/auth_client";
+import Link from "next/link";
 
 import LoginBox from "@/app/_component/Menu/LoginBox";
 import MenuCard from "@/app/_component/Menu/MenuCard";
@@ -13,25 +14,12 @@ import { Text } from '@/components/Text';
 import { AppBar } from "@/components/AppBar";
 
 import BellIcon from '@/public/icons/bell_gray_ico.svg';
-import { Popup } from "@/components/Popup";
-import { useModal } from "@/hooks/useModal";
-import { FlexBox } from "@/components/FlexBox";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 
-const EXTERNAL_URL = {
-  privacyPolicy: "https://lemon-mosquito-5dc.notion.site/393b108e85c84e6c9e5c173766b5ef5a?pvs=74",
-  termsOfUse:  "https://lemon-mosquito-5dc.notion.site/4675ba5efe7b4ffab2787ca4d192258c",
-}
 
 export default function MenuPage() {
   const isLogin = isLoggedIn();
   const [currentVersion, setCurrentVersion] = useState("");
   const [recentVersion, setRecentVersion] = useState("");
-  const [targetExternalUrl, setTargetExternalUrl] = useState("");
-
-  const router = useRouter();
-  const externalLinkModal = useModal();
 
   useEffect(() => {
     jsToNative({ val1: "appVersion" }, (data: any) => {
@@ -51,16 +39,6 @@ export default function MenuPage() {
     });
   }, []);
 
-  const handleClickExternalLink = (url: string) => {
-    setTargetExternalUrl(url);
-    externalLinkModal.open();
-  }
-
-  const handleOkExternalLinkPopup= () => {
-    externalLinkModal.close();
-    router.push(targetExternalUrl);
-  }
-
   return (
     <AppContainer footer>
       <AppBar 
@@ -77,8 +55,7 @@ export default function MenuPage() {
 
       <Container mt={30} mb={100}>
         <MenuCard href="/menu/announcement">공지사항</MenuCard>
-        <MenuCard onClick={() => handleClickExternalLink(EXTERNAL_URL.privacyPolicy)}>개인정보처리방침</MenuCard>
-        <MenuCard onClick={() => handleClickExternalLink(EXTERNAL_URL.termsOfUse)}>이용약관</MenuCard>
+        <MenuCard href="/menu/termsPolicy">약관 및 정책</MenuCard>
         {/* <MenuCard href="/menu/theme">테마</MenuCard> */}
         {isLogin && <MenuCard href="/menu/alarm">알림</MenuCard>}
       </Container>
@@ -92,19 +69,6 @@ export default function MenuPage() {
 
         <Box mt={20}>{isLogin && <LogOutButton />}</Box>
       </Container>
-
-      <Popup
-        show={externalLinkModal.show}
-        onClose={externalLinkModal.close}
-        leftButtonText="취소" 
-        rightButtonText="확인"
-        onLeftClick={externalLinkModal.close}
-        onRightClick={handleOkExternalLinkPopup}
-      >
-        <FlexBox direction="column" gap={6}>
-          <Text size={16}>외부 링크로 이동하시겠습니까?</Text>
-        </FlexBox>
-      </Popup>
     </AppContainer>
   );
 }
