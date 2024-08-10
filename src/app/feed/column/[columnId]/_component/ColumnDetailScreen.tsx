@@ -151,9 +151,11 @@ export const ColumnDetailScreen = () => {
               <Text size={16} weight={500} color="#A6ABAF">{gptColumnDetail.summary}</Text>
             </Box>
 
-            <Box mt={28}>
+            <Box>
               <Text size={16} weight={500} color="#191B1C">
-                <div dangerouslySetInnerHTML={{ __html: gptColumnDetail.content }} />
+                <div className="tiptap" style={{margin: 0}}>
+                  <div dangerouslySetInnerHTML={{ __html: gptColumnDetail.content }} />
+                </div>
               </Text>
             </Box>
 
