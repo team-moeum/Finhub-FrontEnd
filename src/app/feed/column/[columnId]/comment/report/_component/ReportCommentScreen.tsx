@@ -42,8 +42,8 @@ export const ReportCommentScreen = () => {
 
       return router.back();
     },
-    onError: () => {
-      showToast({content: "잠시후 다시 시도해주세요!", type: "warning"});
+    onError: (data) => {
+      showToast({content: data.message, type: "warning"});
     }
   })
 
@@ -87,7 +87,7 @@ export const ReportCommentScreen = () => {
         </Stack>
       </Container>
 
-      <Box position='fixed' bottom={54}>
+      <Box position='fixed' bottom={0}>
         <Button
           width='100vw'
           height={50}
