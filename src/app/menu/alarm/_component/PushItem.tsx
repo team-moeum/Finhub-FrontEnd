@@ -1,33 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react"
-import style from './pushItem.module.css';
-import cx from 'classnames';
+import cx from "classnames";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+
+import style from "./pushItem.module.css";
+
 import { userState } from "@/states/client/atoms/user";
 import { usePushAlarmYn } from "@/states/server/mutations";
-import { useToast } from "@/components/Toast/useToast";
+
 import { jsToNative } from "@/utils/jsToNative";
-import { Popup } from "@/components/Popup";
+
 import { useModal } from "@/hooks/useModal";
+
 import { FlexBox } from "@/components/FlexBox";
+import { Popup } from "@/components/Popup";
 import { Text } from "@/components/Text";
+import { useToast } from "@/components/Toast/useToast";
 
 type ToggleButtonProps = {
-  checked: boolean,
-  onChange: () => void
-}
+  checked: boolean;
+  onChange: () => void;
+};
 const ToggleButton = ({ checked, onChange }: ToggleButtonProps) => {
   return (
     <div className={cx([style.toggle_box, checked && style.active])} onClick={onChange}>
       <div className={cx([style.toggle_circle, checked && style.active])}></div>
     </div>
-  )
-}
+  );
+};
 
 export default function PushItem() {
   const [checked, setChecked] = useState(false);
-  
+
   const [userInfo, setUserInfo] = useRecoilState(userState);
 
   const { showToast } = useToast();
@@ -37,33 +42,33 @@ export default function PushItem() {
     onSettled: () => {
       setChecked(!checked);
     },
-    onSuccess: (data) => {
+    onSuccess: data => {
       if (data.status === "SUCCESS") {
-        setUserInfo(prev => ({...prev, pushYN: !prev.pushYN}));
-        showToast({content: "푸시 알림 설정이 변경되었어요!", type: "success"});
+        setUserInfo(prev => ({ ...prev, pushYN: !prev.pushYN }));
+        showToast({ content: "푸시 알림 설정이 변경되었어요!", type: "success" });
       } else {
         setChecked(!checked);
-        showToast({content: "잠시후 다시 시도해주세요!", type: "warning"});  
+        showToast({ content: "잠시후 다시 시도해주세요!", type: "warning" });
       }
     },
     onError: () => {
       setChecked(!checked);
-      showToast({content: "잠시후 다시 시도해주세요!", type: "warning"});
+      showToast({ content: "잠시후 다시 시도해주세요!", type: "warning" });
     }
-  })
+  });
 
   useEffect(() => {
-    setChecked(userInfo.pushYN === true)
-  }, [userInfo])
+    setChecked(userInfo.pushYN === true);
+  }, [userInfo]);
 
   const handleAlarmAgreeClick = () => {
     jsToNative({ val1: "requestNotificationPermission" }, (data: any) => {});
     AlarmAgreeModal.close();
-  }
+  };
 
   const toggleHandler = () => {
     /** 알림 비활성화 */
-    if (checked) return pushAlarmYnMutation.mutate({yn: false});
+    if (checked) return pushAlarmYnMutation.mutate({ yn: false });
 
     /** 알림 활성화 */
     jsToNative({ val1: "getNotificationPermission" }, (data: any) => {
@@ -73,7 +78,7 @@ export default function PushItem() {
         return AlarmAgreeModal.open();
       }
 
-      pushAlarmYnMutation.mutate({yn: true});
+      pushAlarmYnMutation.mutate({ yn: true });
     });
   };
 
@@ -84,10 +89,10 @@ export default function PushItem() {
         <ToggleButton checked={checked} onChange={toggleHandler} />
       </div>
 
-      <Popup 
-        show={AlarmAgreeModal.show} 
-        onClose={AlarmAgreeModal.close} 
-        leftButtonText="취소" 
+      <Popup
+        show={AlarmAgreeModal.show}
+        onClose={AlarmAgreeModal.close}
+        leftButtonText="취소"
         rightButtonText="확인"
         onLeftClick={AlarmAgreeModal.close}
         onRightClick={handleAlarmAgreeClick}
@@ -98,5 +103,5 @@ export default function PushItem() {
         </FlexBox>
       </Popup>
     </>
-  )
+  );
 }

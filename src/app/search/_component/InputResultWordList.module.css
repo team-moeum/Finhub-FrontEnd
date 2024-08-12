@@ -1,52 +1,52 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 0;
 }
 
 .item_box {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .item_box .title {
-    color: #444;
-    font-size: 16px;
-    font-weight: 600;
+  color: #444;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .item_box .content {
-    color: #B6B6B6;
-    font-size: 12px;
-    font-weight: 400;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+  color: #b6b6b6;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .no_result {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 60px;
-    font-size: 20px;
-    font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .more_btn {
-    margin-top: 10px;
-    margin-bottom: 24px;
-    width: 100%;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    background-color: #F6F7F9;
-    font-size: 15px;
-    font-weight: 600;
-    color: #A6ABAF;
-    border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 24px;
+  width: 100%;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background-color: #f6f7f9;
+  font-size: 15px;
+  font-weight: 600;
+  color: #a6abaf;
+  border-radius: 10px;
 }

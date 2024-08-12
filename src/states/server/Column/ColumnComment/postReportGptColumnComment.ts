@@ -1,6 +1,7 @@
-import { ApiResponse } from "@/api/type";
 import { mutationKeys } from "../../mutations";
+
 import { post } from "@/api/client";
+import { ApiResponse } from "@/api/type";
 
 /**
  * 컬럼 댓글 수정 API
@@ -15,8 +16,8 @@ export const postReportGptColumnComment = async (commentId: number, reportId: nu
   const response: ApiResponse = await post(
     `/api/v1/main/column/comment/actions`,
     mutationKeys.reportGptColumnComment,
-    {commentId, reportId}
+    { commentId, reportId }
   );
 
   return response;
-}
+};

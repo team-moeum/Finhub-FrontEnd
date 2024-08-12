@@ -32,7 +32,7 @@
       "@/components/*": ["./src/components/*"],
       "@/assets/*": ["./src/assets/*"],
       "@/states/*": ["./src/states/*"],
-      "@/model/*": ["./src/model/*"],
+      "@/model/*": ["./src/model/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

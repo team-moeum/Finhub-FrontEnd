@@ -20,7 +20,7 @@
 }
 
 .item .content {
-  color: #494F54;
+  color: #494f54;
   font-size: 14px;
   font-weight: 500;
   display: -webkit-box;
@@ -32,7 +32,7 @@
 }
 
 .item .time {
-  color: #CDD1D5;
+  color: #cdd1d5;
   font-size: 12px;
   font-weight: 400;
 }
@@ -46,7 +46,7 @@
 }
 
 .no_data > p {
-  color: #7B8287;
+  color: #7b8287;
   font-size: 20px;
   font-weight: 600;
 }

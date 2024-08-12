@@ -1,6 +1,7 @@
-import { CSSProperties } from 'react';
-import CssStyle from './PressAnimator.module.css';
-import cx from 'classnames';
+import cx from "classnames";
+import { CSSProperties } from "react";
+
+import CssStyle from "./PressAnimator.module.css";
 
 export interface PressProps {
   width?: string | number;
@@ -12,11 +13,18 @@ export interface PressProps {
   children: React.ReactNode;
 }
 
-export const PressBox = ({ py = 16, radius = 10, animate = true, style={}, onClick, children }: PressProps) => {
+export const PressBox = ({
+  py = 16,
+  radius = 10,
+  animate = true,
+  style = {},
+  onClick,
+  children
+}: PressProps) => {
   return (
     <div
       className={cx(CssStyle.pressBox_backgroundWrap, {
-        [CssStyle.noBackgroundChange]: !animate,
+        [CssStyle.noBackgroundChange]: !animate
       })}
       onClick={onClick}
       style={{
@@ -24,28 +32,35 @@ export const PressBox = ({ py = 16, radius = 10, animate = true, style={}, onCli
         paddingRight: py,
         borderRadius: radius,
         ...style
-      }}>
+      }}
+    >
       <div
         className={cx(CssStyle.pressBox_ScaleWrap, {
-          [CssStyle.noScaleChange]: !animate,
+          [CssStyle.noScaleChange]: !animate
         })}
       >
         {children}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export const PressButton = ({ width, onClick, animate = true, style={}, children }: Partial<PressProps>) => {
+export const PressButton = ({
+  width,
+  onClick,
+  animate = true,
+  style = {},
+  children
+}: Partial<PressProps>) => {
   return (
     <div
       className={cx(CssStyle.pressButton_ScaleWrap, {
-        [CssStyle.noScaleChange]: !animate,
+        [CssStyle.noScaleChange]: !animate
       })}
       onClick={onClick}
-      style={{width, ...style}}
+      style={{ width, ...style }}
     >
       {children}
     </div>
-  )
-}
+  );
+};

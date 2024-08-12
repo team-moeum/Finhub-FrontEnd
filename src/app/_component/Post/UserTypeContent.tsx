@@ -1,16 +1,19 @@
 "use client";
 
-import style from "./UserTypeContent.module.css";
 import Image from "next/image";
 import { Suspense, useEffect } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import Loading from "@/app/loading";
-import { UserType } from "@/model/UserType";
-import { userState } from "@/states/client/atoms/user";
-import { topicUserType } from "@/states/client/atoms/topicUsertype";
+
+import style from "./UserTypeContent.module.css";
 import UserTypeItemList from "./UserTypeItemList";
+
+import { topicUserType } from "@/states/client/atoms/topicUsertype";
+import { userState } from "@/states/client/atoms/user";
 import { useTopicGptInfo, useUserTypeList } from "@/states/server/queries";
+
+import { UserType } from "@/model/UserType";
 
 type UserTypeGptConentProps = {
   categoryId: number;
@@ -19,14 +22,19 @@ type UserTypeGptConentProps = {
   userTypeList: UserType[];
 };
 
-const UserTypeGptConent = ({ categoryId, topicId, activeType, userTypeList }: UserTypeGptConentProps) => {
+const UserTypeGptConent = ({
+  categoryId,
+  topicId,
+  activeType,
+  userTypeList
+}: UserTypeGptConentProps) => {
   const userInfo = useRecoilValue(userState);
   const setActiveType = useSetRecoilState(topicUserType);
 
   const { data: topicGptInfo } = useTopicGptInfo(categoryId, topicId, activeType.id);
 
   useEffect(() => {
-    setActiveType(userTypeList.find((item) => userInfo.userType === item.name) || userTypeList[0]);
+    setActiveType(userTypeList.find(item => userInfo.userType === item.name) || userTypeList[0]);
   }, [userInfo]);
 
   const hasFinalConsonant = (name: string) => {
@@ -35,20 +43,20 @@ const UserTypeGptConent = ({ categoryId, topicId, activeType, userTypeList }: Us
     return finalConsonant !== 0;
   };
 
-  const particle = hasFinalConsonant(activeType.name) ? "을 위한 설명은 준비 중이에요!" : "를 위한 설명은 준비 중이에요!";
+  const particle = hasFinalConsonant(activeType.name)
+    ? "을 위한 설명은 준비 중이에요!"
+    : "를 위한 설명은 준비 중이에요!";
 
   return (
     <div className={style.content_text}>
       {topicGptInfo.content || (
         <div className={style.not_found_content}>
-          <Image
-            src='/icons/loading_icon.svg'
-            alt="loading icon"
-            width={24}
-            height={24}
-          />
+          <Image src="/icons/loading_icon.svg" alt="loading icon" width={24} height={24} />
           <div className={style.text_box}>
-            <p><span>{activeType.name}</span>{particle}</p>
+            <p>
+              <span>{activeType.name}</span>
+              {particle}
+            </p>
             <p>조금만 기다려주세요!</p>
           </div>
         </div>

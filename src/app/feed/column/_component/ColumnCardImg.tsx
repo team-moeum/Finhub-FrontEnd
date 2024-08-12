@@ -1,10 +1,12 @@
 import Image from "next/image";
+
 import "./ColumnCardImg.css";
+
 import { gptColumn } from "@/model/GptColumn";
 
 type ColumnCardImgProps = {
-  item: gptColumn,
-}
+  item: gptColumn;
+};
 
 export default function ColumnCardImg({ item }: ColumnCardImgProps) {
   return (
@@ -20,27 +22,13 @@ export default function ColumnCardImg({ item }: ColumnCardImgProps) {
           ))}
         </div>
 
-        {item.backgroundImgUrl
-          ? <Image
-              src={item.backgroundImgUrl}
-              alt="Column Card"
-              fill
-              className="img_main"
-            />
-          : <Image
-              src="/column/col_img.png"
-              alt="Column Card"
-              fill
-              className="img_main"
-            />
-        }
-          <Image
-            src="/column/shadow_img.png"
-            alt="Shadow Card"
-            fill
-            className="img_shadow"
-          />
+        {item.backgroundImgUrl ? (
+          <Image src={item.backgroundImgUrl} alt="Column Card" fill className="img_main" />
+        ) : (
+          <Image src="/column/col_img.png" alt="Column Card" fill className="img_main" />
+        )}
+        <Image src="/column/shadow_img.png" alt="Shadow Card" fill className="img_shadow" />
       </div>
     </>
-  )
+  );
 }

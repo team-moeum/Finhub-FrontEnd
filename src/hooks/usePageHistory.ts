@@ -1,7 +1,8 @@
-import { useEffect, useMemo } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useRecoilState } from 'recoil';
-import { historyPathsState } from '@/states/client/atoms/history';
+import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useMemo } from "react";
+import { useRecoilState } from "recoil";
+
+import { historyPathsState } from "@/states/client/atoms/history";
 
 export const usePageHistory = () => {
   const pathname = usePathname();

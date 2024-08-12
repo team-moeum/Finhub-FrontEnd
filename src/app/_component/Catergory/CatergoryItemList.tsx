@@ -1,49 +1,56 @@
-"use client"
+"use client";
+
+import cx from "classnames";
+import { AnimatePresence } from "framer-motion";
+import Image from "next/image";
+import { forwardRef, useEffect, useRef, useState } from "react";
+import { useRecoilState } from "recoil";
+
+import { getCategoryIconPath } from "@/app/_constants/categoryIcon";
 
 import style from "./CategoryItemList.module.css";
-import cx from 'classnames';
-import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
-import { forwardRef, useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { AnimatePresence } from "framer-motion";
-import { useRecoilState } from "recoil";
-import { activeCategory } from "@/states/client/atoms/activeCategory"
+
+import { activeCategory } from "@/states/client/atoms/activeCategory";
 import { useCategory } from "@/states/server/queries";
+
 import { Category } from "@/model/Category";
-import { getCategoryIconPath } from "@/app/_constants/categoryIcon";
+
+import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
 
 type Props = {
   id: string;
   item: Category;
   activeItem: Category;
   itemChange: (categoryItem: Category) => void;
-}
+};
 
-const CategoryItem = forwardRef<HTMLLabelElement, Props>(({ id, item, activeItem, itemChange }, ref) => {
-  return (
-    <label ref={ref} className={style.item_label}>
-      <input
-        type="radio"
-        name={id}
-        id={`${item.categoryId}`}
-        checked={activeItem.categoryId === item.categoryId}
-        onChange={() => itemChange(item)}
-        className={style.category_radio_input}
-      />
-      <div className={style.item}>
-        <div className={style.icon_box}>
-          <Image 
-            src={getCategoryIconPath(item.name, activeItem.categoryId === item.categoryId)}
-            width={50}
-            height={50}
-            alt="category icon"
-          />
+const CategoryItem = forwardRef<HTMLLabelElement, Props>(
+  ({ id, item, activeItem, itemChange }, ref) => {
+    return (
+      <label ref={ref} className={style.item_label}>
+        <input
+          type="radio"
+          name={id}
+          id={`${item.categoryId}`}
+          checked={activeItem.categoryId === item.categoryId}
+          onChange={() => itemChange(item)}
+          className={style.category_radio_input}
+        />
+        <div className={style.item}>
+          <div className={style.icon_box}>
+            <Image
+              src={getCategoryIconPath(item.name, activeItem.categoryId === item.categoryId)}
+              width={50}
+              height={50}
+              alt="category icon"
+            />
+          </div>
+          <p>{item.name}</p>
         </div>
-        <p>{item.name}</p>
-      </div>
-    </label>
-  )
-})
+      </label>
+    );
+  }
+);
 
 CategoryItem.displayName = "CategoryItem";
 
@@ -56,38 +63,38 @@ export default function CategoryItemList() {
   const itemRefs = useRef<(HTMLLabelElement | null)[]>([]);
 
   const handleToggle = () => {
-    setIsOpen(isOpen ? false : true)
-  }
+    setIsOpen(isOpen ? false : true);
+  };
 
   const handleClose = () => {
     setIsOpen(false);
-  }
+  };
 
   const CategoryItemChange = (item: Category) => {
     setActiveItem(item);
-  }
+  };
 
   const BottomSheetCategoryItemChange = (item: Category) => {
     setActiveItem(item);
     setIsOpen(false);
-  }
+  };
 
   useEffect(() => {
     if (itemRefs.current[activeItem.categoryId]) {
       itemRefs.current[activeItem.categoryId]?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center',
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center"
       });
     }
-  }, [activeItem])
+  }, [activeItem]);
 
   return (
     <>
       <div className={style.container}>
         <div className={cx([style.item, style.all])} onClick={handleToggle}>
           <div className={style.icon_box}>
-            <Image src='/icons/categoryAll.svg' alt="category all" width={20} height={20} />
+            <Image src="/icons/categoryAll.svg" alt="category all" width={20} height={20} />
           </div>
           <p>전체</p>
         </div>
@@ -99,12 +106,12 @@ export default function CategoryItemList() {
             item={item}
             activeItem={activeItem}
             itemChange={CategoryItemChange}
-            ref={el => itemRefs.current[item.categoryId] = el}
+            ref={el => (itemRefs.current[item.categoryId] = el)}
           />
         ))}
       </div>
       <AnimatePresence>
-        {isOpen &&
+        {isOpen && (
           <BottomSheet title="카테고리 전체 보기" isOpen={true} onClose={handleClose}>
             <div className={style.bottom_sheet_content}>
               {categoryList?.map((item, i) => (
@@ -118,9 +125,8 @@ export default function CategoryItemList() {
               ))}
             </div>
           </BottomSheet>
-        }
+        )}
       </AnimatePresence>
     </>
-
-  )
+  );
 }

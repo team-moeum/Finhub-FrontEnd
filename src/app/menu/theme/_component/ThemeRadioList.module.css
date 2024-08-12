@@ -1,40 +1,40 @@
 .container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .radio_box {
-    margin-top: 34px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  margin-top: 34px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .label {
-    width: 100%;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
+  width: 100%;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .label p {
-    color: #000;
-    font-size: 16px;
-    font-weight: 500;
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .label input {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 .label .radio_btn {
-    width: 20px;
-    height: 20px;
-    background-image: url(/icons/radio.svg);
+  width: 20px;
+  height: 20px;
+  background-image: url(/icons/radio.svg);
 }
 
-.label input[type=radio]:checked + .radio_btn {
-    background-image: url(/icons/radio_on.svg);
-} 
+.label input[type="radio"]:checked + .radio_btn {
+  background-image: url(/icons/radio_on.svg);
+}

@@ -1,6 +1,7 @@
-import { ApiResponse } from "@/api/type";
 import { mutationKeys } from "../../mutations";
+
 import { remove } from "@/api/client";
+import { ApiResponse } from "@/api/type";
 
 /**
  * 컬럼 댓글 삭제 API
@@ -13,8 +14,8 @@ export const deleteGptColumnComment = async (id: number) => {
   const response: ApiResponse = await remove(
     `/api/v1/main/column/comment/actions`,
     mutationKeys.deleteGptColumnComment,
-    {id}
+    { id }
   );
 
   return response;
-}
+};

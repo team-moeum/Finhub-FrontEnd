@@ -1,15 +1,17 @@
-import style from './List.module.css';
+import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 
-import ListContent from '../home/_component/ListContent';
+import ListContent from "../home/_component/ListContent";
+import style from "./List.module.css";
 
-import { queryKeys } from '@/states/server/queries';
-import { getSsrCategory } from '@/states/server/Home/getCategory';
-import { getSsrTotalList } from '@/states/server/List/getTotalList';
-import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
-import { Category } from '@/model/Category';
-import { AppContainer } from '@/components/Container';
+import { getSsrCategory } from "@/states/server/Home/getCategory";
+import { getSsrTotalList } from "@/states/server/List/getTotalList";
+import { queryKeys } from "@/states/server/queries";
 
-export default async function ListPage({searchParams}: {searchParams: {categoryId: string}}) {
+import { Category } from "@/model/Category";
+
+import { AppContainer } from "@/components/Container";
+
+export default async function ListPage({ searchParams }: { searchParams: { categoryId: string } }) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
@@ -27,13 +29,13 @@ export default async function ListPage({searchParams}: {searchParams: {categoryI
   });
 
   const dehydratedState = dehydrate(queryClient);
-  
+
   return (
     <AppContainer footer>
       <p className={style.title}>목록</p>
       <HydrationBoundary state={dehydratedState}>
-        <ListContent categoryId={categoryId}/>
+        <ListContent categoryId={categoryId} />
       </HydrationBoundary>
     </AppContainer>
-  )
+  );
 }

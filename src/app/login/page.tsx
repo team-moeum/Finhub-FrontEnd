@@ -1,27 +1,18 @@
 "use client";
 
-import style from "./login.module.css";
+import { APPLE_AUTH_URL, GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from "@/configs";
+import cx from "classnames";
 import Image from "next/image";
 import Link from "next/link";
-import { APPLE_AUTH_URL, GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from "@/configs";
-import cx from 'classnames';
+
+import style from "./login.module.css";
 
 export default function LoginPage() {
   return (
     <div className={style.container}>
       <div className={style.app_icon_box}>
-        <Image
-          src="/finhub_app_icon.svg"
-          alt="finhub app icon"
-          width={100}
-          height={100}
-        />
-        <Image
-          src="/finhub_logo_green.svg"
-          alt="finhub logo"
-          width={100}
-          height={30}
-        />
+        <Image src="/finhub_app_icon.svg" alt="finhub app icon" width={100} height={100} />
+        <Image src="/finhub_logo_green.svg" alt="finhub logo" width={100} height={30} />
         <p className={style.text}>쉬운 금융 지식 서비스 핀허브</p>
       </div>
       <div className={style.button_area}>

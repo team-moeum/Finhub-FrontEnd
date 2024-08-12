@@ -1,7 +1,7 @@
 import { QuizTopic } from "./QuizTopic";
 
 export interface QuizInfo {
-  status: string,
+  status: string;
   id: number;
   question: string;
   correctYN: "Y" | "N";
