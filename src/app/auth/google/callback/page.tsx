@@ -2,13 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useRecoilState } from "recoil";
 
 import Loading from "@/app/loading";
+
 import { authAPI } from "@/api/auth";
-import { useRecoilState } from "recoil";
-import { userState } from "@/states/client/atoms/user";
-import { jsToNative } from "@/utils/jsToNative";
 import { fcmAPI } from "@/api/fcm";
+
+import { userState } from "@/states/client/atoms/user";
+
+import { jsToNative } from "@/utils/jsToNative";
 
 export default function GoogleLogin() {
   const router = useRouter();

@@ -1,7 +1,8 @@
-import { Box, BoxProps } from "@/components/Box"
-import { useSafeAreaTop } from "@/hooks/useSafeAreaTop"
+import { useSafeAreaTop } from "@/hooks/useSafeAreaTop";
 
-export const SafeArea = ({children, ...props}: BoxProps) => {
+import { Box, BoxProps } from "@/components/Box";
+
+export const SafeArea = ({ children, ...props }: BoxProps) => {
   const top = useSafeAreaTop();
 
   return (
@@ -10,4 +11,4 @@ export const SafeArea = ({children, ...props}: BoxProps) => {
       {children}
     </>
   );
-}
+};

@@ -1,57 +1,57 @@
 .container {
-    width: 100%;
-    margin-top: 30px;
+  width: 100%;
+  margin-top: 30px;
 }
 
 .tag_box {
-    height: 30px;
-    display: inline-flex;
-    align-items: flex-end;
+  height: 30px;
+  display: inline-flex;
+  align-items: flex-end;
 }
 
 .tag {
-    width: 58px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 600;
-    border-radius: 6px 6px 0 0;
-    background-color: #B9B9B9;
-    color: #F6F6F6;
-    z-index: 0;
-    transition: height 0.1s linear;
+  width: 58px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px 6px 0 0;
+  background-color: #b9b9b9;
+  color: #f6f6f6;
+  z-index: 0;
+  transition: height 0.1s linear;
 }
 
 .tag.custom_desc_tag {
-    width: 84px;
+  width: 84px;
 }
 
 .tag.original_desc_tag {
-    position: relative;
-    left: -6px;
+  position: relative;
+  left: -6px;
 }
 
 .tag.custom_desc_tag.on {
-    height: 30px;
-    font-size: 14px;
-    background-color: #50BF50;
-    z-index: 1;
+  height: 30px;
+  font-size: 14px;
+  background-color: #50bf50;
+  z-index: 1;
 }
 
 .tag.original_desc_tag.on {
-    height: 30px;
-    font-size: 14px;
-    background-color: #50BF50;
-    z-index: 1;
+  height: 30px;
+  font-size: 14px;
+  background-color: #50bf50;
+  z-index: 1;
 }
 
 .content_text {
-    padding: 11px 16px 48px 16px;
-    color: #3D3D3D;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 22px;
-    letter-spacing: -0.28px;
+  padding: 11px 16px 48px 16px;
+  color: #3d3d3d;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.28px;
 }

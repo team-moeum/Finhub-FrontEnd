@@ -6,10 +6,7 @@ type QueryOptionType<T = unknown> = {
 };
 
 type QueryOptionsType = {
-  [key: string]: <T = unknown>(...args: any[]) => QueryOptionType<T>
+  [key: string]: <T = unknown>(...args: any[]) => QueryOptionType<T>;
 };
 
-export type {
-    QueryOptionType,
-    QueryOptionsType
-}
+export type { QueryOptionType, QueryOptionsType };

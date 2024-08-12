@@ -1,26 +1,22 @@
-'use client';
+"use client";
 
+import cx from "classnames";
 import Link from "next/link";
 import React from "react";
-import style from "./MenuBar.module.css";
-import cx from 'classnames';
 
-import HomeIcon from '@/public/menuBar/home.svg';
-import ListIcon from '@/public/menuBar/list.svg';
-import SearchIcon from '@/public/menuBar/search.svg';
-import FeedIcon from '@/public/menuBar/feed.svg';
-import MenuIcon from '@/public/menuBar/menu.svg';
+import style from "./MenuBar.module.css";
+
+import FeedIcon from "@/public/menuBar/feed.svg";
+import HomeIcon from "@/public/menuBar/home.svg";
+import ListIcon from "@/public/menuBar/list.svg";
+import MenuIcon from "@/public/menuBar/menu.svg";
+import SearchIcon from "@/public/menuBar/search.svg";
 
 export const MENUBAR_HEIGHT = 54;
 
 export type ActiveMenuType = "home" | "list" | "search" | "feed" | "menu";
 
-export default function MenuBar({
-  activeMenu
-}: {
-  activeMenu?: ActiveMenuType
-}) {
-
+export default function MenuBar({ activeMenu }: { activeMenu?: ActiveMenuType }) {
   return (
     <div className={style.container}>
       <Link href="/home" className={cx([style.tab, activeMenu === "home" && style.active])}>

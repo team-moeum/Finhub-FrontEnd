@@ -1,28 +1,27 @@
-.title{
-    color: var(--Black, #000);
-font-size: 18px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
-font-family: "Pretendard Variable";
-
+.title {
+  color: var(--Black, #000);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  font-family: "Pretendard Variable";
 }
-.title_box{
-    display: flex;
-   width: 100%;
-padding-left:16px ;
-    gap:8px;
-    margin-top: 70px;
-    flex-direction: row;
-background-color: #fff;
+.title_box {
+  display: flex;
+  width: 100%;
+  padding-left: 16px;
+  gap: 8px;
+  margin-top: 70px;
+  flex-direction: row;
+  background-color: #fff;
 }
 
-.divider{
-    margin-top: 30px;
-    margin-bottom: 30px;
-    width: 100vw;
-    height: 10px;
-    background-color: #F3F3F3;
-    position: relative;
-    left: -16px;
+.divider {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  width: 100vw;
+  height: 10px;
+  background-color: #f3f3f3;
+  position: relative;
+  left: -16px;
 }

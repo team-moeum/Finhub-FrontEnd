@@ -1,16 +1,16 @@
 import { FlexBox, FlexBoxProps } from "@/components/FlexBox";
 
-export type FlexRowProps = {
-} & FlexBoxProps;
+export type FlexRowProps = {} & FlexBoxProps;
 
 export const FlexRow = ({
-  direction = 'row',
+  direction = "row",
   justifyContent = "space-between",
   alignItems = "center",
-  flexWrap = 'wrap',
+  flexWrap = "wrap",
   style = {},
   children,
-  ...props }: FlexRowProps) => {
+  ...props
+}: FlexRowProps) => {
   return (
     <FlexBox
       style={{
@@ -18,11 +18,12 @@ export const FlexRow = ({
         flexWrap,
         justifyContent,
         alignItems,
-        ...style,
+        ...style
       }}
-      width={'100%'}
-      {...props}>
+      width={"100%"}
+      {...props}
+    >
       {children}
     </FlexBox>
-  )
+  );
 };

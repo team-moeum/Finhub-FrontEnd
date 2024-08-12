@@ -1,18 +1,20 @@
 "use client";
 
-import Link from "next/link"
-import { Autoplay, Pagination } from "swiper/modules"
-import { Swiper, SwiperSlide } from "swiper/react"
+import Link from "next/link";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Autoplay, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import './ColumnCard.css';
-
-import ColumnCardImg from "./ColumnCardImg";
-import { useGptColumnList } from "@/states/server/queries";
-import { gptColumn } from "@/model/GptColumn";
 import Loading from "@/app/loading";
+
+import "./ColumnCard.css";
+import ColumnCardImg from "./ColumnCardImg";
+
+import { useGptColumnList } from "@/states/server/queries";
+
+import { gptColumn } from "@/model/GptColumn";
 
 export default function ColumnCard() {
   const { data, isFetching } = useGptColumnList({ page: 1, size: 5 });
@@ -38,8 +40,8 @@ export default function ColumnCard() {
               <ColumnCardImg item={item} />
             </Link>
           </SwiperSlide>
-        )
+        );
       })}
     </Swiper>
-  )
+  );
 }

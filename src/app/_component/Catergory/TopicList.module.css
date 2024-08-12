@@ -1,60 +1,60 @@
 .topic_list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .item_container {
-    width: 100%;
-    height: 88px;
-    display: grid;
-    grid-template-columns: 64px calc(100% - 124px) 20px;
-    align-items: center;
-    gap: 20px;
-    padding: 0 16px;
-    overflow: hidden;
-    box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.08);
-    border-radius: 20px;
+  width: 100%;
+  height: 88px;
+  display: grid;
+  grid-template-columns: 64px calc(100% - 124px) 20px;
+  align-items: center;
+  gap: 20px;
+  padding: 0 16px;
+  overflow: hidden;
+  box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
 }
 
 .img_box {
-    position: relative;
-    width: 64px;
-    height: 64px;
-    background-color: #E0F1DC;
-    border-radius: 8px;
-    overflow: hidden;
+  position: relative;
+  width: 64px;
+  height: 64px;
+  background-color: #e0f1dc;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .content_box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
 }
 
-.content_box p:nth-child(1){
-    color: #1f2937;
-    font-size: 18px;
-    font-weight: 600;
+.content_box p:nth-child(1) {
+  color: #1f2937;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .content_box p:nth-child(2) {
-    display: block;
-    color: #b6b6b6;
-    font-size: 14px;
-    font-weight: 500;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+  display: block;
+  color: #b6b6b6;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .icon_box {
-    position: relative;
-    height: 100%;
-    top: 52px;
+  position: relative;
+  height: 100%;
+  top: 52px;
 }
 
 /* .heart_icon_box svg {
@@ -66,18 +66,18 @@
 } */
 
 .add_topic {
-    width: 100%;
-    height: 36px;
-    background-color: #F6F6F6;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  height: 36px;
+  background-color: #f6f6f6;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .add_topic p {
-    font-size: 15px;
-    font-weight: 600;
-    color: #D9D7CF;
-    margin-right: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #d9d7cf;
+  margin-right: 12px;
 }

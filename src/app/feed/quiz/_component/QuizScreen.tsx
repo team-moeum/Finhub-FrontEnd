@@ -1,10 +1,13 @@
-import { Suspense } from "react";
-import QuizHeader from "./QuizHeader";
-import Loading from "@/app/loading";
-import TodayQuiz from "./TodayQuiz";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
-import { queryKeys } from "@/states/server/queries";
+import { Suspense } from "react";
+
+import Loading from "@/app/loading";
+
+import QuizHeader from "./QuizHeader";
+import TodayQuiz from "./TodayQuiz";
+
 import { getSsrQuiz } from "@/states/server/Feed/Quiz/getQuiz";
+import { queryKeys } from "@/states/server/queries";
 
 export default async function QuizScreen() {
   const queryClient = new QueryClient();
@@ -12,7 +15,7 @@ export default async function QuizScreen() {
   await queryClient.prefetchQuery({
     queryKey: queryKeys.quiz(),
     queryFn: () => getSsrQuiz()
-  })
+  });
 
   const dehydratedState = dehydrate(queryClient);
 
@@ -23,5 +26,5 @@ export default async function QuizScreen() {
         <TodayQuiz />
       </Suspense>
     </HydrationBoundary>
-  )
+  );
 }

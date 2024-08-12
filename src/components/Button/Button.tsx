@@ -1,6 +1,6 @@
-import cssStyle from './Button.module.css';
+import { SpacingType, getBoxSpacing } from "../Box/Box.style";
 import { PressButton } from "../PressAnimator";
-import { SpacingType, getBoxSpacing } from '../Box/Box.style';
+import cssStyle from "./Button.module.css";
 
 export type ButtonProps = {
   full?: boolean;
@@ -19,12 +19,25 @@ export type ButtonProps = {
   animate?: boolean;
   flex?: string | number;
   children?: React.ReactNode;
-} & React.HTMLAttributes<HTMLButtonElement> & SpacingType;
+} & React.HTMLAttributes<HTMLButtonElement> &
+  SpacingType;
 
 export const Button = ({
-  margin, my, mx, mt, mb, ml, mr,
-  padding, py, px, pt, pb, pl, pr,
-  full=false,
+  margin,
+  my,
+  mx,
+  mt,
+  mb,
+  ml,
+  mr,
+  padding,
+  py,
+  px,
+  pt,
+  pb,
+  pl,
+  pr,
+  full = false,
   color,
   width,
   height,
@@ -37,36 +50,53 @@ export const Button = ({
   textColor,
   border,
   style = {},
-  animate=true,
+  animate = true,
   flex,
   onClick,
   ...props
 }: ButtonProps) => {
-
-  const spacing = getBoxSpacing({ margin, padding, my, mx, mt, mb, ml, mr, py, px, pt, pb, pl, pr });
+  const spacing = getBoxSpacing({
+    margin,
+    padding,
+    my,
+    mx,
+    mt,
+    mb,
+    ml,
+    mr,
+    py,
+    px,
+    pt,
+    pb,
+    pl,
+    pr
+  });
 
   const disabledStyle = {
     backgroundColor: disabledBgColor,
-    color:  disabledTextColor,
-    cursor: 'not-allowed',
+    color: disabledTextColor,
+    cursor: "not-allowed"
   };
 
   return (
-    <PressButton animate={animate} style={{width: full ? '100%' : 'fit-content', display: 'inline-flex', flex}}>
+    <PressButton
+      animate={animate}
+      style={{ width: full ? "100%" : "fit-content", display: "inline-flex", flex }}
+    >
       <button
         className={cssStyle.base_button}
-        style={{ 
-          width: full ? '100%' : width, 
-          height, 
-          borderRadius: radius, 
-          padding, 
-          backgroundColor, 
-          color: textColor, 
+        style={{
+          width: full ? "100%" : width,
+          height,
+          borderRadius: radius,
+          padding,
+          backgroundColor,
+          color: textColor,
           border,
           flex,
           ...spacing,
           ...style,
-          ...(disabled ? disabledStyle : {}),
+          ...(disabled ? disabledStyle : {})
         }}
         onClick={onClick}
         disabled={disabled}
@@ -75,5 +105,5 @@ export const Button = ({
         {children}
       </button>
     </PressButton>
-  )
-}
+  );
+};

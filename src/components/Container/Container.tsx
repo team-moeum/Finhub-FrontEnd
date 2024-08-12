@@ -1,8 +1,8 @@
 // import styled from "@emotion/styled";
+import { ReactNode } from "react";
 
-import cssStyle from './Container.module.css';
+import cssStyle from "./Container.module.css";
 
-import { ReactNode } from "react"
 import { Box, BoxProps } from "@/components/Box";
 
 type ContainerProps = {
@@ -11,20 +11,25 @@ type ContainerProps = {
 } & BoxProps;
 
 const variantMap = {
-  "standard": 16,
-  "thin": 10,
-  "thick": 32,
-  "full": 0,
-}
+  standard: 16,
+  thin: 10,
+  thick: 32,
+  full: 0
+};
 
-export const Container = ({ variant = "standard", style = {}, children, ...props }: ContainerProps) => {
+export const Container = ({
+  variant = "standard",
+  style = {},
+  children,
+  ...props
+}: ContainerProps) => {
   return (
-    <Box 
+    <Box
       className={cssStyle.containerWrap}
-      style={{ paddingLeft: variantMap[variant], paddingRight: variantMap[variant], ...style }} 
+      style={{ paddingLeft: variantMap[variant], paddingRight: variantMap[variant], ...style }}
       {...props}
     >
       {children}
     </Box>
-  )
-}
+  );
+};

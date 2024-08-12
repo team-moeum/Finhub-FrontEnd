@@ -1,4 +1,4 @@
 export interface recentKeyword {
-    searchId: number,
-    keyword: string
+  searchId: number;
+  keyword: string;
 }

@@ -1,6 +1,7 @@
-import { ApiResponse } from "@/api/type";
 import { mutationKeys } from "../../mutations";
+
 import { post } from "@/api/client";
+import { ApiResponse } from "@/api/type";
 
 /**
  * 컬럼 댓글 사용자 차단 API
@@ -15,4 +16,4 @@ export const postBanGptColumnComment = async (memberId: number) => {
   );
 
   return response;
-}
+};

@@ -1,69 +1,69 @@
 .container {
-    width: 100%;
-    height: 100vh;
-    padding: 0 16px 54px 16px;
-    position: relative;
+  width: 100%;
+  height: 100vh;
+  padding: 0 16px 54px 16px;
+  position: relative;
 }
 
 .app_icon_box {
-    position: relative;
-    top: 25%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 22px
+  position: relative;
+  top: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
 }
 
 .app_icon_box .text {
-    margin-top: 10px;
-    color: #CDD1D5;
-    font-size: 14px;
-    font-weight: 600;
+  margin-top: 10px;
+  color: #cdd1d5;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .button_area {
-    width: 100%;
-    position: absolute;
-    bottom: 130px;
-    left: 0;
-    padding: 0 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    font-size: 14px;
-    font-weight: 500;
+  width: 100%;
+  position: absolute;
+  bottom: 130px;
+  left: 0;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .login_button {
-    position: relative;
-    width: 100%;
-    height: 55px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
+  position: relative;
+  width: 100%;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
 }
 
 .kakao_login {
-    background-color: #FEE500;
+  background-color: #fee500;
 }
 
 .google_login {
-    border: 1px solid #E6E8EB;
+  border: 1px solid #e6e8eb;
 }
 
 .apple_login {
-    color: #ffffff;
-    background-color: #000000;
+  color: #ffffff;
+  background-color: #000000;
 }
 
 .login_icon {
-    position: absolute;
-    left: 28px;
+  position: absolute;
+  left: 28px;
 }
 
 .not_login {
-    color: #E6E8EB;
+  color: #e6e8eb;
 }

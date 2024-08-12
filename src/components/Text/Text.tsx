@@ -1,20 +1,19 @@
-import { TextProps } from './Text.type';
-import { getTextOverflowStyle } from './textUtils';
+import { TextProps } from "./Text.type";
+import { getTextOverflowStyle } from "./textUtils";
 
-export const Text = ({ 
+export const Text = ({
   size,
-  color, 
-  weight, 
+  color,
+  weight,
   height,
   display,
   textAlign,
-  lineHeight, 
+  lineHeight,
   letterSpacing,
   textLineClamp,
-  style={},
+  style = {},
   children
 }: TextProps) => {
-
   let combinedStyle = {
     color,
     height,
@@ -24,16 +23,12 @@ export const Text = ({
     letterSpacing,
     fontSize: size,
     fontWeight: weight,
-    ...style,
+    ...style
   };
 
   if (textLineClamp) {
     combinedStyle = { ...combinedStyle, ...getTextOverflowStyle(textLineClamp) };
   }
 
-  return (
-    <span style={combinedStyle}>
-      {children}
-    </span>
-  );
-}
+  return <span style={combinedStyle}>{children}</span>;
+};
