@@ -66,7 +66,8 @@ export default function QuizList() {
     handleQuizItemClick,
     handleQuizResultClose,
     handleAnswerClick,
-    handleClickTag
+    handleClickTag,
+    handleSolvedQuizClick
   } = useSolveQuizHook();
 
   if (isLoading) return <Loading height={300} />;
@@ -103,7 +104,7 @@ export default function QuizList() {
             (solvedQuizList && solvedQuizList?.length > 0 ? (
               <>
                 {solvedQuizList.map((item: SolvedQuiz) => (
-                  <QuizItem key={item.id} item={item} />
+                  <QuizItem key={item.id} item={item} onClick={() => handleSolvedQuizClick(item.targetDate)}/>
                 ))}
                 <QuizDetailButton />
               </>

@@ -3,6 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { usePostQuizSolve } from "@/states/server/mutations";
+import { useSolvedQuizResult } from "@/states/server/queries";
 
 import { QuizSolveUser } from "@/model/QuizSolveUser";
 
@@ -19,10 +20,14 @@ export const useSolveQuizHook = () => {
 
   const [selectedQuizDate, setSelectedQuizDate] = useState<string>("");
   const [selectedQuizRusult, setSelectedQuizRusult] = useState<QuizSolveUser>();
+  const [disabledValidate, setDisabledValidate] = useState(false);
+  const [solvedQuizDate, setSolvedQuizDate] = useState("");
 
   const { showToast } = useToast();
   const todayQuizPopupModal = useModal();
   const quizResultPopupModal = useModal();
+
+  const { data: solvedQuizResult } = useSolvedQuizResult(solvedQuizDate.replace(/-/g, ""));
 
   const queryClient = useQueryClient();
   const quizSolveMutation = usePostQuizSolve({
@@ -47,6 +52,15 @@ export const useSolveQuizHook = () => {
     checkCache();
   }, []);
 
+  useEffect(() => {
+    if (solvedQuizResult?.status === "SUCCESS") {
+      setSelectedQuizRusult(solvedQuizResult);
+      quizResultPopupModal.open();
+      setDisabledValidate(true);
+      setSolvedQuizDate("");
+    }
+  }, [solvedQuizResult]);
+
   const handleQuizItemClick = (date: string) => {
     setSelectedQuizDate(date);
     todayQuizPopupModal.open();
@@ -55,6 +69,10 @@ export const useSolveQuizHook = () => {
   const handleQuizResultClose = () => {
     quizResultPopupModal.close();
     clearCache(CACHE_KEY.quizResult);
+
+    if (disabledValidate) {
+      return setDisabledValidate(false);
+    }
 
     queryClient.invalidateQueries({ queryKey: ["quizCalendar"], refetchType: "all" });
     queryClient.invalidateQueries({ queryKey: ["missedQuiz"], refetchType: "all" });
@@ -72,6 +90,10 @@ export const useSolveQuizHook = () => {
     router.push(url);
   };
 
+  const handleSolvedQuizClick = (date: string) => {
+    setSolvedQuizDate(date);
+  };
+
   return {
     selectedQuizDate,
     selectedQuizRusult,
@@ -80,6 +102,7 @@ export const useSolveQuizHook = () => {
     handleQuizItemClick,
     handleQuizResultClose,
     handleAnswerClick,
-    handleClickTag
+    handleClickTag,
+    handleSolvedQuizClick
   };
 };
