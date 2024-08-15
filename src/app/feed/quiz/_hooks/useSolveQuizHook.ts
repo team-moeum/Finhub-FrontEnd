@@ -53,7 +53,7 @@ export const useSolveQuizHook = () => {
   }, []);
 
   useEffect(() => {
-    if (solvedQuizResult?.status === "SUCCESS") {
+    if (solvedQuizResult) {
       setSelectedQuizRusult(solvedQuizResult);
       quizResultPopupModal.open();
       setDisabledValidate(true);
