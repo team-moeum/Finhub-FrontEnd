@@ -16,14 +16,14 @@ import { UserType } from "@/model/UserType";
 import { useToast } from "@/components/Toast/useToast";
 
 type UserTypeItemProps = {
-  name: string,
-  checked: boolean,
-  onChange: () => void
-}
+  name: string;
+  checked: boolean;
+  onChange: () => void;
+};
 
 type Props = {
-  userInfo: User
-}
+  userInfo: User;
+};
 const UserTypeItem = ({ name, checked, onChange }: UserTypeItemProps) => {
   return (
     <div className={cx([style.item_box, checked && style.active])} onClick={onChange}>
@@ -45,16 +45,16 @@ export default function SelectUserType({ userInfo }: Props) {
       setUserInfo(prev => ({
         ...prev,
         userType: userType?.name,
-        userTypeUrl: userType?.img_path,
+        userTypeUrl: userType?.img_path
       }));
-      showToast({ content: "직업이 변경 되었습니다!", type: 'success' });
+      showToast({ content: "직업이 변경 되었습니다!", type: "success" });
     },
     onError: () => {
       showToast({ content: "잠시후 다시 시도해주세요!", type: "warning" });
     }
   });
 
-  const userTypeList = [{ id: 0, name: "직업 없음", img_path: '' }, ...(userTypeListData || [])];
+  const userTypeList = [{ id: 0, name: "직업 없음", img_path: "" }, ...(userTypeListData || [])];
 
   useEffect(() => {
     if (!userInfo.userType || userInfo.userType === "직업 없음") {
@@ -68,11 +68,11 @@ export default function SelectUserType({ userInfo }: Props) {
   const handleChangeUserType = (userType: UserType) => {
     setUserType(userType);
     setDropList(false);
-  }
+  };
 
   const handleConfirm = () => {
     userTypeMutation.mutate({ id: userType.id });
-  }
+  };
 
   const handleDropList = () => {
     setDropList(!dropList);
@@ -112,13 +112,18 @@ export default function SelectUserType({ userInfo }: Props) {
             ))}
           </div>
         </div>
-        :
-        userType?.name === "직업 없음" &&
-        <div className={style.info_box}>
-          <p>직업을 설정하면 맞춤형 설명에서 <span> 내 직업을 먼저 </span>볼 수 있어요!</p>
-        </div>
-      }
-      <button onClick={handleConfirm} className={style.confirm_btn}>확인</button>
+      ) : (
+        userType?.name === "직업 없음" && (
+          <div className={style.info_box}>
+            <p>
+              직업을 설정하면 맞춤형 설명에서 <span> 내 직업을 먼저 </span>볼 수 있어요!
+            </p>
+          </div>
+        )
+      )}
+      <button onClick={handleConfirm} className={style.confirm_btn}>
+        확인
+      </button>
     </div>
-  )
+  );
 }
