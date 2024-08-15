@@ -1,20 +1,20 @@
 import {
-  getToken as getServerToken,
-  updateToken as updateServerToken,
-  deleteToken as deleteServerToken,
-  setToken as setServerToken,
-  setAccessToken as setServerAccessToken
-} from "./auth_server";
-import {
-  getToken as getClientToken,
-  updateToken as updateClientToken,
   deleteToken as deleteClientToken,
+  getToken as getClientToken,
+  setAccessToken as setClientAccessToken,
   setToken as setClientToken,
-  setAccessToken as setClientAccessToken
+  updateToken as updateClientToken
 } from "./auth_client";
+import {
+  deleteToken as deleteServerToken,
+  getToken as getServerToken,
+  setAccessToken as setServerAccessToken,
+  setToken as setServerToken,
+  updateToken as updateServerToken
+} from "./auth_server";
+import { isSSR } from "./isSSR";
 
 import { AuthToken } from "@/model/AuthToken";
-import { isSSR } from "./isSSR";
 
 export const getToken = (ssr?: boolean) => {
   if (ssr) return getServerToken();
@@ -39,4 +39,4 @@ export const setToken = (tokens: AuthToken) => {
 export const setAccessToken = (at: string) => {
   setServerAccessToken(at);
   setClientAccessToken(at);
-}
+};

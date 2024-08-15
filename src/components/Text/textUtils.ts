@@ -5,6 +5,6 @@ export const getTextOverflowStyle = (lineClamp: number): React.CSSProperties => 
     overflow: "hidden",
     wordBreak: "break-all",
     textOverflow: "ellipsis",
-    WebkitBoxOrient: "vertical",
-  }
+    WebkitBoxOrient: "vertical"
+  };
 };

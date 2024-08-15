@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
@@ -12,7 +12,7 @@ const skeletonKeyframes = keyframes`
   }
 `;
 
-type SizeProps = {width:string, height: string, radius?: number}
+type SizeProps = { width: string; height: string; radius?: number };
 
 const BaseSkeleton = styled.div<SizeProps>`
   display: inline-block;
@@ -28,31 +28,46 @@ const BaseSkeleton = styled.div<SizeProps>`
   );
   background-size: 200px 100%;
   background-repeat: no-repeat;
-  border-radius: ${(p) => p.radius ? `${p.radius}px` : "0"};
+  border-radius: ${p => (p.radius ? `${p.radius}px` : "0")};
 `;
 
 export const CircularSkeleton = styled(BaseSkeleton)`
   border-radius: 50%;
-`
+`;
 
 export const RectangluarSkeleton = styled(BaseSkeleton)`
-`
+`;
 
 type SkeletonProps = {
-    variant: "circular" | "rect" | "round",
-    width: string,
-    height: string,
-    radius?: number,
-    style?: React.CSSProperties
-}
+  variant: "circular" | "rect" | "round";
+  width: string;
+  height: string;
+  radius?: number;
+  style?: React.CSSProperties;
+};
 
-const Skeleton = ({variant="rect", width, height, radius=undefined, style, ...props}: SkeletonProps) => {
-    if (variant === "circular") 
-        return <CircularSkeleton width={width} height={height} style={style} {...props} />
-    else if (variant === "rect")
-        return <BaseSkeleton width={width} height={height} style={style} {...props} />
-    else
-        return <BaseSkeleton width={width} height={height} radius={radius ? radius : 10} style={style} {...props}/>
-}
+const Skeleton = ({
+  variant = "rect",
+  width,
+  height,
+  radius = undefined,
+  style,
+  ...props
+}: SkeletonProps) => {
+  if (variant === "circular")
+    return <CircularSkeleton width={width} height={height} style={style} {...props} />;
+  else if (variant === "rect")
+    return <BaseSkeleton width={width} height={height} style={style} {...props} />;
+  else
+    return (
+      <BaseSkeleton
+        width={width}
+        height={height}
+        radius={radius ? radius : 10}
+        style={style}
+        {...props}
+      />
+    );
+};
 
-export default Skeleton
+export default Skeleton;

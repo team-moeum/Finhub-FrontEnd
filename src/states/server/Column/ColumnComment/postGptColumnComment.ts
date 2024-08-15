@@ -1,7 +1,7 @@
-import { ApiResponse } from "@/api/type";
 import { mutationKeys } from "../../mutations";
-import { post } from "@/api/client";
 
+import { post } from "@/api/client";
+import { ApiResponse } from "@/api/type";
 
 export const postGptColumnComment = async (param: any) => {
   const response: ApiResponse = await post(
@@ -11,4 +11,4 @@ export const postGptColumnComment = async (param: any) => {
   );
 
   return response;
-}
+};

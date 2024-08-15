@@ -1,12 +1,23 @@
-import { useToast } from "@/components/Toast/useToast";
-import { useModal } from "@/hooks/useModal";
-import { QuizSolveUser } from "@/model/QuizSolveUser";
-import { usePostQuizSolve } from "@/states/server/mutations";
-import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+import { usePostQuizSolve } from "@/states/server/mutations";
+
+import { QuizSolveUser } from "@/model/QuizSolveUser";
+
+import { useCache } from "@/hooks/useCache";
+import { CACHE_KEY } from "@/hooks/useCacheControl";
+import { useModal } from "@/hooks/useModal";
+
+import { useToast } from "@/components/Toast/useToast";
 
 export const useSolveQuizHook = () => {
-  const [selectedQuizDate, setSelectedQuizDate] = useState<string>('');
+  const router = useRouter();
+  const pathName = usePathname();
+  const { get: getCache, set: setCache, clear: clearCache } = useCache();
+
+  const [selectedQuizDate, setSelectedQuizDate] = useState<string>("");
   const [selectedQuizRusult, setSelectedQuizRusult] = useState<QuizSolveUser>();
 
   const { showToast } = useToast();
@@ -15,7 +26,7 @@ export const useSolveQuizHook = () => {
 
   const queryClient = useQueryClient();
   const quizSolveMutation = usePostQuizSolve({
-    onSuccess: (data) => {
+    onSuccess: data => {
       setSelectedQuizRusult(data);
       quizResultPopupModal.open();
     },
@@ -24,23 +35,42 @@ export const useSolveQuizHook = () => {
     }
   });
 
+  useEffect(() => {
+    const checkCache = () => {
+      const cachedResult = getCache(CACHE_KEY.quizResult);
+      if (cachedResult) {
+        setSelectedQuizRusult(cachedResult);
+        quizResultPopupModal.open();
+      }
+    };
+
+    checkCache();
+  }, []);
+
   const handleQuizItemClick = (date: string) => {
     setSelectedQuizDate(date);
     todayQuizPopupModal.open();
-  }
+  };
 
   const handleQuizResultClose = () => {
     quizResultPopupModal.close();
+    clearCache(CACHE_KEY.quizResult);
 
-    queryClient.invalidateQueries({ queryKey: ["quizCalendar"], refetchType: 'all' });
-    queryClient.invalidateQueries({ queryKey: ["missedQuiz"], refetchType: 'all' });
-    queryClient.invalidateQueries({ queryKey: ["solvedQuiz"], refetchType: 'all' });
-  }
+    queryClient.invalidateQueries({ queryKey: ["quizCalendar"], refetchType: "all" });
+    queryClient.invalidateQueries({ queryKey: ["missedQuiz"], refetchType: "all" });
+    queryClient.invalidateQueries({ queryKey: ["solvedQuiz"], refetchType: "all" });
+  };
 
   const handleAnswerClick = (id: number, answer: "O" | "X") => {
     todayQuizPopupModal.close();
     quizSolveMutation.mutate({ id, answer });
-  }
+  };
+
+  const handleClickTag = (url: string) => {
+    if (!selectedQuizRusult) return;
+    setCache(CACHE_KEY.quizResult, { ...selectedQuizRusult, startPath: pathName });
+    router.push(url);
+  };
 
   return {
     selectedQuizDate,
@@ -49,6 +79,7 @@ export const useSolveQuizHook = () => {
     quizResultPopupModal,
     handleQuizItemClick,
     handleQuizResultClose,
-    handleAnswerClick
-  }
-}
+    handleAnswerClick,
+    handleClickTag
+  };
+};

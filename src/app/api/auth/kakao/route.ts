@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -11,8 +11,8 @@ export async function GET(request: Request) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        finhub: process.env.NEXT_PUBLIC_API_KEY || "",
-      },
+        finhub: process.env.NEXT_PUBLIC_API_KEY || ""
+      }
     }
   );
 
@@ -22,12 +22,12 @@ export async function GET(request: Request) {
   cookies().set("access-token", accessToken, {
     maxAge: 60 * 60 * 24 * 14, // 14 days
     secure: true,
-    httpOnly: true,
+    httpOnly: true
   });
   cookies().set("refresh-token", refreshToken, {
     maxAge: 60 * 60 * 24 * 14, // 14 days
     secure: true,
-    httpOnly: true,
+    httpOnly: true
   });
 
   return NextResponse.json(res);

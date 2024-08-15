@@ -1,15 +1,19 @@
 "use client";
 
-import { User } from '@/model/User';
-import style from './SelectUserType.module.css';
-import cx from 'classnames';
-import { useEffect, useState } from 'react';
-import { useUserTypeList } from '@/states/server/queries';
-import { useUpdateUserType } from '@/states/server/mutations';
-import { useToast } from '@/components/Toast/useToast';
-import { useRecoilState } from 'recoil';
-import { userState } from '@/states/client/atoms/user';
-import { UserType } from '@/model/UserType';
+import cx from "classnames";
+import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+
+import style from "./SelectUserType.module.css";
+
+import { userState } from "@/states/client/atoms/user";
+import { useUpdateUserType } from "@/states/server/mutations";
+import { useUserTypeList } from "@/states/server/queries";
+
+import { User } from "@/model/User";
+import { UserType } from "@/model/UserType";
+
+import { useToast } from "@/components/Toast/useToast";
 
 type UserTypeItemProps = {
   name: string,
@@ -20,20 +24,16 @@ type UserTypeItemProps = {
 type Props = {
   userInfo: User
 }
-
 const UserTypeItem = ({ name, checked, onChange }: UserTypeItemProps) => {
   return (
-    <div
-      className={cx([style.item_box, checked && style.active])}
-      onClick={onChange}
-    >
+    <div className={cx([style.item_box, checked && style.active])} onClick={onChange}>
       {name}
     </div>
-  )
-}
+  );
+};
 
 export default function SelectUserType({ userInfo }: Props) {
-  const defaultUserType: UserType = { id: 0, name: "직업 없음", img_path: '' };
+  const defaultUserType: UserType = { id: 0, name: "직업 없음", img_path: "" };
   const [userType, setUserType] = useState<UserType>(defaultUserType);
   const [dropList, setDropList] = useState(false);
   const [_, setUserInfo] = useRecoilState(userState);
@@ -76,18 +76,30 @@ export default function SelectUserType({ userInfo }: Props) {
 
   const handleDropList = () => {
     setDropList(!dropList);
-  }
+  };
 
   return (
     <div className={style.container}>
       <div className={cx([style.select_box, dropList && style.active])} onClick={handleDropList}>
-        <span>{userType?.name || '직업 없음'}</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="8" viewBox="0 0 14 8" fill="none">
-          <path d="M1 1L7 7L13 1" stroke="current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <span>{userType?.name || "직업 없음"}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="8"
+          viewBox="0 0 14 8"
+          fill="none"
+        >
+          <path
+            d="M1 1L7 7L13 1"
+            stroke="current"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </div>
 
-      {dropList ?
+      {dropList ? (
         <div className={style.select_list}>
           <div className={style.select_list_wrap}>
             {userTypeList.map((item, i) => (

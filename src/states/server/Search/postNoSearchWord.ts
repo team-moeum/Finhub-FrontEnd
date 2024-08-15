@@ -1,6 +1,7 @@
-import { ApiResponse } from "@/api/type";
 import { mutationKeys } from "../mutations";
+
 import { post } from "@/api/client";
+import { ApiResponse } from "@/api/type";
 
 /**
  * 없는 단어 요청 API
@@ -17,4 +18,4 @@ export const postNoSearchWord = async (param: any) => {
   );
 
   return response;
-}
+};

@@ -1,6 +1,5 @@
 export interface SolvedQuiz {
-    id: number;
-    question: string;
-    targetDate: string;
+  id: number;
+  question: string;
+  targetDate: string;
 }
-

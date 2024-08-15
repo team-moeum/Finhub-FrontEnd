@@ -1,11 +1,14 @@
 "use server";
 
-import { post } from "@/api/client";
-import { ApiResponse } from "@/api/type";
+import { cookies } from "next/headers";
+
 import { WEEK_TIME } from "@/configs/date";
 import { TokenKeys } from "@/configs/enum";
+
+import { post } from "@/api/client";
+import { ApiResponse } from "@/api/type";
+
 import { AuthToken } from "@/model/AuthToken";
-import { cookies } from "next/headers";
 
 export const isUserLoginSsr = () => {
   const cookieStore = cookies();
@@ -24,7 +27,7 @@ export const updateToken = (updateAccessToken: string) => {
   cookies().set("access-token", updateAccessToken, {
     maxAge: 60 * 60 * 24 * 14, // 14 days
     secure: true,
-    httpOnly: true,
+    httpOnly: true
   });
 };
 
@@ -37,21 +40,19 @@ export const setToken = (tokens: AuthToken) => {
   cookies().set(TokenKeys.ACCESS_TOKEN, tokens.accessToken ?? "", {
     maxAge: WEEK_TIME * 2,
     secure: true,
-    httpOnly: true,
+    httpOnly: true
   });
   cookies().set(TokenKeys.REFRESH_TOKEN, tokens.refreshToken ?? "", {
     maxAge: WEEK_TIME * 2,
     secure: true,
-    httpOnly: true,
+    httpOnly: true
   });
 };
 
 export const autoLogin = async (fcmToken: string) => {
-  const response: ApiResponse = await post(
-    "/api/v1/auth/autoLogin",
-    ["autoLogin"],
-    {token: fcmToken}
-  );
+  const response: ApiResponse = await post("/api/v1/auth/autoLogin", ["autoLogin"], {
+    token: fcmToken
+  });
 
   return response;
 };
@@ -60,6 +61,6 @@ export const setAccessToken = (at: string) => {
   cookies().set(TokenKeys.ACCESS_TOKEN, at ?? "", {
     maxAge: WEEK_TIME * 2,
     secure: true,
-    httpOnly: true,
+    httpOnly: true
   });
 };

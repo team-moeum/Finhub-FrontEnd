@@ -1,36 +1,35 @@
-import { ApiMethods, ApiConfig } from "./type";
-import {
-  ApiError,
-  ForbiddenError,
-  InternetServerError,
-  UnauthorizedError,
-} from "./error";
-import { getToken } from "@/utils/authToken";
 import { authAPI } from "./auth";
+import { ApiError, ForbiddenError, InternetServerError, UnauthorizedError } from "./error";
+import { ApiConfig, ApiMethods } from "./type";
+
+import { getToken } from "@/utils/authToken";
 
 export async function request<T>(
   method: ApiMethods,
   endpoint: string,
-  config: ApiConfig = {ssr: false}
+  config: ApiConfig = { ssr: false }
 ): Promise<T> {
-  const url = `${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`;
 
-  async function makeRequest(tokens: {accessToken?: string | null, refreshToken?: string | null}) {
+  async function makeRequest(tokens: {
+    accessToken?: string | null;
+    refreshToken?: string | null;
+  }) {
     const options: RequestInit = {
       method: method,
       next: {
-        tags: config.tags,
+        tags: config.tags
       },
       headers: new Headers({
         "Content-Type": "application/json",
         finhub: `${process.env.NEXT_PUBLIC_API_KEY}`,
         Authorization: `Bearer ${tokens.accessToken || ""}`,
         refreshToken: `${tokens.refreshToken || ""}`,
-        ...config.headers,
+        ...config.headers
       }),
-      body: method !== "GET" ? JSON.stringify(config.body) : null,
+      body: method !== "GET" ? JSON.stringify(config.body) : null
     };
-    
+
     return fetch(url, options);
   }
 
@@ -43,7 +42,7 @@ export async function request<T>(
         try {
           return (await response.json()) as T;
         } catch {
-          return { status: "FAIL"} as T;
+          return { status: "FAIL" } as T;
         }
       }
 
@@ -60,7 +59,9 @@ export async function request<T>(
           }
           throw new ForbiddenError("Forbidden error");
         default:
-          throw new ApiError(response.status, "An error occurred");
+          const result = await response.json();
+          const message = result?.errorMsg || "An error occurred";
+          throw new ApiError(response.status, message);
       }
     }
 

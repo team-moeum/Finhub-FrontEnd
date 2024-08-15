@@ -1,6 +1,6 @@
 export interface QuizTopic {
-    id: number;
-    title: string;
-    categoryId: number;
-    topicId: number;
+  id: number;
+  title: string;
+  categoryId: number;
+  topicId: number;
 }

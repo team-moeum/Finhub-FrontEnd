@@ -1,4 +1,4 @@
 export type TopicGptInfo = {
-    name: string,
-    content: string,
-}
+  name: string;
+  content: string;
+};

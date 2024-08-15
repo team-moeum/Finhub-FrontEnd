@@ -1,38 +1,38 @@
 .container {
-    display: flex;
-    position: fixed;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    z-index: 5;
-    top: 0;
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  z-index: 5;
+  top: 0;
 }
 
 .green {
-    background-color: #50BF50;
+  background-color: #50bf50;
 }
 
 .white {
-    background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .post {
-    -webkit-backdrop-filter: blur(1px);
-    backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
 }
 
 .right_box {
-    display: flex;
-    align-items: center;
-    gap: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .close_button {
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    left: -8px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  left: -8px;
 }

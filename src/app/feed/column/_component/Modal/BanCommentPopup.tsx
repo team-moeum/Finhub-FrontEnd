@@ -1,15 +1,15 @@
-import { Popup } from "@/components/Popup/Popup"
+import { Popup } from "@/components/Popup/Popup";
 
 type DeleteCommentPopupProps = {
-  show: boolean
-  name: string
-  onCancel?: () => void
-  onBan?: () => void
-}
+  show: boolean;
+  name: string;
+  onCancel?: () => void;
+  onBan?: () => void;
+};
 
-export const BanCommentPopup = ({show, name, onCancel, onBan}: DeleteCommentPopupProps) => {
+export const BanCommentPopup = ({ show, name, onCancel, onBan }: DeleteCommentPopupProps) => {
   return (
-    <Popup 
+    <Popup
       show={show}
       onClose={onCancel}
       onLeftClick={onCancel}
@@ -19,5 +19,5 @@ export const BanCommentPopup = ({show, name, onCancel, onBan}: DeleteCommentPopu
     >
       {name}님을 차단하시겠습니까?
     </Popup>
-  )
-}
+  );
+};

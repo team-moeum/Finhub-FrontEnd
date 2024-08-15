@@ -1,17 +1,19 @@
 "use client";
 
-import { AppBar } from "@/components/AppBar"
-import { Box } from "@/components/Box";
-import { AppContainer, Container } from "@/components/Container"
-import { Text } from "@/components/Text";
-import { useToast } from "@/components/Toast/useToast";
-import { gptColumnCommentState } from "@/states/client/atoms/gptColumnComment";
-import { useEditGptColumnComment, useGptColumnComment } from "@/states/server/mutations";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
+
+import { gptColumnCommentState } from "@/states/client/atoms/gptColumnComment";
+import { useEditGptColumnComment, useGptColumnComment } from "@/states/server/mutations";
+
+import { AppBar } from "@/components/AppBar";
+import { Box } from "@/components/Box";
+import { AppContainer, Container } from "@/components/Container";
+import { Text } from "@/components/Text";
+import { useToast } from "@/components/Toast/useToast";
 
 export const COMMENT_POST_TYPE = {
   post: "post",
@@ -21,10 +23,10 @@ export const COMMENT_POST_TYPE = {
 export const PostCommentScreen = () => {
   const router = useRouter();
   const columnId = Number(useParams().columnId);
-  const commentPostType = useSearchParams().get('type');
+  const commentPostType = useSearchParams().get("type");
   const queryClient = useQueryClient();
-  
-  const [comment, setComment] = useState('');
+
+  const [comment, setComment] = useState("");
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
 
   const editInitComment = useRecoilValue(gptColumnCommentState);
@@ -36,36 +38,36 @@ export const PostCommentScreen = () => {
   }, [editInitComment]);
 
   const postCommentMutation = useGptColumnComment({
-    onSuccess: (data) => {
+    onSuccess: data => {
       if (data.status === "FAIL") {
-        showToast({content: data.errorMsg, type: 'warning'});
+        showToast({ content: data.errorMsg, type: "warning" });
         return;
       }
 
-      queryClient.invalidateQueries({ queryKey: ['gptColumnComment']});
-      queryClient.invalidateQueries({ queryKey: ['myComment']});
+      queryClient.invalidateQueries({ queryKey: ["gptColumnComment"] });
+      queryClient.invalidateQueries({ queryKey: ["myComment"] });
       router.back();
     },
     onError: () => {
-      showToast({content: "잠시 후 다시 이용해 주세요", type: 'warning'});
+      showToast({ content: "잠시 후 다시 이용해 주세요", type: "warning" });
     }
-  })
+  });
 
   const editCommentMutation = useEditGptColumnComment({
-    onSuccess: (data) => {
+    onSuccess: data => {
       if (data.status === "FAIL") {
-        showToast({content: data.errorMsg, type: 'warning'});
+        showToast({ content: data.errorMsg, type: "warning" });
         return;
       }
 
-      queryClient.invalidateQueries({ queryKey: ['gptColumnComment']});
-      queryClient.invalidateQueries({ queryKey: ['myComment']});
+      queryClient.invalidateQueries({ queryKey: ["gptColumnComment"] });
+      queryClient.invalidateQueries({ queryKey: ["myComment"] });
       router.back();
     },
     onError: () => {
-      showToast({content: "잠시 후 다시 이용해 주세요", type: 'warning'});
+      showToast({ content: "잠시 후 다시 이용해 주세요", type: "warning" });
     }
-  })
+  });
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.target;
@@ -74,21 +76,20 @@ export const PostCommentScreen = () => {
   };
 
   const handleSubmitClick = () => {
-    if (commentPostType === 'post') {
-      postCommentMutation.mutate({id: columnId, comment: comment})
+    if (commentPostType === "post") {
+      postCommentMutation.mutate({ id: columnId, comment: comment });
     } else {
-      editCommentMutation.mutate({id: columnId, comment: comment})
+      editCommentMutation.mutate({ id: columnId, comment: comment });
     }
-  }
+  };
 
   return (
     <AppContainer>
-      <AppBar
-        useLeftBack
-        title="의견"
-      >
+      <AppBar useLeftBack title="의견">
         <Box onClick={handleSubmitClick}>
-          <Text size={16} weight={500} color={isSubmitEnabled ? "#50BF50" : "#CDD1D5"}>등록</Text>
+          <Text size={16} weight={500} color={isSubmitEnabled ? "#50BF50" : "#CDD1D5"}>
+            등록
+          </Text>
         </Box>
       </AppBar>
 
@@ -103,8 +104,8 @@ export const PostCommentScreen = () => {
         </Box>
       </Container>
     </AppContainer>
-  )
-}
+  );
+};
 
 const TextAreaWrap = styled.textarea`
   width: 100%;
@@ -114,7 +115,4 @@ const TextAreaWrap = styled.textarea`
   font-size: 14px;
   padding: 0;
   caret-color: #50BF50;
-`
-
-
-
+`;

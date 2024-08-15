@@ -1,9 +1,10 @@
+import { Property } from "csstype";
+
 import { Stack, StackProps } from "@/components/Stack";
-import { Property } from 'csstype'
 
 export type JustifyContentType = Property.JustifyContent;
 export type AlignItemsType = Property.AlignItems;
-export type FlexWrapType = Property.FlexWrap
+export type FlexWrapType = Property.FlexWrap;
 
 export type FlexBoxProps = {
   gap?: number;
@@ -17,9 +18,9 @@ export type FlexBoxProps = {
 } & StackProps;
 
 export const FlexBox = ({
-  direction = 'row',
+  direction = "row",
   gap,
-  justifyContent = "center", 
+  justifyContent = "center",
   alignItems = "center",
   flexWrap,
   flexGrow,
@@ -27,23 +28,26 @@ export const FlexBox = ({
   flexShrink,
   flex,
   style = {},
-  children, 
-  ...props 
+  children,
+  ...props
 }: FlexBoxProps) => {
   return (
-    <Stack style={{
-      flexDirection: direction,
-      gap, 
-      justifyContent,
-      alignItems,
-      flexWrap,
-      flexGrow,
-      flexBasis,
-      flexShrink,
-      flex,
-      ...style
-    }} {...props}>
+    <Stack
+      style={{
+        flexDirection: direction,
+        gap,
+        justifyContent,
+        alignItems,
+        flexWrap,
+        flexGrow,
+        flexBasis,
+        flexShrink,
+        flex,
+        ...style
+      }}
+      {...props}
+    >
       {children}
     </Stack>
-  )
+  );
 };

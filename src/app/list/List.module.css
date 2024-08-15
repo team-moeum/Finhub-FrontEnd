@@ -1,13 +1,13 @@
 .container {
-    padding: 65px 0 54px 0;
-    height: 100vh;
-    overflow-y: hidden;
+  padding: 65px 0 54px 0;
+  height: 100vh;
+  overflow-y: hidden;
 }
 
 .title {
-    margin-left: 16px;
-    margin-bottom: 22px;
-    color: #191B1C;
-    font-size: 20px;
-    font-weight: 600;
+  margin-left: 16px;
+  margin-bottom: 22px;
+  color: #191b1c;
+  font-size: 20px;
+  font-weight: 600;
 }

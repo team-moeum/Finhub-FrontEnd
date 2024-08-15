@@ -1,36 +1,36 @@
 .pressBox_backgroundWrap {
-    transition: background-color 0.28s cubic-bezier(0.16, 1, 0.3, 1) 0s;
+  transition: background-color 0.28s cubic-bezier(0.16, 1, 0.3, 1) 0s;
 }
 
 .pressBox_backgroundWrap:active {
-    background-color: #e3e3e4;
+  background-color: #e3e3e4;
 }
 
 .pressBox_ScaleWrap {
-    transition: transform 0.28s cubic-bezier(0.25, 0.1, 0.25, 1) 0s;
+  transition: transform 0.28s cubic-bezier(0.25, 0.1, 0.25, 1) 0s;
 }
 
 .pressBox_ScaleWrap:active {
-    transform: scale(0.96);
+  transform: scale(0.96);
 }
 
 .pressButton_ScaleWrap {
-    transition: transform 0.28s cubic-bezier(0.25, 0.1, 0.25, 1) 0s;
+  transition: transform 0.28s cubic-bezier(0.25, 0.1, 0.25, 1) 0s;
 }
 
 .pressButton_ScaleWrap:active {
-    transform: scale(0.95);
+  transform: scale(0.95);
 }
 
 .noBackgroundChange {
-    transition: none;
+  transition: none;
 }
 
 .noScaleChange {
-    transition: none;
-    transform: none;
+  transition: none;
+  transform: none;
 }
 
 .noScaleChange:active {
-    transform: none;
+  transform: none;
 }
