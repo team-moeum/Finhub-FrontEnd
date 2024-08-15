@@ -69,7 +69,8 @@ export const QuizDetailScreen = () => {
     handleQuizItemClick,
     handleQuizResultClose,
     handleAnswerClick,
-    handleClickTag
+    handleClickTag,
+    handleSolvedQuizClick
   } = useSolveQuizHook();
 
   useEffect(() => {
@@ -129,7 +130,11 @@ export const QuizDetailScreen = () => {
             solvedQuizList?.length > 0 && (
               <>
                 {solvedQuizList.map((item: SolvedQuiz) => (
-                  <QuizItem key={item.id} item={item} />
+                  <QuizItem
+                    key={item.id}
+                    item={item}
+                    onClick={() => handleSolvedQuizClick(item.targetDate)}
+                  />
                 ))}
                 <Box ref={solvedRef} width="100%" height={20} />
               </>

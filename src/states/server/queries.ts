@@ -1,7 +1,8 @@
 import {
+  UseQueryOptions,
   UseSuspenseQueryOptions,
   useInfiniteQuery,
-  useQueries,
+  useQuery,
   useSuspenseQuery
 } from "@tanstack/react-query";
 import moment from "moment";
@@ -14,6 +15,7 @@ import { getMissedQuiz } from "./Feed/Quiz/getMissedQuiz";
 import { getQuiz } from "./Feed/Quiz/getQuiz";
 import { getQuizCalender } from "./Feed/Quiz/getQuizCalender";
 import { getSolvedQuiz } from "./Feed/Quiz/getSolvedQuiz";
+import { getSolvedQuizResult } from "./Feed/Quiz/getSolvedQuizResult";
 import { getBannerList } from "./Home/getBannerList";
 import { getCategory } from "./Home/getCategory";
 import { getNextTopic } from "./Home/getNextTopic";
@@ -115,6 +117,7 @@ export const queryKeys = {
   reportReasons: ["reportReasons"],
   quitReasons: ["quitReasons"],
   quiz: (date?: string) => ["quiz", date || ""],
+  solvedQuizResult: (date?: string) => ["solvedQuizResult", date || ""],
   quizCalendar: (year: string, month: string) => ["quizCalendar", year, month],
   missedQuiz: (date: string, limit?: number) => ["missedQuiz", date, limit?.toString() || ""],
   solvedQuiz: (isCorrect: string, date: string, limit?: number) => [
@@ -210,6 +213,10 @@ export const queryOptions: QueryOptionsType = {
     queryKey: queryKeys.quiz(date),
     queryFn: () => getQuiz(date)
   }),
+  solvedQuizResult: (date?: string) => ({
+    queryKey: queryKeys.solvedQuizResult(date),
+    queryFn: () => getSolvedQuizResult(date)
+  }),
   quizCalendar: (year: string, month: string) => ({
     queryKey: queryKeys.quizCalendar(year, month),
     queryFn: () => getQuizCalender(year, month)
@@ -235,6 +242,21 @@ const useBaseSuspenseQuery = <T = unknown>(
     queryFn: queryOption.queryFn,
     ...timeOption,
     ...options
+  });
+};
+
+const useBaseQuery = <T = unknown>(
+  queryOption: QueryOptionType<T> & { enabled?: boolean },
+  options?: Omit<UseQueryOptions<T, Error, any>, "queryKey" | "queryFn">
+) => {
+  const timeOption = { staleTime: 60 * 1000, gcTime: 300 * 1000 };
+
+  return useQuery<any, Error, T, any>({
+    queryKey: queryOption.queryKey,
+    queryFn: queryOption.queryFn,
+    ...timeOption,
+    ...options,
+    enabled: queryOption.enabled
   });
 };
 
@@ -274,6 +296,11 @@ export const useMissedQuiz = (date?: string, limit?: number) =>
 export const useSolvedQuiz = (isCorrect: string, date: string, limit?: number) =>
   useBaseSuspenseQuery<SolvedQuiz>(queryOptions.solvedQuiz(isCorrect, date, limit));
 export const useMyComment = () => useBaseSuspenseQuery<MyComment>(queryOptions.myComment());
+export const useSolvedQuizResult = (date: string) =>
+  useBaseQuery<QuizInfo>({
+    ...queryOptions.solvedQuizResult(date),
+    enabled: date !== ""
+  });
 
 /**
  * infiniteQuery
