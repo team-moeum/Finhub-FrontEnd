@@ -104,7 +104,11 @@ export default function QuizList() {
             (solvedQuizList && solvedQuizList?.length > 0 ? (
               <>
                 {solvedQuizList.map((item: SolvedQuiz) => (
-                  <QuizItem key={item.id} item={item} onClick={() => handleSolvedQuizClick(item.targetDate)}/>
+                  <QuizItem
+                    key={item.id}
+                    item={item}
+                    onClick={() => handleSolvedQuizClick(item.targetDate)}
+                  />
                 ))}
                 <QuizDetailButton />
               </>
