@@ -5,7 +5,7 @@ type LoadingProps = {
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export default function Loading({ height, style }: LoadingProps) {
-  let centerStyle = {
+  const centerStyle = {
     height: height ?? "100vh",
     display: "flex",
     alignItems: "center",

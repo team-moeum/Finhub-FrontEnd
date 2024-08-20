@@ -58,10 +58,11 @@ export async function request<T>(
             return (await response.json()) as T;
           }
           throw new ForbiddenError("Forbidden error");
-        default:
+        default: {
           const result = await response.json();
           const message = result?.errorMsg || "An error occurred";
           throw new ApiError(response.status, message);
+        }
       }
     }
 

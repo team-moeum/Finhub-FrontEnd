@@ -1,5 +1,6 @@
 "use client";
 
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { useEffect } from "react";
 
 export const API_BASE_URL =
