@@ -1,6 +1,7 @@
 import { queryKeys } from "../queries";
-import { ApiResponse } from "@/api/type";
+
 import { get } from "@/api/client";
+import { ApiResponse } from "@/api/type";
 
 /**
  * Gpt 컬럼 검색 API
@@ -15,11 +16,11 @@ import { get } from "@/api/client";
 export const getSearchGptColumn = async (
   type: "title" | "summary" | "both",
   keyword: string,
-  page: number,
+  page: number
 ) => {
   const response: ApiResponse = await get(
     `/api/v1/main/search/column/${type}?keyword=${keyword}&page=${page}`,
-    queryKeys.popularKeywordList,
+    queryKeys.popularKeywordList
   );
 
   if (response.status === "FAIL") {
@@ -27,4 +28,4 @@ export const getSearchGptColumn = async (
   }
 
   return response.data;
-}
+};

@@ -1,6 +1,7 @@
-import { ApiResponse } from "@/api/type";
 import { mutationKeys } from "../../mutations";
+
 import { put } from "@/api/client";
+import { ApiResponse } from "@/api/type";
 
 /**
  * 컬럼 댓글 수정 API
@@ -13,8 +14,8 @@ export const putGptColumnComment = async (id: number, comment: string) => {
   const response: ApiResponse = await put(
     `/api/v1/main/column/comment/actions`,
     mutationKeys.editGptColumnComment,
-    {id, comment}
+    { id, comment }
   );
 
   return response;
-}
+};

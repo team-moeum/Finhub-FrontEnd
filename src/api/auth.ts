@@ -1,5 +1,7 @@
-import { ApiResponse } from "@/api/type";
 import { get } from "./client";
+
+import { ApiResponse } from "@/api/type";
+
 import { deleteToken, setAccessToken, setToken } from "@/utils/authToken";
 
 const loginWithKakao = async (kakaoCode: string | null) => {
@@ -9,7 +11,7 @@ const loginWithKakao = async (kakaoCode: string | null) => {
 
   setToken({
     accessToken: response.data.token.accessToken,
-    refreshToken: response.data.token.refreshToken,
+    refreshToken: response.data.token.refreshToken
   });
 
   return response;
@@ -18,7 +20,7 @@ const loginWithKakao = async (kakaoCode: string | null) => {
 const refreshAccessToken = async () => {
   const response: ApiResponse = await get(
     `/api/v1/auth/updateAccessToken`,
-    ['updateAccessToken'],
+    ["updateAccessToken"],
     {},
     true
   );
@@ -28,13 +30,10 @@ const refreshAccessToken = async () => {
   }
 
   setAccessToken(response.data.token);
-}
+};
 
 const autoLogin = async () => {
-  const response: ApiResponse = await get(
-    '/api/v1/auth/autoLogin',
-    ['autoLogin']
-  )
+  const response: ApiResponse = await get("/api/v1/auth/autoLogin", ["autoLogin"]);
 
   if (response.status === "FAIL") {
     deleteToken();
@@ -42,11 +41,11 @@ const autoLogin = async () => {
 
   setToken({
     accessToken: response.data.token.accessToken,
-    refreshToken: response.data.token.refreshToken,
+    refreshToken: response.data.token.refreshToken
   });
 
-  return response
-}
+  return response;
+};
 
 const loginWithGoogle = async (code: string | null) => {
   const response: ApiResponse = await get(
@@ -55,7 +54,7 @@ const loginWithGoogle = async (code: string | null) => {
 
   setToken({
     accessToken: response.data.token.accessToken,
-    refreshToken: response.data.token.refreshToken,
+    refreshToken: response.data.token.refreshToken
   });
 
   return response;
@@ -68,7 +67,7 @@ const loginWithApple = async (code: string | null) => {
 
   setToken({
     accessToken: response.data.token.accessToken,
-    refreshToken: response.data.token.refreshToken,
+    refreshToken: response.data.token.refreshToken
   });
 
   return response;
@@ -79,5 +78,5 @@ export const authAPI = {
   loginWithKakao,
   refreshAccessToken,
   loginWithGoogle,
-  loginWithApple,
+  loginWithApple
 };

@@ -50,20 +50,11 @@ export function isIos() {
 
   const userAgent = navigator.userAgent.toLowerCase();
 
-  return (
-    userAgent.match("iphone") ||
-    userAgent.match("ipad") ||
-    userAgent.match("ipod")
-  );
+  return userAgent.match("iphone") || userAgent.match("ipad") || userAgent.match("ipod");
 }
 
 export function jsToNative(
-  {
-    val1,
-    val2,
-    val3,
-    val4,
-  }: { val1?: string; val2?: string; val3?: string; val4?: string },
+  { val1, val2, val3, val4 }: { val1?: string; val2?: string; val3?: string; val4?: string },
   callback: any
 ) {
   if (typeof window === "undefined") return;
@@ -94,7 +85,7 @@ export function jsToNative(
           val2,
           val3,
           val4,
-          callbackId,
+          callbackId
         })
       );
     }
@@ -106,7 +97,7 @@ export function jsToNative(
         val2,
         val3,
         val4,
-        callbackId,
+        callbackId
       })
     );
   }

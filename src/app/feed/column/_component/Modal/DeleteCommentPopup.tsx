@@ -1,14 +1,14 @@
-import { Popup } from "@/components/Popup/Popup"
+import { Popup } from "@/components/Popup/Popup";
 
 type DeleteCommentPopupProps = {
-  show: boolean
-  onCancel?: () => void
-  onDelete?: () => void
-}
+  show: boolean;
+  onCancel?: () => void;
+  onDelete?: () => void;
+};
 
-export const DeleteCommentPopup = ({show, onCancel, onDelete}: DeleteCommentPopupProps) => {
+export const DeleteCommentPopup = ({ show, onCancel, onDelete }: DeleteCommentPopupProps) => {
   return (
-    <Popup 
+    <Popup
       show={show}
       onClose={onCancel}
       onLeftClick={onCancel}
@@ -18,5 +18,5 @@ export const DeleteCommentPopup = ({show, onCancel, onDelete}: DeleteCommentPopu
     >
       댓글을 삭제하시겠습니까?
     </Popup>
-  )
-}
+  );
+};

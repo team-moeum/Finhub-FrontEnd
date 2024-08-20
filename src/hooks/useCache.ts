@@ -1,5 +1,6 @@
-import { useRecoilState } from 'recoil';
-import { cacheState } from '@/states/client/atoms/cache';
+import { useRecoilState } from "recoil";
+
+import { cacheState } from "@/states/client/atoms/cache";
 
 export function useCache<T = any>() {
   const [cache, setCache] = useRecoilState(cacheState);

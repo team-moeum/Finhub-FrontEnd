@@ -8,4 +8,4 @@ export const BackgroundOverlay = styled(motion.div)`
     width: 100%;
     height: 100dvh;
     background: rgba(0,0,0,0.5);
-`
+`;

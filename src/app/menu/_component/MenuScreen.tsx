@@ -1,20 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { isAndroid, isIos, jsToNative } from "@/utils/jsToNative";
-import { isLoggedIn } from "@/utils/auth_client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import LoginBox from "@/app/_component/Menu/LoginBox";
 import MenuCard from "@/app/_component/Menu/MenuCard";
+
 import LogOutButton from "./LogOutButton";
-import { AppContainer, Container } from '@/components/Container';
-import { Box } from '@/components/Box';
-import { Text } from '@/components/Text';
+
+import { isLoggedIn } from "@/utils/auth_client";
+import { isAndroid, isIos, jsToNative } from "@/utils/jsToNative";
+
+import BellIcon from "@/public/icons/bell_gray_ico.svg";
+
 import { AppBar } from "@/components/AppBar";
-
-import BellIcon from '@/public/icons/bell_gray_ico.svg';
-
+import { Box } from "@/components/Box";
+import { AppContainer, Container } from "@/components/Container";
+import { Text } from "@/components/Text";
 
 export default function MenuPage() {
   const isLogin = isLoggedIn();
@@ -41,15 +43,12 @@ export default function MenuPage() {
 
   return (
     <AppContainer footer>
-      <AppBar 
-        title="메뉴"
-        backgroundColor="#F6F7F9"
-      >
-        {isLogin && 
-          <Link href='/notify'>
+      <AppBar title="메뉴" backgroundColor="#F6F7F9">
+        {isLogin && (
+          <Link href="/notify">
             <BellIcon />
           </Link>
-      }
+        )}
       </AppBar>
       <LoginBox isLogin={isLogin} />
 

@@ -1,1 +1,1 @@
-export { PressBox, PressButton } from './PressAnimator';
+export { PressBox, PressButton } from "./PressAnimator";

@@ -1,67 +1,67 @@
 .avatar_box {
-    position: relative;
-    width: 90px;
-    height: 90px;
+  position: relative;
+  width: 90px;
+  height: 90px;
 }
 
 .avatar_change_icon {
-    position: absolute;
-    bottom: 0;
-    right: -5px;
+  position: absolute;
+  bottom: 0;
+  right: -5px;
 }
 
 .profile_box {
-    width: 100%;
-    padding: 0 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 26px;
+  width: 100%;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
 }
 
 .selected_avatar_box {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .user_avatar_box {
-    position: relative;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    row-gap: 20px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 20px;
 }
 
 .img_item_box {
-    flex: 0 0 25%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  flex: 0 0 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .button_area {
-    margin-top: 15px;
-    margin-bottom: 28px;
-    width: 100%;
-    display: flex;
-    gap: 14px;
+  margin-top: 15px;
+  margin-bottom: 28px;
+  width: 100%;
+  display: flex;
+  gap: 14px;
 }
 
 .button_area > button {
-    flex: 1;
-    height: 44px;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
+  flex: 1;
+  height: 44px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .button_area .close {
-    background-color: #EDF0F3;
-    color: #7B8287;
+  background-color: #edf0f3;
+  color: #7b8287;
 }
 
 .button_area .confirm {
-    background-color: #50BF50;
-    color: #FFF;
+  background-color: #50bf50;
+  color: #fff;
 }

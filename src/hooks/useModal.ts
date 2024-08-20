@@ -14,6 +14,6 @@ export const useModal = () => {
   return {
     show,
     open,
-    close,
+    close
   };
 };

@@ -1,9 +1,11 @@
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
+
+import { useMissedQuizQuery, useSolvedQuizQuery } from "@/states/server/queries";
+
 import { MissedQuiz } from "@/model/missedQuiz";
 import { SolvedQuiz } from "@/model/solvedQuiz";
-import { useMissedQuizQuery, useSolvedQuizQuery } from "@/states/server/queries";
-import { useEffect, useMemo, useState } from "react";
 
 export const QUIZ_LIST_TYPE = {
   quizList: "quizList",
@@ -14,36 +16,40 @@ type UseQuisListDataProps = {
   type?: keyof typeof QUIZ_LIST_TYPE;
   requestDate: string;
   solvedType?: "Y" | "N" | "X";
-}
+};
 
-export const useQuizListData = ({type, requestDate, solvedType}: UseQuisListDataProps) => {
+export const useQuizListData = ({ type, requestDate, solvedType }: UseQuisListDataProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const {
     data: missedQuizData,
     fetchNextPage: fetchNextMissedPage,
     hasNextPage: hasMissedNextPage,
-    isFetching: isMissedFetching,
+    isFetching: isMissedFetching
   } = useMissedQuizQuery({ date: requestDate, limit: type === QUIZ_LIST_TYPE.quizDetail ? 10 : 3 });
 
   const {
     data: solvedQuizData,
     fetchNextPage: fetchNextSolvedPage,
     hasNextPage: hasSolvedNextPage,
-    isFetching: isSolvedFetching,
-  } = useSolvedQuizQuery({ isCorrect: solvedType || "Y", date: requestDate, limit: type === QUIZ_LIST_TYPE.quizDetail ? 10 : 3 });
+    isFetching: isSolvedFetching
+  } = useSolvedQuizQuery({
+    isCorrect: solvedType || "Y",
+    date: requestDate,
+    limit: type === QUIZ_LIST_TYPE.quizDetail ? 10 : 3
+  });
 
   const missedQuizList = useMemo(() => {
     return missedQuizData?.pages.flatMap(page => page) as MissedQuiz[];
   }, [missedQuizData]);
-  
+
   const solvedQuizList = useMemo(() => {
     return solvedQuizData?.pages.flatMap(page => page) as SolvedQuiz[];
-  }, [solvedQuizData])
+  }, [solvedQuizData]);
 
   useEffect(() => {
     setIsLoading(isMissedFetching || isSolvedFetching);
-  }, [isMissedFetching, isSolvedFetching])
+  }, [isMissedFetching, isSolvedFetching]);
 
   return {
     isLoading,
@@ -52,7 +58,6 @@ export const useQuizListData = ({type, requestDate, solvedType}: UseQuisListData
     fetchNextMissedPage,
     fetchNextSolvedPage,
     hasMissedNextPage,
-    hasSolvedNextPage,
-  }
-
-}
+    hasSolvedNextPage
+  };
+};

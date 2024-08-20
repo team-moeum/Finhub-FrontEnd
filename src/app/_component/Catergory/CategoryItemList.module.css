@@ -1,91 +1,89 @@
 .container {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    overflow-x: scroll;
-    gap: 26px;
-    height: 100px;
-    position: relative;
-    width: 100dvw;
-    left: -20px;
-    padding: 0 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  overflow-x: scroll;
+  gap: 26px;
+  height: 100px;
+  position: relative;
+  width: 100dvw;
+  left: -20px;
+  padding: 0 20px;
 }
 
 .container::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .container svg {
-    stroke: #32B768;
+  stroke: #32b768;
 }
 
 .item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
 }
 
 .item p {
-    margin-top: 4px;
-    font-size: 14px;
-    word-break: keep-all;
-    text-align: center;
-    color: #000;
+  margin-top: 4px;
+  font-size: 14px;
+  word-break: keep-all;
+  text-align: center;
+  color: #000;
 }
 
 .icon_box {
-    width: 50px;
-    height: 50px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f8f4f4;
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f4f4;
 }
 
 .item:not(.all):not(.active) .icon_box svg {
-    stroke: #B5B5B5;
+  stroke: #b5b5b5;
 }
 
 .item.all .icon_box {
-    background-color: #FFF;
-    border: 2px solid #50BF50;
+  background-color: #fff;
+  border: 2px solid #50bf50;
 }
-
 
 .item.active p {
-    color: #32B768;
+  color: #32b768;
 }
 
-
 .category_radio_input {
-    display: none;
+  display: none;
 }
 
 .category_radio_input:checked + .item .icon_box {
-    background-color: #C6ECBC;
+  background-color: #c6ecbc;
 }
 
 .category_radio_input:checked + .item p {
-    color: #50BF50;
+  color: #50bf50;
 }
 
 .category_radio_input:checked + .item .icon_box svg {
-    stroke: #32B768;
+  stroke: #32b768;
 }
 
 .bottom_sheet_content {
-    height: 200px;
-    padding: 0 32px 30px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    display: grid;
-    flex-wrap: wrap;
-    grid-template-columns: repeat(4, 1fr);
-    column-gap: 30px;
-    row-gap: 15px;
+  height: 200px;
+  padding: 0 32px 30px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: grid;
+  flex-wrap: wrap;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 30px;
+  row-gap: 15px;
 }
 
 .bottom_sheet_content .item_label {

@@ -1,16 +1,16 @@
 .container {
-    width: 100%;
-    padding: 0 16px 54px 16px;
+  width: 100%;
+  padding: 0 16px 54px 16px;
 }
 
 .avatar_box {
-    margin: 20px auto 30px;
-    width: 140px;
-    height: 140px;
-    border-radius: 20px;
-    border: 2px solid #50BF50;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  margin: 20px auto 30px;
+  width: 140px;
+  height: 140px;
+  border-radius: 20px;
+  border: 2px solid #50bf50;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

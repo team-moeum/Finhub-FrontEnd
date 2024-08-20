@@ -1,7 +1,8 @@
-import { AppContainer, Container } from "@/components/Container";
-
 import MenuHeader from "@/app/_component/Menu/MenuHeader";
+
 import ThemeRadioList from "./_component/ThemeRadioList";
+
+import { AppContainer, Container } from "@/components/Container";
 
 export default function ThemePage() {
   return (
@@ -11,5 +12,5 @@ export default function ThemePage() {
         <ThemeRadioList />
       </Container>
     </AppContainer>
-  )
+  );
 }

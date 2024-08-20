@@ -1,31 +1,28 @@
+import localFont from "next/font/local";
 import React, { Suspense } from "react";
+
+import AppLayout from "./_component/AppLayout/AppLayout";
+import { GlobalProvider } from "./_component/GlobalProvider";
+import { MSWComponent } from "./_component/MSWComponent";
+import MenuBar from "./_component/MenuBar/MenuBar";
+import RQProvider from "./_component/RQProvider";
+import RecoilRootProvider from "./_component/RecoilRootProvider";
+import Loading from "./loading";
+
 import "@/styles/global.css";
 import "@/styles/public.css";
 import "@/styles/reset.css";
 
-import { MSWComponent } from "./_component/MSWComponent";
-import MenuBar from "./_component/MenuBar/MenuBar";
-import RecoilRootProvider from "./_component/RecoilRootProvider";
-import RQProvider from "./_component/RQProvider";
-import Loading from "./loading";
 import { ToastProvider } from "@/components/Toast/ToastProvider";
 
-import localFont from 'next/font/local';
-import { GlobalProvider } from "./_component/GlobalProvider";
-import AppLayout from "./_component/AppLayout/AppLayout";
-
 const pretendard = localFont({
-  src: '../assets/fonts/PretendardVariable.woff2',
-  display: 'swap',
-  weight: '45 920',
-  variable: '--font-pretendard',
-})
+  src: "../assets/fonts/PretendardVariable.woff2",
+  display: "swap",
+  weight: "45 920",
+  variable: "--font-pretendard"
+});
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
       <head>
@@ -40,9 +37,7 @@ export default function RootLayout({
             <MSWComponent />
             <GlobalProvider>
               <Suspense fallback={<Loading />}>
-                <AppLayout>
-                  {children}
-                </AppLayout>
+                <AppLayout>{children}</AppLayout>
               </Suspense>
               <ToastProvider />
             </GlobalProvider>

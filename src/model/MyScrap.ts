@@ -12,8 +12,8 @@ export interface MyColumnScarp {
 }
 
 export interface MyScrap {
-  topicInfo: MyTopicScarp[],
-  columnInfo: MyColumnScarp[]
+  topicInfo: MyTopicScarp[];
+  columnInfo: MyColumnScarp[];
 }
 
 export type MyScrapRequest = "topic" | "column";

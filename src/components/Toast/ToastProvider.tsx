@@ -1,12 +1,14 @@
 "use client";
 
 import { AnimatePresence } from "framer-motion";
-import { Toast } from "./Toast";
-import ToastPortal from "./ToastPortal";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { toastState } from "@/states/client/atoms/toast";
+
+import { Toast } from "./Toast";
+import ToastPortal from "./ToastPortal";
 import { TypeToast } from "./ToastTemplates";
+
+import { toastState } from "@/states/client/atoms/toast";
 
 export const ToastProvider = () => {
   const [show, setShow] = useState(false);
@@ -19,23 +21,20 @@ export const ToastProvider = () => {
       const timer = setTimeout(() => {
         setShow(false);
       }, toast.duration);
-    
+
       return () => clearTimeout(timer);
     }
-  }, [toast])
+  }, [toast]);
 
   return (
     <AnimatePresence>
-      {show && 
+      {show && (
         <ToastPortal>
           <Toast {...toast}>
-            {toast.type 
-              ? <TypeToast type={toast.type} content={toast.content}/>
-              : toast.content
-            }
+            {toast.type ? <TypeToast type={toast.type} content={toast.content} /> : toast.content}
           </Toast>
         </ToastPortal>
-      }
+      )}
     </AnimatePresence>
-  )
-}
+  );
+};

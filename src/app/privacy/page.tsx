@@ -1,10 +1,11 @@
-import React from "react";
 import { Metadata } from "next";
-import { AppContainer, Container } from "@/components/Container";
+import React from "react";
+
 import { AppBar } from "@/components/AppBar";
+import { AppContainer, Container } from "@/components/Container";
 
 export const metadata: Metadata = {
-  title: "핀허브 | 개인정보처리방침",
+  title: "핀허브 | 개인정보처리방침"
 };
 
 export default async function PrivacyPage() {

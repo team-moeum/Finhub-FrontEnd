@@ -1,11 +1,12 @@
-import { User } from "@/model/User";
-import { recoilPersist } from "recoil-persist";
 import { AtomEffect, atom, useSetRecoilState } from "recoil";
+import { recoilPersist } from "recoil-persist";
+
+import { User } from "@/model/User";
 
 /** persist nextjs config */
 export const ssrCompletedState = atom({
   key: "SsrCompleted",
-  default: false,
+  default: false
 });
 
 export const useSsrComplectedState = () => {
@@ -20,15 +21,15 @@ export const persistAtomEffect = <T>(param: Parameters<AtomEffect<T>>[0]) => {
 };
 
 export const userState = atom<User>({
-    key: `userState`, 
-    default: {
-        name: "",
-        email: "",
-        nickname: "",
-        avatarUrl: "",
-        userType: "",
-        userTypeUrl: "",
-        pushYN: false,
-    },
-    effects_UNSTABLE: [persistAtomEffect],
-  });
+  key: `userState`,
+  default: {
+    name: "",
+    email: "",
+    nickname: "",
+    avatarUrl: "",
+    userType: "",
+    userTypeUrl: "",
+    pushYN: false
+  },
+  effects_UNSTABLE: [persistAtomEffect]
+});

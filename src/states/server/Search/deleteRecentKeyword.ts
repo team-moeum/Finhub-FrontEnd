@@ -1,6 +1,7 @@
-import { ApiResponse } from "@/api/type";
 import { mutationKeys } from "../mutations";
+
 import { remove } from "@/api/client";
+import { ApiResponse } from "@/api/type";
 
 /**
  * 최근 검색어 삭제 API
@@ -10,8 +11,8 @@ import { remove } from "@/api/client";
 export const deleteRecentKeyword = async () => {
   const response: ApiResponse = await remove(
     `/api/v1/main/recentKeyword`,
-    mutationKeys.deleteUserAvatar,
+    mutationKeys.deleteUserAvatar
   );
 
   return response;
-}
+};

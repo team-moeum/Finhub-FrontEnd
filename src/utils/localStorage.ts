@@ -19,5 +19,5 @@ const remove = (key: string) => {
 export const storageAPI = {
   set,
   get,
-  remove,
+  remove
 };
