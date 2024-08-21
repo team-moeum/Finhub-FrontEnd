@@ -65,8 +65,10 @@ export async function request<T>(
         }
       }
     }
+    const contentType = response.headers.get("content-type");
+    const jsonParseAvailable = contentType && /json/.test(contentType);
 
-    return (await response.json()) as T;
+    return (jsonParseAvailable ? await response.json() : await response.text()) as T;
   } catch (error) {
     if (error instanceof Response) {
       throw new InternetServerError("Server error");
