@@ -10,6 +10,7 @@ import { postQuizCalendarEmoji } from "./Feed/Quiz/postQuizCalenderEmoji";
 import { postQuizSolve } from "./Feed/Quiz/postQuizSolve";
 import { postScrap } from "./Home/postScrap";
 import { deleteUserAvatar } from "./Menu/deleteUserAvatar";
+import { patchEmail } from "./Menu/patchEmail";
 import { patchPushAlarmYn } from "./Menu/patchPushAlarmYn";
 import { postNickname } from "./Menu/postNinckname";
 import { postQuit } from "./Menu/postQuit";
@@ -37,7 +38,8 @@ export const mutationKeys = {
   quizSolve: ["quizSolve"],
   quizCaledarEmoji: ["quizCalendarEmoji"],
   readAlarm: ["readAlarm"],
-  pushAlarmYn: ["pushAlarmYn"]
+  pushAlarmYn: ["pushAlarmYn"],
+  email: ["email"]
 };
 
 export const SCRAP_TYPE = {
@@ -190,6 +192,14 @@ export const usePushAlarmYn = (options?: UseMutationOptions<any, Error, any>) =>
   return useMutation<any, Error, { yn: boolean }>({
     mutationKey: mutationKeys.pushAlarmYn,
     mutationFn: param => patchPushAlarmYn(param),
+    ...options
+  });
+};
+
+export const useUpdateEmail = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, { email: string }>({
+    mutationKey: mutationKeys.email,
+    mutationFn: param => patchEmail(param),
     ...options
   });
 };
