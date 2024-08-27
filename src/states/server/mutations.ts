@@ -16,6 +16,7 @@ import { postNickname } from "./Menu/postNinckname";
 import { postQuit } from "./Menu/postQuit";
 import { postUserAvatar } from "./Menu/postUserAvatar";
 import { postUserType } from "./Menu/postUserType";
+import { VocParams, postVoc } from "./Menu/postVoc";
 import { postAlarm } from "./Notify/postAlarm";
 import { deleteRecentKeyword } from "./Search/deleteRecentKeyword";
 import { postNoSearchWord } from "./Search/postNoSearchWord";
@@ -39,7 +40,8 @@ export const mutationKeys = {
   quizCaledarEmoji: ["quizCalendarEmoji"],
   readAlarm: ["readAlarm"],
   pushAlarmYn: ["pushAlarmYn"],
-  email: ["email"]
+  email: ["email"],
+  voc: ["voc"]
 };
 
 export const SCRAP_TYPE = {
@@ -199,7 +201,14 @@ export const usePushAlarmYn = (options?: UseMutationOptions<any, Error, any>) =>
 export const useUpdateEmail = (options?: UseMutationOptions<any, Error, any>) => {
   return useMutation<any, Error, { email: string }>({
     mutationKey: mutationKeys.email,
-    mutationFn: param => patchEmail(param),
+    mutationFn: param => patchEmail(param)
+  });
+};
+
+export const useVoc = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, VocParams>({
+    mutationKey: mutationKeys.voc,
+    mutationFn: param => postVoc(param),
     ...options
   });
 };
