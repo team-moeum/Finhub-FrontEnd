@@ -127,7 +127,7 @@ export const ColumnDetailScreen = () => {
         <Box position="relative" width="100%" height="100%">
           <Image
             className={style.background_image}
-            src={gptColumnDetail?.backgroundImgUrl || "/column/column_banner.png"}
+            src={gptColumnDetail?.backgroundImgUrl || "/column/default_column_image.png"}
             alt="column post image"
             fill
           />

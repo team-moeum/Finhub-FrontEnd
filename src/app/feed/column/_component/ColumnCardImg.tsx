@@ -25,7 +25,12 @@ export default function ColumnCardImg({ item }: ColumnCardImgProps) {
         {item.backgroundImgUrl ? (
           <Image src={item.backgroundImgUrl} alt="Column Card" fill className="img_main" />
         ) : (
-          <Image src="/column/col_img.png" alt="Column Card" fill className="img_main" />
+          <Image
+            src="/column/default_column_image.png"
+            alt="Column Card"
+            fill
+            className="img_main"
+          />
         )}
         <Image src="/column/shadow_img.png" alt="Shadow Card" fill className="img_shadow" />
       </div>
