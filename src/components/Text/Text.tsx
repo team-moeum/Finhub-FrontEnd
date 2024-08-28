@@ -12,8 +12,7 @@ export const Text = ({
   letterSpacing,
   textLineClamp,
   style = {},
-  children,
-  ...props
+  children
 }: TextProps) => {
   let combinedStyle = {
     color,
@@ -31,9 +30,5 @@ export const Text = ({
     combinedStyle = { ...combinedStyle, ...getTextOverflowStyle(textLineClamp) };
   }
 
-  return (
-    <span style={combinedStyle} {...props}>
-      {children}
-    </span>
-  );
+  return <span style={combinedStyle}>{children}</span>;
 };

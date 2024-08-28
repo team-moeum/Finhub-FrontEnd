@@ -3,19 +3,13 @@ import { CSSProperties } from "react";
 import cssStyle from "./Footer.module.css";
 
 type FooterProps = {
-  bottom?: number;
-  style?: CSSProperties;
+  style: CSSProperties;
   children: React.ReactNode;
 };
 
-export const Footer = ({ bottom, style = {}, children }: FooterProps) => {
-  const combinedStyle: CSSProperties = {
-    ...(bottom !== undefined ? { bottom: `${bottom}px` } : {}),
-    ...style
-  };
-
+export const Footer = ({ style = {}, children }: FooterProps) => {
   return (
-    <div className={cssStyle.footerWrap} style={combinedStyle}>
+    <div className={cssStyle.footerWrap} style={style}>
       {children}
     </div>
   );

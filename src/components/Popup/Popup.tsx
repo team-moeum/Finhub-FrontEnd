@@ -19,10 +19,6 @@ type PopupProps = {
   rightButtonText?: string;
   onLeftClick?: () => void;
   onRightClick?: () => void;
-  leftButtonBgColor?: string;
-  rightButtonBgColor?: string;
-  leftButtonTextColor?: string;
-  rightButtonTextColor?: string;
   children: React.ReactNode;
 } & ModalProps;
 
@@ -35,10 +31,6 @@ export const Popup = ({
   rightButtonText,
   onLeftClick,
   onRightClick,
-  leftButtonBgColor,
-  rightButtonBgColor,
-  leftButtonTextColor,
-  rightButtonTextColor,
   children
 }: PopupProps) => {
   useLockScroll({ locked: show });
@@ -73,23 +65,23 @@ export const Popup = ({
                 <FlexRow gap={8}>
                   <Button
                     height={35}
-                    backgroundColor={leftButtonBgColor ?? "#EDF0F3"}
+                    backgroundColor="#EDF0F3"
                     radius={5}
                     flex={1}
                     onClick={onLeftClick}
                   >
-                    <Text size={14} weight={600} color={leftButtonTextColor ?? "#7B8287"}>
+                    <Text size={14} weight={600} color="#7B8287">
                       {leftButtonText}
                     </Text>
                   </Button>
                   <Button
                     height={35}
-                    backgroundColor={rightButtonBgColor ?? "rgba(232, 59, 59, 0.70)"}
+                    backgroundColor="rgba(232, 59, 59, 0.70)"
                     radius={5}
                     flex={1}
                     onClick={onRightClick}
                   >
-                    <Text size={14} weight={600} color={rightButtonTextColor ?? "#FFFFFF"}>
+                    <Text size={14} weight={600} color="#FFFFFF">
                       {rightButtonText}
                     </Text>
                   </Button>
