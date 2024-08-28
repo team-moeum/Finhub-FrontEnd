@@ -35,19 +35,11 @@ export const UserPageScreen = () => {
 
       <Stack mt={30} gap={10}>
         <MenuCard href="/menu/user/name">닉네임 변경</MenuCard>
+        <MenuCard href="/menu/user/email">이메일 설정</MenuCard>
         <MenuCard href="/menu/user/usertype">직업 설정</MenuCard>
       </Stack>
 
       <Container mt={44}>
-        <Stack gap={8}>
-          <Text size={16} weight={600} color="#191B1C">
-            로그인 정보
-          </Text>
-          <Text size={14} weight={500} color="#CDD1D5">
-            카카오톡 이메일 {userInfo.email}
-          </Text>
-        </Stack>
-
         <Box position="fixed" bottom={100} onClick={handleClickWithdraw}>
           <Text size={12} weight={600} color="rgba(232, 59, 59, 0.80)">
             탈퇴하기
