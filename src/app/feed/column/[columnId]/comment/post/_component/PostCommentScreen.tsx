@@ -3,7 +3,7 @@
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 
 import { gptColumnCommentState } from "@/states/client/atoms/gptColumnComment";
@@ -21,6 +21,8 @@ export const COMMENT_POST_TYPE = {
 } as const;
 
 export const PostCommentScreen = () => {
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
   const router = useRouter();
   const columnId = Number(useParams().columnId);
   const commentPostType = useSearchParams().get("type");
@@ -32,6 +34,12 @@ export const PostCommentScreen = () => {
   const editInitComment = useRecoilValue(gptColumnCommentState);
 
   const { showToast } = useToast();
+
+  useEffect(() => {
+    if (textAreaRef.current) {
+      textAreaRef.current.focus();
+    }
+  }, []);
 
   useEffect(() => {
     if (commentPostType === COMMENT_POST_TYPE.edit) setComment(editInitComment);
@@ -96,6 +104,7 @@ export const PostCommentScreen = () => {
       <Container mt={18}>
         <Box>
           <TextAreaWrap
+            ref={textAreaRef}
             placeholder={`욕설, 비방, 비하 등 의견은 남기지 말아주세요.\n\n(최대 200자)`}
             value={comment}
             onChange={handleCommentChange}
