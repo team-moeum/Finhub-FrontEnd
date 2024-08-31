@@ -6,4 +6,5 @@ export interface User {
   userType?: string;
   userTypeUrl?: string;
   pushYN?: boolean;
+  isMember?: boolean;
 }

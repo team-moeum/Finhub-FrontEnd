@@ -9,6 +9,7 @@ import { postGptColumnLike } from "./Column/ColumnPost/postGptColumnLike";
 import { postQuizCalendarEmoji } from "./Feed/Quiz/postQuizCalenderEmoji";
 import { postQuizSolve } from "./Feed/Quiz/postQuizSolve";
 import { postScrap } from "./Home/postScrap";
+import { AgreementParams, postAgreement } from "./Login/postAgreement";
 import { deleteUserAvatar } from "./Menu/deleteUserAvatar";
 import { patchEmail } from "./Menu/patchEmail";
 import { patchPushAlarmYn } from "./Menu/patchPushAlarmYn";
@@ -16,6 +17,7 @@ import { postNickname } from "./Menu/postNinckname";
 import { postQuit } from "./Menu/postQuit";
 import { postUserAvatar } from "./Menu/postUserAvatar";
 import { postUserType } from "./Menu/postUserType";
+import { VocParams, postVoc } from "./Menu/postVoc";
 import { postAlarm } from "./Notify/postAlarm";
 import { deleteRecentKeyword } from "./Search/deleteRecentKeyword";
 import { postNoSearchWord } from "./Search/postNoSearchWord";
@@ -39,7 +41,9 @@ export const mutationKeys = {
   quizCaledarEmoji: ["quizCalendarEmoji"],
   readAlarm: ["readAlarm"],
   pushAlarmYn: ["pushAlarmYn"],
-  email: ["email"]
+  email: ["email"],
+  voc: ["voc"],
+  agreement: ["agreement"]
 };
 
 export const SCRAP_TYPE = {
@@ -199,7 +203,22 @@ export const usePushAlarmYn = (options?: UseMutationOptions<any, Error, any>) =>
 export const useUpdateEmail = (options?: UseMutationOptions<any, Error, any>) => {
   return useMutation<any, Error, { email: string }>({
     mutationKey: mutationKeys.email,
-    mutationFn: param => patchEmail(param),
+    mutationFn: param => patchEmail(param)
+  });
+};
+
+export const useVoc = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, VocParams>({
+    mutationKey: mutationKeys.voc,
+    mutationFn: param => postVoc(param),
+    ...options
+  });
+};
+
+export const useUpateAgreement = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, AgreementParams>({
+    mutationKey: mutationKeys.agreement,
+    mutationFn: param => postAgreement(param),
     ...options
   });
 };
