@@ -54,7 +54,6 @@ export default function SearchScreen() {
     userInput,
     fetchInput,
     isResultPage,
-    isFocus,
     debouncedOnChangeHandler,
     handleSetInputValue,
     handleInputSubmit,
