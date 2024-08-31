@@ -9,6 +9,7 @@ import { postGptColumnLike } from "./Column/ColumnPost/postGptColumnLike";
 import { postQuizCalendarEmoji } from "./Feed/Quiz/postQuizCalenderEmoji";
 import { postQuizSolve } from "./Feed/Quiz/postQuizSolve";
 import { postScrap } from "./Home/postScrap";
+import { AgreementParams, postAgreement } from "./Login/postAgreement";
 import { deleteUserAvatar } from "./Menu/deleteUserAvatar";
 import { patchEmail } from "./Menu/patchEmail";
 import { patchPushAlarmYn } from "./Menu/patchPushAlarmYn";
@@ -41,7 +42,8 @@ export const mutationKeys = {
   readAlarm: ["readAlarm"],
   pushAlarmYn: ["pushAlarmYn"],
   email: ["email"],
-  voc: ["voc"]
+  voc: ["voc"],
+  agreement: ["agreement"]
 };
 
 export const SCRAP_TYPE = {
@@ -209,6 +211,14 @@ export const useVoc = (options?: UseMutationOptions<any, Error, any>) => {
   return useMutation<any, Error, VocParams>({
     mutationKey: mutationKeys.voc,
     mutationFn: param => postVoc(param),
+    ...options
+  });
+};
+
+export const useUpateAgreement = (options?: UseMutationOptions<any, Error, any>) => {
+  return useMutation<any, Error, AgreementParams>({
+    mutationKey: mutationKeys.agreement,
+    mutationFn: param => postAgreement(param),
     ...options
   });
 };

@@ -29,7 +29,8 @@ export const userState = atom<User>({
     avatarUrl: "",
     userType: "",
     userTypeUrl: "",
-    pushYN: false
+    pushYN: false,
+    isMember: false
   },
   effects_UNSTABLE: [persistAtomEffect]
 });

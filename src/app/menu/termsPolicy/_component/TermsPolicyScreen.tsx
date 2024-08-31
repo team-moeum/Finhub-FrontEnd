@@ -12,7 +12,7 @@ import { Popup } from "@/components/Popup";
 import { PressBox } from "@/components/PressAnimator";
 import { Text } from "@/components/Text";
 
-const EXTERNAL_URL = {
+export const EXTERNAL_URL = {
   privacyPolicy: "https://lemon-mosquito-5dc.notion.site/393b108e85c84e6c9e5c173766b5ef5a?pvs=74",
   termsOfUse: "https://lemon-mosquito-5dc.notion.site/4675ba5efe7b4ffab2787ca4d192258c"
 };
