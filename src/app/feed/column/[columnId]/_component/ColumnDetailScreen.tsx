@@ -114,6 +114,10 @@ export const ColumnDetailScreen = () => {
     columnLikeMutation.mutate({ id: columnId, type: COLUMN_LIKE_TYPE.column });
   };
 
+  const showLoginModal = () => {
+    LoginModal.open();
+  };
+
   return (
     <AppContainer disabledTopArea>
       <AppBar useLeftBack backgroundColor="transparent" scrollThreshold={160}>
@@ -219,8 +223,12 @@ export const ColumnDetailScreen = () => {
           <ColumnComment columnId={columnId} pageType="columnDetail" />
         </Box>
 
-        {showOpinionBox && isLogin && (
-          <OpinionBox columnId={columnId} imgSrc={userInfo?.avatarUrl} />
+        {showOpinionBox && (
+          <OpinionBox
+            columnId={columnId}
+            imgSrc={userInfo?.avatarUrl}
+            onClick={!isLogin ? showLoginModal : undefined}
+          />
         )}
 
         <LoginSlide show={LoginModal.show} onClose={LoginModal.close} />

@@ -1,14 +1,17 @@
 "use client";
 
-import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useParams } from "next/navigation";
+
+import { LoginSlide } from "@/app/_component/Catergory/LoginSlide";
 
 import { ColumnComment } from "../../_component/ColumnComment";
 import { OpinionBox } from "../_component/OpinionBox";
-import style from "./CommentDetail.module.css";
 
 import { useGptColumnDetail, useUserInfo } from "@/states/server/queries";
+
+import { isLoggedIn } from "@/utils/auth_client";
+
+import { useModal } from "@/hooks/useModal";
 
 import { AppBar } from "@/components/AppBar";
 import { Box } from "@/components/Box";
@@ -19,10 +22,17 @@ import { Stack } from "@/components/Stack";
 import { Text } from "@/components/Text";
 
 export default function CommentDetail() {
+  const isLogin = isLoggedIn();
   const columnId = Number(useParams().columnId);
+
+  const LoginModal = useModal();
 
   const { data: gptColumnDetail } = useGptColumnDetail(columnId);
   const { data: userInfo } = useUserInfo();
+
+  const showLoginModal = () => {
+    LoginModal.open();
+  };
 
   return (
     <AppContainer>
@@ -55,7 +65,13 @@ export default function CommentDetail() {
         <ColumnComment columnId={columnId} pageType="commentDetatil" />
       </Box>
 
-      <OpinionBox columnId={columnId} imgSrc={userInfo?.avatarUrl} />
+      <OpinionBox
+        columnId={columnId}
+        imgSrc={userInfo?.avatarUrl}
+        onClick={!isLogin ? showLoginModal : undefined}
+      />
+
+      <LoginSlide show={LoginModal.show} onClose={LoginModal.close} />
     </AppContainer>
   );
 }
