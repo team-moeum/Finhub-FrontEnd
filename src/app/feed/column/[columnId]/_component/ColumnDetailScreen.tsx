@@ -20,6 +20,7 @@ import {
 import { queryKeys, useGptColumnDetail, useUserInfo } from "@/states/server/queries";
 
 import { isLoggedIn } from "@/utils/auth_client";
+import { jsToNative } from "@/utils/jsToNative";
 
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useModal } from "@/hooks/useModal";
@@ -114,14 +115,14 @@ export const ColumnDetailScreen = () => {
     columnLikeMutation.mutate({ id: columnId, type: COLUMN_LIKE_TYPE.column });
   };
 
-  const showLoginModal = () => {
-    LoginModal.open();
+  const handleShareClick = () => {
+    jsToNative({ val1: "share", val2: window.location.href }, (data: any) => {});
   };
 
   return (
     <AppContainer disabledTopArea>
       <AppBar useLeftBack backgroundColor="transparent" scrollThreshold={160}>
-        <Box>
+        <Box onClick={handleShareClick}>
           <ShareIcon />
         </Box>
         <Box onClick={handleScrapClick}>{isScrapped ? <ScrapOnIcon /> : <ScrapIcon />}</Box>
@@ -198,7 +199,14 @@ export const ColumnDetailScreen = () => {
                   </FlexBox>
                 </Button>
 
-                <Button height={44} py={10} px={16} backgroundColor="#F3F3F3" radius={10}>
+                <Button
+                  height={44}
+                  py={10}
+                  px={16}
+                  backgroundColor="#F3F3F3"
+                  radius={10}
+                  onClick={handleShareClick}
+                >
                   <Text size={12} weight={600} color="#7B8287">
                     공유하기
                   </Text>
@@ -223,12 +231,8 @@ export const ColumnDetailScreen = () => {
           <ColumnComment columnId={columnId} pageType="columnDetail" />
         </Box>
 
-        {showOpinionBox && (
-          <OpinionBox
-            columnId={columnId}
-            imgSrc={userInfo?.avatarUrl}
-            onClick={!isLogin ? showLoginModal : undefined}
-          />
+        {showOpinionBox && isLogin && (
+          <OpinionBox columnId={columnId} imgSrc={userInfo?.avatarUrl} />
         )}
 
         <LoginSlide show={LoginModal.show} onClose={LoginModal.close} />
