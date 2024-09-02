@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
 
+import { EXTERNAL_URL } from "../../termsPolicy/_component/TermsPolicyScreen";
+
 import { userState } from "@/states/client/atoms/user";
 import { useVoc } from "@/states/server/mutations";
 
@@ -104,7 +106,7 @@ export const VocScreen = () => {
   };
 
   const handlePrivacyPolicyClick = () => {
-    router.push("/menu/termsPolicy");
+    router.push(EXTERNAL_URL.privacyPolicy);
   };
 
   const handleEmailSettingConfirm = () => {
