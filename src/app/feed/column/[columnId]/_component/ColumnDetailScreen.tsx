@@ -115,6 +115,10 @@ export const ColumnDetailScreen = () => {
     columnLikeMutation.mutate({ id: columnId, type: COLUMN_LIKE_TYPE.column });
   };
 
+  const showLoginModal = () => {
+    LoginModal.open();
+  }
+    
   const handleShareClick = () => {
     jsToNative({ val1: "share", val2: window.location.href }, (data: any) => {});
   };
@@ -231,8 +235,12 @@ export const ColumnDetailScreen = () => {
           <ColumnComment columnId={columnId} pageType="columnDetail" />
         </Box>
 
-        {showOpinionBox && isLogin && (
-          <OpinionBox columnId={columnId} imgSrc={userInfo?.avatarUrl} />
+        {showOpinionBox && (
+          <OpinionBox
+            columnId={columnId}
+            imgSrc={userInfo?.avatarUrl}
+            onClick={!isLogin ? showLoginModal : undefined}
+          />
         )}
 
         <LoginSlide show={LoginModal.show} onClose={LoginModal.close} />
