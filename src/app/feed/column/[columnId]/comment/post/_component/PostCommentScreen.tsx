@@ -11,7 +11,9 @@ import { useEditGptColumnComment, useGptColumnComment } from "@/states/server/mu
 
 import { AppBar } from "@/components/AppBar";
 import { Box } from "@/components/Box";
+import { Button } from "@/components/Button";
 import { AppContainer, Container } from "@/components/Container";
+import { FlexRow } from "@/components/FlexRow";
 import { Text } from "@/components/Text";
 import { useToast } from "@/components/Toast/useToast";
 
@@ -45,11 +47,39 @@ export const PostCommentScreen = () => {
     if (commentPostType === COMMENT_POST_TYPE.edit) setComment(editInitComment);
   }, [editInitComment]);
 
+  const handleMoveNickNameMenu = () => {
+    router.push("/menu/user/name");
+  };
+
   const postCommentMutation = useGptColumnComment({
     onSuccess: data => {
       if (data.status === "FAIL") {
-        showToast({ content: data.errorMsg, type: "warning" });
-        return;
+        if (data.errorMsg === "닉네임 설정 필요") {
+          showToast({
+            content: (
+              <FlexRow>
+                <Text>닉네임 설정이 필요해요!</Text>
+                <Button
+                  py={10}
+                  px={12}
+                  radius={6}
+                  textColor="#FFF"
+                  backgroundColor="#494F54"
+                  onClick={handleMoveNickNameMenu}
+                  style={{ pointerEvents: "auto" }}
+                >
+                  설정하기
+                </Button>
+              </FlexRow>
+            ),
+            type: "warning",
+            duration: 4000
+          });
+          return;
+        } else {
+          showToast({ content: data.errorMsg, type: "warning" });
+          return;
+        }
       }
 
       queryClient.invalidateQueries({ queryKey: ["gptColumnComment"] });
