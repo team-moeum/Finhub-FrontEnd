@@ -45,7 +45,7 @@ export default async function Home() {
     <AppContainer footer>
       <MainNav />
       <Box padding="0 16px 24px 16px" backgroundColor="#50BF50">
-        <Link href="/search" className={style.inputLinkBox}>
+        <Link href="/search?from=home" className={style.inputLinkBox}>
           <Image src="/icons/search.svg" alt="input search icon" width={24} height={24} />
           <Text color="#CDD1D5" size={14} weight={400} lineHeight={1.5}>
             찾고 싶은 단어를 입력해주세요.
