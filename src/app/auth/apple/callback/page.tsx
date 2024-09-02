@@ -32,7 +32,8 @@ export default function AppleLogin() {
             fcmAPI.updateFcmToken(data.detail);
           });
 
-          router.push("/home");
+          const next = authAPI.pathAfterLogin(data.info.isMember);
+          router.replace(next);
         } else {
           console.log("Fail");
         }
