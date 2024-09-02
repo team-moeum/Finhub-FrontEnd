@@ -117,8 +117,8 @@ export const ColumnDetailScreen = () => {
 
   const showLoginModal = () => {
     LoginModal.open();
-  }
-    
+  };
+
   const handleShareClick = () => {
     jsToNative({ val1: "share", val2: window.location.href }, (data: any) => {});
   };
