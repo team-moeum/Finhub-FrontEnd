@@ -19,7 +19,7 @@ import { useToast } from "@/components/Toast/useToast";
 
 export const COMMENT_POST_TYPE = {
   post: "post",
-  edit: "edit"
+  edit: "edit",
 } as const;
 
 export const PostCommentScreen = () => {
