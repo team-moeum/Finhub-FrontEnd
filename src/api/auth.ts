@@ -73,10 +73,19 @@ const loginWithApple = async (code: string | null) => {
   return response;
 };
 
+const pathAfterLogin = (isMember: boolean) => {
+  if (isMember) {
+    return "/home";
+  } else {
+    return "/login/agree";
+  }
+};
+
 export const authAPI = {
   autoLogin,
   loginWithKakao,
   refreshAccessToken,
   loginWithGoogle,
-  loginWithApple
+  loginWithApple,
+  pathAfterLogin
 };
