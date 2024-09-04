@@ -1,4 +1,3 @@
-import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 
@@ -9,8 +8,6 @@ import { recentSearchState } from "@/states/client/atoms/recentSearch";
 import { debounce } from "@/utils/debounce";
 
 export const useInput = () => {
-  const searchParams = useSearchParams();
-  const search = searchParams.get("from");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const recentSearchList = useRecoilValue(recentSearchState);
@@ -20,12 +17,6 @@ export const useInput = () => {
   const [fetchInput, setFetchInput] = useState<string>("");
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [isResultPage, setIsResultPage] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (search === "home" && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, []);
 
   useEffect(() => {
     setIsResultPage(userInput !== "");
