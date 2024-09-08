@@ -23,7 +23,10 @@ export const useInput = () => {
 
   useEffect(() => {
     if (search === "home" && inputRef.current) {
-      inputRef.current.focus();
+      const timer = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+      return () => clearTimeout(timer);
     }
   }, []);
 

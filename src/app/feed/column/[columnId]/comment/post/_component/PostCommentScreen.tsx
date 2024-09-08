@@ -37,7 +37,10 @@ export const PostCommentScreen = () => {
 
   useEffect(() => {
     if (textAreaRef.current) {
-      textAreaRef.current.focus();
+      const timer = setTimeout(() => {
+        textAreaRef.current?.focus();
+      }, 100);
+      return () => clearTimeout(timer);
     }
   }, []);
 
