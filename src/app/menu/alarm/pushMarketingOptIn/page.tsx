@@ -2,17 +2,17 @@ import { Suspense } from "react";
 
 import Loading from "@/app/loading";
 
-import { AlarmPageScreen } from "./_component/AlarmPageScreen";
+import { PushMarketingOptInPageScreen } from "../_component/PushMarketingOptInPageScreen";
 
 import { AppBar } from "@/components/AppBar";
 import { AppContainer } from "@/components/Container";
 
-export default function AlarmPage() {
+export default function PushMarketingOptInPage() {
   return (
     <AppContainer>
-      <AppBar useLeftBack title="알림" />
+      <AppBar useLeftBack title="마케팅 정보 수신 동의" />
       <Suspense fallback={<Loading />}>
-        <AlarmPageScreen />
+        <PushMarketingOptInPageScreen />
       </Suspense>
     </AppContainer>
   );
