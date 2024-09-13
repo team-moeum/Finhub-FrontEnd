@@ -12,3 +12,18 @@ export const dateFormatter = (date: string, type: formatType) => {
 
   return null;
 };
+
+export const datetimeFormatter = (dt = new Date(), type?: formatType) => {
+  const year = dt.getFullYear();
+  const month = (dt.getMonth() + 1).toString().padStart(2, "0");
+  const day = dt.getDay().toString().padStart(2, "0");
+
+  switch (type) {
+    case "korean":
+      return `${year}년 ${month}월 ${day}일`;
+    case "dotSeparated":
+      return `${year}. ${month}. ${day}.`;
+    default:
+      return `${year}년 ${month}월 ${day}일`;
+  }
+};
