@@ -16,7 +16,7 @@ export const dateFormatter = (date: string, type: formatType) => {
 export const datetimeFormatter = (dt = new Date(), type?: formatType) => {
   const year = dt.getFullYear();
   const month = (dt.getMonth() + 1).toString().padStart(2, "0");
-  const day = dt.getDay().toString().padStart(2, "0");
+  const day = dt.getDate().toString().padStart(2, "0");
 
   switch (type) {
     case "korean":
