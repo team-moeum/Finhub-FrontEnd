@@ -1,6 +1,7 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
 import { Suspense, useState } from "react";
 
 import Loading from "@/app/loading";
@@ -18,6 +19,8 @@ import { LinkButton } from "@/components/LinkButton";
 import { useToast } from "@/components/Toast/useToast";
 import { Toggle } from "@/components/Toggle/Toggle";
 
+const IMAGE_DOMAIN = "https://dgf7bkcblr65n.cloudfront.net";
+
 type ScrapTopicItemProps = {
   data: MyTopicScarp;
   onScrapClick: (e: React.MouseEvent) => void;
@@ -26,7 +29,21 @@ const ScrapTopicItem = ({ data, onScrapClick }: ScrapTopicItemProps) => {
   return (
     <LinkButton href={`/${data.categoryId}/${data.topicId}`}>
       <div className={style.item_container}>
-        <div className={style.img_box}></div>
+        <div className={style.img_box}>
+          <Image
+            width={80}
+            height={80}
+            src={`${IMAGE_DOMAIN}${data.imgUrl}`}
+            alt="토픽 이미지"
+            priority
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)"
+            }}
+          />
+        </div>
         <div className={style.content_box}>
           <p>{data.title}</p>
           <p>{data.definition}</p>
@@ -47,7 +64,21 @@ const ScrapColumnItem = ({ data, onScrapClick }: ScrapColumnItemProps) => {
   return (
     <LinkButton href={`/feed/column/${data.columnId}`}>
       <div className={style.item_container}>
-        <div className={style.img_box}></div>
+        <div className={style.img_box}>
+          <Image
+            width={80}
+            height={80}
+            src={data.imgUrl ? `${IMAGE_DOMAIN}${data.imgUrl}` : "/column/default_column_image.png"}
+            alt="토픽 이미지"
+            priority
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)"
+            }}
+          />
+        </div>
         <div className={style.content_box}>
           <p>{data.title}</p>
           <p>{data.summary}</p>
