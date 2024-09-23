@@ -19,7 +19,7 @@ import { LinkButton } from "@/components/LinkButton";
 import { useToast } from "@/components/Toast/useToast";
 import { Toggle } from "@/components/Toggle/Toggle";
 
-const IMAGE_DOMAIN = "https://dgf7bkcblr65n.cloudfront.net";
+const IMAGE_URL = process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL;
 
 type ScrapTopicItemProps = {
   data: MyTopicScarp;
@@ -33,7 +33,7 @@ const ScrapTopicItem = ({ data, onScrapClick }: ScrapTopicItemProps) => {
           <Image
             width={80}
             height={80}
-            src={`${IMAGE_DOMAIN}${data.imgUrl}`}
+            src={`${IMAGE_URL}${data.imgUrl}`}
             alt="토픽 이미지"
             priority
             style={{
@@ -68,7 +68,7 @@ const ScrapColumnItem = ({ data, onScrapClick }: ScrapColumnItemProps) => {
           <Image
             width={80}
             height={80}
-            src={data.imgUrl ? `${IMAGE_DOMAIN}${data.imgUrl}` : "/column/default_column_image.png"}
+            src={data.imgUrl ? `${IMAGE_URL}${data.imgUrl}` : "/column/default_column_image.png"}
             alt="토픽 이미지"
             priority
             style={{
