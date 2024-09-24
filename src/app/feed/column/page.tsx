@@ -33,7 +33,7 @@ export default async function ColumnPage() {
     <HydrationBoundary state={dehydratedState}>
       <Container pt={10} pb={20}>
         <Text size={18} weight={700} color="#000">
-          GPT 컬럼
+          GPT 칼럼
         </Text>
         <Box mt={20}>
           <ColumnCard />

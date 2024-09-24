@@ -183,7 +183,7 @@ export const ColumnDetailScreen = () => {
 
             <FlexBox mt={36} direction="column">
               <Text size={14} weight={600} color="#494F54">
-                컬럼이 도움이 되셨나요?
+                GPT 칼럼이 도움이 되셨나요?
               </Text>
 
               <FlexBox mt={20} gap={14}>

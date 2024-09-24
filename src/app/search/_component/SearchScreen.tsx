@@ -137,7 +137,7 @@ export default function SearchScreen() {
                   <>
                     <Box mt={65}>
                       <Text size={18} weight={600} color="#191B1C">
-                        단어
+                        토픽
                       </Text>
                       <InputResultWordList
                         keyword={fetchInput}
@@ -147,7 +147,7 @@ export default function SearchScreen() {
                     <div className={style.divider}></div>
                     <Box mt={35}>
                       <Text size={18} weight={600} color="#191B1C">
-                        아티클
+                        GPT 칼럼
                       </Text>
                       <InputResultArticleList
                         keyword={fetchInput}

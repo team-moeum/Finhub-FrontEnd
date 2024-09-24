@@ -43,7 +43,7 @@ export default function HomeContent() {
           </Box>
           <Link href={`/list?categoryId=${activeItem.categoryId}`}>
             <Text size={15} weight={500} color="#50BF50">
-              <Text weight={700}>&apos;{activeItem.name}&apos;</Text>글 전체 보기
+              <Text weight={700}>&apos;{activeItem.name}&apos;</Text> 토픽 전체 보기
             </Text>
             <Image
               src="/icons/arrow_right_green.svg"
