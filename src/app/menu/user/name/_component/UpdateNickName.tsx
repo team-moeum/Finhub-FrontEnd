@@ -81,7 +81,7 @@ export default function UpdateNickName() {
       {isOpen && (
         <div className={style.nickname_info_box}>
           <p>
-            <span>컬럼 - 의견 나누기</span>에서 노출되는 이름입니다.
+            <span>GPT 칼럼 - 의견 나누기</span>에서 노출되는 이름입니다.
           </p>
           <Image
             src="/icons/close_green.svg"

@@ -178,8 +178,8 @@ export default function ScrapContent() {
     <div className={style.container}>
       <Toggle
         data={[
-          { text: "단어", value: TOGGLE_TYPE.topic },
-          { text: "컬럼", value: TOGGLE_TYPE.column }
+          { text: "토픽", value: TOGGLE_TYPE.topic },
+          { text: "GPT 칼럼", value: TOGGLE_TYPE.column }
         ]}
         selectedValue={toggleType}
         onChange={handleToggleClick}
