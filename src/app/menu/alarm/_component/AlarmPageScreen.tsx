@@ -17,6 +17,8 @@ import { jsToNative } from "@/utils/jsToNative";
 import { useModal } from "@/hooks/useModal";
 
 import { Container } from "@/components/Container";
+import { FlexBox } from "@/components/FlexBox";
+import { Popup } from "@/components/Popup";
 import { Stack } from "@/components/Stack";
 import { Text } from "@/components/Text";
 import { BasicToast } from "@/components/Toast/BasicToast";
@@ -79,6 +81,11 @@ export const AlarmPageScreen = () => {
     agree();
   };
 
+  const handleAlarmAgreeClick = () => {
+    jsToNative({ val1: "requestNotificationPermission" }, (data: any) => {});
+    AlarmAgreeModal.close();
+  };
+
   useEffect(() => {
     setChecked(userInfo.pushYN === true);
   }, [userInfo]);
@@ -92,6 +99,19 @@ export const AlarmPageScreen = () => {
         <PushItem checked={checked} onToggle={toggleHandler} />
         <PushMarketingOptIn />
       </Stack>
+      <Popup
+        show={AlarmAgreeModal.show}
+        onClose={AlarmAgreeModal.close}
+        leftButtonText="취소"
+        rightButtonText="확인"
+        onLeftClick={AlarmAgreeModal.close}
+        onRightClick={handleAlarmAgreeClick}
+      >
+        <FlexBox direction="column" gap={6}>
+          <Text size={16}>알림을 허용하시겠습니까?</Text>
+          <Text size={14}>(OS와 버전에 따라 설정 페이지로 이동할 수 있습니다)</Text>
+        </FlexBox>
+      </Popup>
       <DisagreePopup
         show={AlarmDisAgreeModal.show}
         onClose={AlarmDisAgreeModal.close}
