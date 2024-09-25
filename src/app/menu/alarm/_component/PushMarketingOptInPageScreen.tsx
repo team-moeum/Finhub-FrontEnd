@@ -64,7 +64,7 @@ export const PushMarketingOptInPageScreen = () => {
     jsToNative({ val1: "getNotificationPermission" }, (data: any) => {
       const systemAlarmYn = JSON.parse(data.detail).result;
       if (!systemAlarmYn) {
-        return AlarmAgreeModal.open();
+        AlarmAgreeModal.open();
       }
       pushAlarmYnMutation.mutate({ yn: true });
     });
