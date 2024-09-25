@@ -3,12 +3,14 @@ export interface MyTopicScarp {
   topicId: number;
   title: string;
   definition: string;
+  imgUrl: string;
 }
 
 export interface MyColumnScarp {
   columnId: number;
   title: string;
   summary: string;
+  imgUrl: string;
 }
 
 export interface MyScrap {

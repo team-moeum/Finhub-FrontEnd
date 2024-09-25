@@ -16,7 +16,7 @@ export default function ColumnList() {
         <FlexBox justifyContent="flex-start">
           <BackButton />
           <Text size={18} weight={700} color="#191B1C">
-            GPT 컬럼 목록
+            GPT 칼럼 목록
           </Text>
         </FlexBox>
         <Box mt={15}>
